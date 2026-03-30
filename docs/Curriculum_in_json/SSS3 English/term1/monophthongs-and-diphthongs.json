@@ -1,0 +1,30 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 4,
+  "topic_title": "Monophthongs and Diphthongs",
+  "topic_slug": "monophthongs-and-diphthongs",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Explain monophthongs and diphthongs",
+    "Identify examples of each",
+    "Apply correct pronunciation in speech"
+  ],
+  "sections": [
+    {
+      "heading": "Monophthongs",
+      "content": "12 pure vowels (short and long).\nExamples:\n/i:/ beat, seat\n/i/ bit, sit\n/e/ bed, hen\n/æ/ cart, part\n/a:/ cart, part\n/ɒ/ pot, cork\n/ɔ:/ port, cork\n/u/ put, foot\n/u:/ two, woo\n/ʌ/ hut, cut\n/ɜ:/ bird, herb\n/ə/ akin, baker"
+    },
+    {
+      "heading": "Diphthongs",
+      "content": "8 vowels involving a glide.\nExamples:\n/ei/ pay, again\n/əu/ go, home\n/ai/ rice, kite\n/au/ cow, house\n/ɔi/ toy, voice\n/iə/ ear, here\n/eə/ air, hair\n/uə/ poor, tour"
+    }
+  ],
+  "keywords": [
+    "monophthongs",
+    "diphthongs",
+    "vowels",
+    "phonetics"
+  ]
+}

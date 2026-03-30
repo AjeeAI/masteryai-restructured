@@ -1,0 +1,31 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 11,
+  "topic_title": "Vocabulary Development: Building",
+  "topic_slug": "vocabulary-building",
+  "source_title": "Third Term SS1 English Language Lesson Notes",
+  "learning_objectives": [
+    "Identify parts of a building structure",
+    "Define building-related terms",
+    "Use construction vocabulary appropriately"
+  ],
+  "sections": [
+    {
+      "heading": "Building and Its Parts",
+      "content": "A building has a substructure underground and a superstructure above the ground. The substructure is usually called the foundation."
+    },
+    {
+      "heading": "Relevant Words",
+      "content": "The note defines concrete, glazier, gravel, scaffold, masonry, architect, renovate, furnish, cistern, and plumber, and mentions related terms such as building plan, interior decoration, bricklayer, tiles, contractor, and lintels."
+    }
+  ],
+  "keywords": [
+    "building",
+    "construction",
+    "foundation",
+    "architect",
+    "scaffold"
+  ]
+}

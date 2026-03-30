@@ -1,0 +1,42 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS2",
+  "term": 3,
+  "week": 3,
+  "topic_title": "Traffic Regulations",
+  "topic_slug": "traffic-regulations",
+  "source_title": "Third Term SS2 Civic Education",
+  "learning_objectives": [
+    "Define traffic regulations",
+    "Identify the duties of pedestrians, cyclists, and motorists",
+    "Explain the importance of obeying traffic rules and signs"
+  ],
+  "sections": [
+    {
+      "heading": "Meaning of Traffic Regulations",
+      "content": "Traffic regulations are the laws, regulations, and signs that guide road users on the proper and safe use of roads."
+    },
+    {
+      "heading": "Duties of Pedestrians",
+      "content": "Pedestrians should walk on the correct side of the road, face oncoming traffic, wear visible clothing at night, look carefully before crossing, use pedestrian bridges and zebra crossings, observe road signs, and respect other road users."
+    },
+    {
+      "heading": "Duties of Cyclists",
+      "content": "Cyclists should ensure their cycle is roadworthy, signal before turning, avoid riding too close to vehicles, wear helmets, avoid carrying excessive loads or passengers, respect road signs, and avoid drinking before riding."
+    },
+    {
+      "heading": "Duties of Motorists",
+      "content": "Motorists should obtain valid licences, keep vehicles in good condition, obey speed limits and traffic lights, avoid drink-driving, avoid overloading, wear seat belts, avoid distractions, and respect the rights of other road users."
+    }
+  ],
+  "keywords": [
+    "traffic regulations",
+    "pedestrians",
+    "cyclists",
+    "motorists",
+    "road safety",
+    "traffic signs",
+    "rules",
+    "law"
+  ]
+}

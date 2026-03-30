@@ -1,0 +1,30 @@
+{
+  "subject": "english",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 7,
+  "topic_title": "Sentence Structure and Nation Building",
+  "topic_slug": "sentence-structure-and-nation-building",
+  "source_title": "Second Term SS2 English Studies",
+  "learning_objectives": [
+    "Classify sentences as simple, compound, complex, or compound-complex",
+    "Use vocabulary associated with nation building"
+  ],
+  "sections": [
+    {
+      "heading": "Sentence Types According to Structure",
+      "content": "1. Simple Sentence: contains only one finite verb. Example: He came here. 2. Compound Sentence: contains two or more main clauses joined by coordinating conjunctions like and, but, or. 3. Complex Sentence: contains one main clause and one or more subordinate clauses. 4. Compound-Complex Sentence: contains at least two main clauses and one or more subordinate clauses."
+    },
+    {
+      "heading": "Vocabulary: Words Associated with Nation Building",
+      "content": "1. Sovereignty: The supreme power or authority of a state. 2. Constitution: The system of laws and principles by which a state is governed. 3. Democracy: A system of government by the whole population. 4. Patriotism: Love for and devotion to one's country. 5. Civic Responsibility: The actions and attitudes associated with democratic governance."
+    }
+  ],
+  "keywords": [
+    "simple sentence",
+    "compound sentence",
+    "complex sentence",
+    "nation building",
+    "sovereignty"
+  ]
+}

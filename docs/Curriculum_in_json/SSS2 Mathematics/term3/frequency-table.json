@@ -1,0 +1,28 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 3,
+  "week": 4,
+  "topic_title": "Frequency Table.",
+  "topic_slug": "frequency-table",
+  "source_title": "Third Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Explain grouped frequency distribution",
+    "Determine class limits, boundaries, and class width",
+    "Compute class marks for class intervals"
+  ],
+  "sections": [
+    {
+      "heading": "Explanation",
+      "content": "When data has a large number of values, it is cumbersome to prepare its frequency table; hence the data are organized into classes or groups to overcome this problem. E.g 0 – 4, 5 – 9, 10 – 14 e.t.c.\nThe range of the classes is first considered before we group the data. When data is divided into groups, it is called a grouped frequency distribution.\nGrouped frequency distribution: The groups into which the data are arranged are called class intervals\ne.g 15 – 19\nClass Limit: The number of each class intervals is called class limits of that interval.\nConsider the class interval 20 – 24,\n20 = lower class limit, 24 = upper class limit\nClass Boundaries: When data is given to the nearest unit, the class interval 34 – 37, has a lower class boundary of 33.5 and upper class boundary of 37.5.\nConsider the intervals below: 20 – 24, 25 – 29 ETC. To obtain the class boundaries of 25 – 29,\n24 + 25 = 24.5, 29 + 30 = 29.5\n2 2\nClass Width: This is the difference between the upper class boundary and the lower class boundary.\nClass Marks: This is the centre or mid-point of any class interval. It is obtained by finding the average of the lower and upper limits. Find the class mark of the following class intervals 40 – 44, 45 – 49, 50 – 54 etc."
+    },
+    {
+      "heading": "Examples and Practice",
+      "content": "Class Interval | Class Mark: 40 – 44 | 40 + 44 = 42 2\n45 – 49 | 45 + 49 = 47 2"
+    }
+  ],
+  "keywords": [
+    "frequency",
+    "table"
+  ]
+}

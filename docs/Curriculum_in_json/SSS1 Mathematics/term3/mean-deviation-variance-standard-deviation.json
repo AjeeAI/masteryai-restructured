@@ -1,0 +1,41 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 11,
+  "topic_title": "Mean Deviation, Variance and Standard Deviation of Grouped Data",
+  "topic_slug": "mean-deviation-variance-standard-deviation",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Calculate the mean deviation of grouped data",
+    "Calculate the variance of grouped data",
+    "Calculate the standard deviation of grouped data",
+    "Apply measures of spread to solve real-life problems"
+  ],
+  "sections": [
+    {
+      "heading": "Mean Deviation of Grouped Data",
+      "content": "Mean deviation measures the average absolute distance of each data point from the mean. Formula: mean deviation = Σf|xₘ − x̄| / Σf, where xₘ is the class mark and x̄ is the mean. Steps: (1) calculate the mean x̄ = Σfxₘ / Σf; (2) for each class, find |xₘ − x̄|; (3) multiply by frequency f; (4) sum these and divide by Σf. Example: speeds of 40 cars grouped 50–54, 55–59, ..., 80–84 with frequencies 5, 10, 15, 12, 10, 6, 2 → mean = 3910/60 = 65.17km/h; mean deviation = 390/60 = 6.5km/h."
+    },
+    {
+      "heading": "Variance of Grouped Data",
+      "content": "Variance (S²) measures the average squared deviation from the mean. Formula: S² = Σf(xₘ − x̄)² / Σf. This equals Σfxₘ² / Σf − x̄² (alternative computational formula). Example: TV watching times grouped 1–5, 6–10, ..., 36–40 with mean x̄ = 990/50 = 19.8h → variance = Σf(xₘ − 19.8)² / 50 = 3238/50 = 64.76h²."
+    },
+    {
+      "heading": "Standard Deviation",
+      "content": "The standard deviation S = √variance = √(Σf(xₘ − x̄)² / Σf). It is in the same units as the original data, making it more interpretable than variance. For the TV watching example: S = √64.76 ≈ 8.05h. Standard deviation gives a measure of how spread out the data values are around the mean."
+    }
+  ],
+  "keywords": [
+    "mean deviation",
+    "variance",
+    "standard deviation",
+    "measures of spread",
+    "grouped data",
+    "class mark",
+    "deviation from mean",
+    "Σf",
+    "spread",
+    "dispersion"
+  ]
+}

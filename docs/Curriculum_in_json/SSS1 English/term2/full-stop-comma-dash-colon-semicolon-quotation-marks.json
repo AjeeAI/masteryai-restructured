@@ -1,0 +1,37 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 10,
+  "topic_title": "Punctuation: Full Stop, Comma, Dash, Colon, Semicolon, and Quotation Marks",
+  "topic_slug": "full-stop-comma-dash-colon-semicolon-quotation-marks",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "State the uses of the punctuation marks covered",
+    "Apply each mark in sample sentences",
+    "Recognise punctuation in statements, lists, and direct speech"
+  ],
+  "sections": [
+    {
+      "heading": "Full Stop and Comma",
+      "content": "A full stop marks the end of a complete statement and may also appear in abbreviations, initials, and numbering. The comma is used for separation in lists and direct speech, and to enclose appositives or introductory elements."
+    },
+    {
+      "heading": "Dash and Colon",
+      "content": "The dash indicates a break in sense or faltering speech. The colon announces a list, explanation, or long quotation."
+    },
+    {
+      "heading": "Quotation Marks",
+      "content": "Quotation marks are used for direct speech, direct quotations from authorities, and titles of short works such as poems, articles, and songs."
+    }
+  ],
+  "keywords": [
+    "punctuation",
+    "full stop",
+    "comma",
+    "dash",
+    "colon",
+    "semicolon",
+    "quotation marks"
+  ]
+}

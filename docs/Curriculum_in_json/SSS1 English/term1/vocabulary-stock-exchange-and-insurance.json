@@ -1,0 +1,33 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 5,
+  "topic_title": "Vocabulary Development: Stock Exchange and Insurance",
+  "topic_slug": "vocabulary-stock-exchange-and-insurance",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define the stock exchange and explain its function",
+    "Identify and define key terms associated with the stock exchange"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "A stock exchange is a market where buyers and sellers of shares, stocks, government bonds, debentures, and other securities transact business through members of the exchange. It provides facilities for companies and governments to raise capital for business expansion and development through investors."
+    },
+    {
+      "heading": "Key Terms",
+      "content": "stockbroker – a person who operates in the stock exchange by linking buyers and sellers of securities\nsecurity – a paper asset including government debt, company shares, and company debt\nstock – synonymous with shares\nstock exchange – an institution through which shares are traded; a security market\nbond – a security with a redemption date over a year later than its issue date; also a certificate issued by a government or company promising to repay borrowed money on a specific date\nshares – the equal, usually small parts into which a company's capital stock is divided\nshare certificate – a certificate specifying the number of shares owned by a person or company\ndebenture – a certificate acknowledging a debt of a particular amount owed to somebody"
+    }
+  ],
+  "keywords": [
+    "stock exchange",
+    "shares",
+    "stockbroker",
+    "security",
+    "bond",
+    "debenture",
+    "share certificate",
+    "capital"
+  ]
+}

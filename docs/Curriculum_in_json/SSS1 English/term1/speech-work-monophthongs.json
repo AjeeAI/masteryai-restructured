@@ -1,0 +1,34 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 3,
+  "topic_title": "Speech Work: Monophthongs (Pure Vowel Sounds)",
+  "topic_slug": "speech-work-monophthongs",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define monophthongs and distinguish them from diphthongs",
+    "Identify all twelve monophthong sounds in English",
+    "Recognise the spelling patterns associated with each monophthong"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "Monophthongs are pure vowels – sounds realised as a single element (e.g. /e/, /i/). Diphthongs, by contrast, are double element vowels (e.g. /ei/, /iə/). English has twelve monophthongs."
+    },
+    {
+      "heading": "The Twelve Monophthong Sounds",
+      "content": "/iː/ – seat, cheap, sheep, feel, field, seize, foetus, amoeba, oesophagus\n/ɪ/  – sit, chip, ship, build, biscuits, English, pretty, many\n/e/  – set, bread, friend, ate, bury, leopard, said, pet, peasant\n/æ/  – sat, chat, match, catch, plait, marry, mad, pat\n/ɑː/ – far, pass, father, calm, heart, bath, farm, bard, path\n/ɒ/  – dog, hot, what, was, want, quantity, spot, pot, dot\n/ɔː/ – port, lord, ward, warm, call, talk, soar, roar, law, flaw, sword, sport\n/ʊ/  – full, pull, would, book, sugar, cook, should\n/uː/ – fool, pool, coup, move, suit, rule, woo, soup, school\n/ʌ/  – fun, cut, tongue, touch, come, love, blood, flood, hunger, son, sun\n/ɜː/ – first, nurse, word, learn, verb, flirt, firm, burn, turn, journey, stir\n/ə/  – again, away, forget, perhaps, police, favour, structure, mother, father, suppose"
+    }
+  ],
+  "keywords": [
+    "monophthong",
+    "pure vowel",
+    "diphthong",
+    "vowel sound",
+    "phoneme",
+    "IPA",
+    "schwa",
+    "/ə/"
+  ]
+}

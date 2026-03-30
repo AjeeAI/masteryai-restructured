@@ -1,0 +1,51 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 6,
+  "topic_title": "Figures of Speech: Simile, Metaphor, Personification, Irony, Rhetorical Question",
+  "topic_slug": "figures-of-speech",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define figures of speech and explain their purpose",
+    "Distinguish between simile, metaphor, personification, irony, and rhetorical question",
+    "Identify each figure of speech in given sentences",
+    "Construct original examples of each figure of speech"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "Figures of speech are ways of creating imagery through figurative language. They conjure pictures of two or more things in writing, thereby vividly conveying the quality or idea being presented."
+    },
+    {
+      "heading": "Simile",
+      "content": "A simile formally expresses a likeness between two things, introduced by 'like' or 'as'.\n\nExamples:\nHe runs like a hare.\nHer cheeks appear as the dawn of day."
+    },
+    {
+      "heading": "Metaphor",
+      "content": "A metaphor is based on resemblance, like a simile, but does NOT use 'like' or 'as'. It states directly that one thing is another.\n\nExamples:\nThe general, who is a lion in the field, has seen many wars.\nHe is no good at cricket; he has okro fingers."
+    },
+    {
+      "heading": "Personification",
+      "content": "Personification transfers the qualities of a human being to animals or inanimate objects.\n\nExamples:\nLet the floods clap their hands.\nConfusion heard his voice."
+    },
+    {
+      "heading": "Irony",
+      "content": "Irony is a device by which a writer expresses a meaning contrary to the stated or apparent one – often saying the opposite of what is meant.\n\nExamples:\nCharles is so brilliant that he passed one subject out of nine papers.\nHe is such a good goalkeeper that he conceded ten goals in the first half."
+    },
+    {
+      "heading": "Rhetorical Question",
+      "content": "A rhetorical question is a question asked for effect only – no answer is expected.\n\nExample:\nIs there anyone who would willingly choose suffering over success?"
+    }
+  ],
+  "keywords": [
+    "figures of speech",
+    "simile",
+    "metaphor",
+    "personification",
+    "irony",
+    "rhetorical question",
+    "figurative language",
+    "imagery"
+  ]
+}

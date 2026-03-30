@@ -1,0 +1,28 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 6,
+  "topic_title": "AREA UNDER THE CURVE",
+  "topic_slug": "area-under-the-curve",
+  "source_title": "Second Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand area under the curve"
+  ],
+  "sections": [
+    {
+      "heading": "Concept",
+      "content": "AREA UNDER THE CURVE:\nThe integral is called the definite integral of the function f(x) with a and b the lower and upper limits of the integral."
+    },
+    {
+      "heading": "Examples and Practice",
+      "content": "EXAMPLE\nEvaluate.\nSOLUTION\n=[ + c\n=\n= = 913.5\nASSESSMENT: Integrate the following:\n)\nUsing substitution method, evaluate .\n\nContent:\nEXAMPLE\nSOLUTION\nLet u = , = =\n. =\n= + c = + c."
+    }
+  ],
+  "keywords": [
+    "area",
+    "under",
+    "curve",
+    "content"
+  ]
+}

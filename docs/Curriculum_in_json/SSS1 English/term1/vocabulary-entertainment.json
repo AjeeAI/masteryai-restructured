@@ -1,0 +1,40 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 3,
+  "topic_title": "Vocabulary Development: Words Associated with Entertainment",
+  "topic_slug": "vocabulary-entertainment",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Identify and define vocabulary related to athletics",
+    "Identify and define vocabulary related to football",
+    "Identify and define vocabulary related to the theatre"
+  ],
+  "sections": [
+    {
+      "heading": "Athletics",
+      "content": "Athletics – exercise of physical strength or speed\nContingent – a group that is part of a larger group\nMarathon – a long-distance race\nPodium – a raised platform\nTrack suit – clothing worn by athletes to keep warm before and after exercise"
+    },
+    {
+      "heading": "Football",
+      "content": "Linesman – an official who assists the referee, particularly by deciding whether the ball has crossed the line\nPenalty – a punishment for a foul committed\nReferee – an official who regulates a game and ensures fair play\nSoccer (colloquial) – a football game played by two teams of eleven players each"
+    },
+    {
+      "heading": "Theatre",
+      "content": "Actor – a person who takes part in a play on stage or in a film\nBox office – the office where seats in the theatre are booked and tickets paid for\nCast – the actors of a play\nCurtain call – a call made by the audience to an actor at the end of a play to appear and acknowledge applause\nDirector – a person who directs the performance of a play\nUsher – a person who shows people to their seats"
+    }
+  ],
+  "keywords": [
+    "entertainment",
+    "athletics",
+    "football",
+    "theatre",
+    "actor",
+    "referee",
+    "marathon",
+    "podium",
+    "curtain call",
+    "box office"
+  ]
+}

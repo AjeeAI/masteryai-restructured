@@ -1,0 +1,42 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 8,
+  "topic_title": "Logarithms",
+  "topic_slug": "logarithms",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Understand the definition of logarithms as the inverse of indices",
+    "Convert between index form and logarithm form",
+    "Use logarithm tables to find logarithms of numbers",
+    "Use antilogarithm tables to find numbers from their logarithms",
+    "Use logarithm tables to multiply and divide numbers"
+  ],
+  "sections": [
+    {
+      "heading": "Logarithms of Numbers to Base 10",
+      "content": "The logarithm of a number is the power to which the base must be raised to give that number. In general: if y = nˣ, then x = log_n(y). For base 10: if y = 10ˣ, then x = log₁₀(y). For example, log₁₀(1000) = 3 since 10³ = 1000; log₁₀(100) = 2 since 10² = 100. Converting to log form: 2⁻⁶ = 1/64 becomes log₂(1/64) = −6; 3⁵ = 243 becomes log₃(243) = 5; 10⁴ = 10000 becomes log₁₀(10000) = 4. The integer part of log₁₀(N) equals (number of digits left of decimal point) − 1. The decimal part (mantissa) is found from log tables."
+    },
+    {
+      "heading": "Using Logarithm Tables and Antilogarithm Tables",
+      "content": "To find the logarithm of a number: (1) write it in standard form, (2) use the table to find the mantissa, (3) add the characteristic (integer part). For example, log₁₀(3900) = log₁₀(3.9 × 10³) = 0.5911 + 3 = 3.5911. The antilogarithm is the inverse: to find a number whose log is 2.7547, look up 0.7547 in the antilog table to get 5684, then apply the characteristic 2 to get 568.4."
+    },
+    {
+      "heading": "Multiplication and Division Using Logarithm Tables",
+      "content": "To multiply using logarithms: log(A × B) = log A + log B. To divide: log(A ÷ B) = log A − log B. Then find the antilog of the result. For example, to evaluate 4627 × 29.3: log 4627 = 3.6653; log 29.3 = 1.4669; sum = 5.1322; antilog = 135600. To evaluate 819.8 ÷ 3.905: log 819.8 = 2.9137; log 3.905 = 0.5916; difference = 2.3221; antilog = 209.9."
+    }
+  ],
+  "keywords": [
+    "logarithm",
+    "antilogarithm",
+    "log tables",
+    "base 10",
+    "mantissa",
+    "characteristic",
+    "index form",
+    "log form",
+    "multiplication using logs",
+    "division using logs"
+  ]
+}

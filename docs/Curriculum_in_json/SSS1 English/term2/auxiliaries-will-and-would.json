@@ -1,0 +1,31 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 3,
+  "topic_title": "Structure: Auxiliaries 'Will' and 'Would'",
+  "topic_slug": "auxiliaries-will-and-would",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "State the uses of 'will'",
+    "State the uses of 'would'",
+    "Use both auxiliaries correctly in sentences"
+  ],
+  "sections": [
+    {
+      "heading": "Auxiliary 'Will'",
+      "content": "'Will' shows simple futurity in the second and third persons, singular and plural. It also shows determination in the first person singular and plural."
+    },
+    {
+      "heading": "Auxiliary 'Would'",
+      "content": "'Would' expresses futurity from the standpoint of some past time and is also used to express condition: If I had a car, I would travel very often."
+    }
+  ],
+  "keywords": [
+    "auxiliary",
+    "will",
+    "would",
+    "futurity",
+    "condition"
+  ]
+}

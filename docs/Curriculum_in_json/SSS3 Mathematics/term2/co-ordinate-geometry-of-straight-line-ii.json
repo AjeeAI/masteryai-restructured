@@ -1,0 +1,36 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 3,
+  "topic_title": "CO-ORDINATE GEOMETRY OF STRAIGHT LINE (II)",
+  "topic_slug": "co-ordinate-geometry-of-straight-line-ii",
+  "source_title": "Second Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand co-ordinate geometry of straight line (ii)"
+  ],
+  "sections": [
+    {
+      "heading": "Concept",
+      "content": "Content:\nEQUATION OF A STRAIGHT LINE: This is an equation that contain gradient and intercept form. i.e. y - = (x-) as gradient (m) = y = mx + c.\nINTERSECTION OF TWO STRAIGHT LINES: The point of intersection of two straight line is the point obtained by solving the equation simultaneously.\nANGLE BETWEEN TWO INTERSECTING LINES: This is the angle formed by the intersection of two straight lines\nM2\nθ\nm1\n= < (acute angle).\n= > (obtuse angle).\nPARALLELISM OF A STRAIGHT LINE: For any lines to be parallel, the gradient of the two lines must be equal. i.e. .\nPERPENDICULARITY OF LINES: For lines to be perpendicular or normal to each other, the product of the two gradients must be equal to -1. i.e. or vise-visa.\n\nEX AMPLE INTERSECTION OF LINE.:\nFind the coordinate of the points at which the lines\n4y =3x +2 and 8y = 9x – 5 intersect.\nSOLUTION\nSolving the equation simultaneously,\n4y = 3x + 2 ………….. (1) X 3\n8y = 9x – 5 …………… (ii) X 1\n12Y = 9X + 6\n8Y = 9X – 5 (-)\n4Y = 11 Y = Or\nSubstitute the value of y in equation (1)\n4) = 3x + 2 11 = 3x + 2\n3x = 9 x = 3\nTherefore, the coordinate is ( 3, )"
+    },
+    {
+      "heading": "Examples and Practice",
+      "content": "EXAMPLE PARALLELISM:\nFind the equation of the line which pass through the point ( 1,2) and parallel to the line 4x – y = 2.\nSOLUTION\n4X –Y = 2 , then 4x -2 = y m = 4\nParallelism\nY - = m(x - ) y – 2 = 4(x – 1)\nY -2 = 4x – 4 y = 4x – 2 or y – 4x + 2 =0 (the equation).\n\nEXAMPLE PERPENDICULARITY:\nFind the equation of the line passing through the point (1,1)which is perpendicular to 2x - 3y = 4\nSOLUTION\n2x – 3y = 4. Then 2x -4 = 3y divide through by 3\n= y. therefore, m = .\nFor line to be perpendicular m = i.e. m =\nM = .\nEquation of the line y -\nY – 1 = (x – 1) y – 1 = , (cross multiply)\n2y -2 = -3x = 3 2y + 3x -5 = 0 ( the equation).\n\nEXAMPLE ANGLE BETWEEN TWO STRAIGHT LINE.:\nFind the acute angle between the lines 3x +2y =1 and 4x -2y + 6 = 0.\nSOLUTION\n3X + 2Y = 1 2Y = 1 – 3X\nY = therefore, =\n4x – 2y + 6 = o 4x + 6 = 2y\nY = = 2x + 3 therefore, = 2\n= = = 2\n= = =\nASSESSMENT: Determine the solution set of the following:\nFind the equation of the which passes through the point (5,7) parallel to the line 7x +5y = 15.\nFind the equation of the straight line passing through the point (-2, 1) and perpendicular to the line 4 = 2x -7y.\nFind the angle between the two intersecting lines 3x +2y – 10 = 0 and x +6y – 10 = 0\nFind the coordinate of the intersecting lines 5x +12y + 13 =0 and 6y – 8x + 3 = 0.\nFind the acute angles between the following intersecting lines: (i) y =3x + 4 and y = 2x – 1 (ii) 3y = x + 4 and y = -3x – 4 (iii) 4y +3x = 2 and 2y –x = -3.\nFind the equation of the lines which passes through the following pairs of points: (i) (2,4) and (5,6) (ii) (, 0) and (-1,2) (iii) (1,-1) and (-2,3)."
+    }
+  ],
+  "keywords": [
+    "ordinate",
+    "geometry",
+    "straight",
+    "line",
+    "content",
+    "example",
+    "parallelism",
+    "perpendicularity",
+    "ample",
+    "intersection",
+    "angle",
+    "between"
+  ]
+}

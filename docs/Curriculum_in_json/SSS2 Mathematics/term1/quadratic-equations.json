@@ -1,0 +1,30 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 1,
+  "week": 5,
+  "topic_title": "QUADRATIC EQUATIONS",
+  "topic_slug": "quadratic-equations",
+  "source_title": "First Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Understand construction of quadratic equations from sum and product of roots"
+  ],
+  "sections": [
+    {
+      "heading": "Concept",
+      "content": "We can find the sum and product of the roots directly from the coefficient in the equation. It is usual to call the roots of the equation α and β If the equation\nax2 +bx + C = 0 ……………. I\nhas the roots α and β then it is equivalent to the equation\n(x – α )( x – β ) = 0\nx2 – βx – βx + αβ = 0 ………… 2\nDivide equation (i)by the coefficient of x2\nax2+ bx + C = 0 ………… 3\naaa\nComparing equations (2) and (3)\nx2 + b x + C = 0\naa\nx2 - ( α +β)x + αβ = 0\nthen\nα+ β= -b\na\nand αβ = C\na\nFor any quadratic equation, ax2 +bx + C = 0 with roots α and β\nα + β = -b\na\nαβ = C\na"
+    },
+    {
+      "heading": "Examples and Practice",
+      "content": "Examples\n1. If the roots of 3x2 – 4x – 1 = 0 are αand β, find α + β and αβ\n2. if α and βare the roots of the equation\n3x2 – 4x – 1 = 0 , find the value of\n(a) α + β\nβ α\n(b) α - β\nSolutions\n1. Since α + β = -b\na\nComparing the given equation 3x2 – 4x – 1= 0 with the general form\nax2 + bx + C = 0\na = 3, b = -4, C = 1.\nThen\nα + β = -b = -(-4)\na 3\n= + 4 = +1 1/3\nαβ =C = -1 = -1\na 3 3\n2.aα + β = α2 +β2\nβ α αβ\n= (α + β )2 - 2αβ\nαβ\nHere, comparing the given equation, with the general equation,\na = 3, b = -4, C = - 1\nfrom the solution of example 1 (since the given equation are the same ),\nα + β = -b = - (-4) = +4\n3 3\nαβ = C = - 1\na 3\nthen\nα + β = ( α+ β ) 2 – 2 αβ\nβ α αβ\n= (4/3 ).2 – 2 ( - 1/3 )\n1/3\n= 16 ± 2\n9 3\n- 1\n= 16 + 6 ÷ -1/3\n22 x -3\n9 1\n= -22\nor α + β = - 22 = - 7 1/3\nβ α 3\nb) Since\n(α-β) 2 =α2 + β- 2 α β\nbut\nα2 + β2 = ( α + β)2 -2 α β\n:.(α- β)2 = ( α+ β )2 - 2αβ -2αβ\n(α – β)2 = (α + β )2 - 4α β\n:.( α – β) = √(α + β )2 - 4αβ\n( α – β) =√ (4/3 )2 – 4 ( - 1/3 )\n= √ 16/9 +4/3\n= √16 + 12\n= √28 = √28\n9 3\n:. α - β = √28\nEvaluation\nIf α and β are the roots of the equation\n2x2 – 11x + 5 = 0, find the value of\na. α - β\nb. 1 + 1\nα + 1 β+ 1\nc. α2+ β2"
+    }
+  ],
+  "keywords": [
+    "construction",
+    "quadratic",
+    "equations",
+    "product",
+    "roots",
+    "content"
+  ]
+}

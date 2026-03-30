@@ -1,0 +1,33 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 4,
+  "topic_title": "Public Corporation",
+  "topic_slug": "public-corporation",
+  "source_title": "Second Term SS3 Civic Education",
+  "learning_objectives": [
+    "Define public corporation",
+    "Explain reasons for its establishment",
+    "Identify problems and control measures"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "A public corporation is a government-owned business established to provide essential services rather than to make profit."
+    },
+    {
+      "heading": "Reasons for Establishment",
+      "content": "They are created to provide essential services, prevent exploitation, ensure security, and generate employment."
+    },
+    {
+      "heading": "Problems",
+      "content": "Challenges include political interference, corruption, favoritism, inefficiency, and poor work attitude."
+    },
+    {
+      "heading": "Control Measures",
+      "content": "Public corporations are controlled through parliamentary oversight, judicial review, ministerial supervision, and public criticism."
+    }
+  ],
+  "keywords": ["public corporation", "government enterprise", "control"]
+}

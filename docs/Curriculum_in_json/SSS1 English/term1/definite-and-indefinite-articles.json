@@ -1,0 +1,39 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 11,
+  "topic_title": "Structure: Definite and Indefinite Articles",
+  "topic_slug": "definite-and-indefinite-articles",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Distinguish between definite and indefinite articles",
+    "Apply the rules for using 'a', 'an', and 'the' correctly",
+    "Identify special cases involving vowel and consonant sounds"
+  ],
+  "sections": [
+    {
+      "heading": "Indefinite Articles: 'a' and 'an'",
+      "content": "'A' and 'AN' are used to make indefinite reference to a noun.\n\nUse 'A' before words beginning with a consonant SOUND:\na boy, a goat, a house, a hoe\nNOTE: Some words begin with a vowel LETTER but have a consonant SOUND – use 'a':\na European man | a university | a Eucharist | a eunuch | a unit | a union | a uniform\n\nUse 'AN' before words beginning with a vowel SOUND:\nan egg, an apple, an orange\nNOTE: Some words have a silent 'h' – use 'an':\nan hour | an honest man | an honour\nBUT words with a sounded 'h' take 'a': a house | a hoe | a home"
+    },
+    {
+      "heading": "Definite Article: 'the'",
+      "content": "'The' makes definite reference to a specific person or thing. All nouns can use 'the'.\n\nUses of 'the':\n\n1. When there is only one of the thing referred to:\nthe sun | the moon | the wind | the rainfall\n\n2. When the hearer/reader knows which specific thing is meant:\nGive me the bag under the bed.\nThe letter in the envelope. (Both objects are already known.)\n\n3. Before the title of a newspaper:\nThe Punch | The Nation\n\n4. Descriptive use – the article describes or particularises the noun:\nThe accused was acquitted for want of evidence.\nShe has the courage of Esther.\n\n5. Generic use – referring to what is typical for a class:\nThe banana is found mainly in southern Nigeria.\nThe tiger is a very ferocious animal.\n\n6. Before nouns indicating unique position or role:\nThe Soviet Union | The Principal | The Minister of Education"
+    },
+    {
+      "heading": "Summary Table",
+      "content": "Noun type           | Indefinite reference | Definite reference\nSingular count noun | A desk               | The desk\nPlural count noun   | Some books           | The books\nNon-count noun      | Some water / Water   | The water"
+    }
+  ],
+  "keywords": [
+    "article",
+    "definite article",
+    "indefinite article",
+    "the",
+    "a",
+    "an",
+    "vowel sound",
+    "consonant sound",
+    "silent h"
+  ]
+}

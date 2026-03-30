@@ -1,0 +1,34 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 9,
+  "topic_title": "Speech Work: Introduction to Syllable",
+  "topic_slug": "introduction-to-syllable",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Define a syllable",
+    "Break words into syllables",
+    "Recognise stressed and unstressed syllables in words"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "A syllable is a unit of pronunciation uttered with one breath effort."
+    },
+    {
+      "heading": "Examples",
+      "content": "The note gives examples of one-syllable, two-syllable, three-syllable, and four-syllable words."
+    },
+    {
+      "heading": "Stress Within Words",
+      "content": "In words with two or more syllables, one syllable may be pronounced with more force, length, and pitch. That syllable is the stressed syllable."
+    }
+  ],
+  "keywords": [
+    "syllable",
+    "speech work",
+    "stress",
+    "pronunciation"
+  ]
+}

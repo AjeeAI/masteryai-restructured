@@ -1,0 +1,33 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 1,
+  "week": 1,
+  "topic_title": "USING LOGARITHM TO SOLVE PROBLEMS WITH POWERS AND ROOT (NO. GREATER THAN ONE)",
+  "topic_slug": "using-logarithm-to-solve-problems-with-powers-and-root-no-greater-than-one",
+  "source_title": "First Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Understand using logarithm to solve problems with powers and root (no. greater than one)"
+  ],
+  "sections": [
+    {
+      "heading": "Concept",
+      "content": "Examples:\nEvaluate:\n(a) 3.533 (b) 4 40000 (c) 94100 x 38.2 to 2 s.f\n5.6833 x 8.14"
+    },
+    {
+      "heading": "Examples and Practice",
+      "content": "Solution\n3.533\nNo. Log_____\n3.533 0.5478 x 3\n44.00 1.6434\n3.533 = 44.00\n(b) 4 4000\nNo. Log_____\n4 4000 3.6021 ÷ 4\n7.952 0.9005\n4 4000 = 7.952\n(c) 94100 x 38.2\n5.6833x 8.14\nFind the single logarithm representing the numerator and the single logarithm representing the denominator, subtract the logarithm then find the antilog.\nNo Log\n94100 4.9736 ÷ 2 = 2.4868\n38.2 1.5821\nNumerator 4.0689→ 4.0689\n5.683 0.7543 x 3 = 2.2629\n8.14 0.9106\nDenominator 3.1735→ 3.1735\n7.859 0.8954\n94100 x 38.2 = 7.859 7.9 (2.sf)\n5.683 x 8.14"
+    }
+  ],
+  "keywords": [
+    "using",
+    "logarithm",
+    "solve",
+    "problems",
+    "powers",
+    "root",
+    "greater",
+    "than",
+    "content"
+  ]
+}

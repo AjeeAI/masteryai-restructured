@@ -1,0 +1,34 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 7,
+  "topic_title": "Articles",
+  "topic_slug": "articles",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Define articles as expository essays",
+    "Identify their structure",
+    "Write effective articles"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "Articles are expository essays. An expository essay is one that requires you to explain a thing or a process fully. The explanation will necessarily demand writing a great deal about what distinguishes the subject of the essay from all other things.\n\nIt may also involve some description.\n\nSample outline on articles. There have been various articles in your national newspapers discussing the rise in the prices of goods. Write your contribution to the discussion and suggest ways to help curb the trend."
+    },
+    {
+      "heading": "Structure",
+      "content": "1. Introduction: Your observation\n2. Explaining the problem\n3. First major result\n4. Second major result\n5. Conclusion: The need to solve the problem"
+    },
+    {
+      "heading": "Sample Topic",
+      "content": "Write an article for publication in a local newspaper on the good effects of accountability and transparency."
+    }
+  ],
+  "keywords": [
+    "articles",
+    "essay writing",
+    "composition",
+    "expository"
+  ]
+}

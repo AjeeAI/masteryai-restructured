@@ -1,0 +1,31 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 5,
+  "topic_title": "Comprehension/Writing Skills: Answering Summary Questions",
+  "topic_slug": "answering-summary-questions",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "State useful hints for summary writing tasks",
+    "Select only relevant information from a passage",
+    "Answer summary questions briefly and in own words"
+  ],
+  "sections": [
+    {
+      "heading": "Useful Hints",
+      "content": "Indicate which part of the question is being answered. Pick only the information demanded by the question."
+    },
+    {
+      "heading": "Writing Reminders",
+      "content": "Keep strictly to the passage and be as brief as possible. Use your own words rather than copying whole sentences."
+    }
+  ],
+  "keywords": [
+    "summary",
+    "summary questions",
+    "own words",
+    "brief answers",
+    "comprehension"
+  ]
+}

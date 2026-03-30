@@ -1,0 +1,30 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 9,
+  "topic_title": "Spelling: Homophones",
+  "topic_slug": "homophones",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Define homophones",
+    "Distinguish spelling and meaning in homophone pairs",
+    "Generate additional examples of homophones"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "Homophones are words that have the same sound but different spellings and meanings."
+    },
+    {
+      "heading": "Examples",
+      "content": "Examples in the note include allowed/aloud, stake/steak, fare/fair, court/caught, right/write, toil/toy, key/quay, and thought/taught."
+    }
+  ],
+  "keywords": [
+    "homophone",
+    "spelling",
+    "sound alike",
+    "meaning"
+  ]
+}

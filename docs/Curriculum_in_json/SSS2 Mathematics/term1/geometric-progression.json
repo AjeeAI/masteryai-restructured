@@ -1,0 +1,45 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 1,
+  "week": 4,
+  "topic_title": "GEOMETRIC PROGRESSION",
+  "topic_slug": "geometric-progression",
+  "source_title": "First Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Find the 7th term and the nth term of the progression 27, 9 , 3, … a + ar + ar2 + ar3 + ………………",
+    "Find the sum of G",
+    "Find the 7th term and the nth term of the progression 27,9,3,…",
+    "Find the first term of the G"
+  ],
+  "sections": [
+    {
+      "heading": "GEOMETRIC PROGRESSION",
+      "content": "CONTENT\nDefinition of Geometric Progression\nDenotations of Geometric progression\nThe nth term of a G. P.\nThe sum of Geometric series\nSum of G. P. to infinity\nGeometric mean\nDefinition of G. P\nThe sequence 5, 10, 20, 40 has a first term of 5 and the common ratio\nBetween the term is 2 e.g. (10/5 or 40/2o = 2).\nA sequence in which the terms either increase or decrease in a common ratio is called a Geometric Progression"
+    },
+    {
+      "heading": "(G. P)",
+      "content": "G. P: a, ar, ar2, ar3 ………………\nDenotations in G. P\na = 1st term\nr = common ratio\nUn = nth term\nSn = sum\nThe nth term of a G. P\nThe nth term = Un\nUn = arn-1\n1st term = a\n2nd term = a x r =ar\n3rd term = a x r x r = ar2\n4th term = a x r x r x r = ar3\n8thterm = a x r x r x r x r x r x r x r = ar7\nnth term = a x r x r x r x ……….. arn-1\nExample\nGiven the GP 5, 10, 20, 40. Find its (a) 9th term (b) nth term\nSolution\na = 5 r = 10/5 = 2\nU9 = arn-1\nU9 = 5 (2) 9-1\n= 5 (2)8\n= 5 x 256 = 1,280\n(b) Un = arn-1\n= 5(2) n-1\nExample 2\nThe 8th term of a G.P is -7/32. Find its common ratio if it first term is 28.\nU8 = -7/32 Un = arn-1\n-7/32 = 28 (r)8-1\n-7/32 = 28r7\n-7/32 x 1/28 =\n-7/32 x 1/28 = r7\n7 7\nr = =\nr = - 0.5\nEvaluation\n1. The 6th term of a G.P is 2000. Find its first term if its common ratio is 10.\n2. Find the 7th term and the nth term of the progression 27, 9 , 3, …"
+    },
+    {
+      "heading": "THE SUM OF A GEOMETRIC SERIES",
+      "content": "a + ar + ar2 + ar3 + ………………. arn-1\nrepresent a general geometric series where the terms are added.\nS = a + ar + ar2 ………… arn-1 eqn 1\nMultiply through r\nrs = ar + ar2 + ar3 ………. arn ……… eqn 2\nsubtracteqn 2 from 1\nS – rs = a – arn\nS (1 – r) =a(1-rn)\n1 – r 1-r\nS.=a ( 1 - rn) r < 1\n1 - r\nMultiply through by -1 or subs. eqn. 1 from e.g. 2\nrs - s = arn – a\nS (r – 1) =a(rn – 1)\nr – 1 r – 1\nS = a(rn-1)\nr -1 for r > 1\nExample:\nFind the sum of the series.\na. ½ + ¼ + 1/8 + …………………… as far as 6th term\nb. 1 + 3 + 9 + 27 + …………………. 729\nSolution\na = ½\nr = ½ (r = ¼ ½ = ½)\nr< 1\nS = a (1-rn)\n1 – r\nS6 = [½ (1 – (½)6]\n1 - ½\nS6= ½ (1 – 1/64)\n½\nS6 = 1 – 1 = 64 – 1 = 63\n64 64 64\n2. a = 1, r = 3, n = ? Un = 729\nUn = arn-1\n729 = 1 x 3n-1 (3n-1 = 3n x 3-1)\n729 = 3n\n3n = 3 x 729\n3n = 31 x 36\n3n = 37\nn = 7\nS = a(rn-1)\nr – 1\nS = a(37 – 1) = 2187 - 1\n3 – 1 2\n2186 = 1093\nEvaluation: Find the sum of the series 40, -4, 0.4 as far as the 7th term."
+    },
+    {
+      "heading": "SUM OF G. P. TO INFINITY",
+      "content": "Sum of G. P to infinity is only possible where r is < 1.\nWhere r is > 1 there is no sum to infinity.\nExample:\n1. Find the sum of G. P. 1 + ½ + ¼ + …………………… (a) to 10 terms (b) to 100 terms. Hence deduce the sum of the series (formula) if it has a very large no. of term or infinity.\n(a) a = 1 r = ½\nn = 10\nS = a (1-rn)\n1-r\nS = 1(1-(1/2)10) = 1(1-0.0001)\n1- ½ 1/2\n2 (1 – 0.001)\n2 – 0.002 = 1.998.\nb. n = 100.\nS = a (1 – rn)\n1 - r\nS = 1 (1-(1/2)100) = 1(1- (1/2)10)10\n1 – ½ ½\n1 (1-(0.001)10\n½\n1 (1)\n½ = 2\nTherefore (1/2)100 tend to 0 (infinity).\nIn general,\nS = a (1-rn)= a(1-0) = a__\n1-r 1-r 1 – r\nS= a__ = n →\n1 – r\nExample 2:\nFind the sum of the series 45 + 30 + 20 + ……………… to infinity.\na = 45, r = 2/3, n = infinity\nS∞ = a S = 45__\n1 – r 1- 2/3\nS∞ = 45 ÷ 1/3\n45 x 3/1\n= 135\nEvaluation\n1. The sum to infinity of a Geometric Series is 100. Find the first term if the common ratio is -1/2.\n2. The 3rd and 6th term of a G. P. are 48 and 142/9 respectively, write down the first four terms of the G. P.\n3. The sum of a G. P. is 100 find its first term if the common ratio is 0.8."
+    },
+    {
+      "heading": "GEOMETRIC MEAN",
+      "content": "If three numbers such as x , y and z are consecutive terms of a G.P then their common ratio will be\ny =z\nx y\ny2 = xz\ny = xz\nThe middle value , y is the geometric mean (GM). We can conclude by saying that the GM of two numbers is the positive square root of their products.\nExample\nCalculate the geometric mean of I. 3 and 27 II. 49 and 25\nSolution\nG.M of 3 and 27 II. G.M of 49 and 25\n= √ 3 x 27 4\n= √ 81 = 49 x 25\n= 9 4\n= 7 x 5\n= 35 = 17 1/2\nExample\nThe first three terms of a GP are k + 1, 2k – 1, 3k + 1. Find the possible values of the common ratio.\nSolution\nThe terms are k + 1, 2k – 1, 3k + 1\n2k -1 =3k + 1\nk + 1 2k – 1\n(2k-1)(2k-1) = (k+1)(3k+1)\n4k2-2k-2k +1 = 3k2 +k+3k + 1\n4k2- 4k +1 = 3k2 +4k + 1\n4k2 - 3k2 - 4k - 4k + 1-1 = 0\nk2 -8k = 0\nk(k-8) = 0\nk = 0 or k - 8 = 0\nk = 0 or 8\nThe common ratio will have two values due to the two values of k\nWhen k=0 when k= 8\nK+1 = 0+1 =1 k+1 = 8+1 = 9\n2k- 1= 2x0 – 1 = -1 2k- 1 = 2x8 – 1 = 15\n3k+ 1= 3x0+ 1 = 1 3k+1 = 3x8 +1 = 25\nterms are 1 , -1 , 1 terms are 9,15,25\ncommon ratio, r = -1/1 common ratio,r = 15/9\nr = -1\nEVALUATION\nThe third term of a G.P. is 1/81. Determine the first term if the common ratio is 1/3.\n1. p - 6, 2p and 8p + 20 are three consecutive terms of a GP. Determine the value of (a) p (b) the common ratio\n2. If 1 , x , 1 , y , ….are in GP , find the product of x and y\n16 4\n3.The third term of a G.P is 45 and the fifth term 405.Find the G.P. if the common ratio r is positive.\n4.Find the 7th term and the nth term of the progression 27,9,3,…\n5.In a G.P, the second and fourth terms are 0.04 and 1 respectively. Find the (a) common ratio (b) first term\n1. In the 2nd and 4th term of a G.P are 8 and 32 respectively, what is the sum of the first four terms. (a) 28 (b) 40 (c) 48 (d) 60\n2. The sum of the first five term of the G.P. 2, 6, 18, is (a) 484 (b) 243 (c) 242 (d) 130\n3. The 4th term of a GP is -2/3 and its first term is 18 what is its common ratio. (a) ½ (b) 1/3\n(c) -1/3 (d) -1/2\n4. If the 2nd and 5th term of a G. P. are -6 and 48 respectively, find the sum of the first four terms: (a) -45 (b) -15 (c) 15 (d) 33\n5. Find the first term of the G.P. if its common ratio and sum to infinity – 3/3 and respectively (a) 48 (b) 18 (c) 40 (d) -42\nTHEORY\n1.The 3rd term of a GP is 360 and the 6th term is 1215. Find the\n(i) Common ratio (ii) First term (iii) Sum of the first four terms\n1b. If (3- x) + (6) + (7- 5x) is a geometric series, find two possible values for\n(i) x (ii) the common ratio, r (iii) the sum of the G.P\n2.The first term of a G. P. is 48. Find the common ratio between its terms if its sum to infinity is 36.\nNew General Mathematics SSS2"
+    }
+  ],
+  "keywords": [
+    "topic",
+    "geometric",
+    "progression",
+    "series",
+    "infinity",
+    "mean"
+  ]
+}

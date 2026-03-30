@@ -1,0 +1,30 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 11,
+  "topic_title": "Comprehension: Summarizing in a Specified Number of Words",
+  "topic_slug": "summary-in-specified-number-of-words",
+  "source_title": "Third Term SS1 English Language Lesson Notes",
+  "learning_objectives": [
+    "Explain summary within a fixed word limit",
+    "Condense listed details into broader terms",
+    "Produce a brief accurate summary"
+  ],
+  "sections": [
+    {
+      "heading": "Guidance",
+      "content": "The summary must not exceed the specified number of words and should be very brief. A whole passage may be paraphrased into one or two paragraphs."
+    },
+    {
+      "heading": "Examples of Condensation",
+      "content": "The note shows how a list such as pepper, tomatoes, onion, maggi, salt, and oil can be summarized as 'soup ingredients', while items like cream, lipstick, powder, eye pencil, and hair cream can be summarized as 'cosmetics'."
+    }
+  ],
+  "keywords": [
+    "summary",
+    "word limit",
+    "condensation",
+    "brief writing"
+  ]
+}

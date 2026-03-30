@@ -1,0 +1,38 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 3,
+  "topic_title": "Sentence Intonation Patterns",
+  "topic_slug": "sentence-intonation-patterns",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Explain intonation and stress in spoken English",
+    "Identify falling and rising tunes",
+    "Apply rise-fall and fall-rise patterns in speech"
+  ],
+  "sections": [
+    {
+      "heading": "Introduction",
+      "content": "Intonation and stress are very important in spoken English. The meaning of an utterance is affected, not only by stress, but also by the variations in the pitch of a voice.When one speaks the voice or pitch changes; becomes high or low depending on the meaning the speaker intends.\n\nNote: The meaning of an utterance is affected by variations in pitch.\n\nThe sentence intonation patterns are:"
+    },
+    {
+      "heading": "Falling Tune",
+      "content": "Used in declarative sentences, commands, exclamations, and wh-questions.\na. Statements\n\nJoy works hard in school.\n\nEmeka has given the book to her.\n\n\nb. Commands\n\nKeep the books on my table\n\nStand under the tree.\n\n\nc. Wh – question\n\nWhy are your very late?\n\nWho gave you the information?\n\n\nd. Exclamations\n\nWhat a good result!\n\nHow pretty she is!"
+    },
+    {
+      "heading": "Rising Tune",
+      "content": "The rising tune is used in\n\na.\tPolar Questions (questions which demand only ‘yes’ or ‘no’ as answer)\n\nIs the wine sweet?\n\nWill Monday be good for it?\n\nDid you eat last night?\n\nb.\tUtterances showing indifference\n\nYou can do what you want\n\nI think that’s right.\n\nc.\tListing items.\n\nOne, two, three and four.\n\nWe need some rice, beans, fish and meat.\n\nIn enumeration, the final item in the list is usually said on a falling tune.\n\nAlthough the falling and rising intonation patterns are the two basic pitch patterns, the two\n\nPitch movements can be combined in long sentences."
+    },
+    {
+      "heading": "Rise and Fall Pattern",
+      "content": "Examples:\nWhile the boys were working, the girls were playing\nWhen the rain comes, I’ll plant my seed yams\n\nFall and Rise Pattern: Examples:\nThe students are happy, aren’t they?\nYou can do it, can’t you?"
+    }
+  ],
+  "keywords": [
+    "intonation",
+    "falling tune",
+    "rising tune",
+    "speech patterns"
+  ]
+}

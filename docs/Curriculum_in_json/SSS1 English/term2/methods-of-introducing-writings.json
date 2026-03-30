@@ -1,0 +1,32 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 7,
+  "topic_title": "Essay Writing: Various Methods of Introducing Writings",
+  "topic_slug": "methods-of-introducing-writings",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "State the features of a good essay",
+    "Identify major essay types in the note",
+    "Apply essay-writing guidance in composition work"
+  ],
+  "sections": [
+    {
+      "heading": "Features of a Good Essay",
+      "content": "The note lists rich content, orderly presentation, correct use of language, effective punctuation, and mechanical accuracy."
+    },
+    {
+      "heading": "Types of Essay",
+      "content": "The note discusses narrative, descriptive, expository, and argumentative essays, with brief explanations and examples of topics."
+    }
+  ],
+  "keywords": [
+    "essay writing",
+    "introduction",
+    "narrative essay",
+    "descriptive essay",
+    "expository essay",
+    "argumentative essay"
+  ]
+}

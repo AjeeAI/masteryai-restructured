@@ -1,0 +1,45 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 3,
+  "topic_title": "Quadratic Equations — Graphical Method",
+  "topic_slug": "quadratic-equations-graphical",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Draw graphs of quadratic functions using a table of values",
+    "Read the roots of a quadratic equation from its graph",
+    "Identify minimum and maximum values from a quadratic graph",
+    "Determine the line of symmetry of a parabola",
+    "Find the equation of a parabola from its graph"
+  ],
+  "sections": [
+    {
+      "heading": "Steps for Drawing a Quadratic Graph",
+      "content": "To draw a quadratic graph: (1) use the given range of x-values (or choose a suitable one); (2) calculate corresponding y-values and prepare a table; (3) choose a suitable scale; (4) draw axes and plot points; (5) join points with a smooth curve (parabola)."
+    },
+    {
+      "heading": "Reading Roots, Maximum and Minimum Values",
+      "content": "The roots of the equation are the x-values where the curve crosses the x-axis (where y = 0). The curve is n-shaped (maximum) when the coefficient of x² is negative, and V-shaped (minimum) when positive. The maximum value of y is the highest point; the minimum is the lowest point. A curve may: cross the x-axis at two points (two real roots), touch it once (equal/repeated roots), or not cross it at all (no real roots, imaginary roots)."
+    },
+    {
+      "heading": "Line of Symmetry",
+      "content": "The line of symmetry divides the parabola into two equal halves. It passes through the vertex (maximum or minimum point) and is a vertical line x = constant. For example, for y = 4x² − 12x + 9, the curve touches the x-axis at x = 1.5 (twice), and the line of symmetry is x = 1.5."
+    },
+    {
+      "heading": "Finding an Equation from a Graph",
+      "content": "If a curve crosses the x-axis at points a and b, the equation is obtained from (x − a)(x − b) = 0. The y-intercept (when x = 0) is used to scale the equation if needed. Example: if roots are x = −2 and x = 1/2, the expression (x + 2)(x − 1/2) = 0 gives x² + (3/2)x − 1 = 0. Multiplying by 2 to match the y-intercept: 2x² + 3x − 2 = 0."
+    }
+  ],
+  "keywords": [
+    "quadratic graph",
+    "parabola",
+    "roots from graph",
+    "maximum value",
+    "minimum value",
+    "line of symmetry",
+    "table of values",
+    "n-shaped",
+    "V-shaped"
+  ]
+}

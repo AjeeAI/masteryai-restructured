@@ -1,0 +1,39 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 1,
+  "topic_title": "Verbs: Types and Classifications",
+  "topic_slug": "verbs-types-and-classifications",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define a verb and give examples",
+    "Distinguish lexical verbs from auxiliary verbs (primary and modal)",
+    "Explain finite and non-finite verbs with examples",
+    "Differentiate transitive and intransitive verbs"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "A verb expresses action or a state of being.\nExamples: sing, dance, jump, is, are, am."
+    },
+    {
+      "heading": "Types of Verbs",
+      "content": "Lexical (Main) Verb – expresses action; can stand on its own.\nExamples: speak, pray, write\n\nAuxiliary Verbs – help the main verb.\nPrimary Auxiliaries: be, am, is, are, was, were, being, been\n(These can also function as main verbs.)\nModal Auxiliaries: can, could, may, might, shall, should, will, would,\nought to, dare, need\n\nFinite Verb – agrees with the subject in person, tense, and number.\nShe works hard (present). | She worked hard (past).\nOlu speaks English (singular subject + singular verb).\nOlu and Bola speak English (plural subject + plural verb).\n\nNon-Finite Verb – does NOT agree with the subject in person, number, or tense.\nInfinitives: to work, to eat, to dance\n-ing forms (gerunds/participles): dancing, singing, praying, cooking\n\nTransitive Verb – requires a direct object.\nHe killed a snake. [a snake = direct object of 'killed']\n\nIntransitive Verb – does not require an object.\nShe died. | They cooked. | We prayed."
+    }
+  ],
+  "keywords": [
+    "verb",
+    "lexical verb",
+    "main verb",
+    "auxiliary verb",
+    "primary auxiliary",
+    "modal auxiliary",
+    "finite verb",
+    "non-finite verb",
+    "infinitive",
+    "gerund",
+    "transitive verb",
+    "intransitive verb"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 2,
+  "topic_title": "Voter Education: Meaning of Voting and Voters Registration",
+  "topic_slug": "voter-education-meaning-voting-registration",
+  "source_title": "Second Term SS1 Civic Education",
+  "learning_objectives": [
+    "Explain the meaning of voter education",
+    "Describe the process of voters registration",
+    "State the rules guiding voter registration"
+  ],
+  "sections": [
+    {
+      "heading": "Topic: Voter Education",
+      "content": "CONTENT:\nVoter’s education is a process of teaching, training and learning about a political activity that will guide the electorates before, during and after the election in a country.\n\nVoting\nVoting in its widest meaning is an act of choosing candidates of choice by the electorates or voters.\n\nThe electorate will go to the polling station on a voting day, to exercise their civic right.\n\nAt the poll, each of the electorate or voter is given a ballot paper and after thumbprint secretly drops it in a ballot box of the candidate or party of his choice.  There are electoral officials to hand over the ballot papers to the voters and to monitor the conduct of the process."
+    },
+    {
+      "heading": "Voter’S Registration",
+      "content": "Voter’s registration is the act of preparing an official record of those that are qualified to vote during the election period. i.e any body that attains the ages of 18years and above and of sane mind are qualified to vote.\nVoters list must be publicly displayed for objections and complains that may arise."
+    }
+  ],
+  "keywords": [
+    "ballot",
+    "ballot box",
+    "ballot paper",
+    "election",
+    "electorate",
+    "polling station",
+    "voting"
+  ]
+}

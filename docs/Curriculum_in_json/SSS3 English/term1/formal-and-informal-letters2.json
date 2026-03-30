@@ -1,0 +1,30 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 5,
+  "topic_title": "Formal and Informal Letters",
+  "topic_slug": "formal-and-informal-letters",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Differentiate between formal and informal letters",
+    "Identify their features",
+    "Write effective letters"
+  ],
+  "sections": [
+    {
+      "heading": "Formal Letters",
+      "content": "Formal letters: Formal letters are letters we write to people in their  official  positions. These people are normally those we do not know personally, who hold official positions in establishments, schools, business houses, etc. Even when we know them personally, the rule demands that we still write them impersonal or official letters.\n\nFormal letters can be in the form of applications for admission or employment, requests for casual leave by staff in offices, official queries and replies to them, letters by students to the heads of their schools, letters to local government chairman asking for amenities for local communities and other such topics.\n.\nFeatures:\n1. Writer’s address and date\n2. Receiver’s address\n3. Salutation\n4. Heading or topic\n5. Body of the letter\n6. Complimentary close\nFormat Example:\n3, Fredrick Close,\nMartins Avenue,\nLagos.\n16th July, 2010\n\nThe Commissioner,\nMinistry of Education,\nLagos\n\nDear Sir,\nExpansion Programme for Baptist College\n\nBody\n\nYours faithfully,\n(Signature)\nJohn Silas"
+    },
+    {
+      "heading": "Informal Letters",
+      "content": "Informal Letters: Informal letters are private or personal letters. They are letters we write to people who are very familiar to us such as our parents, relatives, friends, classmates and other people with whom we have close relationship.\nFeatures:\n1. Writer’s address and date\n2. Salutation\n3. Introduction\n4. Body of the letter\n5. Complimentary close\nFormat Example:\n5, Biodun Street,\nAlakuko,\nLagos,\n16th July, 2010\n\nDear Eunice,\nBody\n\nYours sincerely,\nBukky"
+    }
+  ],
+  "keywords": [
+    "formal letter",
+    "informal letter",
+    "writing",
+    "communication"
+  ]
+}

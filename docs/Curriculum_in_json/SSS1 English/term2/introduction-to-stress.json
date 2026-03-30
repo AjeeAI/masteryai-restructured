@@ -1,0 +1,31 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 10,
+  "topic_title": "Speech Work: Introduction to Stress",
+  "topic_slug": "introduction-to-stress",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Explain word stress in English",
+    "Identify basic stress tendencies listed in the note",
+    "Apply stress guidance to multisyllabic words"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "English words have fixed stress patterns, so learners must pay attention to where stress falls in pronunciation."
+    },
+    {
+      "heading": "Guiding Rules",
+      "content": "The note groups examples under words stressed on the second syllable from the end, the third syllable from the end, and the final syllable, and provides sample words for each pattern."
+    }
+  ],
+  "keywords": [
+    "stress",
+    "word stress",
+    "syllable",
+    "pronunciation",
+    "speech work"
+  ]
+}

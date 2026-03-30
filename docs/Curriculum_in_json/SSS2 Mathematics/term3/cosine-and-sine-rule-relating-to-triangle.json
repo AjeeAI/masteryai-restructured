@@ -1,0 +1,43 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 3,
+  "week": 2,
+  "topic_title": "Cosine and Sine Rule Relating to Triangle.",
+  "topic_slug": "cosine-and-sine-rule-relating-to-triangle",
+  "source_title": "Third Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Sine Rule for Acute and Obtuse Angled Triangle.",
+    "Application of Sine Rule to Triangle.",
+    "Cosine Rule for Acute and Obtuse Angled Triangle.",
+    "Application of Cosine Rule."
+  ],
+  "sections": [
+    {
+      "heading": "Explanation",
+      "content": "Sine Rule for Acute and Obtuse Angled Triangle.\nConsideration is given to other triangles than a right angled triangle. The angles of any triangle are denoted by capital letters such as; A, B, C, while the sides are represented by small letters; a, b, c, respectively.\nA\nc b\nB a C\nAcute Triangle: This is a type of triangle in which the angles are less than 900.\nObtuse Triangle: Is a type of triangle in which one of the angles is more than 900 but less than 1800.\nDeductive Proof of Sine Rule\nThe sine rule is the same for acute and obtuse angled triangle.\nGiven: Any triangle ABC (acute-angled or obtuse-angled triangle).\nA\nc b\nB a C\nTo prove: a = b = c\n\nSin A Sinb Sin C: Construction: Draw a perpendicular A to BC ( produced, if necessary)"
+    },
+    {
+      "heading": "Proof",
+      "content": "Sin B = h ..........................................(1)\nc\nIn fig. 7.10 a)\n. Sin C = h ............................................(2)\nb\nIn fig.7.10 b)\nSin(1800 - C ) = h\nb\nHence, Sin C = h [sin(180 – Ɵ ) = sin Ɵ] ...............(2)\nb\nFrom (1) h = c SinB\nFrom(2) h = b Sin C\nHence, cSinB=bSinC\nb = c"
+    },
+    {
+      "heading": "Example",
+      "content": "In triangle ABC, A= 380, B = 270, and b = 17cm. find a and c.\nSolution;\nUsing sine rule; Sin A = Sin B\na b\nA\nsin 380 = sin 270 38\na 17\na = 17 sin 380\nsin 270\na = 23cm C B\nTo find c; Angle C must be known; A + B + C = 1800\nC = 1800 – 380 – 270 , C = 1150"
+    },
+    {
+      "heading": "Sin B = Sin C",
+      "content": "b c\nsin 270 = sin 1150 , c = 17 x sin 1150\n17 c sin 270\nc= 33.9 approximately, c = 34cm.\nNB: In any triangle, the longest side correspond to the largest angle while the shortest side corresponds to the smallest angle.\nEvaluation: 1. Solve the ∆ completely; A = 390, a = 8.2m and b = 5.6m\n2.Calculate the values of angles P and R of ∆ PQR, where q = 14.35cm, p = 7.82cm and Q = 115.60\nDeductive Proof of Cosine Rule\nThe cosine rule is also the same for the acute and obtuse angled triangle. A\nGiven: any ABC\n(a) A\n(b)c\nbh\nc b\nh\nB N\nB a C x\na-x N x C a+x\na\nTo prove: c2 = a2 + b2 – 2abCos C\nConstruction: Draw a perpendicular from A to B(produced if necessary).\nProof: Using the acute triangle; using the obtuse triangle;\nc2 = (a-x)2 + h2 c2 = (a +x)2 + h2\nc2 = a2 -2ax + x2 + h2 c2 =a2+2ax+x2+h2\nFrom ∆ ACN; b2 = x2 + h2, and Cos C = x / b From ACN,x2+h2=b2\nx= b Cos C =a2+2ax+b2\nc2 = a2 + b2 – 2ax From ACN,x/b=CosACN\nx =bCosC =Cos(1800-C)\n= -Cos C ,x= -bCos C\nc2 = a2 + b2 – 2abCosC c2 = a2 + b2 +2a(-bCos C)\nc2 = a2 + b2 – 2abCos C\nSimilarly, for other sides and angles. Therefore the cosine rule can be written as thus:\nc2 = a2 + b2 – 2abCosC OR Cos C = a2 + b2 – c2\na2= b2 + c2 – 2bcCosA 2ab\nb2 = a2 + c2 – 2acCosB Cos A = b2 + c2 – a2\n2bc\nCos B = a2 + c2 – b2\n2ac\nConditions Necessary for Use: The rule is used for solving acute and obtuse angled triangles in which two sides and included angles are given.\nExample; Given that A = 1200, b = 7cm, c= 12cm. Solve the triangle completely."
+    },
+    {
+      "heading": "Solution",
+      "content": "Using cosine rule; a2 = b2 + c2 – 2bcCosA\na2= 72 + 122 – 2(7×12)Cos 1200\na2= 49 + 144 – 168 (-0.5)\na2 = 193 +84\na =√277\na = 16.6cm.\nTo find angle B, Cos B = a2 + c2 – b2\n2ac\nCos B = 16.62 + 122 - 72\n2x 16.6 x12\nCos B = 275.56 + 144 – 49\n398.4\nCos B = 0.9301, B = cos-10.9301, B = 21.50.\nTo find < C; < A + < B + <C = 1800,\nC = 1800 – 1200 – 21.50, C = 38.50.\nHence, a = 16.6cm, B = 21.50 and C = 38.50.\nNB: 1. In any triangle, the longest side corresponds to the largest angle and the shortestside to the smallest angle.\n2. It is advisable to always find the smallest angle first , since the angle must be acute."
+    }
+  ],
+  "keywords": [
+    "cosine",
+    "sine",
+    "relating",
+    "triangle"
+  ]
+}

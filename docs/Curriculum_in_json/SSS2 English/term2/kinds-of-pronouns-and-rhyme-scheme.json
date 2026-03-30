@@ -1,0 +1,30 @@
+{
+  "subject": "english",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 5,
+  "topic_title": "Kinds of Pronouns and Rhyme Scheme",
+  "topic_slug": "kinds-of-pronouns-and-rhyme-scheme",
+  "source_title": "Second Term SS2 English Studies",
+  "learning_objectives": [
+    "Classify and use different kinds of pronouns",
+    "Identify rhyme schemes in poetry"
+  ],
+  "sections": [
+    {
+      "heading": "Structure: Kinds of Pronouns",
+      "content": "A pronoun is a word used instead of a noun. Types include: 1. Personal Pronouns: I, you, he, she, it. 2. Demonstrative Pronouns: this, that, these, those. 3. Interrogative Pronouns: what, which, who, whom. 4. Possessive Pronouns: mine, ours, yours, hers, theirs (note: no apostrophe is used with these)."
+    },
+    {
+      "heading": "Speech Work: Rhyme Scheme",
+      "content": "Rhyme occurs when words end in the same sound. 1. Same vowel ending: go / know. 2. Same final consonants: worst / burst. 3. Same final vowel and consonant: half / laugh. In poetry, rhyme scheme is the pattern of sounds at the ends of lines."
+    }
+  ],
+  "keywords": [
+    "pronouns",
+    "personal pronouns",
+    "demonstrative",
+    "rhyme scheme",
+    "vowel sound"
+  ]
+}

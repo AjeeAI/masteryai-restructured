@@ -1,0 +1,30 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 3,
+  "week": 5,
+  "topic_title": "Presentation Of Data",
+  "topic_slug": "presentation-of-data",
+  "source_title": "Third Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Understand presentation of data"
+  ],
+  "sections": [
+    {
+      "heading": "Cumulative Frequency Curve",
+      "content": "The cumulative frequency curve is also called the OGIVE. It is the graph of the cumulative frequency against the upper class boundary."
+    },
+    {
+      "heading": "Example",
+      "content": "The table below shows the height of 200 people who were randomly picked.\nHeights(cm) | 145 - 149 | 150 - 154 | 155 - 159 | 160 - 164 | 165 - 169 | 170 - 174 | 175 - 179\nFrequency | 5 | 18 | 50 | 29 | 80 | 14 | 4\nConstruct for the distribution above, a cumulative frequency curve."
+    },
+    {
+      "heading": "Heights | Frequency | Cumulative Frequency | Upper Class Boundary",
+      "content": "145 – 149 | 5 | 5 | < 149.5\n150 – 154 | 18 | 23 | < 154.5\n155 – 159 | 50 | 73 | < 159.5\n160 – 164 | 29 | 102 | < 164.5\n165 – 169 | 80 | 182 | < 169.5\n170 – 174 | 14 | 196 | < 174.5\n175 – 179 | 4 | 200 | < 179.5"
+    }
+  ],
+  "keywords": [
+    "presentation",
+    "data"
+  ]
+}

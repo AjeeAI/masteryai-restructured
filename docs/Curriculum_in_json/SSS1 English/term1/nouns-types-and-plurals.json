@@ -1,0 +1,48 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 1,
+  "topic_title": "Nouns: Types and Plurals",
+  "topic_slug": "nouns-types-and-plurals",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define a noun and give examples across different categories",
+    "Identify the main types of nouns and explain their characteristics",
+    "Identify common noun-forming suffixes/morphemes",
+    "Form regular, irregular, compound, and zero plurals correctly"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "A noun is a naming word. It names a person, animal, place, thing, or idea. Nouns also include names of institutions, months, days, and abstract ideas.\n\nExamples by category:\n• People: Uche, Peterson, Adebisi, Falase\n• Places: Beijing, Atan Ota, London, Sweden, Canada\n• Things: table, chair, house, laptop, radio\n• Institutions: family, tribe, Christianity, Islam, university\n• Months/Days: January, February, Sunday, Thursday\n• Abstract ideas: beauty, knowledge, emotion, hope, courage, wisdom, empathy"
+    },
+    {
+      "heading": "Features of Nouns",
+      "content": "1. Most nouns form their plurals by adding -s or -es: girl→girls, box→boxes, church→churches.\n2. Nouns are often used with articles, demonstratives, and adjectives: a cup, that house, some people.\n3. Words ending with the following morphemes are usually nouns:\n-age (damage, homage, stoppage)\n-al (arrival, dismissal, refusal)\n-tion (action, association, imagination)\n-er (adviser, teacher, worker)\n-ery (machinery, slavery, stationery)\n-titude (servitude, solitude)\n-hood (boyhood, girlhood, childhood)\n-ist (bicyclist, motorist, socialist)\n-ity (ability, brevity, equity)\n-ment (arrangement, establishment, government)\n-ness (firmness, fairness, laziness)\n-cy (proficiency, ascendancy, legacy)\n-ocracy (democracy, aristocracy, autocracy)\n-ism (Zionism, Feudalism, Communism)\n-ship (scholarship, fellowship, membership)\n-ster (gangster, trickster, youngster)"
+    },
+    {
+      "heading": "Types of Nouns",
+      "content": "Proper Nouns – Name a SPECIFIC person, place, or thing. Always begin with a capital letter.\nExamples: Atan-Ota, Monday, August, Ade, Ottawa, January\n\nCommon Nouns – Name things/people/places of a general kind.\nExamples: boy, man, lady, church, mosque, table\n\nConcrete Nouns – Can be seen and touched.\nExamples: books, tables, bag\n\nAbstract Nouns – Exist only as concepts; cannot be seen or touched, only felt.\nExamples: hatred, hunger, pain, intelligence\n\nCount Nouns – Can be counted; have singular and plural forms.\nExamples: one man→five men, one orange→several oranges, a book→five books\n\nNon-count / Mass Nouns – Cannot be counted; have only singular form.\nExamples: sand, soap, rice, homework, water\n(May be counted through units: three bags of rice, a bar of soap)\n\nOther uncountable nouns: equipment, jewelry, stationery, information, baggage, luggage, machinery, furniture, damage.\nNOTE: These must never take -s/-es to form plurals.\nCorrect: 'All students were instructed to take their baggage.' (NOT baggages)\nCorrect: 'We have got information about them.' (NOT informations)\nNOTE: 'damages' = a legal fine; 'damage' = physical harm.\n\nCollective Nouns – Name a group of people or things.\nA troupe of dancers | A troop of soldiers | A band of thieves | A bevy of ladies | A class of students\n\nPossessive/Genitive Nouns – Indicate possession.\nExamples: Dr Oyeyemi's car, Mrs Alalade's dress, Mr Jayeola's house"
+    },
+    {
+      "heading": "Number: Singular and Plural",
+      "content": "Regular Plurals (-s / -es):\nschool→schools, mat→mats, house→houses, box→boxes, bonus→bonuses\n\nIrregular Plurals:\nman→men, ox→oxen, goose→geese, crisis→crises, forum→fora,\nformula→formulae, symposium→symposia, foot→feet,\nparenthesis→parentheses, medium→media, index→indices/indexes,\nlarva→larvae, louse→lice, mouse→mice, curriculum→curricula,\naxis→axes, oasis→oases\n\nPlurals in Compound Nouns (the principal noun takes the plural):\nhead of state→heads of state, commander in chief→commanders in chief,\nwoman doctor→women doctors, secretary general→secretaries general,\npasser-by→passers-by, mother-in-law→mothers-in-law, grown-up→grown-ups\n\nZero Plurals (same form singular and plural):\ngross, deer, sheep, fish/fishes, series, trout, salmon, person/persons/people\n\nAlways plural in form:\naircraft, cattle\n\nAlways take -s (naturally plural in meaning):\ngoods, remains, ashes, headquarters, quarters, congratulations, manners,\nsurroundings, wages, arms, works (public works)"
+    }
+  ],
+  "keywords": [
+    "noun",
+    "proper noun",
+    "common noun",
+    "abstract noun",
+    "concrete noun",
+    "count noun",
+    "mass noun",
+    "collective noun",
+    "plural",
+    "singular",
+    "morpheme",
+    "genitive",
+    "possessive"
+  ]
+}

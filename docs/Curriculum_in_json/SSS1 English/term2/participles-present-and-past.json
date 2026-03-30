@@ -1,0 +1,32 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 4,
+  "topic_title": "Structure: Participles - Present and Past",
+  "topic_slug": "participles-present-and-past",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Recognise the participle forms treated in the note",
+    "Explain how the perfect constructions in the lesson are formed",
+    "Use the forms in sentences"
+  ],
+  "sections": [
+    {
+      "heading": "Present Perfect Pattern",
+      "content": "The lesson links present participle work to present perfect forms built with has/have plus words such as written, done, and spelt: He has done it. They have ground the pepper."
+    },
+    {
+      "heading": "Past Perfect Pattern",
+      "content": "The past perfect is formed with had plus forms such as written, done, and spelt: He had done the work before I came in. They had ground the pepper."
+    }
+  ],
+  "keywords": [
+    "participle",
+    "present perfect",
+    "past perfect",
+    "has",
+    "have",
+    "had"
+  ]
+}

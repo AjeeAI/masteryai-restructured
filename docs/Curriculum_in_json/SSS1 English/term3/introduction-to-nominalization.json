@@ -1,0 +1,35 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 5,
+  "topic_title": "Structure: Introduction to Nominalization",
+  "topic_slug": "introduction-to-nominalization",
+  "source_title": "Third Term SS1 English Language Lesson Notes",
+  "learning_objectives": [
+    "Define nominalization",
+    "Explain noun formation by affixation and compounding",
+    "Recognise noun-forming suffixes from the note"
+  ],
+  "sections": [
+    {
+      "heading": "Meaning",
+      "content": "Nominalization is the conversion of other word classes into nouns."
+    },
+    {
+      "heading": "Methods",
+      "content": "The lesson treats affixation, the use of the definite article plus adjective, and compounding as methods of deriving nouns."
+    },
+    {
+      "heading": "Examples",
+      "content": "Examples include noun-forming suffixes such as -ment, -ness, -ity, and -hood, and compound nouns such as secretary-general/secretaries-general, court-martial/courts-martial, and woman pilot/women pilots."
+    }
+  ],
+  "keywords": [
+    "nominalization",
+    "affixation",
+    "compounding",
+    "noun formation",
+    "suffix"
+  ]
+}

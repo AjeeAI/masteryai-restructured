@@ -1,0 +1,38 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 1,
+  "topic_title": "British vs. American Spelling Differences",
+  "topic_slug": "british-vs-american-spelling-differences",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Identify spelling differences between British and American English",
+    "Explain reasons for spelling variations",
+    "Apply correct spelling conventions in writing"
+  ],
+  "sections": [
+    {
+      "heading": "'s' vs. 'z'",
+      "content": "BRITISH AMERICA\nA\n‘s’\t  \t\t\t\t\t‘z’\n\nspecialisation\t\t\t\t\tspecialization\n\ncolonise\t\t\t\t\tcolonize\n\nsummarise\t\t\t\t\tsummarize\n\norganise\t\t\t\t\torganize\n\nmechanise\t\t\t\t\tmechanize\n\neconomise\t\t\t\t\teconomize\n\npressurise\t\t\t\t\tpressurize\ncentralise\t\t\t\t\tcentralize"
+    },
+    {
+      "heading": "'our' vs. 'or'",
+      "content": "‘our’\t\t\t\t\t\t‘or’\n\nhabour\t\t\t\t\t\thabor\n\nhonour\t\t\t\t\t\thonor\n\nlabour\t\t\t\t\t\tlabor\n\nneighbour\t\t\t\t\t\tneighbor\n\nfavour\t\t\t\t\t\tfavor\n\nvapour\t\t\t\t\t\tvapor\n\nodour\t\t\t\t\t\t\todor\n\n're' vs. 'er': Examples: centre → center\nmetre → meter\nkilometre → kilometer\n\n'amme' vs. 'am': Examples: gramme → gram\nkilogramme → kilogram\nprogramme → program\n\n'ogue' vs. 'og': Examples: dialogue → dialog\ncatalogue → catalog"
+    },
+    {
+      "heading": "Doubling of 'l'",
+      "content": "British verbs ending in 'l' not stressed on the final syllable double 'l'; American does not.\nExamples: travelling → traveling\ncancelling → canceling"
+    },
+    {
+      "heading": "'ae' / 'oe' vs. 'e'",
+      "content": "Examples: haemoglobin → hemoglobin\ndiarrhoea → diarrhea\nencyclopaedia → encyclopedia"
+    }
+  ],
+  "keywords": [
+    "British spelling",
+    "American spelling",
+    "orthography",
+    "English language"
+  ]
+}

@@ -1,0 +1,204 @@
+import React, { useEffect, useState } from 'react';
+import { ArrowLeft, Clipboard, Download, Loader2, Printer, UserRound } from 'lucide-react';
+import { Link, useParams } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { API_URL } from '../config/runtime';
+
+const formatDateTime = (value) => {
+  if (!value) return 'Not available';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return 'Not available';
+  return date.toLocaleString();
+};
+
+const TeacherStudentReportPage = () => {
+  const { classId, studentId, conceptId } = useParams();
+  const { token } = useAuth();
+  const apiUrl = API_URL;
+  const [report, setReport] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [copyState, setCopyState] = useState('idle');
+
+  useEffect(() => {
+    const fetchReport = async () => {
+      if (!token || !classId || !studentId || !conceptId) {
+        setIsLoading(false);
+        setError('Student report requires a valid teacher session and report scope.');
+        return;
+      }
+      try {
+        setIsLoading(true);
+        setError('');
+        const response = await fetch(
+          `${apiUrl}/teachers/classes/${classId}/students/${studentId}/concepts/${encodeURIComponent(conceptId)}/export`,
+          { headers: { Authorization: `Bearer ${token}` } },
+        );
+        if (!response.ok) {
+          const detail = await response.json().catch(() => null);
+          throw new Error(detail?.detail || 'Failed to load student intervention report.');
+        }
+        const data = await response.json();
+        setReport(data || null);
+      } catch (err) {
+        setReport(null);
+        setError(err.message || 'Student intervention report is unavailable right now.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchReport();
+  }, [apiUrl, classId, conceptId, studentId, token]);
+
+  const handleCopy = async () => {
+    if (!report?.markdown) return;
+    try {
+      await navigator.clipboard.writeText(report.markdown);
+      setCopyState('success');
+      window.setTimeout(() => setCopyState('idle'), 1800);
+    } catch {
+      setCopyState('error');
+      window.setTimeout(() => setCopyState('idle'), 1800);
+    }
+  };
+
+  const handleDownload = () => {
+    if (!report?.markdown) return;
+    const blob = new Blob([report.markdown], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = report.file_name || 'student-focus-report.md';
+    anchor.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <main className="min-h-screen bg-slate-50 p-8 print:bg-white print:p-0">
+      <div className="mx-auto max-w-5xl space-y-6">
+        <div className="flex flex-col gap-4 rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm print:hidden">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-slate-600">
+                <UserRound className="h-3.5 w-3.5" />
+                Student report
+              </div>
+              <h1 className="mt-3 text-2xl font-black text-slate-900">Student intervention report</h1>
+              <p className="mt-1 text-sm text-slate-500">
+                Print-friendly graph-backed report for one student and one concept path.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Link
+                to="/teacher/analytics"
+                className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-slate-700 transition hover:bg-slate-100"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back
+              </Link>
+              <button
+                type="button"
+                onClick={handleCopy}
+                disabled={!report?.markdown}
+                className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <Clipboard className="h-4 w-4" />
+                {copyState === 'success' ? 'Copied' : copyState === 'error' ? 'Copy failed' : 'Copy'}
+              </button>
+              <button
+                type="button"
+                onClick={handleDownload}
+                disabled={!report?.markdown}
+                className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <Download className="h-4 w-4" />
+                Download
+              </button>
+              <button
+                type="button"
+                onClick={() => window.print()}
+                disabled={!report?.markdown}
+                className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <Printer className="h-4 w-4" />
+                Print
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {isLoading ? (
+          <div className="flex min-h-[320px] flex-col items-center justify-center rounded-[28px] border border-slate-200 bg-white text-slate-400 shadow-sm">
+            <Loader2 className="mb-3 h-10 w-10 animate-spin text-indigo-500" />
+            <p className="text-sm font-semibold">Preparing student report...</p>
+          </div>
+        ) : error ? (
+          <div className="rounded-[28px] border border-rose-200 bg-rose-50 p-6 text-sm font-semibold text-rose-700">
+            {error}
+          </div>
+        ) : !report ? (
+          <div className="rounded-[28px] border border-slate-200 bg-white p-6 text-sm font-semibold text-slate-500 shadow-sm">
+            No student report is available for this focus yet.
+          </div>
+        ) : (
+          <div className="space-y-6">
+            <section className="rounded-[28px] border border-slate-200 bg-white p-8 shadow-sm print:shadow-none">
+              <p className="text-[11px] font-black uppercase tracking-[0.2em] text-indigo-500">Student intervention report</p>
+              <h2 className="mt-3 text-3xl font-black text-slate-900">{report.title}</h2>
+              <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600">{report.subtitle}</p>
+              <div className="mt-6 grid gap-4 md:grid-cols-4">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Student</p>
+                  <p className="mt-2 text-lg font-black text-slate-900">{report.student_name || 'Unknown student'}</p>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Concept</p>
+                  <p className="mt-2 text-lg font-black text-slate-900">{report.concept_label || 'Unknown concept'}</p>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Class scope</p>
+                  <p className="mt-2 text-lg font-black text-slate-900">
+                    {report.subject.toUpperCase()} {report.sss_level} T{report.term}
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Generated</p>
+                  <p className="mt-2 text-sm font-bold text-slate-900">{formatDateTime(report.generated_at)}</p>
+                </div>
+              </div>
+            </section>
+
+            <section className="grid gap-5 lg:grid-cols-2">
+              {(report.sections || []).map((section) => (
+                <div key={section.title} className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm print:break-inside-avoid print:shadow-none">
+                  <h3 className="text-sm font-black uppercase tracking-[0.18em] text-slate-500">{section.title}</h3>
+                  <div className="mt-4 space-y-3">
+                    {(section.items || []).length ? (
+                      section.items.map((item, index) => (
+                        <div key={`${section.title}-${index}`} className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-700">
+                          {item}
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-sm text-slate-400">No items in this section yet.</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </section>
+
+            <section className="rounded-[28px] border border-slate-200 bg-slate-950 p-6 shadow-sm print:hidden">
+              <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-500">Markdown source</p>
+              <pre className="mt-4 overflow-x-auto whitespace-pre-wrap text-xs leading-6 text-slate-200">
+                {report.markdown}
+              </pre>
+            </section>
+          </div>
+        )}
+      </div>
+    </main>
+  );
+};
+
+export default TeacherStudentReportPage;

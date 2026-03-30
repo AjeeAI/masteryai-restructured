@@ -1,0 +1,44 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 1,
+  "topic_title": "Spelling: Doubling of Consonants",
+  "topic_slug": "spelling-doubling-of-consonants",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "State the rules for doubling a final consonant before adding a suffix",
+    "Apply the rules correctly to one-syllable and multi-syllable words",
+    "Handle special cases: words ending in -p and -c"
+  ],
+  "sections": [
+    {
+      "heading": "Rule 1 – One-syllable words (one vowel + one consonant)",
+      "content": "Double the final consonant before a suffix beginning with a vowel.\nbig→bigger | bat→batting | drop→dropped | drum→drummer\n\nException – do NOT double when the vowel is already doubled (digraph):\nboat→boating | boil→boiled | cheap→cheapest | sweet→sweeter\nSpecial exception: wool→woollen"
+    },
+    {
+      "heading": "Rule 2 – Multi-syllable words: accent on last syllable",
+      "content": "Double the final consonant when the stress falls on the last syllable.\nad-MIT→admittance | be-GIN→beginning | for-GET→forgetting | oc-CUR→occurrence"
+    },
+    {
+      "heading": "Rule 3 – Multi-syllable words: accent NOT on last syllable",
+      "content": "Do NOT double the final consonant.\nEN-ter→entering | HAP-pen→happened | IN-habit→inhabitant | RE-fer→reference"
+    },
+    {
+      "heading": "Rule 4 – Words ending in -p",
+      "content": "A final 'p' is doubled:\nhandicap→handicapped | kidnap→kidnapped | worship→worshipped\nException: develop→developed (NOT developped)"
+    },
+    {
+      "heading": "Rule 5 – Words ending in -c",
+      "content": "Add 'k' before the suffix to preserve the hard /k/ sound:\nfrolic→frolicked | mimic→mimicked | panic→panicky"
+    }
+  ],
+  "keywords": [
+    "spelling",
+    "consonant doubling",
+    "suffix",
+    "syllable",
+    "stress",
+    "accent"
+  ]
+}

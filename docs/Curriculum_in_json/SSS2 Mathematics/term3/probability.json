@@ -1,0 +1,39 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 3,
+  "week": 9,
+  "topic_title": "Probability:",
+  "topic_slug": "probability",
+  "source_title": "Third Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Explain mutually exclusive events",
+    "Apply the addition law of probability",
+    "Solve basic probability problems"
+  ],
+  "sections": [
+    {
+      "heading": "Mutually Exclusive Event",
+      "content": "Mutually exclusive events are events which cannot together at the same time. One event will pave way for the other, in such a case the separate probability are added together probabilities are added to give the combined probability.\nAdditional Law of Probability\nIf event A,B,C.... are mutually exclusive, the probability of A or B or C or.... Happening is the sum of their individual probabilities."
+    },
+    {
+      "heading": "P(A) + P(B) + P(C) + ........",
+      "content": "Note: use the addition law to solve problems that contains the word or or either/or."
+    },
+    {
+      "heading": "Worked Examples",
+      "content": "A bag contains 3 red balls, 4 blues balls 5 white balls and 6 black balls. A ball is picked at\nRandom, what is the probability that it is either:\nRed or blue\nBlue or black\nRed, white or blue\nBlue, white or black\nNeither red nor"
+    },
+    {
+      "heading": "P(R) = 3/18 P(B) = 4/18 P(W) = 5/18, P(Bk) =6/18",
+      "content": "(a)Pro(either red or blue) = 3/18 + 4/18 = 7/18\n(b) Pro(blue or black) = 4/18 6/18\n= 10/18 = 5/9\n(c)P(red white or blue) = P(r) +P(w) + P(blue)\n= 3/18 + 4/18 + 5/18\n=12/18 = 2/3\n(d) P(blue, white or black) = P(blue) + P(white) + P(black)\n= 4/18 + 5/18 + 6/18\n= 15/18 = 5/6\n(e)P(neither Red or blue) = P(R or blue)1\n= 1-P(R or blue)\n= 1- 7/18\n= 11/18"
+    },
+    {
+      "heading": "Worked Example 2",
+      "content": "A letter is choosen at random from the word “COMPUTER” what the probability that it is\n(a) either in the word cut or in the word ROPE\n(b) neither in the word MET nor in the word UP?\n\nSolution: n(s) = 8\n(a) P (either word CUT or ROPE) =\n\nP (Cut) + P(Rope): = 3/8 + 4/8\n= 7/8\n(b) P(MET +UP)1 = 1- 5/8 = 3/8"
+    }
+  ],
+  "keywords": [
+    "probability"
+  ]
+}

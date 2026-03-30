@@ -1,0 +1,45 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 3,
+  "topic_title": "Binary Numbers — Operations in Base 2",
+  "topic_slug": "binary-numbers-operations",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Add binary numbers using base 2 identities",
+    "Subtract binary numbers using borrowing in base 2",
+    "Multiply binary numbers using long multiplication",
+    "Divide binary numbers using long division in base 2"
+  ],
+  "sections": [
+    {
+      "heading": "Addition in Base Two",
+      "content": "Binary addition follows these identities: 0 + 0 = 0; 0 + 1 = 1; 1 + 0 = 1; 1 + 1 = 10 (write 0, carry 1); 1 + 1 + 1 = 11 (write 1, carry 1). Examples: 1110 + 1001 = 10111 and 1111 + 1101 + 101 = 100001. Multiple additions also use these same rules, carrying to the next column."
+    },
+    {
+      "heading": "Subtraction in Base Two",
+      "content": "Binary subtraction identities: 0 – 0 = 0; 1 – 0 = 1; 10 – 1 = 1; 11 – 1 = 10; 100 – 1 = 11. When subtracting, borrow 2 from the next column (since 10₂ = 2₁₀). Examples: 1110 – 1001 = 101 and 101010 – 111 = 100011."
+    },
+    {
+      "heading": "Multiplication in Base Two",
+      "content": "Binary multiplication uses: 0 × 0 = 0; 1 × 0 = 0; 1 × 1 = 1. Long multiplication proceeds digit by digit, shifting left for each step, then adding binary results. Example: 1110 × 110 = 1010100. For 101011 × 110: write partial products, shifting left, then add in binary."
+    },
+    {
+      "heading": "Division in Base Two",
+      "content": "Binary division uses the principle of repeated subtraction. Example: 110 ÷ 10 = 11 (since 10 goes into 110 three times). For 101010 ÷ 111 = 110, set up long division in base 2, subtracting 111 from partial dividends as in decimal long division."
+    }
+  ],
+  "keywords": [
+    "binary numbers",
+    "base 2",
+    "binary addition",
+    "binary subtraction",
+    "binary multiplication",
+    "binary division",
+    "long multiplication",
+    "long division",
+    "carry",
+    "borrow"
+  ]
+}

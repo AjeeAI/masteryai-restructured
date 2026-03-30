@@ -1,0 +1,36 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 7,
+  "topic_title": "Essay Writing: The Narrative Essay",
+  "topic_slug": "essay-writing-narrative",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define a narrative essay and explain its key characteristics",
+    "Use imagination to paint vivid pictures in words",
+    "Write a narrative essay with a clear sequence of events"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "A narrative essay is one that requires the writer to relate an event or incident as an eyewitness would. It requires imagination."
+    },
+    {
+      "heading": "Key Characteristics",
+      "content": "• It tells a story or recounts an incident.\n• The writer uses first-person perspective to create authenticity.\n• Events are presented in a logical sequence.\n• The language is vivid and imaginative, painting a picture in words.\n• Sensory details (sight, sound, feeling) make the narrative come alive."
+    },
+    {
+      "heading": "Sample Narrative Passage",
+      "content": "It was pitch-dark outside the bedroom. It must have been that the security light was not switched on before we went to bed. There was some movement outside one of the windows. I listened. As I got up from bed to check at the windows, a flash of light through the window dazzled my eyes. I shouted 'thief' and the next thing I heard was a gun shot.\n\nNote: The writer is trying to paint a picture in words. It is only by imagination that this picture can be made more beautiful."
+    }
+  ],
+  "keywords": [
+    "narrative essay",
+    "eyewitness",
+    "imagination",
+    "first person",
+    "vivid language",
+    "sequence of events"
+  ]
+}

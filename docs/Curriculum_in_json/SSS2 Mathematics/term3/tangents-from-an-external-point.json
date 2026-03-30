@@ -1,0 +1,43 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 3,
+  "week": 1,
+  "topic_title": "Tangents From An External Point",
+  "topic_slug": "tangents-from-an-external-point",
+  "source_title": "Third Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Understand tangents from an external point"
+  ],
+  "sections": [
+    {
+      "heading": "Explanation",
+      "content": "Theorem:\nThe tangents to a circle from an external point are equal."
+    },
+    {
+      "heading": "O B A T O B A T",
+      "content": "Given: a point T outside a circle, centre O, TA and TB are tangents to the circle at A and B.\nTo prove: |TA| = |TB|\nConstruction: Join OA, OB and OT\nIn ∆s OAT and OBT\nOAT = OBT = 900 (radius tangent)\n|OA| = |OB| (radii)\n|OT| = |OT| (common side)"
+    },
+    {
+      "heading": "∆Oat = ∆Obt (Rhs)",
+      "content": "|TA| = |TB|\nNote that <AOT = <BOT and <ATO = <BTO hence the line joining the external point to the centre of the circle bisects the angle between the tangents and the angle between the radii drawn to the points of contact of the tangents."
+    },
+    {
+      "heading": "Example",
+      "content": "1.In the figure below O is the centre of the circle and the TA and TB are tangents if <ATO = 390, calculate < TBX\nIn ∆TAX"
+    },
+    {
+      "heading": "Axt = 900 (Symmetry)",
+      "content": "TAX = 180 – (900 + 390) sum of angles of ()\n1800 – 1290 = 510\nTBX = 510 (symmetry)\nOR\n∆ ATB is an Isosceles triangle\n|AT| =|BT| (tangents from external point)\n<ATO = <BTO = 390 (symmetry)\n< ATB = 2(39) = 780\n<TAX = < TBX (base angle of Isos ∆ )\n2TBX = 1800 – 780 (sum of angle in a\n2 TBX = 1020\nTBX= 1020\nTBX = 510\n2.PQR are three points on a circle Centre O. The tangent at P and Q meet at T. If < PTQ = 620 calculate PRQ."
+    },
+    {
+      "heading": "Solution",
+      "content": "Join OP and OQ\nIn quadrilateral TQOP\n<OQT = <OPT = 900 (radius 1 tangent)\nPOQ = 3600 – (900 + 900 + 620) sum of angle in a quadrilateral)\nPOQ = 3600 – 2420\nPOQ = 1180\nPRQ = 1180 = 590 (2x angle at circumference = angle at centre)\nPR1QR is a cyclic quadrilateral\nR + R1 = 1800 (opp. angles of a cyclic quadrilateral )\nR1 = 1800 – R\nR1 = 1800 – 590\nR1 = 1210\nPRQ = 590 or 1210"
+    }
+  ],
+  "keywords": [
+    "tangents",
+    "external",
+    "point"
+  ]
+}

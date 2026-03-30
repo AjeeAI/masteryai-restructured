@@ -1,0 +1,32 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 2,
+  "topic_title": "GRAPHICAL SOLUTION OF INEQUALITY IN TWO VARIABLES",
+  "topic_slug": "graphical-solution-of-inequality-in-two-variables",
+  "source_title": "SECOND TERM SS2 MATHEMATICS",
+  "learning_objectives": [
+    "Understand Revision of Linear Equation in Two Variables, Graphical Representation of Inequalities in Two Variables, and Graphical Solution of Simultaneous Inequality in Two Variables"
+  ],
+  "sections": [
+    {
+      "heading": "Revision of Linear Equation in Two Variables .",
+      "content": "Examples [cite: 148] Solve and represent the solution on graph [cite: 149] 1. x + y =2 [cite: 150] 3- [cite: 151] 3- [cite: 152] y=2-x [cite: 153] The following table: x,0,1,2 2,2,2,2-,2- -x,-0,-1,-2 y,2,1,1-,1- [cite: 154] 2. 5x + 2y = 10 0 1 2 3 x [cite: 155] Using intercept method [cite: 156] When x = 0 [cite: 157] 6- [cite: 158] 6- [cite: 159] 2y = 10 [cite: 160] y = 5 [cite: 161] 4- [cite: 162] 4- [cite: 163] When y = 0 [cite: 164] 2- [cite: 165] 2- [cite: 166] 5x = 10 [cite: 167] x = 2 [cite: 168] (0,5) (2, 0) [cite: 169] 0 1 2 3 4 x [cite: 170] 3. Draw the linear graph of y = 2 [cite: 171] 2 [cite: 172] 0 1 2 x [cite: 173] 4.Draw the linear graph of x = 3 [cite: 174] y [cite: 175] 4 – [cite: 176] 2 – [cite: 177] 0 3 [cite: 178] 5.Draw the graph of 2x + y =3 using intercept method [cite: 179] When y = 0 [cite: 180] 2x=3 [cite: 181] x = 3/2 = 1.5 [cite: 182] When x =0 [cite: 183] y = 3 [cite: 184] (0, 3) (1.5 , 0) [cite: 185] y [cite: 186] 3 – (0, 3) [cite: 187] (1.5, 0) [cite: 188] 1 2 x [cite: 189]"
+    },
+    {
+      "heading": "GRAPHICAL REPRESENTATION OF INEQUALITIES IN TWO VARIABLES",
+      "content": "Example 1 :Show on a graph the region that contains the set of points for which [cite: 195] 2x + y ≤ 3 y [cite: 196] When x = 0 (0, 3) [cite: 197] 2(0) + y = 3 [cite: 198] y= 3 [cite: 199] When y = 0 [cite: 200] 2x + 0 = 3 [cite: 201] 2x = 3 (1.5. 0) [cite: 202] x= 3/2 = 1.5 0 x [cite: 203] (0, 3) (1.5, 0) [cite: 204] The unshaded region satisfies the inequalities. [cite: 205] Note: The continuous thick line is used in joining point when the symbols ≥ or ≤ is used and when < or > is used broken line or dotted line is used. [cite: 206] Check: When x = 2, y=1 [cite: 207] 2 x + y < 3 [cite: 208] 2 (2) + 1< 3 [cite: 209] 4 + 1 < 3 [cite: 210] 4 + 1 < 3 [cite: 211] 5 < 3 (No) [cite: 212] Therefore the other side is the region that satisfies the inequality. [cite: 213] Example 2 y [cite: 214] 2x + 3y > 6 [cite: 215] When x = 0 (0, 2) [cite: 216] 3y = 6 [cite: 217] y=2 [cite: 218] When y = 0 [cite: 219] 2x=6 -2 -1 0 1 2 (3, 0) x [cite: 220] x = 3 [cite: 221] ( (0, 2) (3, 0) [cite: 222] The shaded region satisfies the inequality [cite: 223] Example 3 [cite: 224] y< 2 [cite: 225] y [cite: 226] 2 [cite: 227] 0 x [cite: 228] Theunshaded region satisfies the inequalities [cite: 229]"
+    },
+    {
+      "heading": "Graphical Solution of Simultaneous Inequality",
+      "content": "Example I [cite: 236] Show on a graph the region which contains the solutions of the simultaneous inequalities [cite: 237] i 2x +3y < 6 [cite: 238] ii y – 2x ≤ 2 [cite: 239] iii y > - 2 y [cite: 240] Solution: 2x + 3y < 6 6 - y – 2x ≤ 2 [cite: 241] 2x + 3y < 6 when y= 0 [cite: 242] 2x + 3y < 6 2x = 6 4 - [cite: 243] When x = 0 x=3 [cite: 244] 3y = 6 2 – A [cite: 245] Y = 2 [cite: 246] -3 -2 -1 0 1 2 3 4 [cite: 247] Coordinates: (0, 2) (3,0) [cite: 248] C -2 D [cite: 249] (ii) y – 2x ≤ 2 y > -2 [cite: 250] When x = 0 When y = 0 -4 [cite: 251] y = 2 -2x = 2 [cite: 252] x = -1 [cite: 253] Coordinates; (0, 2) (-1, 0) [cite: 254] (iii) y> - 2 (0,-2) [cite: 255] The unshaded region ABC satisfies all the inequalities. [cite: 256] Any coordinate within the satisfied region satisfies all the inequalities e.g [cite: 257] (x, y) = (-1,-1) (0,-1) (1,-1) (2,-1) [cite: 258] (3,-1), (-1,0) (0,0) (1,0) (2,0) (0,1) (1,1) [cite: 259] Example 2 [cite: 260] Solve graphically the simultaneous inequality and shade the region that does not satisfies the inequality. [cite: 261] -x + 5y≤ 10 [cite: 262] 3x -4y ≤ 8 [cite: 263] and y > -1 [cite: 264] Solution [cite: 265] -x + 5y ∠ 10 [cite: 266] When x=0 [cite: 267] 5y = 10 [cite: 268] y = 2 [cite: 269] When y = 0 [cite: 270] -x = 10 [cite: 271] x =-10 [cite: 272] x = -10 [cite: 273] Coordinates: (0,2) (-10, 0) [cite: 274] 3x 4 [cite: 275] Solution [cite: 276] -x + 5y ≤ 10 3 [cite: 277] 5y = 10 [cite: 278] y = 2 2 [cite: 279] When y = 0 [cite: 280] -x = 10 1 [cite: 281] X =-10 [cite: 282] X = -10 -10 -8 -6 -4 -2 0 2 4 6 8 10 [cite: 283] (0,2) (-10, 0) [cite: 284] 3x – 4y ≤ 8 -1 [cite: 285] When x = 0 [cite: 286] -4y =8 -2 [cite: 287] y = -2 [cite: 288] When y = 0 -3 [cite: 289] 3x = 8 [cite: 290] x = 8 [cite: 291] 3 [cite: 292] x = 2 2/3 [cite: 293] (0, -2) (2 2/3 , 0) [cite: 294] (ii) y> -1 [cite: 295] Coodinates: (-1,0) [cite: 296]"
+    }
+  ],
+  "keywords": [
+    "graphical solution",
+    "inequality",
+    "two variables",
+    "simultaneous inequality"
+  ]
+}

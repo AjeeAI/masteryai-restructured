@@ -1,0 +1,35 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 2,
+  "topic_title": "Structure: Present Tenses",
+  "topic_slug": "present-tenses",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Define tense as an aspect of the verb",
+    "Distinguish the main present-tense forms",
+    "Use each present tense correctly in sentences"
+  ],
+  "sections": [
+    {
+      "heading": "Definition and Types",
+      "content": "Tense is an aspect of the verb that expresses the time of an action. The note treats four present-tense forms: simple present, present continuous, present perfect, and present perfect continuous."
+    },
+    {
+      "heading": "Simple and Continuous Forms",
+      "content": "Simple present expresses habitual action and universal truth: I eat rice. The earth is spherical.\nPresent continuous shows an action in progress and is formed with is/are plus the -ing form: She is cooking. We are playing football."
+    },
+    {
+      "heading": "Perfect Forms",
+      "content": "Present perfect is formed with has/have plus the participle: They have gone out. He has spoken to her.\nPresent perfect continuous uses has/have been plus the -ing form: I have been working. She has been singing."
+    }
+  ],
+  "keywords": [
+    "tense",
+    "simple present",
+    "present continuous",
+    "present perfect",
+    "present perfect continuous"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 5,
+  "topic_title": "Public Service in a Democracy",
+  "topic_slug": "public-service-in-a-democracy",
+  "source_title": "Second Term SS3 Civic Education",
+  "learning_objectives": [
+    "Explain public service",
+    "Identify its structure",
+    "Discuss problems and improvements"
+  ],
+  "sections": [
+    {
+      "heading": "Meaning",
+      "content": "Public service refers to services provided by the government to its citizens and includes ministries responsible for administration and policy implementation."
+    },
+    {
+      "heading": "Structure",
+      "content": "The civil service structure includes administrative, executive, professional, clerical, and messengerial classes."
+    },
+    {
+      "heading": "Problems",
+      "content": "Problems include corruption, nepotism, policy inconsistency, bureaucracy, and poor work attitude."
+    },
+    {
+      "heading": "Improvements",
+      "content": "Improvements include merit-based employment, better working conditions, political neutrality, and adherence to rules."
+    }
+  ],
+  "keywords": ["public service", "civil service", "bureaucracy"]
+}

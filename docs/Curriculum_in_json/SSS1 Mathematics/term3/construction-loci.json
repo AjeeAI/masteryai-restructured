@@ -1,0 +1,53 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 4,
+  "topic_title": "Construction of Quadrilaterals and Loci",
+  "topic_slug": "construction-loci",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Construct quadrilaterals (trapezium, parallelogram) using ruler and compasses",
+    "Construct equilateral triangles",
+    "Describe and construct the locus of points at a given distance from a fixed point",
+    "Describe and construct the locus of points equidistant from two given points",
+    "Describe and construct the locus of points equidistant from two intersecting lines"
+  ],
+  "sections": [
+    {
+      "heading": "Construction of Quadrilaterals",
+      "content": "To construct a parallelogram PQRS with QR = 5cm, RS = 11cm and angle QRS = 135°: (1) draw QR = 5cm; (2) construct 135° at R; (3) mark S at 11cm; (4) with S as centre (radius 5cm) and Q as centre (radius 11cm), draw arcs intersecting at P; (5) join SP and QP. The shorter diagonal can be measured from the completed diagram."
+    },
+    {
+      "heading": "Construction of Equilateral Triangles",
+      "content": "An equilateral triangle has all sides equal and all angles equal to 60°. To construct equilateral triangle XYZ with XY = 5cm: (1) draw XY = 5cm; (2) with centres X and Y and radius 5cm, draw arcs intersecting at Z; (3) join XZ and YZ. Note: the angle bisectors of all three angles meet at a single point inside the triangle (the incentre)."
+    },
+    {
+      "heading": "Locus of Points — Fixed Distance from a Point",
+      "content": "The locus of all points at a fixed distance x from a point O is a circle of radius x centred at O."
+    },
+    {
+      "heading": "Locus of Points Equidistant from Two Points",
+      "content": "The locus of points equidistant from two fixed points X and Y is the perpendicular bisector of the line segment XY."
+    },
+    {
+      "heading": "Locus of Points Equidistant from a Line",
+      "content": "The locus of points at a fixed distance x from a straight line AB (extending in both directions) consists of two straight lines parallel to AB, each at distance x from it. In two dimensions, this locus is two separate parallel lines."
+    },
+    {
+      "heading": "Locus of Points Equidistant from Two Intersecting Lines",
+      "content": "The locus of points equidistant from two intersecting lines AB and CD is the pair of angle bisectors of the angles formed at their intersection point. The two bisectors are perpendicular to each other."
+    }
+  ],
+  "keywords": [
+    "locus",
+    "quadrilateral construction",
+    "parallelogram",
+    "equilateral triangle",
+    "perpendicular bisector",
+    "angle bisector",
+    "equidistant",
+    "circle locus",
+    "parallel lines locus"
+  ]
+}

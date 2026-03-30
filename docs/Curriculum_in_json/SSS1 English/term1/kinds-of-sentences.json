@@ -1,0 +1,51 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 5,
+  "topic_title": "Structure: Kinds of Sentences",
+  "topic_slug": "kinds-of-sentences",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define a sentence and identify its essential components",
+    "Distinguish between simple, compound, multiple, complex, and compound-complex sentences",
+    "Construct each sentence type with correct examples"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "A sentence is a group of words that contains a subject and a verb and expresses a complete sense or thought."
+    },
+    {
+      "heading": "Simple Sentence",
+      "content": "Contains one subject and one predicate (verb). It is made up of one main clause. Simple sentences may be long but have only one subject-verb unit.\n\nExamples:\nThe woman ran.\nHe is in the room.\nThe thief has been caught."
+    },
+    {
+      "heading": "Compound Sentence",
+      "content": "Contains two main clauses linked by a co-ordinating conjunction (and, but, or).\n\nExamples:\nThe work stops [but] the tools are kept handy.\nNgozi found the goat [and] she took it to her mother."
+    },
+    {
+      "heading": "Multiple Sentence",
+      "content": "Contains more than two main clauses linked by co-ordinating conjunctions.\n\nExample:\nThe child climbed onto my laps, urinated on my trousers, [and] smiled at me happily.\nThe choir master returned from church [and] asked for his flute [but] it could not be found."
+    },
+    {
+      "heading": "Complex Sentence",
+      "content": "Contains one main clause and one or more subordinate clauses.\n\nExamples:\nWhen it rains, [subordinate] he does not go to work. [main]\nGrace did not do the assignment [main] which the English teacher gave her. [subordinate]"
+    },
+    {
+      "heading": "Compound-Complex Sentence",
+      "content": "Contains two or more main clauses and at least one subordinate clause.\n\nExample:\nThe work stops [main] when it rains [subordinate] but the tools are kept handy. [main]"
+    }
+  ],
+  "keywords": [
+    "sentence",
+    "simple sentence",
+    "compound sentence",
+    "multiple sentence",
+    "complex sentence",
+    "compound-complex sentence",
+    "main clause",
+    "subordinate clause",
+    "co-ordinating conjunction"
+  ]
+}

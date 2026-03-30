@@ -1,0 +1,40 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 6,
+  "topic_title": "Accountability Institutions: Code of Conduct Bureau and Public Complaints Commission",
+  "topic_slug": "accountability-institutions-code-of-conduct-and-public-complaints",
+  "source_title": "Second Term SS3 Civic Education",
+  "learning_objectives": [
+    "Explain the Code of Conduct Bureau",
+    "Describe the Public Complaints Commission (Ombudsman)",
+    "Highlight the functions of both institutions",
+    "Understand their roles in promoting accountability"
+  ],
+  "sections": [
+    {
+      "heading": "Code of Conduct Bureau",
+      "content": "The Code of Conduct Bureau is an institution established to ensure high standards of morality, accountability, and transparency in public service. It monitors the behavior of public officers and ensures compliance with ethical standards, including asset declaration."
+    },
+    {
+      "heading": "Functions of Code of Conduct Bureau",
+      "content": "It ensures accountability in government, enforces ethical conduct among public officers, monitors asset declarations, and promotes integrity in public administration."
+    },
+    {
+      "heading": "Public Complaints Commission (Ombudsman)",
+      "content": "The Public Complaints Commission, also known as the Ombudsman, is a government body established to investigate complaints of injustice, corruption, and maladministration by public officials or institutions."
+    },
+    {
+      "heading": "Functions of Public Complaints Commission",
+      "content": "It investigates complaints from citizens, addresses corruption and abuse of power, protects citizens' rights, and monitors public institutions to ensure fairness and justice."
+    }
+  ],
+  "keywords": [
+    "code of conduct bureau",
+    "public complaints commission",
+    "ombudsman",
+    "accountability",
+    "public service"
+  ]
+}

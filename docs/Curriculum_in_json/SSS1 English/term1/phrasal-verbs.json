@@ -1,0 +1,35 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 2,
+  "topic_title": "Phrasal Verbs",
+  "topic_slug": "phrasal-verbs",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define phrasal verbs and explain how meaning is determined",
+    "Identify two-word and three-word phrasal verbs",
+    "Use common phrasal verbs correctly in sentences"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "A phrasal verb is a verb combined with one or more adverbial particles to form a multi-word verb. Its meaning cannot be determined from the individual words alone; the whole phrase must be understood as a unit."
+    },
+    {
+      "heading": "Two-Word Phrasal Verbs",
+      "content": "turn down – refuse: I turned down the offer.\ngive in – surrender: Our team refused to give in to their opponents.\nrun across – meet by chance: We ran across an old friend at Aba.\ncall off – cancel: The workers called off their strike.\nturn up – appear: He turned up as soon as we arrived.\nput off – postpone: The election was put off till the next meeting.\ncome across – meet by chance: We came across Ledogo in the street.\ncome through – experience: He has come through a lot of hardship."
+    },
+    {
+      "heading": "Three-Word Phrasal Verbs (Double Particles)",
+      "content": "These phrasal verbs have two particles; the whole combination has a single meaning.\n\nput up with – tolerate: I cannot put up with his insulting behaviour.\ncut down on – reduce: We have been advised to cut down on our expenses.\nget away with – escape punishment for: He cannot get away with the crime.\nlook forward to – anticipate: We look forward to your next visit.\nstay away from – avoid: You have been warned to stay away from the building."
+    }
+  ],
+  "keywords": [
+    "phrasal verb",
+    "multi-word verb",
+    "adverbial particle",
+    "two-word verb",
+    "three-word verb"
+  ]
+}

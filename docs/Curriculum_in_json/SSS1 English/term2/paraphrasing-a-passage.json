@@ -1,0 +1,30 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 7,
+  "topic_title": "Comprehension/Writing Skills: Paraphrasing a Passage",
+  "topic_slug": "paraphrasing-a-passage",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Define paraphrase",
+    "Restate ideas in clearer or shorter language",
+    "Paraphrase a given comprehension passage"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "A paraphrase is a restatement of a text in different words, often in a shorter or clearer way, in order to clarify meaning."
+    },
+    {
+      "heading": "Source Passage Notes",
+      "content": "The note paraphrases a passage on marriage and family, stating points about marriage in Nigerian society, former views of marriage as sacred, the main ways of contracting marriage, and the movement from polygamy toward monogamy."
+    }
+  ],
+  "keywords": [
+    "paraphrase",
+    "restatement",
+    "comprehension",
+    "marriage and family"
+  ]
+}

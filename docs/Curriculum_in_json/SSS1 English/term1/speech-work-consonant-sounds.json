@@ -1,0 +1,40 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 7,
+  "topic_title": "Speech Work: Introduction to Consonant Sounds",
+  "topic_slug": "speech-work-consonant-sounds",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define consonant sounds and explain how they are produced",
+    "Identify all 24 consonant sounds of English using IPA symbols",
+    "Give examples of words containing each consonant sound"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "Consonants are sounds realised when the air from the lungs is obstructed in some way. English has 24 consonant sounds."
+    },
+    {
+      "heading": "The 24 Consonant Sounds",
+      "content": "/m/ – voiced bilabial nasal: many, summer, bomb, damn\n/p/ – voiceless bilabial plosive (upper and lower lips pressed together): picture, apple, tripper\n/b/ – voiced bilabial plosive: baby, robber, baboon\n/f/ – voiceless labio-dental fricative: firm, rough, physics\n/v/ – voiced labio-dental fricative: vigour, Stephen, of, Volkswagen\n/θ/ – voiceless dental fricative: thank, author, path\n/ð/ – voiced dental fricative: than, that, gather\n/n/ – voiced alveolar nasal: new, banner, pneumonia, known, gnash\n/t/ – voiceless alveolar plosive: two, attack, Thomas, missed\n/d/ – voiced alveolar plosive: standard, breed, sudden\n/s/ – voiceless alveolar fricative: Saturday, miss, grass, rice, axe, science\n/z/ – voiced alveolar fricative: zero, dizzy, please, scissors\n/l/ – voiced alveolar lateral: lip, hello\n/r/ – voiced alveolar approximant: rain, carrot, write, wrinkle, rhetoric\n/ʃ/ – voiceless post-alveolar fricative: sure, schedule, mission, machine, nation\n/ʒ/ – voiced post-alveolar fricative: measure, treasure, confusion, beige, Jean\n/tʃ/ – voiceless post-alveolar affricate: cello, change, question, pasture\n/dʒ/ – voiced post-alveolar affricate: jug, George, ginger, gym, educate\n/j/ – voiceless palatal approximant: yam, hallelujah, unity, Europe\n/ŋ/ – voiced velar nasal: sing, bank, anchor, include, anxious\n/k/ – voiceless velar plosive: cat, crack, chemical, king, queue, account\n/g/ – voiced velar plosive: goat, haggle, ghost\n/w/ – voiced labio-velar approximant: wear, where, whistle\n/h/ – voiceless glottal fricative: hope, whole, Llanfair"
+    }
+  ],
+  "keywords": [
+    "consonant",
+    "plosive",
+    "fricative",
+    "affricate",
+    "nasal",
+    "lateral",
+    "approximant",
+    "voiced",
+    "voiceless",
+    "bilabial",
+    "alveolar",
+    "velar",
+    "IPA",
+    "phoneme"
+  ]
+}

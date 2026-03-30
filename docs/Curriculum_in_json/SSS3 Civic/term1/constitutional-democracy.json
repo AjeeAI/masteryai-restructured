@@ -1,0 +1,35 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 2,
+  "topic_title": "Constitutional Democracy",
+  "topic_slug": "constitutional-democracy",
+  "source_title": "First Term SS3 Civic Education E-Learning Note",
+  "learning_objectives": [
+    "Define constitutional democracy",
+    "Explain types of constitutional democracy",
+    "State the features of constitutional democracy"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "Constitutional democracy is a government of the people, by the people and for the people which is based on the supremacy of the constitution. It can also be explained as a democratic system in which the will of the people prevail, their fundamental human rights recognized and protected, and the principle of rule of law strictly adhered to."
+    },
+    {
+      "heading": "Types of Constitutional Democracy",
+      "content": "DIRECT DEMOCRACY: This is also known as classical democracy. It is a form of democracy in which all adult citizens take active part in the management and political running of the state. INDIRECT DEMOCRACY: This is also called representative democracy. This form of democracy is built on the principle of majority rule because it allows a few elected representatives to make decisions and formulate policies on behalf of the people."
+    },
+    {
+      "heading": "Features of Constitutional Democracy",
+      "content": "POPULAR SOVEREIGNTY, MAJORITY RULE, MINORITY RIGHT, RULE OF LAW, PERIODIC ELECTION, EQUAL ACCESS TO POLICAL OPPORTUNITIES, INDEPENDENT JUDICIARY."
+    }
+  ],
+  "keywords": [
+    "Democracy",
+    "Constitution",
+    "Direct",
+    "Indirect",
+    "Rule of Law"
+  ]
+}

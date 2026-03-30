@@ -1,0 +1,35 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 4,
+  "topic_title": "Essay Writing: Formal Letter",
+  "topic_slug": "formal-letter-writing",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Define a formal letter",
+    "Identify the parts of a formal letter",
+    "Write a formal letter using the correct format"
+  ],
+  "sections": [
+    {
+      "heading": "Meaning",
+      "content": "A formal letter, also called an official letter, is written to people in their official positions and must remain impersonal even when the writer knows the addressee personally."
+    },
+    {
+      "heading": "Features",
+      "content": "The note lists the writer's address, date, receiver's address, salutation, heading or title, body of the letter, and complimentary close."
+    },
+    {
+      "heading": "Style Rules",
+      "content": "The body should go straight to the purpose of the letter. Slang, colloquial expressions, abbreviations, and contracted forms are not allowed. The recommended close is 'Yours faithfully,' followed by signature and full name."
+    }
+  ],
+  "keywords": [
+    "formal letter",
+    "official letter",
+    "salutation",
+    "complimentary close",
+    "letter writing"
+  ]
+}

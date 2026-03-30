@@ -1,0 +1,36 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 1,
+  "week": 7,
+  "topic_title": "SIMULTANEOUS EQUATIONS",
+  "topic_slug": "simultaneous-equations",
+  "source_title": "First Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Understand elimination method"
+  ],
+  "sections": [
+    {
+      "heading": "SIMULTANEOUS LINEAR EQUATIONS",
+      "content": "Methods of solving Simultaneous equation\ni. Elimination method\nii. Substitution method\niii. Graphical method"
+    },
+    {
+      "heading": "ELIMINATION METHOD",
+      "content": "One of the unknowns with the same coefficient in the two equations is eliminated by subtracting or adding the two equations. Then the answer of the first unknown is substituted into either of the equations to get the second unknown.\nExample\nSolve for x and y in the equations 2x + 5y = 1 and 3x – 2y = 30\nSolution\nTo eliminate x multiply equation 1 by 3 and equation 2 by 2\n2x + 5y = 1 ………. eqn 1 (x (3)\n3x – 2y = 30 ………… eqn 2 (x (2)\nResulting into,\n6x + 15 y = 3 ………. eqn 3\n6x – 4y = 60 ……….. eqn 4\nSubtract eqn 3 from eqn 4\n6x – 6x + 15y – (- 4y) = 3 – 60\n19y = -57 3\n19 19\ny = -3\nSubstitute y = - 3 into eqn 1\n2x + 5 (-3) = 1\n2x = 1 + 15\n2x =16\n2 2\nx = 8\ny = -3 and x = 8\nEvaluation\nUsing elimination method to solve the simultaneous equations.\n1. 5x – 4y = 38 and x + 3y = 22\n2. 2c-3d= -4 and 4c-3d= -14"
+    },
+    {
+      "heading": "SUBSTITUTION METHOD",
+      "content": "One of the unknowns (preferably the one having 1 has its coefficient) is made the subject of the formula in one of the equations and substituted into the other equation to obtain the value of the first unknown which is then substituted into either of the equations to get the second unknown.\nExample: Solve the simultaneous equation 2x + 5y = 1 and 3x – 2y = 30\nSolution\n2x + 5y = 1……………. eq 1\n3x – 2y = 30 ………….. eq 2\nMake x the subject in eqn 1\n2x = 1 – 5y\n2 2\nx = 1 – 5y ………… eqn 3\nSubstitute eq3 into eqn 2\n3 (1-5y) - 2y = 30\nMultiple through by 2 or find the LCM and cross multiply.\n3 – 15y - 4y = 30\n3 – 15y – 4y = 60\n3 – 19y = 60\n-19y = 60 – 3\n-19y = 57 3"
+    },
+    {
+      "heading": "-19 -19",
+      "content": "y = - 3\nSubstitute y = -3 into eq 3\nx =1 – 5y\nx = 1 – 5 (-3)= 1 + 15 = 16\n2 2 2\nx = 8\nx = 8, y = -3\nEvaluation\nSolve for x and y in the equations\n1. x + 2y = 10 and 4x + 3y = 20\n2. 4x-y=8 and 5x+y=19"
+    }
+  ],
+  "keywords": [
+    "elimination",
+    "method",
+    "content",
+    "substitution"
+  ]
+}

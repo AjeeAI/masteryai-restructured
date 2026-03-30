@@ -1,0 +1,38 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS2",
+  "term": 3,
+  "week": 5,
+  "topic_title": "Roles of Individuals and Government in Maintaining Traffic Regulations",
+  "topic_slug": "roles-of-individuals-and-government-in-maintaining-traffic-regulations",
+  "source_title": "Third Term SS2 Civic Education",
+  "learning_objectives": [
+    "Identify the roles of individuals in maintaining traffic regulations",
+    "Explain the roles of government agencies in traffic regulation",
+    "Discuss how government policies and enforcement promote road safety"
+  ],
+  "sections": [
+    {
+      "heading": "Roles of Individuals",
+      "content": "Individuals should obey traffic rules, respect road signs, obey traffic authorities, avoid damaging roads and road signs, avoid selling on highways, and help maintain order during traffic congestion."
+    },
+    {
+      "heading": "Roles of Government Agencies",
+      "content": "Government agencies such as FRSC, VIO, the police, NSCDC, and LASTMA help enforce traffic regulations, inspect vehicles, control traffic, and educate the public on proper road use."
+    },
+    {
+      "heading": "Other Roles of Government",
+      "content": "Government builds roads, installs road signs and traffic lights, funds traffic agencies, punishes offenders, enacts traffic laws, and carries out public enlightenment campaigns on traffic safety."
+    }
+  ],
+  "keywords": [
+    "traffic regulations",
+    "individual roles",
+    "government agencies",
+    "FRSC",
+    "VIO",
+    "LASTMA",
+    "road safety",
+    "law enforcement"
+  ]
+}

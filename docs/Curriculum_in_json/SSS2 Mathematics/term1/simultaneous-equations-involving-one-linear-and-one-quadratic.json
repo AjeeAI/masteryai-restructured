@@ -1,0 +1,33 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 1,
+  "week": 8,
+  "topic_title": "SIMULTANEOUS EQUATIONS INVOLVING ONE LINEAR AND ONE QUADRATIC",
+  "topic_slug": "simultaneous-equations-involving-one-linear-and-one-quadratic",
+  "source_title": "First Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Solve simultaneously for x and y (i",
+    "Solve the equations simultaneously 3x + 4y = 11 &xy = 2"
+  ],
+  "sections": [
+    {
+      "heading": "Content",
+      "content": "One of the equations is in linear form while the other is in quadratic form.\nNote: One linear, one quadratic is only possible analytically using substitution method.\nExamples:\n1. Solve simultaneously for x and y (i.e. the points of their intersection)\n3x + y = 10 & 2x2 +y2 = 19\nSolution\n3x + y = 10 ----------- eq 1\n2x2 + y2 = 19 --------- eq 2\nMake y the subject in eq 1 (linear equation)\ny = 10 – 3x ---------- eq 3\nSubstitute eq 3 into eq 2\n2x2 + (10-3x) 2 = 19\n2x2+ (10 – 3x) (10 – 3x) = 19\n2x2 + 100 – 30x – 30x + 9x2 = 19\n2x2 + 9x2 - 30x – 30x + 100 – 19 = 0\n11x2 - 60x + 81 = 0\n11x2 - 33x – 27x + 81= 0\n11x (x-3) – 27 (x – 3) = 0\n(11x – 27) (x – 3) = 0\n11x – 27 = 0 or x-3 = 0\n11x = 27 or x = 3\nx = 27/11 or 3\nSubstitute the values of x into eq 3.\nWhen x = 3\ny = 10 – 3(x)\ny = 10 - 3(3)\ny = 10 – 9 = 1\nWhen x =27/11\ny = 10 – 3(27/11)\ny = 10 - 51/11\ny = 110 - 51\ny = 59/11\nw hen x = 3, y = 1\nx = 27 , y = 59\n11 11\n2. Solve the equations simultaneously 3x + 4y = 11 &xy = 2\nsolution\n3x + 4y = 11 -------- eq 1\nxy = 2 -------- eq 2\nMake y the subject in eq 1\n4y = 11 – 3x\ny = 11 – 3x ………… eq3\nsubstituteeq 3 into eq 2\nx y = 2\nx ( 11- 3x ) = 2\nx (11-3x) = 2x4\n11x – 3x2 = 8\n-3x2 + 11x – 8 = 0\n-3x2 + 3x + 8x – 8 = 0\n-3x (x-1) +8 (x-1) = 0\n(-3x + 8) (x-1) = 0\n-3x + 8 = 0 or x – 1 = 0\n3x = 8 or x = 1\nx = 8/3 or 1\nSubstitute the values of x into eq 3\ny = 11- 3x\nwhen x = 1\ny = 11 – 3(1) = 11-3 = 8\n4 4 2\ny = 4\nwhen x = 8/3\ny = 11 – 3(8/3)\ny = 33 – 24 = 9 = 3\n12 12 4\nx = 1, y = 2\nx = 8/3, y = 3/4.\nEvaluation\nSolve for x and y\n1. 3x 2 - 4y = -1 2. 4x2 + 9y2 = 20\n2x – y = 1 2x – 9y = -2"
+    },
+    {
+      "heading": "MORE EXAMPLES",
+      "content": "Solve simultaneously for x and y.\n3x – y = 3 -------- eq 1\n9x2 - y 2 = 45 --------- eq 2\nSolution\nFrom eq 2\n(3x)2 - y 2 = 45\n(3x-y) (3x+y) = 45 ---------- eq 3\nSubstitute eq 1 into eq 3\n3 (3x + y) = 45\n3x + y = 15 ……………..eq4\nSolve eq 1 and eq 4 simultaneously.\n3x – y = 3 --------- eq 1\n3x + y = 15 -------- eq 4\neq 1 + eq 4\n6x = 18\nx = 18/ 6\nx = 3\nSubstitute x = 3 into eq 4.\n3x + y = 15\n3 (3) + y = 15\n9 + y = 15\ny = 15 – 9\ny = 6\nx = 3, y = 6\nEvaluation\nSolve for x and y in the following pairs of equations\n1. (a) 4x2 – y2 = 15 (b) 3x2 +5xy –y2 =3\n2x – y = 5 x - y = 4"
+    }
+  ],
+  "keywords": [
+    "simultaneous",
+    "equations",
+    "involving",
+    "linear",
+    "quadratic",
+    "content",
+    "more",
+    "examples"
+  ]
+}

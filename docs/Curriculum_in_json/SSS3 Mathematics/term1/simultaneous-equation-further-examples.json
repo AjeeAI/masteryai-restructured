@@ -1,0 +1,29 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 5,
+  "topic_title": "Simultaneous Equation (Further Examples)",
+  "topic_slug": "simultaneous-equation-further-examples",
+  "source_title": "First Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand simultaneous equation (further examples)"
+  ],
+  "sections": [
+    {
+      "heading": "Example Problem",
+      "content": "Solve simultaneously for x and y. 3x – y = 3 eq 1\n9x2 - y 2 = 45 eq 2"
+    },
+    {
+      "heading": "Worked Solution",
+      "content": "Solution\nFrom eq 2\n(3x)2 - y 2 = 45\n(3x-y) (3x+y) = 45 eq 3\nSubstitute eq 1 into eq 3\n3 (3x + y) = 45\n3x + y = 15 eq4\nSolve eq 1 and eq 4 simultaneously. 3x – y = 3 eq 1\n3x + y = 15 eq 4\neq 1 + eq 4\n6x = 18\nx = 18/ 6 x = 3\nSubstitute x = 3 into eq 4. 3x + y = 15\n3 (3) + y = 15\n9 + y = 15\ny = 15 – 9\ny = 6\n x = 3, y = 6"
+    }
+  ],
+  "keywords": [
+    "simultaneous",
+    "equation",
+    "further",
+    "examples",
+    "content"
+  ]
+}

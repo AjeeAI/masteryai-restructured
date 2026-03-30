@@ -1,0 +1,36 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 9,
+  "topic_title": "Punctuation: Question Mark, Apostrophe, and Exclamation Mark",
+  "topic_slug": "question-mark-apostrophe-exclamation-mark",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "State the uses of the question mark",
+    "Use the apostrophe for possession and contraction",
+    "Explain the effect of the exclamation mark"
+  ],
+  "sections": [
+    {
+      "heading": "Question Mark",
+      "content": "A question mark ends sentences that ask for a reply. It is not used after indirect questions, and no comma or full stop should follow it."
+    },
+    {
+      "heading": "Apostrophe",
+      "content": "The apostrophe is used to show possession and to indicate omitted letters in contractions. The note distinguishes singular and plural possessive forms and warns against adding apostrophe-s to possessive pronouns."
+    },
+    {
+      "heading": "Exclamation Mark",
+      "content": "The exclamation mark indicates emphasis, surprise, urgency, or strong emotion. It may follow a word, phrase, or complete statement."
+    }
+  ],
+  "keywords": [
+    "punctuation",
+    "question mark",
+    "apostrophe",
+    "exclamation mark",
+    "possession",
+    "contraction"
+  ]
+}

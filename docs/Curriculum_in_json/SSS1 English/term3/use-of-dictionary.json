@@ -1,0 +1,31 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 1,
+  "topic_title": "The Use of Dictionary",
+  "topic_slug": "use-of-dictionary",
+  "source_title": "Third Term SS1 English Language Lesson Notes",
+  "learning_objectives": [
+    "State the uses of a dictionary",
+    "Identify the information a dictionary entry can provide",
+    "Apply dictionary skills to selected words"
+  ],
+  "sections": [
+    {
+      "heading": "Uses of the Dictionary",
+      "content": "The dictionary is used for meaning, spelling, pronunciation, usage, stress, collocation, transcription, and parts of speech."
+    },
+    {
+      "heading": "Sample Entry",
+      "content": "The note uses 'abuse' to show noun and verb word classes, transcription, meaning, and collocation such as drug abuse, alcohol abuse, and substance abuse."
+    }
+  ],
+  "keywords": [
+    "dictionary",
+    "pronunciation",
+    "stress",
+    "collocation",
+    "transcription"
+  ]
+}

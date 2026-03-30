@@ -1,0 +1,34 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 2,
+  "topic_title": "Noun Phrases and Noun Clauses",
+  "topic_slug": "noun-phrases-and-noun-clauses",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Define noun phrases and noun clauses",
+    "Identify their functions in sentences",
+    "Apply them correctly in writing"
+  ],
+  "sections": [
+    {
+      "heading": "Noun Phrase",
+      "content": "A noun phrase is a phrase in which the main word, or head word, is a noun or pronoun. Examples include: the big ugly girl, a fat bank account, the man outside, and the man from the moon."
+    },
+    {
+      "heading": "Functions of Noun Phrase",
+      "content": "A noun phrase can function as the subject of a sentence, the object of a verb, the subject complement, the object complement, or the complement of a preposition. Examples include: The big girl is quarrelsome; The officer praised the students; Our lecturer may become a commissioner; The grateful boy called his friend a saviour; and The governor thought of the brilliant lawyer when choosing his cabinet.\n\nNoun Clause: A noun clause is a subordinate clause that performs the functions of a noun."
+    },
+    {
+      "heading": "Functions of Noun Clause",
+      "content": "A noun clause can function as the subject of a sentence, the object of a verb, the complement of a subject, the complement of an object, or the complement of a preposition. Examples include: What he said is bitter; The cook gave us what we should eat; Honesty is what we want; We call him what he likes; and The prize will go to whoever wins."
+    }
+  ],
+  "keywords": [
+    "noun phrase",
+    "noun clause",
+    "grammar",
+    "sentence structure"
+  ]
+}

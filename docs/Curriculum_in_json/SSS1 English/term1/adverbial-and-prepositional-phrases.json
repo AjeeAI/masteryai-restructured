@@ -1,0 +1,43 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 10,
+  "topic_title": "Structure: Adverbial and Prepositional Phrases",
+  "topic_slug": "adverbial-and-prepositional-phrases",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define adverbial phrases and identify their types",
+    "Define prepositional phrases",
+    "Identify the four functions of prepositional phrases in sentences"
+  ],
+  "sections": [
+    {
+      "heading": "Adverbial Phrases – Definition",
+      "content": "Adverbial phrases modify verbs, answering the questions: how? when? why? where? to what extent? They also modify adjectives, other adverbs, and prepositional phrases. Any group of words containing no finite verb and performing these functions is an adverbial phrase."
+    },
+    {
+      "heading": "Types of Adverbial Phrases",
+      "content": "Adverbial phrase of manner:\nHe does the work with zeal / very well.\n\nAdverbial phrase of time:\nI saw him in the morning.\n\nAdverbial phrase of place:\nI met him at the supermarket.\n\nAdverbial phrase of contrast:\nDespite her promise, she behaved differently.\nIn spite of the good advice, she did not change her behaviour.\nHis strength notwithstanding, he lost the fight."
+    },
+    {
+      "heading": "Prepositional Phrases – Definition",
+      "content": "A prepositional phrase begins with a preposition and ends with a noun phrase or pronoun.\nExamples: to him | for the man | at the bank | about what he did"
+    },
+    {
+      "heading": "Functions of the Prepositional Phrase",
+      "content": "(i) As an adverbial phrase:\nThe police caught the thief in the garden.\nAt a later date, we confronted him.\n\n(ii) As an adjective:\nThe man with a hat is our teacher.\nThe news of his death shocked everyone.\n\n(iii) As complement of a verb:\nWe believe in what he says.\n\n(iv) As complement of an adjective:\nWe are sure of his arrival."
+    }
+  ],
+  "keywords": [
+    "adverbial phrase",
+    "prepositional phrase",
+    "preposition",
+    "manner",
+    "time",
+    "place",
+    "contrast",
+    "complement",
+    "modifier"
+  ]
+}

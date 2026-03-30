@@ -1,0 +1,31 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 3,
+  "topic_title": "Human Rights and Their Limitations",
+  "topic_slug": "human-rights",
+  "source_title": "Second Term SS2 Civic Education",
+  "learning_objectives": [
+    "Define human rights",
+    "List examples of fundamental human rights",
+    "Explain the conditions under which human rights can be limited"
+  ],
+  "sections": [
+    {
+      "heading": "Definition and Examples",
+      "content": "Human rights are inalienable rights and privileges enjoyed by citizens as codified in the constitution. Examples include:\n* Right to life and dignity of human person.\n* Right to personal liberty and fair hearing.\n* Right to freedom of expression, thought, conscience, and religion.\n* Right to freedom of movement and association.\n* Right to vote and be voted for."
+    },
+    {
+      "heading": "Limitations of Human Rights",
+      "content": "Rights are not absolute and can be restricted for public interest or legal reasons:\n1. Legal Detention: A citizen may lose liberty if convicted by a court.\n2. Capital Punishment: The right to life is lost if a person is condemned for murder or armed robbery.\n3. Emergency Periods: Curfews during chaos can limit movement.\n4. Public Interest: Private property can be acquired by the state for public use.\n5. Health and Safety: Restricting the movement of those with contagious diseases or insanity.\n6. Laws of Slander and Libel: Freedom of speech does not allow damaging the reputation of others.\n7. Immunity Clause: Certain officials (President, Governors) cannot be sued while in office."
+    }
+  ],
+  "keywords": [
+    "inalienable rights",
+    "constitution",
+    "libel",
+    "slander",
+    "immunity clause"
+  ]
+}

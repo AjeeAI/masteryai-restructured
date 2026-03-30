@@ -1,0 +1,36 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 9,
+  "topic_title": "Speech Work: Emphatic Stress",
+  "topic_slug": "speech-work-emphatic-stress",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define emphatic stress",
+    "Explain how stress placement changes sentence meaning",
+    "Identify the question that corresponds to a stressed word in a sentence"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "Emphatic stress is the stressing of a particular word in a sentence more than the others. Shifting the stress to a different word changes the meaning and implication of the sentence."
+    },
+    {
+      "heading": "How Stress Changes Meaning",
+      "content": "Consider these three versions of the same sentence:\n\nJAMES borrowed the novel.\n→ Meaning: James (not anyone else) borrowed the novel.\n\nJames BORROWED the novel.\n→ Meaning: He borrowed it (he did not steal or buy it).\n\nJames borrowed the NOVEL.\n→ Meaning: He borrowed the novel (not the magazine or the journal)."
+    },
+    {
+      "heading": "Exam Technique",
+      "content": "In emphatic stress tests, you must select the question to which the given sentence is the appropriate answer. The stressed word tells you which aspect of the sentence is being focused on.\n\nExample:\nMy mother's FRIEND hates pets.\n→ The stressed word is FRIEND. The correct question must be asking about who the person is (friend vs. someone else), not about what they do or who the mother is.\nCorrect question: 'Does your mother's boss hate pets?'  → Answer: No – it is her FRIEND."
+    }
+  ],
+  "keywords": [
+    "emphatic stress",
+    "sentence stress",
+    "intonation",
+    "meaning",
+    "spoken English",
+    "phonology"
+  ]
+}

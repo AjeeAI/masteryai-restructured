@@ -1,0 +1,32 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 3,
+  "topic_title": "Vocabulary Development: Photography",
+  "topic_slug": "vocabulary-photography",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Define photography in the context of the lesson",
+    "Explain basic photography terms",
+    "Use photography vocabulary appropriately"
+  ],
+  "sections": [
+    {
+      "heading": "Meaning",
+      "content": "Photography is described as writing or drawing with light; a camera picture is one drawn with rays of light."
+    },
+    {
+      "heading": "Relevant Words",
+      "content": "dark room, film, blur, pose, hobby, lens, negative, and studio. For example, a lens is a curved piece of glass that forms images as light passes through it, and a negative shows light and shadow in reverse."
+    }
+  ],
+  "keywords": [
+    "photography",
+    "camera",
+    "lens",
+    "negative",
+    "studio",
+    "film"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 8,
+  "topic_title": "Prevention of Drug Abuse and Drug Laws",
+  "topic_slug": "prevention-of-drug-abuse",
+  "source_title": "Second Term SS2 Civic Education",
+  "learning_objectives": [
+    "Suggest measures to prevent drug abuse",
+    "Identify major drug laws in Nigeria"
+  ],
+  "sections": [
+    {
+      "heading": "Preventive Measures",
+      "content": "Strategies to reduce drug abuse include:\n* Parental Intervention: Parents acting as role models and educating children.\n* Media and Public Campaigns: Sensitizing the youth via seminars and broadcasts.\n* School Curriculum: Including drug education in studies.\n* Professional Regulation: Ensuring only pharmacists and doctors handle drug sales.\n* Strict Punishment: Enforcing laws against traffickers."
+    },
+    {
+      "heading": "Drug Laws in Nigeria",
+      "content": "1. Indian Hemp Decree (1966): 21 years imprisonment for cultivation/exportation.\n2. Indian Hemp Amendment (1984): 21 years for trafficking; 4+ years for possession/smoking.\n3. Tobacco Smoking Decree (1990): Prohibits smoking in public and mandates health warnings on advertisements."
+    }
+  ],
+  "keywords": [
+    "prevention",
+    "drug laws",
+    "decree",
+    "rehabilitation",
+    "enforcement"
+  ]
+}

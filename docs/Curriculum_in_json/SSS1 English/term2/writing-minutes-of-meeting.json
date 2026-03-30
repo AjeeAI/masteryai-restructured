@@ -1,0 +1,35 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 10,
+  "topic_title": "Essay Writing: Writing Minutes of a Meeting",
+  "topic_slug": "writing-minutes-of-meeting",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Explain what minutes of a meeting are",
+    "Identify the role of an agenda in minute writing",
+    "Write minutes in sequence from agenda items"
+  ],
+  "sections": [
+    {
+      "heading": "Meaning",
+      "content": "Minutes are a record of events and discussions that took place at a meeting."
+    },
+    {
+      "heading": "Use of Agenda",
+      "content": "A prepared agenda guides the order of discussion. The minutes should follow the sequence of agenda items."
+    },
+    {
+      "heading": "Required Details",
+      "content": "The report should begin with the name of the club or association, the date and venue of the meeting, and the list of members present, then proceed item by item."
+    }
+  ],
+  "keywords": [
+    "minutes",
+    "meeting",
+    "agenda",
+    "report writing",
+    "club"
+  ]
+}

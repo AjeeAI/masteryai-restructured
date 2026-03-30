@@ -1,0 +1,40 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 2,
+  "topic_title": "Conjunctions and Prepositions",
+  "topic_slug": "conjunctions-and-prepositions",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define conjunctions and identify the three types with examples",
+    "Define prepositions and demonstrate their use with collocations",
+    "Use conjunctions and prepositions correctly in sentences"
+  ],
+  "sections": [
+    {
+      "heading": "Conjunctions – Definition",
+      "content": "A conjunction is a word that joins words or groups of words together."
+    },
+    {
+      "heading": "Types of Conjunctions",
+      "content": "Co-ordinating Conjunctions – join words or groups of equal grammatical rank.\nand, or, but\nJoy and Jane | Bolu or Joy | We came but you were not around.\n\nCorrelative Conjunctions – used in pairs.\neither…or | not only…but also | both…and | neither…nor\nBoth James and Jerry attended the party.\nShe is not only intelligent but also kind.\nEither the teacher or the man comes here regularly.\n\nSubordinating Conjunctions – introduce subordinate clauses.\nafter, because, before, if, in order that, since, when, who, whose, that, which\nHe left when she was cooking. | We cooked before they arrived."
+    },
+    {
+      "heading": "Prepositions – Definition",
+      "content": "A preposition shows the relationship between two words in a sentence. Examples: within, before, at, in, on, over."
+    },
+    {
+      "heading": "Preposition Collocations",
+      "content": "allergic to | subjected to | arrive in | live in/on/at | stare at | indict for | convicted of | victim of | down with (fever) | charge with | abide by (rule) | good at | bad at | frown at | consist of | confidence in | confide in | senior to | junior to | related to | agree to (a plan) | agree with (a person) | popular with | comply with | blame on | hinges on | wait upon\n\nComplex prepositions:\nin agreement with | in compliance with | because of | in accordance with | for the sake of | on account of | with regard to | with reference to | in spite of | by reason of | in regard to | by means of | along with | contrary to | in addition to"
+    }
+  ],
+  "keywords": [
+    "conjunction",
+    "co-ordinating conjunction",
+    "correlative conjunction",
+    "subordinating conjunction",
+    "preposition",
+    "collocation"
+  ]
+}

@@ -1,0 +1,21 @@
+[project]
+name = "ai-core"
+version = "0.1.0"
+description = "MVP AI core engine for SSS-scoped personalized AI tutor."
+requires-python = ">=3.10"
+dependencies = [
+  "pydantic>=2.6",
+  "python-dotenv>=1.0",
+  "neo4j>=5.0",
+  "psycopg[binary]>=3.1",
+  "redis>=5.0",
+  "requests>=2.31.0",
+  "openai>=1.35.0",
+  "qdrant-client>=1.9.0",
+  "fastembed>=0.3.0"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_default_fixture_loop_scope = "function"

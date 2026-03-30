@@ -1,0 +1,29 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 3,
+  "topic_title": "Fighting Political Apathy",
+  "topic_slug": "fighting-political-apathy",
+  "source_title": "Second Term SS3 Civic Education",
+  "learning_objectives": [
+    "Define political apathy",
+    "Identify causes of political apathy",
+    "Suggest ways to reduce political apathy"
+  ],
+  "sections": [
+    {
+      "heading": "Meaning of Political Apathy",
+      "content": "Political apathy is the lack of interest or participation in political activities such as voting, elections, and civic engagement."
+    },
+    {
+      "heading": "Causes",
+      "content": "Causes include bad governance, corruption, lack of security, and distrust in political leaders."
+    },
+    {
+      "heading": "Ways to Fight Political Apathy",
+      "content": "Citizens should be educated politically, participate in elections, understand their rights, and engage in political organizations."
+    }
+  ],
+  "keywords": ["political apathy", "participation", "governance"]
+}

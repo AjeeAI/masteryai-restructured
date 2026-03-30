@@ -1,0 +1,54 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 7,
+  "topic_title": "Figures of Speech",
+  "topic_slug": "figures-of-speech",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Define figures of speech",
+    "Identify types of figures of speech",
+    "Apply them in writing"
+  ],
+  "sections": [
+    {
+      "heading": "Introduction",
+      "content": "A figure of speech is any departure from the literal (i.e ordinary) use of a word or phrase. Some of the commonest figures of speech which cut across genres are simile, metaphor, irony, paradox, euphemism, hyperbole, personification, litotes, oxymoron, allegory, alliteration, pun, rhetorical question, etc."
+    },
+    {
+      "heading": "Simile",
+      "content": "Indirect comparison using 'like' or 'as'.\nExamples: Peter is as cunning as a snake\nJane is like an angel"
+    },
+    {
+      "heading": "Metaphor",
+      "content": "Direct comparison without 'like' or 'as'.\nExamples: Peter is a snake\nJane is an angel"
+    },
+    {
+      "heading": "Personification",
+      "content": "Giving human qualities to non-living things.\nExamples: The sun smiled at me\nThe trees are dancing in the wind"
+    },
+    {
+      "heading": "Euphemism",
+      "content": "Presenting unpleasant things in a palatable way.\nExamples: The old man has kicked the bucket\nThe king has joined his ancestors"
+    },
+    {
+      "heading": "Irony",
+      "content": "Meaning opposite of literal words.\nExamples: What a pretty state of affairs!\nHe jokingly describes the midget as 'very tall'"
+    },
+    {
+      "heading": "Paradox",
+      "content": "Statement that seems absurd but contains truth.\nExamples: Make haste slowly\nAttack is the best form of defence"
+    },
+    {
+      "heading": "Pun",
+      "content": "Play on words with similar sound but different meanings.\nExamples: The drunkard was laid on his bier (beer/bier)\nHe is a soul administrator (sole/soul)\n\nOnomatopoeia: Words imitating actual sounds.\nExamples: hiss of a snake\nsplash of water"
+    }
+  ],
+  "keywords": [
+    "figures of speech",
+    "literary devices",
+    "writing",
+    "style"
+  ]
+}

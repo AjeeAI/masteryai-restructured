@@ -1,0 +1,35 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 1,
+  "topic_title": "Pronouns: Types and Uses",
+  "topic_slug": "pronouns-types-and-uses",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define a pronoun and explain why pronouns are used",
+    "Identify and distinguish all major types of pronouns",
+    "Use each type of pronoun correctly in sentences"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "Pronouns are words used to replace nouns in a sentence, mainly to avoid unnecessary repetition. Both nouns and pronouns perform the same grammatical functions and are used interchangeably. Examples: he, they, we."
+    },
+    {
+      "heading": "Types of Pronouns",
+      "content": "Personal Pronouns: I, we, they, us, he, she, it, them\n\nPossessive Pronouns: yours, his, hers, theirs, its, ours\n\nDemonstrative Pronouns: this, that, these, those\n\nInterrogative Pronouns: who, which, whom, whose, what\n\nReflexive Pronouns: myself, themselves, yourselves, yourself, ourselves, oneself\n\nReciprocal Pronouns: each other, one another\n\nRelative Pronouns: which, whom, whose, who, that\n\nIndefinite Pronouns: someone, somebody, anything, anyone, everything, everyone, nobody, nothing"
+    }
+  ],
+  "keywords": [
+    "pronoun",
+    "personal pronoun",
+    "possessive pronoun",
+    "demonstrative pronoun",
+    "interrogative pronoun",
+    "reflexive pronoun",
+    "reciprocal pronoun",
+    "relative pronoun",
+    "indefinite pronoun"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 6,
+  "topic_title": "Vocabulary: Technical Words",
+  "topic_slug": "vocabulary-technical-words",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Identify technical vocabulary related to irrigation",
+    "Explain their meanings",
+    "Use them correctly in context"
+  ],
+  "sections": [
+    {
+      "heading": "Examples",
+      "content": "The words related to irrigation are equipment, fields, hydraulic, trench, regions, tropical, sub-tropical, e.t.c."
+    },
+    {
+      "heading": "Learning Tasks",
+      "content": "Identify technical vocabulary related to irrigation. Explain their meanings. Use them correctly in context."
+    }
+  ],
+  "keywords": [
+    "technical vocabulary",
+    "irrigation",
+    "agriculture"
+  ]
+}

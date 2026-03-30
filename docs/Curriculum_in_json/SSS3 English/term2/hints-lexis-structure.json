@@ -1,0 +1,31 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 6,
+  "topic_title": "Hints on Lexis and Structure",
+  "topic_slug": "hints-lexis-structure",
+  "source_title": "Second Term SS3 English Language",
+  "learning_objectives": [
+    "Explain Lexis in Hints on Lexis and Structure",
+    "Identify key ideas in Hints on Lexis and Structure",
+    "Apply Hints on Lexis and Structure concepts in examples"
+  ],
+  "sections": [
+    {
+      "heading": "Lexis",
+      "content": "Lexis refers to the vocabulary or the entire stock of words in a language. The English language examination seeks to test the scope of the candidate’s vocabulary and his skills to use appropriate words in a given context. It covers such aspects as the use of items in various areas of human endeavour."
+    },
+    {
+      "heading": "Structure",
+      "content": "In the study of English grammatical structure, we learn how words combine with other words to form larger units. A list of words, expressions or terms that are regularly used in relation to a particular subject-matter or associated with a particular area of human activity and development is referred to as a register."
+    }
+  ],
+  "keywords": [
+    "lexis",
+    "structure",
+    "grammar",
+    "register",
+    "vocabulary"
+  ]
+}

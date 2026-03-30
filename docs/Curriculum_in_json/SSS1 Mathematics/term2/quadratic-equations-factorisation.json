@@ -1,0 +1,38 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 1,
+  "topic_title": "Quadratic Equations — Factorisation Method",
+  "topic_slug": "quadratic-equations-factorisation",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Identify quadratic equations and their standard form",
+    "Solve quadratic equations by factorising the product of two factors",
+    "Solve quadratic equations using the difference of two squares",
+    "Understand the zero product rule for factored equations"
+  ],
+  "sections": [
+    {
+      "heading": "What is a Quadratic Equation",
+      "content": "A quadratic equation contains an equals sign and an unknown raised to power 2. Examples: 2x² − 5x − 3 = 0; n² + 50 = 27n; 49 = k². The goal is to find the value(s) of the unknown that make the equation true. These values are called the roots of the equation."
+    },
+    {
+      "heading": "Zero Product Rule",
+      "content": "If the product of two numbers is zero, then at least one of them must be zero: if a × b = 0, then a = 0 or b = 0 (or both). This is the key to solving factorised quadratic equations. Example: (x − 2)(x + 7) = 0 → x − 2 = 0 or x + 7 = 0 → x = 2 or x = −7."
+    },
+    {
+      "heading": "Solving by Factorisation",
+      "content": "To solve a quadratic ax² + bx + c = 0 by factorisation: (1) find two numbers whose product is ac and whose sum is b; (2) use these to split the middle term and factorise; (3) apply the zero product rule. Example: 4y² + 5y − 21 = 0 → (y + 3)(4y − 7) = 0 → y = −3 or y = 7/4. Check by substituting back. Also: m² = 16 → m² − 16 = 0 → (m − 4)(m + 4) = 0 → m = ±4."
+    }
+  ],
+  "keywords": [
+    "quadratic equation",
+    "factorisation",
+    "zero product rule",
+    "roots",
+    "difference of two squares",
+    "standard form",
+    "solving quadratics"
+  ]
+}

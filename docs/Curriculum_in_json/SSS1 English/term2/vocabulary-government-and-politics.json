@@ -1,0 +1,32 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 2,
+  "topic_title": "Vocabulary Development: Government and Politics",
+  "topic_slug": "vocabulary-government-and-politics",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Explain key political and governmental terms",
+    "Use the terms in meaningful sentences",
+    "Build vocabulary for civics and public affairs topics"
+  ],
+  "sections": [
+    {
+      "heading": "Core Terms",
+      "content": "The note defines terms such as government, democracy, oligarchy, mace, adjudicate, bill, enactment, promulgation, assent, rule of law, constitutionalism, ultra vires, null and void, bureaucracy, recess, legislator, gubernatorial, senatorial, ministry, portfolio, cabinet, autocracy, gavel, prerogative of mercy, delimitation, constituencies, gerrymandering, defection, prorogue, confederalism, nationalism, and jingoism."
+    },
+    {
+      "heading": "Selected Meanings",
+      "content": "Democracy is government of the people, by the people, and for the people. A bill is a proposed law. Assent is the president's approval of a bill by signature. Rule of law means the supremacy of law over everyone. Autocracy is a form of government in which unlimited power is held by one individual."
+    }
+  ],
+  "keywords": [
+    "government",
+    "politics",
+    "democracy",
+    "bill",
+    "constitution",
+    "autocracy"
+  ]
+}

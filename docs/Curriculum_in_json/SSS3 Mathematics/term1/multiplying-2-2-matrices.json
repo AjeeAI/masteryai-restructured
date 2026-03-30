@@ -1,0 +1,32 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 4,
+  "topic_title": "Multiplying 2 × 2 Matrices",
+  "topic_slug": "multiplying-2-2-matrices",
+  "source_title": "First Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand multiplying 2 × 2 matrices"
+  ],
+  "sections": [
+    {
+      "heading": "Concept",
+      "content": "Content:\nThe process is the same for any size matrix. We multiply across rows of the first matrix and down columns of the second matrix, element by element. We then add the products:\nIn this case, we multiply a 2 × 2 matrix by a 2 × 2 matrix and we get a 2 × 2 matrix as the result.\n\nNote 2 : Commutativity of Matrix Multiplication::\nDoes AB = BA?\nLet's see if it is true using an example"
+    },
+    {
+      "heading": "Examples and Practice",
+      "content": "Example 2::\nMultiply:\nAnswer\n\nExample 3::\nIf\nand\nfind AB and BA.\nAnswer\nWe performed AB above, and the answer was:\nNow BA is (3 × 2)(2 × 3) which will give 3 × 3:\nSo in this case, AB does NOT equal BA\nIn general, when multiplying matrices, the commutative law doesn't hold, i.e. AB ≠ BA. There are two common exceptions to this:\nThe identity matrix: IA = AI = A.\nThe inverse of a matrix: A-1A = AA-1 = I.\nExample 4 - Multiplying by the Identity Matrix\nGiven that\nfind AI. Answer\nWe see that multiplying by the identity matrix does not change the value of the original matrix.That is, AI = A\nFurther Examples Example1. If possible, find BA and AB.\nAnswer\nAB is not possible. (3 × 3) × (1 × 3).\nExample2. Determine if B = A-1.\nAnswer\nIf B = A-1, then AB = I.\nSo B is NOT the inverse of A.\nExample3. In studying the motion of electrons, one of the Pauli spin matrices is\nwhere\nShow that s2 = I. [If you have never seen j before, it is on complex numbers].\nAnswer\nExample4. Evaluate the following matrix multiplication which is used in directing the motion of a robotic mechanism.\nAnswer\nThe interpretation of this is that the robot arm moves from position (2, 4, 0) to position (-2.46, 3.73, 0). That is, it moves in the x-y plane, but its height remains at z = 0. The 3 × 3 matrix containing sin and cos values tells it how many degrees to move."
+    }
+  ],
+  "keywords": [
+    "multiplying",
+    "matrices",
+    "content",
+    "example",
+    "note",
+    "commutativity",
+    "matrix",
+    "multiplication"
+  ]
+}

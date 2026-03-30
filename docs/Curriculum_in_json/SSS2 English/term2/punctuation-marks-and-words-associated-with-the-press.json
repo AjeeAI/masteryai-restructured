@@ -1,0 +1,32 @@
+{
+  "subject": "english",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 2,
+  "topic_title": "Punctuation Marks and Words Associated with the Press",
+  "topic_slug": "punctuation-marks-and-words-associated-with-the-press",
+  "source_title": "Second Term SS2 English Studies",
+  "learning_objectives": [
+    "Identify and use commas, semicolons, question marks, and colons correctly",
+    "Define and use vocabulary associated with journalism and the press"
+  ],
+  "sections": [
+    {
+      "heading": "Punctuation Marks",
+      "content": "Punctuation marks are signs used to mark off words or groups of words for effective presentation. 1. The comma ( , ) is used to mark off words in a list or separate clauses. 2. The semicolon ( ; ) is used to separate main clauses which are not linked by a conjunction. 3. The question mark ( ? ) is used at the end of a direct question. 4. The colon ( : ) is used to introduce a list or to provide additional information."
+    },
+    {
+      "heading": "Vocabulary: Words Associated with the Press",
+      "content": "1. Tabloid: a newspaper with small pages. 2. Verbatim: a word-for-word report. 3. Journalism: the task of collecting and writing news for newspapers. 4. Editorial: the task of preparing a newspaper or magazine. 5. Headline: the title of a news item in large letters. 6. Byline: the name of the person who wrote the article."
+    }
+  ],
+  "keywords": [
+    "punctuation",
+    "comma",
+    "semicolon",
+    "press",
+    "journalism",
+    "tabloid",
+    "headline"
+  ]
+}

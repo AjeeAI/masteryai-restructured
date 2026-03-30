@@ -1,0 +1,35 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 1,
+  "topic_title": "Popular Participation",
+  "topic_slug": "popular-participation",
+  "source_title": "Second Term SS2 Civic Education",
+  "learning_objectives": [
+    "Define popular participation",
+    "Identify factors that promote popular participation",
+    "Explain reasons for political apathy and non-participation"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "Popular participation is the willingness and active involvement of the people in the conduct of the affairs of the state at various levels. It is a cornerstone of democracy that ensures the effective operation and stability of the political system."
+    },
+    {
+      "heading": "Factors that Promote Popular Participation",
+      "content": "Several conditions encourage citizens to engage in civic duties:\n* Good governance and accountability.\n* Supremacy of the constitution.\n* Respect for human rights.\n* Mass education and enlightenment campaigns.\n* Freedom of the press.\n* Application of the rule of law.\n* Free and fair elections."
+    },
+    {
+      "heading": "Reasons for Non-Participation (Political Apathy)",
+      "content": "Citizens may stay away from politics due to:\n1. Unfulfilled political promises by leaders.\n2. Illiteracy: Some see politics as the domain of the educated elite only.\n3. Violence during elections: Fear of becoming victims of electoral conflict.\n4. Poverty: High costs of electioneering campaigns limit participation to the wealthy.\n5. Cultural/Religious beliefs: Certain traditions may restrict specific groups (e.g., women) from public affairs.\n6. Fear of intimidation by those in power.\n7. Disability: Lack of inclusive infrastructure for the physically challenged.\n8. Military intervention: Frequent coups creating a lack of interest in civil governance.\n9. Election Rigging: The belief that votes do not count."
+    }
+  ],
+  "keywords": [
+    "popular participation",
+    "democracy",
+    "political apathy",
+    "governance",
+    "elections"
+  ]
+}

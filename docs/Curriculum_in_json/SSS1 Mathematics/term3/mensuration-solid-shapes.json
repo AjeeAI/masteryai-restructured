@@ -1,0 +1,49 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 1,
+  "topic_title": "Mensuration of Solid Shapes",
+  "topic_slug": "mensuration-solid-shapes",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Identify and describe properties of cube, cuboid, cylinder, triangular prism, cone and rectangular-based pyramid",
+    "Calculate the volume of prisms (cube, cuboid, cylinder, triangular prism)",
+    "Calculate the curved surface area and total surface area of a cylinder",
+    "Calculate the curved surface area and total surface area of a cone",
+    "Calculate the volume of a cone and pyramids"
+  ],
+  "sections": [
+    {
+      "heading": "Properties of Solid Shapes",
+      "content": "A cube has 12 edges, 8 vertices and 6 square faces. A cuboid has 12 edges, 8 vertices and 6 rectangular faces. A triangular prism has 9 edges, 6 vertices, 3 rectangular faces and 2 triangular end faces. A cylinder has 2 circular faces, 1 curved surface and 2 curved edges. A cone has 1 vertex, 2 curved edges, 1 curved surface and 1 circular base. A rectangular-based pyramid has 8 edges, 5 vertices, 4 triangular faces and 1 rectangular base."
+    },
+    {
+      "heading": "Volume and Surface Area of Prisms",
+      "content": "A prism has uniform cross section. Volume of prism = area of cross section × height. Specific formulas: Cube: V = l³, SA = 6l². Cuboid: V = lbh, SA = 2(lb + lh + bh). Cylinder: V = πr²h; curved surface area = 2πrh; total surface area = 2πr(h + r). Example: cylinder with r = 7cm, h = 4cm → V = (22/7) × 49 × 4 = 616cm³; total SA = 2 × (22/7) × 7 × (4 + 7) = 484cm²."
+    },
+    {
+      "heading": "Surface Area of a Cone",
+      "content": "The curved surface of a cone is formed by a sector of a circle. The relationship between the sector angle θ, slant height l and base radius r is θ/360 = r/l. Curved surface area of cone = πrl. Total surface area = πrl + πr² = πr(l + r). Example: cone with diameter 8cm (r = 4cm) and height 3cm → slant height l = √(3² + 4²) = 5cm; curved SA = π × 4 × 5 = 20π cm²."
+    },
+    {
+      "heading": "Volume of Pyramids and Cones",
+      "content": "Volume = (1/3) × base area × height. Specific formulas: square-based pyramid: V = (1/3)b²h; rectangular-based pyramid: V = (1/3)lbh; cone: V = (1/3)πr²h. Examples: pyramid 8cm high on a 6cm × 4cm base → V = (1/3) × 6 × 4 × 8 = 64cm³. Cone with diameter 14cm (r=7cm) and height 24cm → V = (1/3) × (22/7) × 49 × 24 = 1232cm³."
+    }
+  ],
+  "keywords": [
+    "mensuration",
+    "solid shapes",
+    "cube",
+    "cuboid",
+    "cylinder",
+    "cone",
+    "triangular prism",
+    "pyramid",
+    "volume",
+    "surface area",
+    "curved surface area",
+    "slant height",
+    "prism"
+  ]
+}

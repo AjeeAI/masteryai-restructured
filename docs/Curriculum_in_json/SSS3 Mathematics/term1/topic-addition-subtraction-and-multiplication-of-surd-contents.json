@@ -1,0 +1,33 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 2,
+  "topic_title": "TOPIC: ADDITION, SUBTRACTION AND MULTIPLICATION OF SURD CONTENTS:",
+  "topic_slug": "topic-addition-subtraction-and-multiplication-of-surd-contents",
+  "source_title": "First Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand topic",
+    "Understand addition",
+    "Understand subtraction and multiplication of surd contents"
+  ],
+  "sections": [
+    {
+      "heading": "Concepts and Operations",
+      "content": "Definition of surd\nLike surds\nSimplification of surd\nAddition and subtraction of surd\nmultiplication of surds"
+    },
+    {
+      "heading": "Learning Tasks",
+      "content": "Understand the topic of surds and the operations of addition, subtraction, and multiplication of surd contents."
+    }
+  ],
+  "keywords": [
+    "topic",
+    "addition",
+    "subtraction",
+    "multiplication",
+    "surd",
+    "contents",
+    "content"
+  ]
+}

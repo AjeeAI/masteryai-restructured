@@ -1,0 +1,30 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 4,
+  "topic_title": "Definition of matrix and uses",
+  "topic_slug": "definition-of-matrix-and-uses",
+  "source_title": "First Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand definition of matrix and uses"
+  ],
+  "sections": [
+    {
+      "heading": "Definition and Structure",
+      "content": "Matrix addition and subtraction:\nMultiplication of matrices\nA matrix is an ordered set of numbers listed rectangular form. A matrix is, by definition, a rectangular array of numeric or algebraic quantities which are subject to mathematical operations. Matrices can be defined in terms of their dimensions (number of rows and columns). Let us take a look at a matrix with 4 rows and 3 columns (we denote it as a 4×3 matrix and call it A):\nEach individual item in a matrix is called a cell, and can be denoted by the particular row and column it resides in. For instance, in matrix A, element a32 can be found where the 3rd row and the 2nd column intersect.Matrices and Determinants were discovered and developed in the eighteenth and nineteenth centuries. Initially, their development dealt with transformation of geometric objects and solution of systems of linear equations.\nHistorically, the early emphasis was on the determinant, not the matrix. In modern treatments of linear algebra, matrices are considered first. We will not speculate much on this issue."
+    },
+    {
+      "heading": "Uses and Examples",
+      "content": "Matrices provide a theoretically and practically useful way of approaching many types of problems including:\nContent:\nExamples and types of matrix"
+    }
+  ],
+  "keywords": [
+    "definition",
+    "matrix",
+    "uses",
+    "content",
+    "addition",
+    "subtraction"
+  ]
+}

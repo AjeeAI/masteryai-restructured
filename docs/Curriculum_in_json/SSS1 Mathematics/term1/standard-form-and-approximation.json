@@ -1,0 +1,46 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 5,
+  "topic_title": "Standard Form and Approximation",
+  "topic_slug": "standard-form-and-approximation",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Express numbers in standard form A × 10ⁿ where 1 ≤ A < 10",
+    "Convert numbers from standard form to ordinary form",
+    "Express decimal fractions in standard form with negative indices",
+    "Round off numbers to the nearest ten, hundred, or thousand",
+    "Round numbers to a given number of significant figures",
+    "Round numbers to a given number of decimal places"
+  ],
+  "sections": [
+    {
+      "heading": "Standard Form",
+      "content": "A number is in standard form when written as A × 10ⁿ, where 1 ≤ A < 10 and n is an integer. Examples: 300,000 = 3.0 × 10⁵; 2,300,000 = 2.3 × 10⁶; 55 = 5.5 × 10¹. To convert from standard form to ordinary form, multiply A by 10ⁿ: 5.1 × 10⁷ = 51,000,000. Decimal fractions use negative powers: 0.0015 = 1.5 × 10⁻³; 0.000026 = 2.6 × 10⁻⁵. The 4th law of indices states that 1/xᵃ = x⁻ᵃ."
+    },
+    {
+      "heading": "Rounding Off Numbers",
+      "content": "When rounding, digits 1, 2, 3, 4 are rounded down and digits 5, 6, 7, 8, 9 are rounded up. The place value must be maintained. Examples: 4517 rounded to the nearest thousand = 5000; nearest hundred = 4500; nearest ten = 4520. And 30,637 rounded to the nearest thousand = 31,000; nearest hundred = 30,600; nearest ten = 30,640."
+    },
+    {
+      "heading": "Significant Figures",
+      "content": "Significant figures begin at the first non-zero digit from the left. Zeros between non-zero digits are significant (e.g., the zero in 8.0296 is significant), while leading zeros (in numbers like 0.0000925) are not significant. Examples: 26,002 to 1 s.f. = 30,000; to 3 s.f. = 26,000. And 0.006307 to 1 s.f. = 0.006; to 2 s.f. = 0.0063; to 3 s.f. = 0.00631."
+    },
+    {
+      "heading": "Decimal Places",
+      "content": "Decimal places are counted from the decimal point. Zeros after the decimal point are significant. Examples: 0.0089 to 2 d.p. = 0.01; 0.9002 to 2 d.p. = 0.90; 1.9875 to 2 d.p. = 1.99; 1.9875 to 3 d.p. = 1.988."
+    }
+  ],
+  "keywords": [
+    "standard form",
+    "scientific notation",
+    "approximation",
+    "rounding off",
+    "significant figures",
+    "decimal places",
+    "indices",
+    "ordinary form",
+    "standard index form"
+  ]
+}

@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+langchain-openai
+langchain
+langgraph
+openai
+python-dotenv
+requests
+langchain_community
+neo4j
+qdrant-client
+fastembed
+redis
+psycopg[binary]
+
+google-auth
+requests

@@ -1,0 +1,54 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 9,
+  "topic_title": "Circles — Arcs, Sectors and Segments",
+  "topic_slug": "circles-arcs-sectors",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Identify and describe the parts and regions of a circle",
+    "Calculate the length of an arc of a circle",
+    "Calculate the perimeter of a sector",
+    "Calculate the length of a chord and perimeter of a segment",
+    "Calculate the area of a sector",
+    "Calculate the area of a segment"
+  ],
+  "sections": [
+    {
+      "heading": "Parts and Regions of a Circle",
+      "content": "A circle has a centre (the fixed middle point), a circumference (the outer curved boundary), a radius (any line from centre to circumference), a diameter (a chord through the centre), and an arc (a curved part of the circumference). Regions include: a sector (area between two radii and the arc), a segment (area between a chord and the arc), and a semi-circle (half the circle, bounded by a diameter)."
+    },
+    {
+      "heading": "Length of Arc and Perimeter of Sector",
+      "content": "For a circle of radius r with an arc subtending angle θ at the centre: arc length L = (θ/360°) × 2πr. The perimeter of sector = 2r + L = 2r + (θ/360°) × 2πr. Example: sector of radius 7cm, angle 108° → arc = (108/360) × 2 × (22/7) × 7 = 13.2cm; perimeter = 14 + 13.2 = 27.2cm."
+    },
+    {
+      "heading": "Chord Length and Perimeter of Segment",
+      "content": "If a chord subtends angle 2θ at the centre of a circle of radius r, then chord AB = 2r sin θ. The perimeter of minor segment = chord + arc = 2r sin θ + (θ/360°) × 2πr, where θ here is the full sector angle. Example: in a circle of radius 6cm, a chord 3cm from the centre: cos θ = 3/6 = 0.5, so θ = 60° and the full angle = 120°; chord = 2 × 6 × sin 60° = 10.39cm; arc = (120/360) × 2π × 6 = 12.57cm."
+    },
+    {
+      "heading": "Area of Sector",
+      "content": "Area of sector = (θ/360°) × πr². Example 1: sector of diameter 28cm (r=14cm) and angle 45° → area = (45/360) × (22/7) × 14² = 77cm². Example 2: circle PQR of area 72cm², angle POQ = 40° → area of sector POQ = (40/360) × 72 = 8cm²."
+    },
+    {
+      "heading": "Area of Segment",
+      "content": "Area of minor segment = area of sector − area of triangle = (θ/360°) × πr² − ½r² sin θ. Example: angle = 56°, r = 15cm → area = (56/360) × π × 225 − ½ × 225 × sin 56° = 110 − 93.26 = 16.74cm² ≈ 16.7cm²."
+    }
+  ],
+  "keywords": [
+    "circle",
+    "arc",
+    "sector",
+    "segment",
+    "chord",
+    "radius",
+    "diameter",
+    "circumference",
+    "arc length",
+    "perimeter of sector",
+    "area of sector",
+    "area of segment",
+    "semi-circle"
+  ]
+}

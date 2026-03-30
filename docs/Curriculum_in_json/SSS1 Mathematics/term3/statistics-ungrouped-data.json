@@ -1,0 +1,59 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 6,
+  "topic_title": "Statistics — Collection, Tabulation and Ungrouped Data",
+  "topic_slug": "statistics-ungrouped-data",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Define statistics and understand types of data (quantitative and qualitative, discrete and continuous)",
+    "Collect and present data in a frequency distribution table using tally marks",
+    "Calculate the range of a set of data",
+    "Calculate the mean (arithmetic mean) of ungrouped data",
+    "Find the median of ungrouped data",
+    "Find the mode of ungrouped data"
+  ],
+  "sections": [
+    {
+      "heading": "Introduction to Statistics and Types of Data",
+      "content": "Statistics is the collection, presentation and interpretation of data. Data can be classified as: Quantitative (numerical): (a) Discrete — obtained by counting (e.g., number of students, cars), always a whole number; (b) Continuous — obtained by measurement (e.g., height, weight, age), can be decimal. Qualitative (categorical): describes quality (e.g., colour, taste, make of product). Raw data is data not yet arranged in order. Data is presented using frequency distribution tables with columns for variable (x), tally, and frequency (f)."
+    },
+    {
+      "heading": "Frequency Distribution Tables",
+      "content": "To prepare a frequency table: (1) list all possible values in the variable column; (2) go through the data and make tally marks (a bundle = 5 strokes); (3) count the tallies for each frequency. Example: marks scored in a test are listed, and the frequency table shows each mark value, its tally, and its frequency count."
+    },
+    {
+      "heading": "Range",
+      "content": "The range is the difference between the largest and smallest values in a data set. Example: for scores 79, 60, 52, 34, 58, 60 — arranged in order: 79, 60, 60, 58, 52, 34 — range = 79 − 34 = 45."
+    },
+    {
+      "heading": "Mean (Arithmetic Mean)",
+      "content": "The mean = sum of all values ÷ number of values. For frequency tables: mean = Σ(f × x) ÷ Σf. Example: scores 2,3,4,5,6,7 with frequencies 2,4,7,2,3,2 → Σf = 20; Σfx = 4+12+28+10+18+14 = 86; mean = 86/20 = 4.3."
+    },
+    {
+      "heading": "Median",
+      "content": "The median is the middle value when data is arranged in order. For an odd number of values (n), the median is the ((n+1)/2)th value. For an even number of values, it is the average of the (n/2)th and (n/2 + 1)th values. Example: for 21 students' temperatures, with 1+2+7 = 10 results up to 80°C, the 11th result falls in the 81°C group, so median = 81°C."
+    },
+    {
+      "heading": "Mode",
+      "content": "The mode is the value with the highest frequency (appears most often). A data set can be unimodal (one mode), bimodal (two modes) or multimodal (more than two modes). Example: in temperatures 78(×1), 79(×2), 80(×7), 81(×5)..., the mode = 80°C (highest frequency of 7)."
+    }
+  ],
+  "keywords": [
+    "statistics",
+    "data",
+    "discrete data",
+    "continuous data",
+    "qualitative data",
+    "quantitative data",
+    "frequency table",
+    "tally",
+    "range",
+    "mean",
+    "median",
+    "mode",
+    "raw data",
+    "arithmetic mean"
+  ]
+}

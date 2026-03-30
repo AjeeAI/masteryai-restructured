@@ -1,0 +1,30 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 3,
+  "topic_title": "Comprehension: Government",
+  "topic_slug": "comprehension-government",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Read and understand Babangida’s speech",
+    "Explain Nigeria’s search for a new political order",
+    "Answer comprehension questions"
+  ],
+  "sections": [
+    {
+      "heading": "Passage (Part 1)",
+      "content": "The passage is part of a speech delivered by President Babangida to introduce one of the country’s efforts at devising a constitution for civilian rule."
+    },
+    {
+      "heading": "Passage (Part 2)",
+      "content": "Babangida urged the citizens to arise to the task of taking the country to a greater height by searching for a new political  order which would launch the country into a new Nigeria. But this new political order should not be an imitation  of the foreign political models because the political history and culture of Nigeria are not in anyway the same with that of the foreign countries."
+    }
+  ],
+  "keywords": [
+    "comprehension",
+    "government",
+    "political order",
+    "Nigeria"
+  ]
+}

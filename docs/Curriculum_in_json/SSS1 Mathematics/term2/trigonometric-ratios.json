@@ -1,0 +1,48 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 7,
+  "topic_title": "Trigonometric Ratios",
+  "topic_slug": "trigonometric-ratios",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Define sine, cosine and tangent of acute angles in a right-angled triangle",
+    "Apply SOH CAH TOA to find unknown sides and angles",
+    "Use trigonometric tables to find values of trigonometric ratios",
+    "Determine lengths of chords using trigonometric ratios and Pythagoras theorem",
+    "Draw and interpret graphs of sine and cosine for angles 0° to 360°"
+  ],
+  "sections": [
+    {
+      "heading": "Sine, Cosine and Tangent of Acute Angles",
+      "content": "In a right-angled triangle ABC (right angle at A), with hypotenuse a and sides b and c opposite angles B and C respectively: sin B = b/a (Opposite/Hypotenuse); cos B = c/a (Adjacent/Hypotenuse); tan B = b/c (Opposite/Adjacent). The mnemonic SOH CAH TOA helps recall these. Complementary angles: sin θ = cos(90° − θ) and cos θ = sin(90° − θ)."
+    },
+    {
+      "heading": "Using Trigonometric Ratios to Solve Problems",
+      "content": "Example 1: a triangle has legs 8cm and 5cm with a right angle between them. tan θ = 8/5 = 1.6, so θ = tan⁻¹(1.6) = 58°. The third angle = 90° − 58° = 32°. Example 2: a town Y is 200km from X in direction 40°. Distance Y east of X = 200 × sin 40° = 128.6km."
+    },
+    {
+      "heading": "Determination of Chord Lengths",
+      "content": "Trigonometric ratios and Pythagoras theorem can find chord lengths. For a chord AB in a circle of radius r, if the perpendicular from the centre O to the chord meets it at B, then AB² + d² = r² (where d is the perpendicular distance). Thus AB = √(r² − d²) and the full chord length = 2 × AB. Also, if the semi-vertical angle θ is known: chord AB = 2r sin θ."
+    },
+    {
+      "heading": "Graphs of Sine and Cosine",
+      "content": "Using a unit circle (radius = 1), sin θ = y-coordinate and cos θ = x-coordinate of a point on the circle. Both sine and cosine values lie between −1 and +1. Key values: sin 0° = 0, sin 90° = 1, sin 180° = 0, sin 270° = −1, sin 360° = 0; cos 0° = 1, cos 90° = 0, cos 180° = −1, cos 270° = 0, cos 360° = 1. The curves repeat every 360° (they are periodic). The sine and cosine curves have the same shape but different starting points."
+    }
+  ],
+  "keywords": [
+    "trigonometry",
+    "sine",
+    "cosine",
+    "tangent",
+    "SOH CAH TOA",
+    "right-angled triangle",
+    "chord length",
+    "Pythagoras theorem",
+    "graph of sine",
+    "graph of cosine",
+    "unit circle",
+    "complementary angles"
+  ]
+}

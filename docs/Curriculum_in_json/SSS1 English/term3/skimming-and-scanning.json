@@ -1,0 +1,31 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 5,
+  "topic_title": "Comprehension/Reading Skills: More on Skimming and Scanning",
+  "topic_slug": "skimming-and-scanning",
+  "source_title": "Third Term SS1 English Language Lesson Notes",
+  "learning_objectives": [
+    "Explain skimming as reading for gist",
+    "Explain scanning as reading for specific details",
+    "Apply both skills to comprehension passages"
+  ],
+  "sections": [
+    {
+      "heading": "Skimming",
+      "content": "Skimming is rapid reading for the main ideas or gist of a text, paying attention to headings, sub-headings, and key points."
+    },
+    {
+      "heading": "Scanning",
+      "content": "Scanning is the rapid and efficient search for specific words, facts, or details in a text."
+    }
+  ],
+  "keywords": [
+    "skimming",
+    "scanning",
+    "reading skills",
+    "gist",
+    "details"
+  ]
+}

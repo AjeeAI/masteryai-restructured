@@ -1,0 +1,39 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 2,
+  "topic_title": "Quadratic Equations — The Formula Method",
+  "topic_slug": "quadratic-equations-formula",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Derive the quadratic formula by completing the square on the general form",
+    "Apply the quadratic formula x = (−b ± √(b² − 4ac)) / 2a to solve equations",
+    "Find the sum and product of roots of a quadratic equation from its coefficients",
+    "Use root relationships to evaluate expressions involving the roots"
+  ],
+  "sections": [
+    {
+      "heading": "Deriving the Quadratic Formula",
+      "content": "Starting from the general form ax² + bx + c = 0, dividing by a and completing the square gives x = (−b ± √(b² − 4ac)) / 2a. This is derived by moving the constant term, adding (b/2a)² to both sides, and taking the square root."
+    },
+    {
+      "heading": "Using the Formula Method",
+      "content": "To solve ax² + bx + c = 0, identify a, b, and c, then substitute into x = (−b ± √(b² − 4ac)) / 2a. Example 1: 3x² − 5x − 3 = 0 (a=3, b=−5, c=−3) → x = (5 ± √61)/6 → x ≈ 2.14 or x ≈ −0.47. Example 2: 3x² − 12x + 10 = 0 → x = (12 ± √24)/6 → x ≈ 2.82 or x ≈ 1.18."
+    },
+    {
+      "heading": "Sum and Product of Roots",
+      "content": "For ax² + bx + c = 0 with roots α and β: the sum α + β = −b/a, and the product αβ = c/a. These follow from comparing ax² + bx + c = 0 with (x − α)(x − β) = 0, which expands to x² − (α + β)x + αβ = 0. Example: for 3x² − 4x − 1 = 0, α + β = 4/3 and αβ = −1/3. Use these to evaluate expressions like α/β + β/α = (α² + β²)/αβ = [(α+β)² − 2αβ]/αβ."
+    }
+  ],
+  "keywords": [
+    "quadratic formula",
+    "completing the square",
+    "roots",
+    "discriminant",
+    "sum of roots",
+    "product of roots",
+    "alpha beta",
+    "quadratic equation"
+  ]
+}

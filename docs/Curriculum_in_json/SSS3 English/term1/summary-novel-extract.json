@@ -1,0 +1,29 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 5,
+  "topic_title": "Summary: Novel Extract",
+  "topic_slug": "summary-novel-extract",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Read and understand a novel extract",
+    "Summarize key points",
+    "Answer comprehension questions"
+  ],
+  "sections": [
+    {
+      "heading": "Passage (Part 1)",
+      "content": "The summary passage is an extract from the novel titled ‘The victims’ by I. Okpewho. In the passage, a woman named Nwabunor went to visit a soothsayer in order to overcome a challenge."
+    },
+    {
+      "heading": "Passage (Part 2)",
+      "content": "The soothsayer told her what the gods demanded but she pleaded for the items to be reduced. In response, the soothsayer informed her that the dangers threatening her life and that of her son were too great. She was likely to lose her son if she failed to provide what the gods asked for."
+    }
+  ],
+  "keywords": [
+    "summary",
+    "novel extract",
+    "comprehension"
+  ]
+}

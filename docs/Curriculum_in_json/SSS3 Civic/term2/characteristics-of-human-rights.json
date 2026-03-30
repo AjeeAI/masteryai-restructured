@@ -1,0 +1,24 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 1,
+  "topic_title": "Characteristics of Human Rights",
+  "topic_slug": "characteristics-of-human-rights",
+  "source_title": "Second Term SS3 Civic Education",
+  "learning_objectives": [
+    "Explain the characteristics of human rights",
+    "Identify key features that define human rights"
+  ],
+  "sections": [
+    {
+      "heading": "Explanation",
+      "content": "Human rights are fundamental freedoms and privileges that belong to every individual. These rights are protected by law and are essential for human dignity and development."
+    },
+    {
+      "heading": "Characteristics",
+      "content": "Human rights are inalienable (cannot be taken away), universal (apply to all people), indivisible (must be enjoyed as a whole), and indisputable (cannot be denied). They are also entrenched in the constitution for protection."
+    }
+  ],
+  "keywords": ["human rights", "inalienability", "universality", "indivisibility"]
+}

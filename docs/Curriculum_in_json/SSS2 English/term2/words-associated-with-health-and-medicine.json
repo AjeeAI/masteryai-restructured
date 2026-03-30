@@ -1,0 +1,30 @@
+{
+  "subject": "english",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 8,
+  "topic_title": "Words Associated with Health and Medicine",
+  "topic_slug": "words-associated-with-health-and-medicine",
+  "source_title": "Second Term SS2 English Studies",
+  "learning_objectives": [
+    "Identify and use vocabulary related to the hospital and medical practice"
+  ],
+  "sections": [
+    {
+      "heading": "Vocabulary Development: Health and Medicine",
+      "content": "1. Ward: A separate room in a hospital. 2. Out-patient: A patient who receives treatment without being admitted. 3. Diagnosis: The identification of the nature of an illness. 4. Prognosis: The likely course of a disease. 5. Theatre: A room where surgical operations are performed. 6. Surgeon: A medical practitioner qualified to practice surgery. 7. Clinic: An establishment where patients are admitted for special study or treatment."
+    },
+    {
+      "heading": "Medical Equipment and Terms",
+      "content": "1. Stethoscope: An instrument for listening to someone's heart or breathing. 2. Scalpel: A small sharp knife used by a surgeon. 3. Incision: A surgical cut made in skin or flesh. 4. Prescription: An instruction written by a medical practitioner that authorizes a patient to be provided with medicine."
+    }
+  ],
+  "keywords": [
+    "health",
+    "medicine",
+    "diagnosis",
+    "surgeon",
+    "prescription",
+    "ward"
+  ]
+}

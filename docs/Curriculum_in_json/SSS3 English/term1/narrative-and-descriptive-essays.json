@@ -1,0 +1,30 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 2,
+  "topic_title": "Narrative and Descriptive Essays",
+  "topic_slug": "narrative-and-descriptive-essays",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Explain narrative and descriptive essays",
+    "Identify their features",
+    "Write effective narrative and descriptive essays"
+  ],
+  "sections": [
+    {
+      "heading": "Narrative Essay",
+      "content": "A narrative essay requires you to relate an event or incident as an eyewitness would. It is the art of storytelling, and a wide reading experience in short stories, novels, and similar texts is helpful. Your essay must be interesting and convincing so that the reader enjoys it and believes the account. The narrative should follow the order in which the event took place and gradually move the reader to the climax of the story. Examples include: The Day I Will Never Forget; The Longest Journey I Have Ever Made; How I Spent My Last Holiday; Had I Known Always Comes Last; and An Interesting Film I Have Watched."
+    },
+    {
+      "heading": "Descriptive Essay",
+      "content": "A descriptive essay requires you to describe an object, person, animal, incident, or scene. If you choose a descriptive essay in the examination, you should form a very clear picture in your mind of what you want to describe. The clearer the picture, the better the description. To score high marks, candidates are expected to give clear, interesting, and informative descriptions. Examples include: My Favourite Teacher; A Market Day in My Town; A Wedding I Attended Recently; My School; and My Ideal House."
+    }
+  ],
+  "keywords": [
+    "narrative essay",
+    "descriptive essay",
+    "writing",
+    "composition"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 9,
+  "topic_title": "Comprehension Skills: How to Answer Comprehension Questions",
+  "topic_slug": "answering-comprehension-questions",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define comprehension and explain its importance",
+    "Apply a step-by-step strategy for answering comprehension questions",
+    "Select correct synonyms and equivalent meanings in context"
+  ],
+  "sections": [
+    {
+      "heading": "Step-by-Step Guide",
+      "content": "Comprehension simply means understanding.\n\n1. Carefully read and check the instructions given.\n2. Read the passage through quickly to grasp the general meaning.\n3. Read the questions carefully and keep them in mind.\n4. Read the passage again slowly to understand details and word meanings.\n5. Answer the questions.\n6. Limit your answers strictly to information in the passage – avoid extraneous material."
+    },
+    {
+      "heading": "Answering Synonym / Equivalent Meaning Questions",
+      "content": "The substitute word must:\n• Fit perfectly into the passage if the original word is removed.\n• Be of the same grammatical category (noun for noun, verb for verb, etc.).\n• Match in number and tense.\n\nExamples:\nSynonyms for 'costly': expensive, extravagant, precious\n\n'The car gets here at 3.00 p.m.'\n→ Correct substitute: 'arrives' (singular present tense), NOT 'arrived'\n\n'Put down a number with five digits.'\n→ Correct substitute: 'figures' (plural), NOT 'figure'"
+    }
+  ],
+  "keywords": [
+    "comprehension",
+    "reading skills",
+    "synonym",
+    "equivalent meaning",
+    "context",
+    "extraneous material"
+  ]
+}

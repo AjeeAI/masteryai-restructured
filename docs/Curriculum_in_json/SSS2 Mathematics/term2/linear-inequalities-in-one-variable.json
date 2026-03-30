@@ -1,0 +1,36 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 1,
+  "topic_title": "LINEAR INEQUALITIES IN ONE VARIABLE",
+  "topic_slug": "linear-inequalities-in-one-variable",
+  "source_title": "SECOND TERM SS2 MATHEMATICS",
+  "learning_objectives": [
+    "Understand Linear Inequalities, Inequalities with Reversing Symbols, Representing the Solutions of Inequalities on a Number Line and on Graphs, and Combining Inequalities"
+  ],
+  "sections": [
+    {
+      "heading": "LINEAR INEQUALITIES",
+      "content": "There are different signs used in inequalities. [cite: 16] > Greater than [cite: 17] < Less than [cite: 18] ≥ Greater or equal to [cite: 19] ≤ Less or equal to [cite: 20] = Not equal to [cite: 21] Example 1 [cite: 22] Consider a bus with x people in it. [cite: 23] (a)If there are 40 people then x= 40, this is an equation not inequality. [cite: 24] (b)If there are less than 30 people in the bus then x 30 where means less than ; [cite: 25] this is an inequality. It literally means that the no of people in the bus is not up to 30. [cite: 26] Example 2 [cite: 27] Find the range of value of x for which [cite: 28] 7x – 6 ≥ 15 [cite: 29] 7x ≥ 15 + 6 [cite: 30] 7 x ≥ 21 [cite: 31] x≥ 3 [cite: 32] Example 3: Solve the inequality [cite: 33] 12x -7≥ 13 + 2x [cite: 34] 12x-2x≥13+7 [cite: 35] 10x≥20 [cite: 36] x≥2 [cite: 37]"
+    },
+    {
+      "heading": "Inequalities with Reversing Symbols",
+      "content": "Anytime an inequality is divided or multiplied by a negative value, the symbol is reversed to satisfy the inequality. [cite: 43] Example [cite: 44] Solve: 14- 2a < 4 [cite: 45] - 2a < 4 – 14 [cite: 46] - 2a < -10 [cite: 47] Divide both sides by -2 and reverse the sign (symbols). [cite: 48] a > 5 [cite: 49] Check: [cite: 50] If a > 5,then possible values of a are : 6,7,8,… [cite: 51] Substituting, a=6 [cite: 52] 14 - 2(6) < 4 [cite: 53] 14 -12 < 4 [cite: 54] 2 < 4 [cite: 55] 2 2 - 3x ≤ 2 (1-x) [cite: 56] 3 [cite: 57] Multiply through by 3 or put the like terms together [cite: 58] 2-9x≤6(1-x) [cite: 59] 2 – 9x ≤6-6x [cite: 60] - 9x + 6x ≤ 6-2 [cite: 61] - 3x ≤ 4 [cite: 62] x ≥ - 4 [cite: 63] 3 [cite: 64]"
+    },
+    {
+      "heading": "Representing the Solutions of Inequalities on a Number Line and on Graphs .",
+      "content": "Example [cite: 71] Represent the solutions (i) x ≥ 4 (ii) x < 3 on number line [cite: 72] (i) x [cite: 73] -1 0 4 [cite: 74] (ii) [cite: 75] x [cite: 76] -1 0 3 [cite: 77] Note : When it is greater than, the arrow points to the right and vice versa also when “or equal to” is included, in the inequalities, the circle on top is shaded “o” and the “or equal to” is not included the circle is opened “o” [cite: 78] Graphical Representation [cite: 79] Example [cite: 80] The shaded region satisfies the inequality [cite: 81] The shaded region satisfies the inequality [cite: 82] The shaded region satisfies the inequality [cite: 83] The shaded region satisfies the inequality [cite: 84] i) x> 3 ii) [cite: 85] 1 2 3 -1 0 1 2 3 4 [cite: 86] Note : Dotted line (broken line) is used to represent either< or > and when or equal to is included e.g ≤ or ≥ full line is used. [cite: 87]"
+    },
+    {
+      "heading": "Combining Inequalities",
+      "content": "Examples [cite: 91] 1. x ≥ -3 and x ≤ 4 can be combined together to form a single inequality. [cite: 92] x ≥ -3 is the same as -3 ≤ x [cite: 93] - 3 ≤ x and x ≤ 4 [cite: 94] -3 ≤ x ≤ 4 [cite: 95] -4 -3 -2 -1 0 1 2 3 4 5 [cite: 96] 2. If 3+ x ≤ 5 and 8 + x 5 what range of values of x satisfies both inequalities [cite: 97] Solution [cite: 98] 3 + x ≤ 5 8 + x > 5 [cite: 99] x ≤5-3 x > 5 - 8 [cite: 100] x ≤2 x > -3 [cite: 101] or -3 < x [cite: 102] then, -3 < x ≤ 2 [cite: 103] -3 -2 -1 0 1 2 3 4 [cite: 104] The shaded region satisfies the inequalities. [cite: 105] Note : When combining inequalities the inequalities having the lesser value is charged and there are some inequalities that cannot be combined e.g x< -3 and x > 4. [cite: 106] Note: The lesser value has the < sign, and the greater value has the > sign there are two inequalities that can never meet or be combined. [cite: 107]"
+    }
+  ],
+  "keywords": [
+    "linear inequalities",
+    "reversing symbols",
+    "number line",
+    "combining inequalities"
+  ]
+}

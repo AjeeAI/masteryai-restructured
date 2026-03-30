@@ -1,0 +1,36 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 5,
+  "topic_title": "Electoral Bodies in Nigeria: INEC and SIEC",
+  "topic_slug": "electoral-bodies-inec-and-siec",
+  "source_title": "Second Term SS1 Civic Education",
+  "learning_objectives": [
+    "Identify the main electoral bodies in Nigeria",
+    "State the composition and roles of INEC and SIEC"
+  ],
+  "sections": [
+    {
+      "heading": "INEC",
+      "content": "INDEPENDENT ELECTORAL COMMISSION (INEC)\nThe independent National Electoral Commission (INEC) is the main agent of democracy in Nigeria.  INEC is a permanent body created by the constitution to organize Federal, state and Local Government council elections in Nigeria.\nFunctions of Electoral Commission\nThey educate Nigerian citizens about democracy and election process in Nigeria\nRegistration of voters and party candidates: They organize how voters are registered before elections.  It also provides registers for candidates contesting for various political positions under various political parties e.g APC, PDP etc.\nDelimitation of constituency: They demarcate constituency boundaries for elections into Houses of Assembly, Representatives and that of the Senate.\nThey control political parties Electoral commissions monitor the activities of political parties in Nigerian.\nThey promote Democracy: They promote an enduring democratic culture in Nigeria through transparency."
+    },
+    {
+      "heading": "SIEC",
+      "content": "State Independent Electoral Commission (SIEC)\nFollowing the 1999 constitution of the Federal Republic of Nigeria, the state Independent Electoral commission has power to\nOrganize, undertake and supervise all elections to local Government within a state.\nAdvise INEC on the compilation and Register of voters for Local Government election.\nThe SIEC has its own chairman and seven other persons that are normally appointed by INEC"
+    }
+  ],
+  "keywords": [
+    "1999 constitution",
+    "constituency",
+    "constitution",
+    "democracy",
+    "democratic",
+    "election",
+    "electoral commission",
+    "federal republic",
+    "inec",
+    "senate",
+    "siec"
+  ]
+}

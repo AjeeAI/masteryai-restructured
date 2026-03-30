@@ -1,0 +1,44 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS2",
+  "term": 1,
+  "week": 8,
+  "topic_title": "POLITICAL APATHY",
+  "topic_slug": "political-apathy",
+  "source_title": "First Term SS2 Civic Education",
+  "learning_objectives": [
+    "Define political apathy",
+    "Mention six reasons for political apathy",
+    "Mention six ways to reduce political apathy",
+    "Define recall"
+  ],
+  "sections": [
+    {
+      "heading": "POLITICAL APATHY",
+      "content": "Political apathy is the lukewarm attitude or total refusal of the citizens to participate in the political activities of the state"
+    },
+    {
+      "heading": "FORMS OF POLITICAL APATHY",
+      "content": "1. Refusal to vote.\n2. Unwillingness to join a political party.\n3. Refusal to register to vote.\n4. Unwillingness to fight electoral malpractices.\n5. Refusal to attend public protests.\n6. Refusal to attend rallies."
+    },
+    {
+      "heading": "REASONS FOR POLITICAL APATHY",
+      "content": "1. Political Violence During Election.\n2. Election Rigging.\n3. Unfulfilled Political Promises.\n4. Insecurity During Elections.\n5. Bad Governance.\n6. Unhealthy Rivalry Between Political Parties.\n7. Illiteracy."
+    },
+    {
+      "heading": "HOW TO REDUCE POLITICAL APATHY",
+      "content": "1. Independent and impartial electoral body.\n2. Fulfillment of political promises.\n3. Adequate security.\n4. Avoiding violent campaigns.\n5. Political education.\n6. Ending political enmity.\n7. Responsible and accountable government."
+    },
+    {
+      "heading": "RECALL",
+      "content": "Recall is the process of calling back or removal of an elected representative from office by the electorates before the expiration of his tenure due to poor representation. The concept of recall is only applicable to members of legislature. Presidents and governors are removed from office before their time through a process called impeachment."
+    }
+  ],
+  "keywords": [
+    "Political Apathy",
+    "Recall",
+    "Rigging",
+    "Impeachment",
+    "Governance"
+  ]
+}

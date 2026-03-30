@@ -1,0 +1,41 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 9,
+  "topic_title": "Logarithms — Powers, Roots and Relationship with Indices",
+  "topic_slug": "logarithms-powers-roots",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Understand the relationship between indices and logarithms",
+    "Use logarithm tables to evaluate powers of numbers",
+    "Use logarithm tables to evaluate roots of numbers",
+    "Solve combined calculations involving multiplication, division, powers and roots using logarithms"
+  ],
+  "sections": [
+    {
+      "heading": "Relationship Between Indices and Logarithms",
+      "content": "Logarithm is another name for power or index. Since 10³ = 1000, log₁₀(1000) = 3. The general rule is: if y = nˣ then x = log_n(y). Logarithms can be found to any base: since 32 = 2⁵, log₂(32) = 5. Table of relationships: log 1000 = 3, log 100 = 2, log 10 = 1, log 1 = 0. Converting: 2⁻³ = 1/8 ↔ log₂(1/8) = −3; 3⁶ = 729 ↔ log₃(729) = 6; 4³ = 64 ↔ log₄(64) = 3."
+    },
+    {
+      "heading": "Calculating Powers and Roots Using Logarithm Tables",
+      "content": "For powers: log(Aⁿ) = n × log A; then find the antilog. For roots: log(ⁿ√A) = log A ÷ n; then find the antilog. Examples: 252.8² → log 252.8 = 2.4028; × 2 = 4.8056; antilog = 63,920. ⁶√35.81 → log 35.81 = 1.5540; ÷ 6 = 0.2590; antilog = 1.816. √26.21 → log 26.21 = 1.4185; ÷ 2 = 0.7027; antilog = 5.121."
+    },
+    {
+      "heading": "Combined Calculations — Powers, Roots, Multiplication and Division",
+      "content": "For complex expressions, use logarithm laws: log(A × B) = log A + log B; log(A/B) = log A − log B; log(Aⁿ) = n × log A; log(ⁿ√A) = log A ÷ n. Apply these in sequence using a log table. Example: to evaluate √94100 × 38.2 / (5.68³ × 8.14), find log numerator and log denominator separately, subtract, then find the antilog. Always record working in a table of Number and Log columns."
+    }
+  ],
+  "keywords": [
+    "logarithm",
+    "indices",
+    "powers",
+    "roots",
+    "antilogarithm",
+    "log tables",
+    "log of powers",
+    "log of roots",
+    "combined calculations",
+    "log base 10"
+  ]
+}

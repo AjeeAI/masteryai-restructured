@@ -1,0 +1,31 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 7,
+  "topic_title": "Structure: Past Tenses",
+  "topic_slug": "past-tenses",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Identify the major past-tense forms in the lesson",
+    "Explain how each form is constructed",
+    "Use the forms correctly in examples"
+  ],
+  "sections": [
+    {
+      "heading": "Forms Covered",
+      "content": "The note covers simple past, past continuous, past perfect, and past perfect continuous."
+    },
+    {
+      "heading": "Examples and Uses",
+      "content": "Simple past may be regular or irregular: Ume worked. We ate late last night.\nPast continuous uses was/were plus -ing: I was drinking. We were drinking.\nPast perfect uses had to show an earlier completed action: They had finished the work before the teacher arrived.\nPast perfect continuous shows ongoing activity before a past point: She had been working."
+    }
+  ],
+  "keywords": [
+    "past tense",
+    "simple past",
+    "past continuous",
+    "past perfect",
+    "past perfect continuous"
+  ]
+}

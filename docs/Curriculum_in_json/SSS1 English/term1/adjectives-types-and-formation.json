@@ -1,0 +1,37 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 1,
+  "topic_title": "Adjectives: Types and Formation",
+  "topic_slug": "adjectives-types-and-formation",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define adjectives and distinguish attributive from predicative use",
+    "Identify the major kinds of adjectives with examples",
+    "Recognise common suffixes used to form adjectives"
+  ],
+  "sections": [
+    {
+      "heading": "Definition and Functions",
+      "content": "Adjectives are words that describe or qualify nouns.\n\nAttributive function – the adjective comes before the noun:\na red shirt, a gentle lady\n\nPredicative function – the adjective follows a linking verb:\nThe shirt is red. | The lady is gentle."
+    },
+    {
+      "heading": "Kinds of Adjectives",
+      "content": "Adjectives of Colour: red, green, black — e.g. a red shirt, a green basket\nAdjectives of Size: big, small, long\nAdjectives of Age: old, young\nAdjectives of Shape: rectangular, circular, round, spherical\nAdjectives of Origin: Nigerian, Ghanaian, Canadian\nAdjectives of Number: one, two, three, twenty\nDemonstrative Adjectives: this, these, that, those\nPossessive Adjectives: your, my, her, their\nDistributive Adjectives: each, some, every, any"
+    },
+    {
+      "heading": "Formation of Adjectives",
+      "content": "Common adjective-forming suffixes:\n-cal: grammatical, classical\n-ic: authentic, historic, workaholic\n-eous: advantageous\n-ious: melodious, odious, copious, superstitious\n-uous: promiscuous, continuous, conspicuous\n-ive: meditative, sedative, curative\n-able/-ible: edible, curable, sensible, marketable\n-al: illegal, regal, digital, rural, brutal\n-ial: social, crucial, essential, commercial"
+    }
+  ],
+  "keywords": [
+    "adjective",
+    "attributive",
+    "predicative",
+    "linking verb",
+    "demonstrative adjective",
+    "possessive adjective",
+    "distributive adjective"
+  ]
+}

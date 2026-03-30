@@ -1,0 +1,27 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 1,
+  "week": 2,
+  "topic_title": "PERCENTAGE ERROR",
+  "topic_slug": "percentage-error",
+  "source_title": "First Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Calculate correct to 2 s"
+  ],
+  "sections": [
+    {
+      "heading": "Concept",
+      "content": "CONTENT\nDefinition of percentage error\nCalculation of percentage error\nPercentage error (range of values via approximations)\nCalculations on percentage error in relation to approximation\nDefinition of Percentage Error\nNo measurement, however, carefully made is exact (accurate) i.e if the length of a classroom is measured as 2.8m to 2 s.f the actual length may be between 2.75 and 2.85, the error of this measurement is 2.75 – 2.8 or 2.85 – 2.8 = + 0.05.\n2.75 2.85 2.8 2.9\nPercentage error = error X 100\nActual measurement 1\nerror =+ 0.05\nactual measurement 2.8\n% error =0.05 x 100\n2.8 1\n=1.785% = 1.79%"
+    },
+    {
+      "heading": "Examples and Practice",
+      "content": "Example 2\nSuppose the length of the same room is measured to the nearest cm ,280cm i.e. (280cm) calculate the percentage error.\nMeasurement = 280cm.\nThe range of measurement will be between 279.5cm or 280cm\nError = 280 – 279.5 = 0.5cm\n% error = error x 100\nMeasurement 1\n% error = 0.5 x 100 = 0.178%\n280 1\n= 0.18% (2sf)\nExample 3\nThe length of a field is measured as 500m; find the percentage error of the length if the room is measured to\ni. nearest metre ii. nearest 10m iii. one significant figure.\nSolutions\ni. To the nearest metre\nMeasurement = 500m\nActual measurement = between 499.5 - 500.5\nError = + 0.5m\n% error = error x 100\nmeasurement\n0.5 x 100 = 0.10%\n500 1\n= 0.10%\nii. Nearest 10m\nMeasurement = 500m,\nrange= 495m – 505m\nerror =+ 5m\nerror = 5 x 100 = 1%\n500 1\niii. To 1 s.f.\nmeasurement = 500m\nrange = 450 – 550\nerror = + 50\n% error = 50 x 100 = 10%\n500 1\nEvaluation\n1. The length of each side of a square is 3.6 cm to 2s.f. (a) Write down the smallest and the largest of each side. (b) Calculate the smallest and the largest values for the perimeter.\n(c) Find the possible values of the area.\nPercentage Error (range of values via approximations)\n1. Range of values measured to the nearest whole number i.e. nearest tens, hundreds etc. e.g.\nFind the range of values of N6000 to:\ni. nearest naira = N5999.50 - 6000.50\nii. nearest N10 = N5995 - 6005\niii. nearest N100 = N5950 - 6050\niv. nearest N1000 = N5500 - 6,500\n2. Range of values measured to a given significant figure. E.g. find the range of value of 6000 to\n1 sf = 5500 - 6500\n2 sf = 5950 - 6050\n3 sf = 5995 - 6005\n5 sf = 5999.95- 6000.05\n3. Range of values measured to a given decimal places e.g. 39.8 to a 1d.p = 39.75 – 39.85.\nNote: if it is 1 d.p, the range of values will be in 2 d.p, if 2 d.p, the range will be in 3 d.p etc. (i.e the range = d.p + 1). The same rule is also applicable to range of values to given significant figure.\nEvaluation\nOrally: From New General Mathematics SS 2 by J. B. Channon and Co 3rd edition exercise 46 no. 1a – f.\nCalculations on percentage error:\nExample:\nCalculate the percentage error if\n1. The capacity of a bucket is to 1 d.p.\n2. The mass of a student is 62kg to 2 s.f.\nSolutions\n1. Measurement = 7.5litres ( 1d.p)\nRange of values = 7.45 - 7.55\nError = 7.5 – 7.45 = 0.05\n% error = error x 100\nmeasurement 1\n0.05 x 100\n7.51\n= 0.67%\n2. Measurement = 62kg (2 s.f)\nRange of values = 61.5kg to 62.5kg\nerror = 6.2 - 61.5 = 0.5kg\n% error = error x 100\nmeasurement 1\n0.5 x 100 = 0.81%\n62 1\nEVALUATION\n1. Calculate correct to 2 s.f. the percentage error in approximately 0.375 to 0.4.\n1. A metal rod was measured as 9.20 m. If the real length is 9.43 m, calculate the percentage error to 3 s.f\n2.A student measures the radius of a circle as 1.46 cm instead of 1.38 cm. Calculate the percentage error.\n3.The weight of sugar was recorded as 8.0 g instead of 8.2 g. What is the percentage error?\n4.A student mistakenly approximated 0.03671 to 2 d.p instead of 2 s.f. What is the percentage error correct to 2 s.f\n5.A man’s weight was measured as 81.5 kg instead of 80 kg. Find the percentage error in the measurement.\nWhat is the error in the following measurement\n1. The distance between two towns is 60km to the nearest km. (a) 5km (b) 0.5km (c) 8.3km (d) 0.83km\n2. The area of a classroom is 400m2 to 2 s.f. (a) 50m2 (b) 1.25m2(c) 2.5m2 (d) 5m2\n3. A sales girl gave a girl a balance of N1.15 to a customer instead of N1.25, calculate the % error.\n4. A student measured the length of a room and obtained the measurement of 3.99m, if the percentage error of his measurement was 5% and his own measurement was smaller than the length, what is the length of the room?(a) 3.78m (b) 3.80m (c) 4.18m (d) 4.20m\n5. A man is 1.5m tall to the nearest cm, calculate his percentage error.\n(a) 0.05cm (b) 0.33% (c) 0.033% (d) 0.05cm\nTHEORY\n1. A classroom is 10m by 10m; a student measured a side as 9.5m and the other side as 10m and uses his measurement to calculate the area of the classroom. Find the percentage error in a. the length of one of the sidesb. the area of the room\n2. Instead of recording the number 1.23cm for the radius of a tube, a student recorded 1.32cm, find the percentage error correct to 1 d.p.\nEssential Mathematics for SSS2, pages 13-22, Exercise 2.4"
+    }
+  ],
+  "keywords": [
+    "topic",
+    "percentage",
+    "error"
+  ]
+}

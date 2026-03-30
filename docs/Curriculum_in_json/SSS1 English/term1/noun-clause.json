@@ -1,0 +1,32 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 7,
+  "topic_title": "Structure: The Noun Clause",
+  "topic_slug": "noun-clause",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define a noun clause",
+    "Identify the five grammatical functions of noun clauses",
+    "Construct sentences containing noun clauses"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "A noun clause is a subordinate clause that performs the same functions as a noun."
+    },
+    {
+      "heading": "Functions of the Noun Clause",
+      "content": "(i) As subject of a sentence:\nWhat he said is bitter.\nThat he was insulted pained him a great deal.\n\n(ii) As object of a verb:\nThe cook gave us what we should eat.\nHe told us that he would come.\n\n(iii) As complement of the subject:\nHonesty is what we need.\nThe important thing is that he has arrived.\n\n(iv) As complement of a preposition:\nWe call him what he likes.\n\n(v) As object complement:\nThe prize will go to whoever wins."
+    }
+  ],
+  "keywords": [
+    "noun clause",
+    "subordinate clause",
+    "subject",
+    "object",
+    "complement",
+    "relative clause"
+  ]
+}

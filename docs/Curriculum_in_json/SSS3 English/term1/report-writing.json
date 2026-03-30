@@ -1,0 +1,29 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 9,
+  "topic_title": "Report Writing",
+  "topic_slug": "report-writing",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Define report writing",
+    "Identify its format",
+    "Write effective reports"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "A report is any kind of account given of any event that has taken place.\n\nThe approach to the writing of a report depends on the audience or readers for whom it is meant and on whether there is a standard format for it.\n\nThe report becomes formal when it is presented as a formal document giving details of an event. A formal report can be that of a robbery, an accident, the proceedings of a meeting, a work-camp or a petition.\n\nFormat: 1. Date\n2. Recipient address\n3. Salutation\n4. Title/Subject\n5. Body\n6. Sign-off"
+    },
+    {
+      "heading": "Example",
+      "content": "Report on the Annual Inter-House Sports held at Baptist College.\nDetails include date, venue, participants, and outcomes."
+    }
+  ],
+  "keywords": [
+    "report writing",
+    "composition",
+    "formal writing"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 6,
+  "topic_title": "Vocabulary Development: Printing and Mass Media",
+  "topic_slug": "vocabulary-printing-and-mass-media",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Define selected printing and media terms",
+    "Distinguish between related terms such as libel and slander",
+    "Use media vocabulary accurately"
+  ],
+  "sections": [
+    {
+      "heading": "Relevant Words",
+      "content": "The note includes editorial, book pirate, copyright, royalty, imprint, cartoon, column, obituary, corrigendum, broadcast, signal, broadcaster, freelance journalist, reportage, slander, libel, masthead, dateline, manuscript, editor, correspondent, caricature, cartoonist, advertorial, plagiarism, proof read, and offset."
+    },
+    {
+      "heading": "Selected Clarifications",
+      "content": "Libel is written or pictorial defamation, while slander is spoken defamation. A corrigendum is a correction issued after publication. An advertorial is an advertisement presented in the style of an editorial."
+    }
+  ],
+  "keywords": [
+    "mass media",
+    "printing",
+    "editorial",
+    "copyright",
+    "libel",
+    "slander"
+  ]
+}

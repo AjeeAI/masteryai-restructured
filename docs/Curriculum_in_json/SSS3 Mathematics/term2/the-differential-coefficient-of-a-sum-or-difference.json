@@ -1,0 +1,27 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 5,
+  "topic_title": "THE DIFFERENTIAL COEFFICIENT OF A SUM OR DIFFERENCE.",
+  "topic_slug": "the-differential-coefficient-of-a-sum-or-difference",
+  "source_title": "Second Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand the differential coefficient of a sum or difference."
+  ],
+  "sections": [
+    {
+      "heading": "Sum and Difference Rule",
+      "content": "Let y = u v Then =\nEXAMPLE\nFind the derivative of 3- 7x + 1\nSOLUTION\n= ( - (7x) + (1)\n= 6X – 7 + 0 = 6X – 7"
+    },
+    {
+      "heading": "Product, Quotient, and Applications",
+      "content": "2. PRODUCT RULE\n( = u + v\nEXAMPLE\nFind , if y = (2(x + 5)\nLet u = 2- 6 and = 4x\nLet v = x + 5 and = 1\n= (-6)(1) + (x + 5)(4x)\n= - 6 + + 20x = + 20x – 6.\n3. QUOTIENT RULE\n( = )\nFind the derivative of y =\nSOLUTION\nLet u = 5x + 2 and = 5, v = 3x – 4 and = 3\n=\n= .\n4. MAXIMA AND MINIMA RULES\nThe function can only be maxima if the following is satisfied: (i) f`(a) = 0 (ii) f`(a + h) < 0 (iii) f`(a-h) > 0\nMINIMA if: (i) f`(b) = 0 (ii) f`(b+h) < 0 (iii) f`(b-h) > 0\nEXAMPLE\nFind the highest product of two numbers whose sum is 10.\nSOLUTION\nLet one of the number be x and the other be 10 – x\nP(product) = x( 10 – x) = 10x -\n= 10 – 2x f`(a) = 0, 10 – 2x = 0, X = 5\nSince = -2 which is < 0, = -2(10 –(-2)) = -24\n= x(10 – x) = 5 (10 – 5) = 25.\n5. VELOCITY AND ACCELERATION\nAcceleration is the rate of change of velocity with respect to time.\nVelocity = i.e. the rate of change of displacement with respect to time.\nAcceleration = ( = .\nEXAMPLE\nThe equation of motion of a particle along a straight line is specified by the equation x = 5 - 3+ 6t. find the velocity and acceleration of the particle after 2 seconds if x is in meters.\nSOLUTION\nVelocity = = + 6 (after 2 seconds)\nVelocity = 30(2- 12(2 + 6 = 870.\nAcceleration = = - 36(after 2s)\nAcceleration = 150(2- 36(2 = 2256.\n6. RATE OF CHANGE OF FUNCTION\nGiven that y = f(x), f`(x) can be interpreted as the rate of change of y with respect to x. if y increases when x increases the rate of change with respect to x is positive but if y decreases when x increases then the rate of change is negative.\nEXAMPLE\nThe side of a square is increasing at the rate of 1cms. Find the rate of change of its area when the side is 10cm long.\nSOLUTION\nLet the area of the square = . i.e. A =\n= 2x = 2x10 = 20cm\nThe rate of change of the side of the square = 1\n= = 20cm x1cms = 20.\nASSESSMENT: Find the solution of the following:\nA body moves along a straight line so that its distance (S) meters after t seconds is given by s = -2+ 3t + 4. Find its acceleration when t = 2seconds.\nFind the maximum and minimum points on the curve y =\nThe displacement xm, of a particle from a fixed point after time t sec is given by x = .\nThe times when the particle is momentarily at rest.\nIn , the acceleration of the particle at t = 4.\nThe side of a square changes from 10cm to 10.01cm, find approximate increase in the area of the square."
+    }
+  ],
+  "keywords": [
+    "differential",
+    "coefficient",
+    "difference"
+  ]
+}

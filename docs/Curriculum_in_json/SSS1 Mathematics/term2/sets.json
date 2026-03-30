@@ -1,0 +1,43 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 4,
+  "topic_title": "Idea of Sets — Types, Notation and Operations",
+  "topic_slug": "sets",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Define a set and describe sets by listing elements or by property",
+    "Use correct set notation including ∈, ⊂, ∪, ∩, ∅ and complement",
+    "Identify and distinguish types of sets: universal, finite, infinite, empty, disjoint, subsets",
+    "Perform set operations: union, intersection, and complement"
+  ],
+  "sections": [
+    {
+      "heading": "Definition and Notation of Sets",
+      "content": "A set is a well-defined collection of objects or elements with a common characteristic. Sets can be described by listing elements (e.g., {1, 2, 3}) or by property (e.g., {x : x is an even number less than 10}). Key notations: ∈ means 'is an element of'; ∉ means 'is not an element of'; n(A) is the number of elements in A; ∅ or {} is the empty/null set; = means two sets are equal if they contain the same elements (repeated elements counted once)."
+    },
+    {
+      "heading": "Types of Sets",
+      "content": "Universal set (U or ε): a set containing all elements under consideration. Finite set: has a fixed number of elements, e.g., B = {1, 2, 3, 4, 5}. Infinite set: has unending elements, e.g., D = {5, 10, 15, 20, ...}. Subset (⊂): B ⊂ A means all elements of B are in A. Empty set (∅): contains no elements. Disjoint sets: two sets with no elements in common, so P ∩ Q = ∅."
+    },
+    {
+      "heading": "Set Operations",
+      "content": "Intersection (∩): A ∩ B contains elements common to both A and B. Union (∪): A ∪ B contains all elements from A and B combined. Complement (A'): elements in the universal set not in A. Examples: given U = {a,b,c,d,e,f}, P = {b,d,e}, Q = {b,c,e,f}: P ∩ Q = {b,e}; P ∪ Q = {b,c,d,e,f}; (P ∩ Q)' = {a,c,d,f}; (P ∪ Q)' = {a}; P' ∪ Q = {a,b,c,e,f}; Q' ∩ P' = {d}."
+    }
+  ],
+  "keywords": [
+    "sets",
+    "universal set",
+    "subset",
+    "empty set",
+    "null set",
+    "union",
+    "intersection",
+    "complement",
+    "disjoint sets",
+    "set notation",
+    "finite set",
+    "infinite set"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 8,
+  "topic_title": "Differences in the angles of latitude",
+  "topic_slug": "differences-in-the-angles-of-latitude",
+  "source_title": "First Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand differences in the angles of latitude"
+  ],
+  "sections": [
+    {
+      "heading": "Content",
+      "content": "When two points are located on the same side along the same longitude on the earth’s surface i.e North-North, South-South, subtract the angles otherwise add them up.\nExample: Find the angular difference between the following pairs of places on the Earth’s surface.\nParis (35oN, 40oE) and Rome ( 25oS, 40oE)\nOyo ( 80oS, 27oW) and Edo (47o S, 27oW).\nSolution\nAngular difference = 25 + 35 = 60o\nAngular difference = 80 -47 = 33o"
+    },
+    {
+      "heading": "DISTANCES ALONG THE GREAT CIRCLES",
+      "content": "The great circles are only lines of longitude and equator which is 0o. Therefore distances along the lines of longitude will majorly be the focus. Their radii are the same as the radius of the earth ( R). The knowledge of mensuration shall be used to calculate the distance along the lines of longitude."
+    },
+    {
+      "heading": "Distance along the great circle = Өo x 2πR (where R is the radius of the earth) 3600",
+      "content": "Example 1\nThe position of Libreville (Gabon and Kampala (Uganda) to the nearest degree are (0oN, 90E) and (0oN,320E) respectively. Calculate their distance apart along the equator.\nSolution\nStep 1: Sketch a simple diagram of the earth and locate the position of Libreville and Kampala using the values given. (note that liens of latitude are positioned either closer to the North pole or South pole while the lines of longitude are positioned either to East or West of the Meridian.\nThe distance required is LK\nStep 2: Find the difference between the angles of the longitude . Өo = <EOK - < EOL\n:. Өo = 32 – 9o = 23o\nStep 3: Calculate the distance LK ( are LK) using the mensuration formula to calculate the length of arc of a circle.\n:. LK = Өo x 2πR (where R is the radius of the earth) 3600\n= 23o x 2 x 22/7 x 6400 km 360o = 25.68km\n= 2600km to 2 s.f.\nExample 2:\nAn aeroplane from a town P (lat. 40oN, 38oE) o another town Q (lat.40oN,22oW) it later flies to a third town T (28oN,22oW) . Calculate the distance between Q and T. along the lines of longitude.\nSolution\nStep 1: Sketch a simple diagram showing the position of the points on the earth’s surface.\nStep 2: Since Q and T lie on the same longitude (22oN) but different latitude ,calculate the difference in their angles of latitude using the same method as earlier done above i.e if the two latitude lie on North or South, subtract the angles, otherwise add them together .\nӨ = <EOT = < EOQ\n:. Diff = 40o – 28o = 12o Ө = 12o\nStep 3: Calculate the distance QT along the line of longitude\nQT = Өo x 2 πR 360o\n= 1341 km = 1300km to s.f.\nExample 3:\nChicago (USA) and Tokyo (Japan) both lie on longitude 25.9oE. their latitudes are 31.6oN and 24.8oS respectively Calculate the shortest distance between the towns.\nFrom the figure above. <TOC = < TOE + <COE\n<TOC = 31.6o + 24.8o = 56.\narc BG = 56.4 x 2 π R\n= 56.4 x 2 x 22/7 x 6400\n= 6270km to 3s.f."
+    }
+  ],
+  "keywords": [
+    "differences",
+    "angles",
+    "latitude",
+    "content",
+    "distances",
+    "along",
+    "great",
+    "circles",
+    "distance",
+    "circle",
+    "where",
+    "radius",
+    "earth",
+    "3600"
+  ]
+}

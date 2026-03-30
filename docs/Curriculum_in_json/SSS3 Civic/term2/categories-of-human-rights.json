@@ -1,0 +1,24 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 1,
+  "topic_title": "Categories of Human Rights",
+  "topic_slug": "categories-of-human-rights",
+  "source_title": "Second Term SS3 Civic Education",
+  "learning_objectives": [
+    "Identify the categories of human rights",
+    "Differentiate between types of human rights"
+  ],
+  "sections": [
+    {
+      "heading": "Explanation",
+      "content": "Human rights are grouped into different categories based on their functions and scope."
+    },
+    {
+      "heading": "Categories",
+      "content": "Political rights allow participation in governance. Civic rights ensure freedom of expression and association. Social rights enable interaction in society. Cultural rights allow preservation of traditions. Economic rights protect working conditions and welfare."
+    }
+  ],
+  "keywords": ["political rights", "civic rights", "economic rights", "social rights"]
+}

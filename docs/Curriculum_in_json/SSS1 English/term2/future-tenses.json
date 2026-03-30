@@ -1,0 +1,32 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 8,
+  "topic_title": "Structure: Future Tenses",
+  "topic_slug": "future-tenses",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Identify the future forms used in the lesson",
+    "Explain how simple future and future continuous are expressed",
+    "Use future-time structures in sentences"
+  ],
+  "sections": [
+    {
+      "heading": "Simple Future",
+      "content": "The note explains that simple future may use shall and will, be going to plus infinitive, or simple present with an expression of future time."
+    },
+    {
+      "heading": "Future Continuous",
+      "content": "Future progressive or continuous is expressed with a progressive form plus an expression indicating future time, as in Adamu is leaving tomorrow."
+    }
+  ],
+  "keywords": [
+    "future tense",
+    "simple future",
+    "future continuous",
+    "shall",
+    "will",
+    "going to"
+  ]
+}

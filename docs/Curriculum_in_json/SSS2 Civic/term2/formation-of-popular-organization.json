@@ -1,0 +1,35 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 2,
+  "topic_title": "Formation and Roles of Popular Organizations",
+  "topic_slug": "formation-of-popular-organization",
+  "source_title": "Second Term SS2 Civic Education",
+  "learning_objectives": [
+    "Define popular organizations and political parties",
+    "Explain the different ways political parties are formed",
+    "Discuss the roles of popular organizations in a democracy"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "Popular organizations are organized groups with membership cutting across different areas of society and clearly defined objectives. A primary example is a political party—an association of people with similar ideologies seeking to contest elections and control government."
+    },
+    {
+      "heading": "Forms of Political Party Formation",
+      "content": "Political parties can originate from various sources:\n1. Socio-Cultural Organizations: Examples include the Action Group (from Egbe Omo Oduduwa) and the NPC (from Jamiyya Mutanem Arewa).\n2. Religious Organizations: Common in countries where religion influences ideology, such as the Christian Democratic Union in Germany.\n3. Government Decree: The government in power may create parties, like the SDP and NRC formed by Gen. Ibrahim Babangida.\n4. Labour Organizations: Groups seeking to promote workers' interests, like the Labour Party (LP) in Nigeria.\n5. Constitutional Provisions: The constitution defines whether a state uses a One-party, Two-party, or Multi-party system."
+    },
+    {
+      "heading": "Roles of Popular Organizations",
+      "content": "These groups perform vital functions, including:\n* Promoting democratic principles and peaceful change of government.\n* Ensuring accountability of government officials.\n* Acting as watchdogs over elected representatives.\n* Providing political education and welfare services to the public.\n* Unifying different groups and interests."
+    }
+  ],
+  "keywords": [
+    "political party",
+    "socio-cultural",
+    "ideology",
+    "democracy",
+    "labour party"
+  ]
+}

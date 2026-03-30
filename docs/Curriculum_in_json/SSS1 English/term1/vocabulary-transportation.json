@@ -1,0 +1,41 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 7,
+  "topic_title": "Vocabulary Development: Transportation (Air, Sea, Rail)",
+  "topic_slug": "vocabulary-transportation",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Identify and define key terms related to air transportation",
+    "Identify and define key terms related to sea (maritime) transportation",
+    "Identify and define key terms related to rail transportation"
+  ],
+  "sections": [
+    {
+      "heading": "Air Transportation",
+      "content": "taxi – the slow movement of a plane along the ground before take-off\nrunway – a wide path from which aircraft take off and land\ntarmac – the surface of a road or airport runway (e.g. 'The plane was waiting on the tarmac.')\nair hostess – a young woman who looks after passengers in an aircraft\nflight – a journey in a plane\nairborne – in the air; describing a plane that is flying\nradar – a method of determining the direction and distance of aircraft using radio waves\ntouch down – the moment a plane lands\nhangar – the large building where aircraft are housed\ncontrol tower – the building from which air traffic controllers direct plane traffic\ncockpit – the compartment in which the pilot of an aeroplane sits"
+    },
+    {
+      "heading": "Sea (Maritime) Transportation",
+      "content": "mast – a long pole set upright on a ship to support the sail or flag\ninternational waters – waters beyond a country's territorial limits (always 'waters', not 'water')\nberth – a place in port where a ship can be moored\nboatyard – a place where boats are built or repaired\nharbour – a place of shelter for ships\nquayside – the side or edge of a quay\nocean liner – a large ship used to carry passengers and cargo across the ocean\ncruise ship – a ship used for recreational voyages\ncabin – a private room in a ship\nyacht – a boat or small ship, usually with sails, used for racing or cruising\ndredging – the clearing or deepening of a river or body of water\ndock – a platform built on the shore (wharf)\ncoast – land along the sea\ncrew – the group of people who operate a ship\ncaptain – the commander of a ship\noffshore – in or on the sea, not far from the coast (opposite: onshore)\nanchor – a heavy piece of metal that digs into the sea-bed to hold a ship in place"
+    },
+    {
+      "heading": "Rail Transportation",
+      "content": "coach – a passenger railway carriage\nfreight – goods or cargo transported by rail\nlocomotive – a self-powered engine used to pull railway trains\nrailway yard – a place where trains are parked or maintained\ncommuter trains – trains carrying passengers between large cities and suburbs\nfreight service – a service transporting goods from one place to another\nrail tracks – the tracks on which a train moves"
+    }
+  ],
+  "keywords": [
+    "transportation",
+    "aviation",
+    "maritime",
+    "rail",
+    "runway",
+    "tarmac",
+    "cockpit",
+    "harbour",
+    "locomotive",
+    "commuter",
+    "freight"
+  ]
+}

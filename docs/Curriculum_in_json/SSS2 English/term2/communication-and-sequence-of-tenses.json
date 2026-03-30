@@ -1,0 +1,29 @@
+{
+  "subject": "english",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 6,
+  "topic_title": "Communication and Sequence of Tenses",
+  "topic_slug": "communication-and-sequence-of-tenses",
+  "source_title": "Second Term SS2 English Studies",
+  "learning_objectives": [
+    "Analyze the relevance of media communication",
+    "Apply the rules of sequence of tenses"
+  ],
+  "sections": [
+    {
+      "heading": "Reading for Critical Evaluation: Communication",
+      "content": "The Nigerian film and television industry is doing well but lacks relevance to our culture. Most programs shown are imported and depict alien cultures. This has led to the loss of our indigenous values."
+    },
+    {
+      "heading": "Structure: Introduction to Sequence of Tenses",
+      "content": "The rule states that all verbs in a sentence or series of sentences should remain in the same tense. If the first verb is in the past, others should follow. Exception: When referring to a general fact or universal truth. Example: The teacher taught us that the earth goes round the sun."
+    }
+  ],
+  "keywords": [
+    "communication",
+    "media",
+    "sequence of tenses",
+    "universal truth"
+  ]
+}

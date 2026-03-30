@@ -1,0 +1,30 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 6,
+  "topic_title": "Comprehension: Irrigation",
+  "topic_slug": "comprehension-irrigation",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Read and understand a passage on irrigation",
+    "Identify technical vocabulary",
+    "Answer comprehension questions"
+  ],
+  "sections": [
+    {
+      "heading": "Passage (Part 1)",
+      "content": "The passage is adapted from Small Scale Irrigation by Peter Stern."
+    },
+    {
+      "heading": "Passage (Part 2)",
+      "content": "The sprinkler method of irrigation is discussed at length.. The most common type of sprinkler used with portable systems is the rotating head sprinler, consisting of a head, with one or two nozzles, which is rotated slowly by the action of the water passing through it, and which waters a roughly circular piece of land around the sprinkler."
+    }
+  ],
+  "keywords": [
+    "comprehension",
+    "irrigation",
+    "sprinkler",
+    "agriculture"
+  ]
+}

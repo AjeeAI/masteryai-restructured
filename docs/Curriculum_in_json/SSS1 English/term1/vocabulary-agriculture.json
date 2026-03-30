@@ -1,0 +1,40 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 4,
+  "topic_title": "Vocabulary Development: Words Associated with Agriculture",
+  "topic_slug": "vocabulary-agriculture",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define common terms used in crop farming and general agriculture",
+    "Define terms used in livestock farming",
+    "Define terms used in fishery"
+  ],
+  "sections": [
+    {
+      "heading": "General Agricultural Terms",
+      "content": "agrarian economy – a nation whose economy is predominantly based on agriculture\nfallow – to leave land uncultivated for a period to restore fertility\norchard – a piece of land on which fruit trees are grown\nseedling – a young plant grown from seed\nbarn – a building for storing farm produce, especially yams\ncash crop – a crop grown for sale rather than for consumption\narable land – land that is good for tilling or ploughing\nmechanised farm – agriculture practised with the use of machines\nnursery – a place where young trees and plants are raised for transplanting or sale\nmanure – fertiliser made from dung\nbumper harvest – an unusually large quantity of crop gathered at the end of a season\ntendril – the soft, thin part of a climbing plant that attaches to a support\ncrop rotation – the practice of changing the crops planted on the same land each season\nagricultural loan – a loan from government or bank to support farming projects\nhybrid fruits – fruits produced from two plants of different species\namortise – to repay borrowed money in instalments"
+    },
+    {
+      "heading": "Livestock Terms",
+      "content": "livestock – domestic animals raised for food or labour\nranches – farms or confined spaces for rearing animals\nbeef – meat from cattle or a cow\nanimal droppings – dung or faeces of animals or birds\nbroiler – young chickens reared for eating\ndairy products – food items made from milk, e.g. cheese and butter\npasture – grassland on which grass-eating animals feed\npullet – a young hen\nvaccinate – to inject an animal with a vaccine as protection against illness\nveterinarian / veterinary doctor – a person who treats animals"
+    },
+    {
+      "heading": "Fishery Terms",
+      "content": "fish-net – a net used to catch fish\ncane pole and line – tools used to catch fish\nripples – small waves on the water's surface after a net or pole is thrown in\nbait – anything used to attract fish so it may be caught (e.g. earthworm)\nfloat – a piece of wood or cork at the end of a fishing-line that moves when a fish bites\ntrawler – a boat used for fishing that drags a fish-net behind it\nfish pond – a small artificial area of still water where fish are nurtured for consumption\nfishery – a part of a sea or river where fish are caught in large quantities; the industry of catching fish\nfish farm – a place where fish are bred commercially"
+    }
+  ],
+  "keywords": [
+    "agriculture",
+    "livestock",
+    "fishery",
+    "cash crop",
+    "arable land",
+    "mechanised farm",
+    "crop rotation",
+    "trawler",
+    "broiler",
+    "manure"
+  ]
+}

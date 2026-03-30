@@ -1,0 +1,35 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 9,
+  "topic_title": "Vocabulary Development: Words Associated with Religion",
+  "topic_slug": "vocabulary-religion",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define religion and related concepts",
+    "Learn and use vocabulary specific to religious contexts"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "Religion is the belief in the existence of a god or gods, and the activities connected with the worship of them."
+    },
+    {
+      "heading": "Key Religious Terms",
+      "content": "atheist – a person who believes there is no God\ncrucifix – a cross with the figure of Jesus Christ crucified on it\ndoctrine – what is taught as the belief of a religious, political, or scientific body\nethics – moral principles by which a person or group is guided\nworship – taking part in a religious ceremony in which reverence is paid to God; the ceremony itself\nsupernatural – things that cannot be explained by science and seem to involve gods or magic\nclergy – a group of people ordained for Christian religious service\n\nAdditional terms: trinity, denomination, inter-denomination, creed, pew, benediction, monotheism, processional hymn, recessional hymn, warden, protestants, orthodox churches, Pentecostal churches"
+    }
+  ],
+  "keywords": [
+    "religion",
+    "atheist",
+    "clergy",
+    "doctrine",
+    "ethics",
+    "worship",
+    "supernatural",
+    "monotheism",
+    "denomination",
+    "creed"
+  ]
+}

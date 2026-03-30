@@ -1,0 +1,36 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 3,
+  "topic_title": "Structure: Introduction to Clauses",
+  "topic_slug": "introduction-to-clauses",
+  "source_title": "Third Term SS1 English Language Lesson Notes",
+  "learning_objectives": [
+    "State the features of a clause",
+    "Distinguish independent and dependent clauses",
+    "Identify noun, adjectival, and adverbial clauses"
+  ],
+  "sections": [
+    {
+      "heading": "Features of a Clause",
+      "content": "A clause has a subject and a predicate and always contains a finite verb, which distinguishes it from a phrase."
+    },
+    {
+      "heading": "Types of Clauses",
+      "content": "The note distinguishes independent clauses from dependent clauses and identifies three dependent types: noun clauses, adjectival clauses, and adverbial clauses."
+    },
+    {
+      "heading": "Examples",
+      "content": "Examples show noun clauses performing noun functions, adjectival clauses modifying nouns and pronouns, and adverbial clauses showing manner, time, place, reason, condition, purpose, result, comparison, and concession."
+    }
+  ],
+  "keywords": [
+    "clause",
+    "independent clause",
+    "dependent clause",
+    "noun clause",
+    "adjectival clause",
+    "adverbial clause"
+  ]
+}

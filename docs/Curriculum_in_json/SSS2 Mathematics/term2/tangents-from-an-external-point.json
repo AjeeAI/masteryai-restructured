@@ -1,0 +1,27 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 10,
+  "topic_title": "TANGENTS FROM AN EXTERNAL POINT",
+  "topic_slug": "tangents-from-an-external-point",
+  "source_title": "SECOND TERM SS2 MATHEMATICS",
+  "learning_objectives": [
+    "Theorems and proof relating to tangents from an external point."
+  ],
+  "sections": [
+    {
+      "heading": "Concept",
+      "content": "The tangents to a circle from an external point are equal.  O B A T O B A T Given: a point T outside a circle, centre O, TA and TB are tangents to the circle at A and B. To prove : |TA| = |TB| Construction : Join OA, OB and OT In ∆s OAT and OBT OAT = OBT = 900 (radius tangent) |OA| = |OB| (radii) |OT| = |OT| (common side) ∆OAT = ∆OBT (RHS) |TA| = |TB| Note that <AOT = <BOT and <ATO = <BTO hence the line joining the external point to the centre of the circle bisects the angle between the tangents and the angle between the radii drawn to the points of contact of the tangents."
+    },
+    {
+      "heading": "Examples and Practice",
+      "content": "Example: 1.In the figure below O is the centre of the circle and the TA and TB are tangents if <ATO = 390, calculate < TBX In ∆TAX AXT = 900 (Symmetry) TAX = 180 – (900 + 390) sum of angles of () 1800 – 1290 = 510 TBX = 510 (symmetry) OR ∆ ATB is an Isosceles triangle |AT| =|BT| (tangents from external point) <ATO = <BTO = 390 (symmetry) < ATB = 2(39) = 780 <TAX =< TBX (base angle of Isos ∆ ) 2TBX = 1800 – 780 (sum of angle in a 2 TBX = 1020 TBX= 1020 2 TBX = 510 2.PQR are three points on a circle Centre O. The tangent at P and Q meet at T. If < PTQ = 620 calculate PRQ. Solution Join OP and OQ In quadrilateral TQOP <OQT = <OPT = 900 (radius 1 tangent) POQ = 3600 – (900 + 900 + 620) sum of angle in a quadrilateral) POQ = 3600 – 2420 POQ = 1180 PRQ = 1180 = 590 (2x angle at circumference = angle at centre) 2 PR1QR is a cyclic quadrilateral R + R1 = 1800 (opp. angles of a cyclic quadrilateral ) R1 = 1800 – R R1 = 1800 – 590 R1 = 1210 PRQ = 590 or 1210 [cite: 1728, 1781]"
+    }
+  ],
+  "keywords": [
+    "tangents",
+    "external point",
+    "circle theorems"
+  ]
+}

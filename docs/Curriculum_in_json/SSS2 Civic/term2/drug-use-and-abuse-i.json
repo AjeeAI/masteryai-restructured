@@ -1,0 +1,40 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 5,
+  "topic_title": "Drug Use and Abuse I",
+  "topic_slug": "drug-use-and-abuse-i",
+  "source_title": "Second Term SS2 Civic Education",
+  "learning_objectives": [
+    "Define drug and drug abuse",
+    "Identify common drugs that are abused",
+    "Explain the various ways drugs can be abused",
+    "List the causes of drug abuse"
+  ],
+  "sections": [
+    {
+      "heading": "Definitions",
+      "content": "A drug is a substance or mixture used for the prevention or cure of ailments. Drug abuse is defined as the non-medical use of drugs that can alter mood or perception, leading the user to continue usage despite health, social, and physical impairment."
+    },
+    {
+      "heading": "Commonly Abused Substances",
+      "content": "Common drugs prone to abuse include:\n* Tobacco (cigarettes and snuff)\n* Marijuana (Indian hemp)\n* Alcohol\n* Cocaine and Heroin\n* Stimulants like coffee and kola nuts (when used excessively to stay awake)"
+    },
+    {
+      "heading": "Ways Drugs are Abused",
+      "content": "Abuse occurs when drugs are used outside medical prescription, such as:\n1. Continuous intake without a doctor's prescription.\n2. Taking more than the prescribed dosage.\n3. Using drugs in culturally or medically unacceptable ways.\n4. Self-medication.\n5. Taking prohibited 'hard drugs'."
+    },
+    {
+      "heading": "Causes of Drug Abuse",
+      "content": "Several factors lead individuals to abuse drugs:\n* Easy access to over-the-counter or illegal drugs.\n* Peer pressure and keeping bad company.\n* Poverty and family background.\n* Ignorance of the consequences.\n* Need to enhance performance or stay awake for long periods."
+    }
+  ],
+  "keywords": [
+    "drug abuse",
+    "self-medication",
+    "prescription",
+    "addiction",
+    "stimulants"
+  ]
+}

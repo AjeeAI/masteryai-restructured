@@ -1,0 +1,30 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 10,
+  "topic_title": "Vocabulary Development: Addiction",
+  "topic_slug": "addiction-vocabulary",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Identify vocabulary related to addiction",
+    "Explain their meanings",
+    "Use them correctly in sentences"
+  ],
+  "sections": [
+    {
+      "heading": "Examples",
+      "content": "Some words related to addiction are medicines, injections, trafficker, addict, cocaine, heroin, drug, crave, illegal, etc."
+    },
+    {
+      "heading": "Learning Tasks",
+      "content": "Identify vocabulary related to addiction. Explain their meanings. Use them correctly in sentences."
+    }
+  ],
+  "keywords": [
+    "addiction",
+    "vocabulary",
+    "drug",
+    "illegal"
+  ]
+}

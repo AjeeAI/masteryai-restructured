@@ -1,0 +1,29 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 8,
+  "topic_title": "English Consonants",
+  "topic_slug": "english-consonants",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Identify consonant sounds in English",
+    "Classify them by articulation",
+    "Apply correct pronunciation"
+  ],
+  "sections": [
+    {
+      "heading": "Concept",
+      "content": "There are twenty –four consonants in speech in English. Three factors are usually considered in the classification of consonants. These are ‘place of articulation’, ‘manner of articulation and ‘state of the glottis'.\n\nThis chart below shows the classification according to these features.\n\n\n\nManner of articulation\tState of the Glottis\tPlace of Articulation\n\n\nVoiceless\t      Voiced\n\np\t\tb\t\tBilabial\n\nSTOP\t\t\tt\t\td\t\tAlveolar\n\n(PLOSIVE)\t\tk\t\tg\t\tVelar\n\nFRICATIVE\t\tf\t\tv\t\tLabio-dental\n\nθ\t\t\t\tDental\n\ns\t\tz\t\tAlveolar\n\nS\t\t\tPalato-Alveolar\nh\t\t\t\tGlottal\n\nAFFRICATE\t\tts\t\td\t\tPlato-Alveolar\n\nLATERAL\t\t\t\t\tl\t\tAlveolar\n\nLIQUID\t\t\t\t\tr\t\tAlveolar\n\nSEMI-VOWEL\t\t\t\tw\t\tBilabial\n\nj\t\tPalatal\n\nm\t\tBilabial\n\nNASAL\t\t\t\t\th\t\tAlveolar\n\nŋ\t\tVelar"
+    },
+    {
+      "heading": "Examples and Practice",
+      "content": "Examples of words where the consonants occurs.\n\n1.\t/ p /\t\t-\tpan, nap\n\n2.\t/ b /\t\t-\tbud, rub\n\n3.\t/ t /\t\t-\ttea, seat\n\n4.\t/ d / \t\t-\tdip, hide\n\n5.\t/k/\t\t-\tcome, pack\n\n6.\t/ g /\t\t-\tget, rag\n\n7.\t/ f /\t\t-\tfork, cough\n\n8.\t/ v /\t\t-\tvan, live\n\n9.\t/ θ  /\t\t-\tthink, both\n\n10.\t/   /\t\t-\tthis, breathe\n\n11.\t/ s /\t\t-\tsip, place\n\n12.\t/ z /\t\t-\tzink, has\n\n13.\t/s/\t\t-\tship, fish\n\n14.\t/З/\t\t-\tgenre, garage\n\n15.\t/ h/\t\t-\that, behave\n\n16.\t/ ts/\t\t-\tcheap, teach\n\n17.\t/ d З /\t\t-\tjoy, page\n\n18.\t/ l /\t\t-\tlock, sell\n\n19.\t/ r/\t\t-\trag, borrow\n\n20.\t/ w/\t\t-\twin, rewind\n\n21.\t/ j/\t\t-\tyes, new\n\n22.\t/m/\t\t-\tman, him\n\n23.\t/ n /\t\t-\tnet, rain\n\n24.\t/ ŋ/\t\t-\tsinger, bang"
+    }
+  ],
+  "keywords": [
+    "consonants",
+    "phonetics",
+    "pronunciation"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 5,
+  "topic_title": "Essay Writing: The Expository Essay",
+  "topic_slug": "essay-writing-expository",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define an expository essay and state its distinguishing features",
+    "Outline an expository essay before writing",
+    "Write a well-structured expository essay"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "An expository essay is one that requires the writer to explain a thing or a process fully. It involves writing a great deal about what distinguishes the subject from all other things and may also involve some description."
+    },
+    {
+      "heading": "Sample Outline 1 – Sanitation",
+      "content": "Question: Write an article for a local newspaper on the need to improve sanitation in your area.\n\nIntroduction: The state of sanitation / definition\nParagraph 2: The need for sanitation\nParagraph 3: First way to improve (detailed)\nParagraph 4: Second way to improve (detailed)\nParagraph 5: Third way to improve (detailed)\nConclusion: Hope that the new measures will be used"
+    },
+    {
+      "heading": "Sample Outline 2 – A Friend in Need",
+      "content": "Question: Write an article to illustrate the saying 'A Friend in Need is a Friend Indeed'.\n\nIntroduction: Say who your friend is\nParagraph 2: How friendly you are\nParagraph 3: Another proof of friendship\nParagraph 4: An incident that proves the saying\nConclusion"
+    }
+  ],
+  "keywords": [
+    "expository essay",
+    "essay outline",
+    "explanation",
+    "article",
+    "paragraph structure"
+  ]
+}

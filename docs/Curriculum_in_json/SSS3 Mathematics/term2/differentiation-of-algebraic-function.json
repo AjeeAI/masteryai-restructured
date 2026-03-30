@@ -1,0 +1,36 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 4,
+  "topic_title": "DIFFERENTIATION OF ALGEBRAIC FUNCTION.",
+  "topic_slug": "differentiation-of-algebraic-function",
+  "source_title": "Second Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand differentiation of algebraic function."
+  ],
+  "sections": [
+    {
+      "heading": "Content",
+      "content": "Differentiation is a branch of calculus that deals with the rates of change.\nCALCULUS is a branch of Mathematics that deals with continuously varying quantities."
+    },
+    {
+      "heading": "FIRST PRINCIPLE",
+      "content": "This is the method of finding the derivative of a function from definition.\nEXAMPLE\nUsing first principle, differentiate the function y =\nSOLUTION\nY = + x – 1,\nLet y = and x = (substitute into the equation)\n= ( + -1\n= ( + 2x + + + x – 1 …..(i)\nSubtract the original equation from (i)\n= (+ 2x + x -1 – (+ x -1)\n= ( + 2x + (divide through by\n= + 2x + 1 i.e.\n= 0 +2x + 1 = 2x + 1"
+    },
+    {
+      "heading": "STANDARD DERIVATIVE",
+      "content": "This is the general rule for derivative function. i.e.\n= na, where n is the power of x, a is the coefficient of x.\nNOTE: when differentiating any function the constant value becomes zero since the derivative is with respect to x.\nEXAMPLE\nDifferentiate 3 - 7\nSOLUTION\n= (3X4- (7x3)+ (1x2)+ (7x1) – 0\n= 12- 21 + 2x +7\nASSESSMENT: work the following question:\nUsing first principle, find the derivative of the following: (i) y = x +25 (ii) y = 5 – 7 (iii) y = – 3x + 65.\nDifferentiate each of the following with respect to x: (i) 6+ 4 -7 + 3x -8. (ii) (3x + 2)(6x +5) (iii) .\nFrom first principle, differentiate 5x -\nDifferentiate with respect to x, ."
+    }
+  ],
+  "keywords": [
+    "differentiation",
+    "algebraic",
+    "function",
+    "content",
+    "first",
+    "principle",
+    "standard",
+    "derivative"
+  ]
+}

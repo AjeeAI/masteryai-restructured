@@ -1,0 +1,28 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 8,
+  "topic_title": "Differences in the angles of longitude",
+  "topic_slug": "differences-in-the-angles-of-longitude",
+  "source_title": "First Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand differences in the angles of longitude"
+  ],
+  "sections": [
+    {
+      "heading": "Concept",
+      "content": "When the two points are located on the same side on the earth’s surface i.e. Either East-East or West –West, subtract the angles, otherwise, add them up."
+    },
+    {
+      "heading": "Examples and Solution",
+      "content": "Examples\nAbuja is located on 32o E while Lagos is on 15oE. What is the difference in their angles of longitude? (both lie on Lat. 60oN).\nCalabar is on 15oE of the meridian , while Lokoja is located on 120N, find the difference in their angles of longitude (both on latitude 40o S)\nSolution\nDifference in angle = 32o – 15o = 17o\nAngular difference = 12 + 15 = 27o"
+    }
+  ],
+  "keywords": [
+    "differences",
+    "angles",
+    "longitude",
+    "content"
+  ]
+}

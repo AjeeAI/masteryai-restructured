@@ -1,0 +1,32 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 10,
+  "topic_title": "Comprehension and Writing Skills: Introduction to Summary Writing",
+  "topic_slug": "summary-writing",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Explain what summary writing tests",
+    "Apply the correct procedure for producing a summary",
+    "Write summaries that are concise and in the candidate's own words"
+  ],
+  "sections": [
+    {
+      "heading": "What the Summary Section Tests",
+      "content": "The summary section tests the candidate's ability to extract or pick out relevant information from a longer passage and present that information in clear, concise language."
+    },
+    {
+      "heading": "Procedure for Summary Writing",
+      "content": "1. Read the passage once or twice for thorough understanding.\n2. Read the questions based on the passage.\n3. Read the passage again, making notes or jotting down points relevant to the questions.\n4. Write out your answers.\n5. Read over the questions and your answers to check for errors."
+    }
+  ],
+  "keywords": [
+    "summary writing",
+    "comprehension",
+    "extract",
+    "concise",
+    "paraphrase",
+    "relevant information"
+  ]
+}

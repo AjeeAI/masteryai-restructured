@@ -1,0 +1,38 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 4,
+  "topic_title": "Formal Letters",
+  "topic_slug": "formal-letters",
+  "source_title": "Second Term SS3 English Language",
+  "learning_objectives": [
+    "Explain Definition in Formal Letters",
+    "Plan and organize Formal Letters",
+    "Write a clear Formal Letters"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "These are letters we write to people in their official positions."
+    },
+    {
+      "heading": "Features",
+      "content": "1. Writer’s Address and Date\n2. Receiver’s Address\n3. Salutation (Dear Sir or Dear Madam)\n4. Heading or Title\n5. Introduction\n6. Body of the letter (at least three paragraphs)\n7. Conclusion\n8. Complimentary close (Yours faithfully)"
+    },
+    {
+      "heading": "Sample Question",
+      "content": "Write a letter to the Commissioner of Education, informing him about the plan of your council to engage in the expansion of the only secondary school in your town and how the council intends to implement its programme of aid to the school."
+    },
+    {
+      "heading": "Format",
+      "content": "Baptist College,\nIdi-Ishin,\nP.O. Box 30,\nIbadan,\nOyo State,\n14th October, 2019\n\nThe Commissioner,\nMinistry of Education,\nIbadan\n\nDear Sir,\n\nExpansion Programme for Baptist College\n\nBody of the Letter\n\nYours faithfully,\n(Signature)\nAdeyanju Adedayo"
+    }
+  ],
+  "keywords": [
+    "formal letters",
+    "letter writing",
+    "composition",
+    "official communication"
+  ]
+}

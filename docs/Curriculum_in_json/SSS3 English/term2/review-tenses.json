@@ -1,0 +1,35 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 7,
+  "topic_title": "Review of Tenses",
+  "topic_slug": "review-tenses",
+  "source_title": "Second Term SS3 English Language",
+  "learning_objectives": [
+    "Explain Definition in Review of Tenses",
+    "Identify key ideas in Review of Tenses",
+    "Apply Review of Tenses concepts in examples"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "Tenses occur only in verbs. Tense refers to the changes that take place in the form of the verb to indicate time. Only two tenses, namely the present and the past, can be identified."
+    },
+    {
+      "heading": "Present Tense",
+      "content": "The only change that takes place in the form of the verb to indicate the present tense occurs when the verb agrees with a third person singular subject.\nExamples:\nSingular: I sleep, wake and eat; You sleep, wake and eat; He sleeps, wakes and eats.\nPlural: We sleep, wake and eat; You sleep, wake and eat; They sleep, wake and eat."
+    },
+    {
+      "heading": "Past Tense",
+      "content": "Regular verbs form their past by adding ‘ed’ to the simple form of the verb, while irregular verbs form their past tense in different ways.\nExamples:\n- Ume worked in the farm yesterday. (regular)\n- Ada spoke to me on the telephone. (irregular)\n\nEvaluation: Exercise 1, Question 1, page 205, Countdown to English."
+    }
+  ],
+  "keywords": [
+    "tenses",
+    "grammar",
+    "present tense",
+    "past tense",
+    "verbs"
+  ]
+}

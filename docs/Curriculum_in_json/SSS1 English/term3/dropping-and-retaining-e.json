@@ -1,0 +1,30 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 7,
+  "topic_title": "Spelling: Dropping 'e' and Retaining 'e'",
+  "topic_slug": "dropping-and-retaining-e",
+  "source_title": "Third Term SS1 English Language Lesson Notes",
+  "learning_objectives": [
+    "Identify words where final 'e' is dropped",
+    "Identify words where final 'e' is retained",
+    "Apply the spelling rules in word formation"
+  ],
+  "sections": [
+    {
+      "heading": "When 'e' Is Dropped",
+      "content": "The note explains that final 'e' is usually dropped before suffixes beginning with a vowel, as in live/living and shine/shining, and in examples such as argument and judgment."
+    },
+    {
+      "heading": "When 'e' Is Retained",
+      "content": "The final 'e' is retained in words like noticeable and changeable to keep soft c or g, in forms like ageing to avoid confusion, in words ending in -oe such as canoeing, and in some -ly forms such as nicely and vaguely."
+    }
+  ],
+  "keywords": [
+    "spelling",
+    "dropping e",
+    "retaining e",
+    "word formation"
+  ]
+}

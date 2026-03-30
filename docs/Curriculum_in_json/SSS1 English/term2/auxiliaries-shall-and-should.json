@@ -1,0 +1,31 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 5,
+  "topic_title": "Structure: Auxiliaries 'Shall' and 'Should'",
+  "topic_slug": "auxiliaries-shall-and-should",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Explain the use of 'shall'",
+    "Explain the use of 'should'",
+    "Form sentences with both auxiliaries"
+  ],
+  "sections": [
+    {
+      "heading": "Auxiliary 'Shall'",
+      "content": "'Shall' shows simple futurity in the first person singular and plural, and determination in the second and third persons."
+    },
+    {
+      "heading": "Auxiliary 'Should'",
+      "content": "'Should' expresses futurity from the standpoint of some past time, obligation, and logical necessity. It is also used after expressions of pity or surprise."
+    }
+  ],
+  "keywords": [
+    "auxiliary",
+    "shall",
+    "should",
+    "obligation",
+    "futurity"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 5,
+  "topic_title": "Venn Diagrams and Problem Solving with Sets",
+  "topic_slug": "venn-diagrams",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Represent sets and their relationships using Venn diagrams",
+    "Solve problems involving two sets using Venn diagrams",
+    "Solve problems involving three sets using Venn diagrams",
+    "Interpret shaded regions in Venn diagrams"
+  ],
+  "sections": [
+    {
+      "heading": "Venn Diagram Representations",
+      "content": "A Venn diagram uses a rectangle for the universal set and ovals (circles) for subsets. Key representations: the oval itself = subset A; shaded A' = complement (elements not in A); shaded overlap = A ∩ B; shaded combined = A ∪ B; non-overlapping ovals = disjoint sets (P ∩ Q = ∅); one oval inside another = P ⊂ Q; shaded outside both = P' ∩ Q'; for three sets, the central overlap = P ∩ Q ∩ R."
+    },
+    {
+      "heading": "Solving Problems with Two Sets",
+      "content": "For two-set problems, let x be the unknown (e.g., elements in both sets). Form an equation: (elements in A only) + (elements in both) + (elements in B only) + (elements in neither) = total. Example: 400 students; 300 take Biology; 190 take Chemistry; 70 take neither. Let x = n(B ∩ C). Then (300 − x) + x + (190 − x) + 70 = 400 → 560 − x = 400 → x = 160. So 160 take both, and 330 take at least one."
+    },
+    {
+      "heading": "Solving Problems with Three Sets",
+      "content": "For three-set problems, let x = number in all three sets. Work outward from the centre: find expressions for each region in terms of x, then sum all regions = total. Example: 290 readers; 181 read Daily Times (D), 142 read Guardian (G), 117 read Punch (P); n(D∩G)=75, n(D∩P)=60, n(G∩P)=54. Summing all regions: 251 + x = 290 → x = 39. Then: reading exactly two papers = 189 − 3(39) = 72; exactly one = 62 + 3(39) = 179."
+    }
+  ],
+  "keywords": [
+    "Venn diagram",
+    "two sets",
+    "three sets",
+    "union",
+    "intersection",
+    "complement",
+    "universal set",
+    "problem solving",
+    "shaded region",
+    "disjoint sets"
+  ]
+}

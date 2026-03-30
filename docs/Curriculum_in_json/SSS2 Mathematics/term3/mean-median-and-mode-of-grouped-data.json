@@ -1,0 +1,33 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 3,
+  "week": 7,
+  "topic_title": "Mean, Median And Mode Of Grouped Data",
+  "topic_slug": "mean-median-and-mode-of-grouped-data",
+  "source_title": "Third Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Understand mean, median and mode of grouped data"
+  ],
+  "sections": [
+    {
+      "heading": "Explanation",
+      "content": "MEAN: The arithmetic mean of grouped frequency distribution can be obtained using:"
+    },
+    {
+      "heading": "Class Mark Method",
+      "content": "X = fx/∑f where x is the midpoint of the class interval.\nAssumed Mean Method: It is also called working mean method. X = A + (∑ Fd/∑f)\nWhere, d = x – A, x = class mark and A = assumed mean.\nEXAMPLE: The numbers of matches in 100 boxes are counted and the results are shown in the table below:\nNumber of matches | 25 - 28 | 29 - 32 | 33 - 36 | 37 - 40\nNumber of boxes | 18 | 34 | 37 | 11\nCalculate the mean (i) using class mark (ii) assumed mean method given that the assumed mean is 30.5."
+    },
+    {
+      "heading": "Solution",
+      "content": "Class interval | F | X | FX | d = x - A | Fd\n25 - 28 | 18 | 26.5 | 477 | 4 | 72\n29 - 32 | 34 | 30.5 | 1037 | 0 | 0\n33 - 36 | 37 | 34.5 | 1276.5 | 4 | 148\n37 - 40 | 11 | 38.5 | 423.5 | 8 | 88\nTotal | 100 | 3214 | 164\nClass Mark Method: X = fx/∑f = 3214/100 = 32. 14 = 32 matches per box (nearest whole no)\nAssumed Mean Method: X = A + (∑ Fd/∑f)\n= 30. 5 + (164/100) =30.5 + 1.64\n= 32.14 = 32 matches per box (nearest whole number)"
+    }
+  ],
+  "keywords": [
+    "mean",
+    "median",
+    "mode",
+    "grouped",
+    "data"
+  ]
+}

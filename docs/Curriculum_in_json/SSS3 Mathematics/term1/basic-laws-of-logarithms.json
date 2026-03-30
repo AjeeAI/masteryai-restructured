@@ -1,0 +1,35 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 1,
+  "topic_title": "Basic Laws of Logarithms",
+  "topic_slug": "basic-laws-of-logarithms",
+  "source_title": "First Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand basic laws of logarithms"
+  ],
+  "sections": [
+    {
+      "heading": "Content",
+      "content": "Log mn = Log m + Log n\nLog (m/n) = Log m – Log n\nLog mp = pLog m\nLog 1 = 0\nLogmm = 1\nLog (1/m)n= Log m-n = -nLog m"
+    },
+    {
+      "heading": "Change of base",
+      "content": "Log mn = Logan\nLogam\nExamples:\nExpress as logarithm of a single number 2Log3 + Log6 solution:\n2log3 + log 6\n= log32+ log 6 = log 9 + log 6\n= Log 9 x6 = Log 54\nSimplify Log 8 ÷ Log 4 Solution:\nLog 8 ÷ log 4 = log 23 = 3log2 = 3/2\nlog 22 2log2\nEvaluate 3log2 + log 20 – log 1.6 Solution\n= log23 + log 20 – log(16/10)\n= log 8 + log 20 – log (8/5)\n= log (8 x 20÷ 8/5)\n= log (8 x 20 x 5 ÷ 8)\n= log 100 = log102 = 2log 10 = 2"
+    },
+    {
+      "heading": "Evaluation:",
+      "content": "Simplify the following: a. ½ log 25 b. 1 + log 3 c. log 8 + log 4\nEvaluate log 45 – log 9 + log 20\nGiven that log 2 = 0.3010, log 3 = 0.4771 and log 7 = 0.8451, evaluate a. log 42 b. log 35 4. Solve 22x - 10 x 2x+ 16 = 0"
+    }
+  ],
+  "keywords": [
+    "basic",
+    "laws",
+    "logarithms",
+    "content",
+    "change",
+    "base",
+    "evaluation"
+  ]
+}

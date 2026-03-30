@@ -1,0 +1,54 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 5,
+  "topic_title": "Deductive Proof — Triangles, Parallel Lines and Congruency",
+  "topic_slug": "deductive-proof",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Prove that the sum of angles in a triangle is 180°",
+    "Apply properties of parallel lines cut by a transversal",
+    "State and apply properties of parallelograms and rhombuses",
+    "Apply the intercept theorem",
+    "Identify congruent triangles and state conditions for congruency"
+  ],
+  "sections": [
+    {
+      "heading": "Proof: Angle Sum of a Triangle = 180°",
+      "content": "Given triangle ABC, produce BC to X and draw CP parallel to BA. Let angle BAC = a₁, angle ABC = b₁, angle BCA = c. Then: a₁ = angle ACE (alternate angles, BA ∥ CP); b₁ = angle ECD (corresponding angles, BA ∥ CP). Since c + angle ACE + angle ECD = 180° (angles on a straight line BX), we have c + a₁ + b₁ = 180°, i.e., A + B + C = 180°."
+    },
+    {
+      "heading": "Angles on Parallel Lines Cut by a Transversal",
+      "content": "When a transversal cuts two parallel lines, it creates corresponding angles (equal, same side of transversal), alternate angles (equal, between the lines on opposite sides), and co-interior angles (supplementary, adding to 180°). Vertically opposite angles are also equal. These relationships are used to find unknown angles in geometric problems."
+    },
+    {
+      "heading": "Properties of Parallelograms and Rhombuses",
+      "content": "A parallelogram has: opposite sides parallel and equal; opposite angles equal; diagonals that bisect each other. A rhombus has all properties of a parallelogram plus: all four sides equal; diagonals bisect each other at right angles; diagonals bisect the vertex angles. A rectangle has all parallelogram properties plus all angles are 90°. A square has all rhombus properties plus all angles are 90°."
+    },
+    {
+      "heading": "The Intercept Theorem",
+      "content": "If three or more parallel lines cut equal intercepts on one transversal, they cut equal intercepts on any other transversal. Proof uses congruent triangles (AAS condition): given parallel lines through A, B, C cutting another transversal at X, Y, Z with AB = BC, then XY = YZ."
+    },
+    {
+      "heading": "Congruent Triangles",
+      "content": "Two triangles are congruent if they have exactly the same shape and size. The four conditions for congruency are: SAS (two sides and included angle equal); ASA or AAS (two angles and corresponding side equal); SSS (three sides equal); RHS (right angle, hypotenuse, and one other side equal). Congruent triangles are used to prove properties of geometric figures."
+    }
+  ],
+  "keywords": [
+    "deductive proof",
+    "angle sum of triangle",
+    "parallel lines",
+    "transversal",
+    "corresponding angles",
+    "alternate angles",
+    "parallelogram",
+    "rhombus",
+    "intercept theorem",
+    "congruent triangles",
+    "SAS",
+    "ASA",
+    "SSS",
+    "RHS"
+  ]
+}

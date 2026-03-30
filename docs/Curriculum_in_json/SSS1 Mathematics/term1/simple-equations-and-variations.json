@@ -1,0 +1,55 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 10,
+  "topic_title": "Simple Equations and Variations",
+  "topic_slug": "simple-equations-and-variations",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Solve linear equations using the balance method",
+    "Change the subject of a formula",
+    "Understand and apply direct variation",
+    "Understand and apply inverse variation",
+    "Understand and apply joint variation",
+    "Understand and apply partial variation"
+  ],
+  "sections": [
+    {
+      "heading": "Solving Linear Equations",
+      "content": "An equation is a statement that two expressions are equal. To solve, use the balance method: the same operation applied to both sides keeps the equation balanced. Example: 4 − 4x = 9 − 12x → add 12x to both sides → 4 + 8x = 9 → subtract 4 → 8x = 5 → x = 5/8. Also: 3(4c − 7) − 4(4c − 1) = 0 → expand brackets → −4c − 17 = 0 → c = −17/4."
+    },
+    {
+      "heading": "Change of Subject of Formulae",
+      "content": "To change the subject of a formula, treat it as an equation and solve for the desired variable. Steps: (1) clear fractions, brackets and roots; (2) collect all terms containing the new subject on one side; (3) factorise if more than one term contains the subject; (4) divide by the bracket. Examples: from a = b(a − x), make x the subject → bx = b − a → x = (b − a)/b. From b = ½√(a² − x²), square both sides → 4b² = a² − x² → x = ±√(a² − 4b²)."
+    },
+    {
+      "heading": "Direct Variation",
+      "content": "C ∝ n means C varies directly as n, or C/n = k (a constant), so C = kn. To find k, substitute known values. Example: if C ∝ n and C = 5 when n = 20, then k = 5/20 = 1/4, so C = n/4. Direct variation produces straight-line graphs through the origin."
+    },
+    {
+      "heading": "Inverse Variation",
+      "content": "θ ∝ 1/n means θ varies inversely as n, so θ = k/n. Example: if θ = 72 when n = 5, then k = 72 × 5 = 360, so θ = 360/n. When n = 12, θ = 30; when θ = 8, n = 45. Inverse variation appears in situations like angle size vs number of sectors in a circle."
+    },
+    {
+      "heading": "Joint Variation",
+      "content": "Joint variation occurs when a quantity varies with two or more others simultaneously. Example: M ∝ At means M varies jointly with area A and thickness t. If Y ∝ 1/X² and X ∝ Z², substituting gives Y = C/Z⁴, meaning Y varies inversely as Z⁴."
+    },
+    {
+      "heading": "Partial Variation",
+      "content": "Partial variation means a quantity is partly constant and partly varies with another quantity. The general form is C = a + kt where a and k are constants. Example: if R = 350 when E = 1600 and R = 730 when E = 3600, then forming two simultaneous equations gives k = 1/10 and a = 370, so R = 370 + E/10."
+    }
+  ],
+  "keywords": [
+    "linear equations",
+    "balance method",
+    "change of subject",
+    "formula",
+    "direct variation",
+    "inverse variation",
+    "joint variation",
+    "partial variation",
+    "proportionality",
+    "constant of variation"
+  ]
+}

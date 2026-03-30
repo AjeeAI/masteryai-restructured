@@ -1,0 +1,46 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS2",
+  "term": 3,
+  "week": 6,
+  "topic_title": "Interpersonal Relations",
+  "topic_slug": "interpersonal-relations",
+  "source_title": "Third Term SS2 Civic Education",
+  "learning_objectives": [
+    "Define interpersonal relationship",
+    "Identify types of interpersonal relationships",
+    "Explain skills that promote interpersonal relationships",
+    "Discuss the importance of interpersonal relationships in society"
+  ],
+  "sections": [
+    {
+      "heading": "Meaning of Interpersonal Relationship",
+      "content": "Interpersonal relationship is the interaction or association between two or more people in society. Human beings cannot live in isolation, so interpersonal relationships are essential for peaceful coexistence."
+    },
+    {
+      "heading": "Types of Interpersonal Relationship",
+      "content": "Types of interpersonal relationship include man and woman relationship, man and man relationship, woman and woman relationship, government and individual relationship, peer relationship, and relationship across culture or race."
+    },
+    {
+      "heading": "Skills That Promote Interpersonal Relationship",
+      "content": "Skills that promote interpersonal relationship include honesty, tolerance, love, patience, selflessness, hospitality, truthfulness, and forgiveness."
+    },
+    {
+      "heading": "Importance of Interpersonal Relationship",
+      "content": "Interpersonal relationship promotes peace, unity, progress, development, law and order, security, and a good image for individuals and communities."
+    }
+  ],
+  "keywords": [
+    "interpersonal relationship",
+    "honesty",
+    "tolerance",
+    "love",
+    "patience",
+    "selflessness",
+    "hospitality",
+    "truthfulness",
+    "forgiveness",
+    "unity",
+    "peace"
+  ]
+}

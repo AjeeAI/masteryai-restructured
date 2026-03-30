@@ -1,0 +1,40 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 4,
+  "topic_title": "Community Service",
+  "topic_slug": "community-service",
+  "source_title": "First Term SS1 Civic Education",
+  "learning_objectives": [
+    "Define community service",
+    "List examples of community-based organisations",
+    "Explain the benefits of community service to Nigerians"
+  ],
+  "sections": [
+    {
+      "heading": "Meaning of Community Service",
+      "content": "Community service is a donated service or activity that is performed by someone or a group of people for the benefit of the public or its institutions. Community services performed by youth are also seen as youth service. Youth service is intended to strengthen young people's sense of civic engagement. This may help them to achieve their educational, developmental and social goals.\n\nCommunity service is designed to improve the quality of life for community residents or schools. Community service can occur in such fields as health care, education, social services, welfare, crime prevention and control, and community improvement."
+    },
+    {
+      "heading": "Examples of Community-Based Organisations",
+      "content": "1. Lions and Lioness Club\n2. Red Cross Society\n3. Boys Scout Organisation\n4. Girls Guide\n5. Nigerian National Volunteer Service (NNVS)\n6. United Nations Volunteer Programme (UNVP)"
+    },
+    {
+      "heading": "Benefits of Community Service to Nigerians",
+      "content": "a. Support and Opportunities: Providers of community service are held in high esteem by the people and seen as responsible youths.\n\nb. Self-Efficacy: The provider of the service gains self-efficacy — the belief that he has the ability to do something that can produce the good or right result.\n\nc. Personal Skills: Community service develops personal skills of individuals, including self-esteem, leadership skills, sense of community, and prestige.\n\nd. Available Amenities: The community gains services and resources that would not have been available to them. The members feel happy and appreciative of the facility provided for them."
+    }
+  ],
+  "keywords": [
+    "community service",
+    "youth service",
+    "civic engagement",
+    "Lions Club",
+    "Red Cross",
+    "Boys Scout",
+    "Girls Guide",
+    "NNVS",
+    "self-efficacy",
+    "volunteerism"
+  ]
+}

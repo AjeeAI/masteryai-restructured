@@ -1,0 +1,44 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 2,
+  "topic_title": "Frustums, Angle Sum of a Triangle and Exterior Angle",
+  "topic_slug": "frustums-and-angle-proofs",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Calculate volumes of composite solids (combinations of basic shapes)",
+    "Calculate volumes of frustums of cones and pyramids",
+    "Prove that the angle sum of a triangle is 180°",
+    "Apply the exterior angle theorem of a triangle"
+  ],
+  "sections": [
+    {
+      "heading": "Composite Solids",
+      "content": "A composite solid is formed by joining two or more basic solids. Its volume is the sum of the individual volumes. Example: a cube of edge 28cm topped by a square pyramid of height 16cm → Volume = (1/3) × 28² × 16 + 28³ = (12544/3) + 21952 ≈ 26133cm³."
+    },
+    {
+      "heading": "Volumes of Frustums",
+      "content": "A frustum is the part of a cone or pyramid left after removing the top portion with a cut parallel to the base. Volume of frustum = Volume of full solid − Volume of the removed top portion. To find dimensions of the removed part, use similar triangles (the linear scale factor equals the ratio of corresponding heights). Example: cone of volume 5 litres cut one-third from vertex → small cone has r = R/3 and h = H/3; volume of small cone = (1/27) × volume of whole cone = 5000/27 ml ≈ 185ml; frustum = 5000 − 185 ≈ 4815ml."
+    },
+    {
+      "heading": "Proof: Angle Sum of a Triangle = 180°",
+      "content": "Given any triangle ABC, produce BC to X and draw CP parallel to BA. Then: angle BAC = angle ACE (alternate angles, BA ∥ CP); angle ABC = angle ECD (corresponding angles, BA ∥ CP); but angle ACB + angle ACE + angle ECD = 180° (angles on a straight line). Therefore angle BAC + angle ABC + angle ACB = 180°."
+    },
+    {
+      "heading": "Exterior Angle Theorem",
+      "content": "The exterior angle of a triangle equals the sum of the two non-adjacent interior angles (remote interior angles). This follows from the proof: exterior angle = sum of the two alternate and corresponding pairs that equal the two interior angles. Example: for triangle with angles 3x and 2x + 20, and exterior angle 200° − 4x: 3x + 2x + 20 = 200 − 4x → 9x = 180 → x = 20°."
+    }
+  ],
+  "keywords": [
+    "frustum",
+    "composite solid",
+    "pyramid volume",
+    "cone volume",
+    "angle sum of triangle",
+    "exterior angle theorem",
+    "supplementary angles",
+    "similar triangles",
+    "parallel lines"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 3,
+  "week": 3,
+  "topic_title": "Bearings And Distances",
+  "topic_slug": "bearings-and-distances",
+  "source_title": "Third Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Understand bearings and distances"
+  ],
+  "sections": [
+    {
+      "heading": "Bearings And Distances",
+      "content": "Angles of Elevation and Depression\nAngle of Elevation\nThis is the angle formed between the normal eye level and the line through which the observer view an object above.\nA\nӨ\nC B\nAngle ACB = Ө = Angle of elevation.\nAngle of Depression: This is the angle formed between the eye level of the observer and the object below when the observer is above the object at view.\nAngle ABC = Ө = Angle of Depression. B Ө\nAC\nThe angle of elevation is alternate to the angle of depression and problems involving angles of elevation and depression could be solved by using the basic trigonometric ratios and in some cases the sine and cosine rule could be applied.\nSine Rule for ∆ ABC; a = b = c"
+    },
+    {
+      "heading": "Sin A Sin B Sin C",
+      "content": "Cosine Rule: a2 = b2 + c2 – 2bc Cos A\nb2 = a2 + c2 – 2ac Cos B\nc2 = a2 + b2 – 2ab Cos C"
+    },
+    {
+      "heading": "Examples",
+      "content": "A ladder 50m long rests against a vertical wall. If the ladder makes an angle of 650 with the ground, find the distance between the foot of the ladder and the wall."
+    },
+    {
+      "heading": "Solution: Q Ladder = Qr, Wall = Qp",
+      "content": "Distance between the foot of the ladder and the wall = PR\n50m Cos 650 = PR\nCross multiplying\nPR = 50 x Cos 650 = 50 x0.4226\nPR = 21.13m\nP 650 R\nThe angle of depression of an object on the ground from the top of a tower 60m high is 550. Find the distance between the foot of the tower and the object to the nearest whole number."
+    },
+    {
+      "heading": "550 Tower = Ac, Object = A",
+      "content": "Distance between the foot of the tower and\nthe object = BC\nTan 550 = AC, tan 550 = 60\n60m BC BC\nCross multiplying; BC x Tan 550 = 60\nBC = 60/tan 550\nBC BC = 60/1.428 = 42.02m\nBC = 42m (nearest whole number)"
+    }
+  ],
+  "keywords": [
+    "bearings",
+    "distances"
+  ]
+}

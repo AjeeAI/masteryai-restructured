@@ -1,0 +1,52 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 3,
+  "topic_title": "Geometrical Construction — Triangles, Line Segments and Angles",
+  "topic_slug": "geometrical-construction",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Construct triangles using ruler and compasses given sides and angles",
+    "Draw and bisect line segments using compasses",
+    "Construct angles of 90°, 45°, 135°, 22½° and 67½° using compasses",
+    "Construct angles of 60°, 30°, 120°, 150°, 75° and 105° using compasses",
+    "Bisect any given angle using compasses"
+  ],
+  "sections": [
+    {
+      "heading": "Construction of Triangles",
+      "content": "To construct a triangle given two sides and an included angle: (1) draw one side as base; (2) construct the given angle at one endpoint; (3) measure the second side along the angle line; (4) join to complete the triangle. Example: construct triangle ABC with AB = 7cm, AC = 9.5cm and angle ABC = 120°. Draw AB = 7cm, construct 120° at B, mark 9.5cm from A along the angle line to get C, join AC. Measure BC from the diagram."
+    },
+    {
+      "heading": "Drawing and Bisecting Line Segments",
+      "content": "To bisect line segment AB: (1) with centre A and radius about ¾ of AB, draw arcs above and below the line; (2) with centre B and the same radius, draw arcs cutting the previous arcs; (3) join the two intersection points. This line is the perpendicular bisector of AB, dividing it into two equal halves."
+    },
+    {
+      "heading": "Construction of 90°, 45°, 135° and Related Angles",
+      "content": "To construct 90°: draw a line BC; with centres B and C (same radius), draw arcs meeting at D above BC; draw line through B and D — angle DBC = 90°. Bisecting 90° gives 45°; bisecting 45° gives 22½°. Constructing 90° on one side and bisecting the remaining 90° on the other gives 135°. Bisecting 135° gives 67½°."
+    },
+    {
+      "heading": "Construction of 60°, 30°, 120°, 150° and Related Angles",
+      "content": "To construct 60°: draw arc from A cutting AB at C; with same radius from C, cut the arc at D; angle DAB = 60°. Bisecting 60° gives 30°. To construct 120°: mark two successive 60° arcs on the same side. To construct 150°: construct 120° then bisect the remaining 60° to add 30°. Angles of 75° = 60° + 15° (half of 30°) and 105° = 90° + 15°."
+    },
+    {
+      "heading": "Bisecting an Angle",
+      "content": "To bisect angle ABC: (1) with centre B, draw an arc cutting BA at D and BC at E; (2) with equal radii centred at D and E, draw arcs meeting at F; (3) draw line BF — this is the angle bisector. Angle FBA = angle FBC = ½ angle ABC."
+    }
+  ],
+  "keywords": [
+    "geometrical construction",
+    "bisect",
+    "angle bisector",
+    "perpendicular bisector",
+    "compasses",
+    "ruler",
+    "60 degrees",
+    "90 degrees",
+    "45 degrees",
+    "120 degrees",
+    "30 degrees",
+    "triangle construction"
+  ]
+}

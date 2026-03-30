@@ -1,0 +1,30 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 9,
+  "topic_title": "Comprehension: Law and Order",
+  "topic_slug": "comprehension-law-and-order",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Read and understand a passage on law and order",
+    "Identify details of a court case",
+    "Answer comprehension questions"
+  ],
+  "sections": [
+    {
+      "heading": "Passage (Part 1)",
+      "content": "The passage is adapted from the Daily Sketch. It is a report of a court case."
+    },
+    {
+      "heading": "Passage (Part 2)",
+      "content": "The case involved five people including three women and a fifth form student of a Grammar School in Oyo. They were accused of breaking into the shop of Sule Ajibade and Bosede Shittu and stealing various articles. After the hearing, the case was adjourned till 12 March for hearing."
+    }
+  ],
+  "keywords": [
+    "comprehension",
+    "law",
+    "order",
+    "court case"
+  ]
+}

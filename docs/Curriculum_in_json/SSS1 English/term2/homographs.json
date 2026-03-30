@@ -1,0 +1,32 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 1,
+  "topic_title": "Spelling: Homographs",
+  "topic_slug": "homographs",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Define homographs",
+    "Distinguish meanings of words that share the same spelling",
+    "Use homographs correctly in context"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "Homographs are words that are spelt the same but differ in meaning, origin, or pronunciation."
+    },
+    {
+      "heading": "Examples",
+      "content": "bow (verb) = to bend the head or upper body forward; bow (noun) = a weapon for shooting arrows.\nminute (noun) = one of the sixty parts of an hour; minute (adjective) = very small.\nconvict (verb) = to declare someone guilty in court; convict (noun) = a person found guilty of a crime.\nrecord (noun) = an account kept for reference; record (verb) = to keep a permanent account of facts or events.\nperfect (adjective) = without fault; perfect (verb) = to make something perfect.\nexercise (noun) = physical or mental activity; exercise (verb) = to use power, right, or personal qualities.\nfound (verb) = past tense of find; found (verb) = to establish an organisation."
+    }
+  ],
+  "keywords": [
+    "homograph",
+    "spelling",
+    "meaning in context",
+    "bow",
+    "record",
+    "convict"
+  ]
+}

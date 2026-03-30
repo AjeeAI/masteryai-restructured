@@ -1,0 +1,42 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS2",
+  "term": 3,
+  "week": 1,
+  "topic_title": "Responsible Parenthood",
+  "topic_slug": "responsible-parenthood",
+  "source_title": "Third Term SS2 Civic Education",
+  "learning_objectives": [
+    "Explain the meaning of responsible parenthood",
+    "Identify the roles and responsibilities of fathers and mothers",
+    "Discuss the importance of responsible parenthood in society"
+  ],
+  "sections": [
+    {
+      "heading": "Meaning of Responsible Parenthood",
+      "content": "Responsible parenthood is the ability of parents to provide for the overall needs of their children so that they can become responsible citizens. It includes meeting financial, educational, social, emotional, and material needs from conception through adulthood."
+    },
+    {
+      "heading": "Roles and Responsibilities of the Father",
+      "content": "The father provides financial support, food, shelter, security, attention to education, discipline, positive values, love, and care for the family."
+    },
+    {
+      "heading": "Roles and Responsibilities of the Mother",
+      "content": "The mother prepares food, keeps the home clean, cares for the children, supports school work, monitors health, teaches obedience and respect, and serves as a model of good character."
+    },
+    {
+      "heading": "Importance of Responsible Parenthood",
+      "content": "Responsible parenthood produces responsible children, promotes peace and unity, reduces crime and illiteracy, and helps families contribute to national development."
+    }
+  ],
+  "keywords": [
+    "responsible parenthood",
+    "father",
+    "mother",
+    "family",
+    "duties",
+    "values",
+    "citizenship",
+    "society"
+  ]
+}

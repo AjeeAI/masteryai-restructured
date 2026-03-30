@@ -1,0 +1,47 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 6,
+  "topic_title": "Indices",
+  "topic_slug": "indices",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Apply the laws of indices to simplify expressions",
+    "Evaluate expressions with zero and negative indices",
+    "Simplify expressions involving products of indices (power of a power)",
+    "Evaluate and simplify expressions with fractional indices",
+    "Solve equations involving indices"
+  ],
+  "sections": [
+    {
+      "heading": "Laws of Indices",
+      "content": "For any base x and exponents a, b (x ≠ 0), the four basic laws are: (1) xᵃ × xᵇ = xᵃ⁺ᵇ; (2) xᵃ ÷ xᵇ = xᵃ⁻ᵇ; (3) x⁰ = 1; (4) x⁻ᵃ = 1/xᵃ. Examples: 10⁵ × 10⁴ = 10⁹; a³ × a⁴ = a⁷; m⁸ ÷ m⁵ = m³; 24x⁶ ÷ 8x⁴ = 3x²; 19⁸ ÷ 19⁸ = 19⁰ = 1."
+    },
+    {
+      "heading": "Product of Indices (Power of a Power)",
+      "content": "The law (xᵃ)ᵇ = xᵃᵇ applies when raising a power to another power. Examples: (x²)³ = x⁶; (y⁴)² = y⁸; (3⁻²)⁻³ = 3⁶ = 729; (−3d³)² = 9d⁶; a⁶(−a)⁻⁴ = a²."
+    },
+    {
+      "heading": "Fractional Indices",
+      "content": "Fractional indices represent roots. In general, x^(1/a) = ᵃ√x and x^(a/b) = ᵇ√(xᵃ) or (ᵇ√x)ᵃ. For example: √x = x^(1/2) because √x × √x = x¹, so 2p = 1 and p = 1/2. Similarly ³√x = x^(1/3). Examples: 8^(−2/3) = 1/(³√8)² = 1/4; 4^(1/6) × 4^(1/3) = 4^(1/2) = 2; (16/81)^(−3/4) = 27/8."
+    },
+    {
+      "heading": "Solving Equations with Indices",
+      "content": "To solve equations with indices: isolate the variable, apply the appropriate root or power, and check the solution. Examples: (1) 2r⁻³ = −16 → r⁻³ = −8 → r = −1/2. (2) 5x = 40x^(−1/2) → x × x^(1/2) = 8 → x^(3/2) = 8 → x = 4. (3) 4^(c−1) = 64 → 4^(c−1) = 4³ → c − 1 = 3 → c = 4."
+    }
+  ],
+  "keywords": [
+    "indices",
+    "laws of indices",
+    "zero index",
+    "negative index",
+    "fractional index",
+    "power",
+    "square root",
+    "cube root",
+    "nth root",
+    "index form",
+    "index equations"
+  ]
+}

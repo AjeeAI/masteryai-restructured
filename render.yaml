@@ -1,0 +1,66 @@
+services:
+  - type: static
+    name: mastery-frontend
+    branch: main
+    autoDeploy: true
+    buildCommand: cd frontend && npm ci && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_BACKEND_BASE_URL
+        sync: false
+
+  - type: web
+    name: mastery-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/v1/system/health
+    branch: main
+    autoDeploy: true
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "1440"
+      - key: ENV
+        value: prod
+      - key: AI_CORE_BASE_URL
+        sync: false
+      - key: AI_CORE_TIMEOUT_SECONDS
+        value: "8"
+      - key: AI_CORE_ALLOW_FALLBACK
+        value: "false"
+      - key: CORS_ORIGINS
+        sync: false
+
+  - type: web
+    name: mastery-ai-core
+    runtime: docker
+    dockerfilePath: ./ai_core/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    branch: main
+    autoDeploy: true
+    plan: free
+    envVars:
+      - key: LLM_API_KEY
+        sync: false
+      - key: POSTGRES_DSN
+        sync: false
+      - key: NEO4J_URI
+        sync: false
+      - key: NEO4J_USER
+        sync: false
+      - key: NEO4J_PASSWORD
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: VECTOR_INDEX_NAME
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false

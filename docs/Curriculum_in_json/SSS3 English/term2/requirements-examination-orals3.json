@@ -1,0 +1,45 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 6,
+  "topic_title": "Requirements of the Examination on Orals III",
+  "topic_slug": "requirements-examination-orals-iii",
+  "source_title": "Second Term SS3 English Language",
+  "learning_objectives": [
+    "Explain Requirements of the Examination on Orals III",
+    "Identify key ideas in Requirements of the Examination on Orals III",
+    "Apply Requirements of the Examination on Orals III concepts in examples"
+  ],
+  "sections": [
+    {
+      "heading": "Content",
+      "content": "The aspects of oral English tested in the examination include the following: vowels, consonants, rhymes, word-stress, emphatic stress and phonetic symbols."
+    },
+    {
+      "heading": "Vowels",
+      "content": "There are twenty vowels in the English language. They include twelve pure vowels and eight diphthongs."
+    },
+    {
+      "heading": "Consonants",
+      "content": "There are twenty-four consonants in the English language. They are classified into three groups: place of articulation, manner of articulation and state of the glottis."
+    },
+    {
+      "heading": "Word Stress",
+      "content": "This refers to the amount of pressure exerted when pronouncing a particular syllable of a word. The syllable with the stress is marked with a slash at the top in the dictionary."
+    },
+    {
+      "heading": "Emphatic Stress",
+      "content": "This is the stressing of particular word more than other words in a sentence. Such a stress normally has its implications in terms of the meaning of the sentence.\n\nRhymes: When two or more words have a similar sound at the end, they are said to rhyme."
+    }
+  ],
+  "keywords": [
+    "oral English",
+    "vowels",
+    "consonants",
+    "word stress",
+    "emphatic stress",
+    "rhymes",
+    "phonetics"
+  ]
+}

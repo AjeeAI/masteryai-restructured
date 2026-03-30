@@ -1,0 +1,35 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 3,
+  "topic_title": "Comprehension: Meanings of Words in Context",
+  "topic_slug": "comprehending-words-in-context",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Explain what it means to understand words in context",
+    "Choose suitable equivalents for words in a passage",
+    "Preserve tense and word class when replacing words"
+  ],
+  "sections": [
+    {
+      "heading": "Meaning",
+      "content": "To comprehend words in context is to understand the meaning a word carries in a particular passage, which may differ from its general meaning."
+    },
+    {
+      "heading": "Useful Hints",
+      "content": "Always consider the context before giving a meaning. Test the replacement in the sentence to ensure the original sense is retained. The substitute should match the original in word class and, where necessary, in tense or number."
+    },
+    {
+      "heading": "Examples",
+      "content": "Examples in the note show noun-for-noun, adverb-for-adverb, and adjective-for-adjective substitutions: probity = honesty; vehemently = strongly; jealous = envious."
+    }
+  ],
+  "keywords": [
+    "comprehension",
+    "context",
+    "equivalent meaning",
+    "synonym",
+    "word class"
+  ]
+}

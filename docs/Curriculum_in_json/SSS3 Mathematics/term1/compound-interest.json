@@ -1,0 +1,34 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 9,
+  "topic_title": "Compound Interest",
+  "topic_slug": "compound-interest",
+  "source_title": "First Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand compound interest"
+  ],
+  "sections": [
+    {
+      "heading": "Concept",
+      "content": "Content:\nAbu saved #8000 with a cooperative society. If simple interest is paid at 4.5% per annum, find the amount which Abu has in the society at the of 4 years.\nA woman has #80000 in the Term Savings account for 3 years. How much interest does she receive at the end of the 3 years if she makes no withdrawal for the whole period?\n\nCompound Interest:\nIf a sum of money is invested for n years at a particular rate per annum compound interest, the amount A, after n years is given by the formula:\n\nValue 35200:\n20% depreciation 7040\nThe cost at the end of the 3rd year is #28160.\nFind the amount of an annuity of #10000 paid yearly for 3 years at 8% per annum. Solution:\n1st year annuity: #10000\nAmount after 2nd year = 10000(1 + 0.08)2 = 10000 x 1.082 2nd year annuity after 1 year: 10000x 1.08\nTotal : 10000 + 10000 x 1.08 + 10000 x 1.082 = #32464\nAmount of annuity: #32464"
+    },
+    {
+      "heading": "Examples and Practice",
+      "content": "A = P(1 + r/100)n:\nExample:\nCalculate the compound interest on #80000 for 2 years at 8.5% per annum.\nSolution:\nP = 80000, n = 2 years, r = 8.5% A = 80000(1 + 8.5/100)2\n= 80000(1.085 x 1.085)\nA = 94178\nC.I = 94178 - 80000\n= #14178\nA woman borrowed #500000 from a lender and pays interest at 12% per annum. If she repaid #100000 at the end of each year, what amount does she owe at the end of 2 years?\nSolution:\nP = 500000, r = 12%\nYears 1: I = 500000 x 12 x 1\nI = 60000\nA = 500000 + 60000 = #560000\nRepaid 100000, Amount = 560000 – 100000 = #460000\nYear 2 : I = 460000 x 12 x 1\nI = #55200\nAmount remaining: 460000 + 55200 = #515200 - #100000 Total Amount = #415200\n\nEvaluation::\nThe sum of $180 is saved in an account which gives 9.5% per annum compound interest. Find the amount after 2 years, to the nearest cent.\nThe sum of #100000 is invested at 6% per annum compound interest, the interest being added half yearly. Find the amount after 2 years.\n\nAnnuities, Depreciation and Amortization Example:\nA refrigerator costs #55000. What is its cost at the end of 3 years if the annual rate of depreciation is 20%?\nSolution:\n1st year:\nValue of refrigerator #55000 20% depreciation - 11000\n2nd year:\nValue 44000\n20% depreciation 8800\n3rd year:\n\nEvaluation::\nA television set costing #25000 depreciates by 15% in the first year and by 25% in the second year. Find its value after 2 years.\nHow long will it take for prices to double if the rate of inflation is 25% per annum?\nUsing logarithm tables, find the compound interest on #20000 for 4 years at 12% per annum.\nCalculate the amount of an annuity of #20000 payable yearly for 5 years at 12% per annum.\nCalculate the amount if simple interest is paid yearly at 15% per annum for 4 years on a principal of #550000\nCalculate the compound interest on #18000 for 10 years at 9.5% per annum.\nFind the amount created by an annuity of #60000 payable yearly for 4 years at 4% interest.\nA woman insures her life for #3million by paying a premium of #2000 at the beginning of each year for 20 years. After 20 years the insurance company ends the agreement and gives her a lump sum payment of #50000. Assume compound interest at 8% per annum.\nCalculate the actual value of the premiums paid.\nFind the profit made by the company.\nWhich piece of numerical information is not needed in this problem?"
+    }
+  ],
+  "keywords": [
+    "compound",
+    "interest",
+    "content",
+    "evaluation",
+    "annuities",
+    "depreciation",
+    "amortization",
+    "example",
+    "value",
+    "35200"
+  ]
+}

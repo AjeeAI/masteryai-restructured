@@ -1,0 +1,32 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 3,
+  "topic_title": "Vocabulary: Astronomy",
+  "topic_slug": "vocabulary-astronomy",
+  "source_title": "Second Term SS3 English Language",
+  "learning_objectives": [
+    "Explain Examples in Vocabulary: Astronomy",
+    "Use Vocabulary: Astronomy vocabulary in context",
+    "Identify important words in Vocabulary: Astronomy"
+  ],
+  "sections": [
+    {
+      "heading": "Word Bank (Part 1)",
+      "content": "Universe: the totality of all matter and energy that exists in the vastness of space. Planet: an astronomical object that orbits a star. Stars: astronomical objects visible as bright points of light. Orbit: a single revolution of an astronomical object around another."
+    },
+    {
+      "heading": "Word Bank (Part 2)",
+      "content": "Cosmonaut: astronaut in the Russian space programme. Galaxies: groups of billions of stars, planets, gas and dust. Eclipse: partial or complete hiding of an astronomical object. Astronaut: someone trained to travel in space. Gravity: the attraction due to gravitation exerted by Earth or other astronomical objects."
+    }
+  ],
+  "keywords": [
+    "astronomy",
+    "universe",
+    "planets",
+    "stars",
+    "orbit",
+    "gravity"
+  ]
+}

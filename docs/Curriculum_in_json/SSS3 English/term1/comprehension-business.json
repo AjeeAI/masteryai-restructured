@@ -1,0 +1,29 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 4,
+  "topic_title": "Comprehension: Business",
+  "topic_slug": "comprehension-business",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Read and understand a passage on business",
+    "Identify key details about PZ Cussons",
+    "Answer comprehension questions"
+  ],
+  "sections": [
+    {
+      "heading": "Passage (Part 1)",
+      "content": "The passage centres on the establishment of PZ Cussons and its gradual growth in the nineteenth century. It was formerly known as PZ until 1975 when it acquired Cussons."
+    },
+    {
+      "heading": "Passage (Part 2)",
+      "content": "In 2002, it was renamed PZ Cussons to underline its core product range. Today, PZ Cussons is a leading public company with interests worldwide."
+    }
+  ],
+  "keywords": [
+    "comprehension",
+    "business",
+    "PZ Cussons"
+  ]
+}

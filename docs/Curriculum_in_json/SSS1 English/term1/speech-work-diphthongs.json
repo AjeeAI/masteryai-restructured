@@ -1,0 +1,39 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 6,
+  "topic_title": "Speech Work: Diphthongs",
+  "topic_slug": "speech-work-diphthongs",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define diphthongs and distinguish them from monophthongs",
+    "Identify the eight diphthong sounds in English",
+    "Recognise spelling patterns associated with each diphthong"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "Diphthongs are two-quality (double element) vowel sounds. To realise a diphthong, the speaker must glide from the first sound element to the second. English has eight diphthongs."
+    },
+    {
+      "heading": "The Eight Diphthongs with Spelling Variants",
+      "content": "/eɪ/ – 'a' (cake, brake, lake) | 'ai' (braid, sail) | 'ay' (May, day) | 'ey' (they, prey) | 'ei' (rein, reign) | 'ea' (great, break, steak)\n\n/əʊ/ – 'o' (go, rote, note) | 'oa' (goat, road) | 'eo' (hoe, foe) | 'ew' (sew, sewn) | 'au' (chauffeur) | 'oo' (brooch)\n\n/aɪ/ – 'ai' (aisle, naira) | 'ei' (height, either) | 'uy' (buy, guy) | 'ye' (bye, dye) | 'y' (by, sky) | 'ie' (pie, tie, lie)\n\n/aʊ/ – 'ou' (doubt, count, about) | 'au' (Nassau) | 'ow' (how, cow, allow)\n\n/ɔɪ/ – 'oi' (boil, oil, noise) | 'oy' (boy, employ) | 'uoy' (buoy, buoyant)\n\n/ɪə/ – 'e' (era, period) | 'ea' (idea, beard) | 'ere' (here, mere) | 'eer' (peer, sheer) | 'ier' (pier, weir) | 'ir' (fakir)\n\n/eə/ – 'air' (air, fair, hair) | 'are' (care, fare, dare) | 'ear' (bear, tear, wear) | 'ere' (there, where)\n\n/ʊə/ – 'u' (plural, during) | 'ure' (pure, cure, sure) | 'our' (tour) | 'oor' (moor, poor)"
+    }
+  ],
+  "keywords": [
+    "diphthong",
+    "vowel glide",
+    "double vowel",
+    "phoneme",
+    "IPA",
+    "/eɪ/",
+    "/əʊ/",
+    "/aɪ/",
+    "/aʊ/",
+    "/ɔɪ/",
+    "/ɪə/",
+    "/eə/",
+    "/ʊə/"
+  ]
+}

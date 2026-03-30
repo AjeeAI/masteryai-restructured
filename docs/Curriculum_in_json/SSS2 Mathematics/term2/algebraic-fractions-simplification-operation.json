@@ -1,0 +1,31 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 4,
+  "topic_title": "ALGEBRAIC FRACTIONS",
+  "topic_slug": "algebraic-fractions-simplification-operation",
+  "source_title": "SECOND TERM SS2 MATHEMATICS",
+  "learning_objectives": [
+    "Simplification of Algebraic Fractions.",
+    "Operation of Algebraic Fractions."
+  ],
+  "sections": [
+    {
+      "heading": "SIMPLIFICATION OF ALGEBRAIC FRACTIONS.",
+      "content": "To simplify an algebraic fraction: Factorise the numerator and the denominator of the fraction, where possible. Divide the numerator and the denominator by the common factors. This process is sometimes known as cancelling a fraction. When a fraction cannot be reduced any further, we say the fraction is in its lowest or simplestform. When simplifying a fraction, remember the following facts: x2 – y2 = (x + y)(x + y) – difference of two squares. (x + y)2 = x2 + 2xy + y2 (x – y)2 = x2 – 2xy + y2 (Perfect Squares) x- y = - xy -mn = -mn -x-y = xy xy = my⇒ x = m To factorise x2 – 5x + 6, we have: X2 – 5x + 6 = x2 -2x – 3x + 6 = x(x - 2) – 3(x - 2) = (x – 2)(x – 3) Example 1 Simplify the following fractions: (a) 3x2+9x2y23x2y (b) x2-y2+3x+3yx-y+3 (c) x2-9x2+x-6 (d) 5xy-10x+y-2 8-2y2 Solution (a) 3x2+9x2y23x2y = 3x2(1+3y)3x2 × y Cancel the common factors 3x2(1+3y)3x2 × y = 1+3y2y (b) x2-y2+3x+3yx-y+3 = x+yx+y+ 3(x+1)x-y+3 x+y(x-y+3)x-y+3 = x + y (c) x2-9x2+x-6 = x+3(x-3)(x+3) (x-2) = x-3x-2 (d) 5xy-10x+y-2 8-2y2 = 5xy-2+ (y-2) 2(4-y2) = y-2(5x+1) 22-y(2+y) = y-2(5x+1) 22-y(2+y) = -(5x+1) 2(2+y) Notice that in the above y – 2 = - (2 – y) In general: x – y = -(y – x) e.g. 10 – 4 = -(4 – 10) i.e. 6 = -4 + 10 6 = 6 Example 2 Simplify the following fractions: (a) x2+9x+8 x2+6x+5 (b) 6x2+30x+36 2x2+12x+16 (c) 5x2-5x-100 4x2-8x-96 (d) (6x-18y)227y2-3x2 Solution (a) x2+9x+8 x2+6x+5 = (x+8) (x+1) (x+5) (x+1) = x+ 8 x+5 (b) 6x2+30x+36 2x2+12x+16 = 6(x2+5x+6) 2(x2+6x+8) Now factorise the quadratic expressions inside the brackets: = 3x+3(x+2) x+4(x+2) = 3x+3(x+4) (c) 5x2-5x-100 4x2-8x-96 = 5(x2-x-20)4(x2- 2x-24) Now factorise the quadratic expressions inside the brackets: = 5x+4(x-5)4x-6(x+4) = 5(x-5) 4(x-6) (d) (6x-18y)227y2-3x2 = 6x-18y(6x-18y) 3(9y2-x2) = 36x-3y(x-3y) 33y-x(3y+x) But x – 3y = -(3y - x) = 123y-x(x-3y) 33y-x(3y+x) = 12(x-3y) 3y+x [cite: 572, 627]"
+    },
+    {
+      "heading": "OPERATION OF ALGEBRAIC FRACTIONS.",
+      "content": "Multiplication and Division of Fractions Factorise fully first, then divide the numerator and denominator by any factors that they have in common. Example 1 Simplify a2+2a-3a2-16 × a+4a2+8a+15 Given expression = a+3(a-1)a-4(a+4) × a+4a+5(a+3) = a+1a-4(a+5) The answer should be left in the form given. Do not multiply out the brackets. Example 2 Simplify m2-a2m2+bm+am+ ab ÷ m2-2am+a2cm+bc To divide by a fraction, multiply by its reciprocal. Given expression =m2-a2m2+bm+am+ ab × cm+bcm2-2am+a2 =m-a(m+a)m+b(m+a) × c(m+b)m-a(m-a) = cm -a Example 3 Simplify =a2+ ab a3-2ab+b3 ÷ a+3ba+2b × ab-a a2+3ab+2b2 Given expression = a2+ ab a3-2ab+b3 × a+2ba+3b × ab-a a2+3ab+2b2 = a(a+b)a-b(a-b) × a+2ba+3b × a(b-a)a+b(a+2b) = a2a-ba+3b Notice that (a - b) divides into (b - a) to give -1. This is because -1 x (a - b) = (b - a). Addition and Subtraction of Fractions Example 1 Simplify 6a- 32b The denominators are a and 2b. The LCM of a and 2b is 2ab. Express each fraction with denominator of 2ab. 6a- 32b= 6 ×2ba ×2b- 3 ×a2b ×a = 12b2ab- 3a2ab = 12b-3a2ab Example 2 Simplify 2 + 6a2+2b23ab- 4a-b2b The denominators are 3ab and 2b. the LCM of 3ab and 2b is 6ab. Express each fraction in the expression with a denominator of 6ab. 2 + 6a2+2b23ab- 4a-b2b = 2 ×6ab6ab+ 2(6a2+2b2)6ab- 3a(4a-b)6ab = 12ab+12a2+4b2-12a2+3ab6ab = 15ab+4b26ab = b(15a+4b)6ab = 15a+4b6a Example 3 Simplify x+4x2-3x- x-19-x2 x+4x2-3- x-19-x2 = x+4x(x-3)- x-13-x(3+x) = x+4x(x-3)- x-1x-3(3+x) = x2+7x+12+x2-xxx-3(x+3) = 2x2+6x+12xx-3(x+3) = 2(x2+3x+6)xx-3(x+3) Notice that the sign in front of the fraction is changed since (3 – x) = -(x – 3). This give an LCM of x(x – 3)(x + 3). Example 3 Simplify 1a-3m- 2a+3m 1a-2m- 2a+3m= a+3m-2(a-2m)a-2m(a+3m) = a+3m-2a+4ma-2m(a+3m) = 7m-aa-2m(a+3m) [cite: 632, 693]"
+    }
+  ],
+  "keywords": [
+    "algebraic fractions",
+    "simplification",
+    "multiplication",
+    "division",
+    "addition",
+    "subtraction"
+  ]
+}

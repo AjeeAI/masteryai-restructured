@@ -1,0 +1,51 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 10,
+  "topic_title": "Logic — Statements, Negation and Conditional Statements",
+  "topic_slug": "logic",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Identify logical statements and distinguish them from non-statements",
+    "Write the negation of a given statement",
+    "Write and interpret conditional (implication) statements using p ⇒ q",
+    "Identify the converse, inverse and contrapositive of conditional statements",
+    "Understand biconditional statements (p ⟺ q)",
+    "Apply the chain rule to test validity of arguments"
+  ],
+  "sections": [
+    {
+      "heading": "Logical Statements",
+      "content": "A logical statement is a declaration (verbal or written) that is either true (T) or false (F), but not both. Questions, exclamations, commands and expressions of feeling are not logical statements. Examples of statements: 'Nigeria is an African country' (T); 'The earth is conical in shape' (F); '4 + 7 = 11' (T). Non-statements: 'Who is he?'; 'What a lovely man!'; 'Take the pencil away.'"
+    },
+    {
+      "heading": "Negation",
+      "content": "The negation of statement p is written ∼p and means 'it is not the case that p'. If p is true, ∼p is false, and vice versa. Example: if p = 'Nigeria is a rich country', then ∼p = 'Nigeria is not a rich country'. If r = '3 + 4 = 8', then ∼r = '3 + 4 ≠ 8'."
+    },
+    {
+      "heading": "Conditional Statements and Implication",
+      "content": "The statement 'If p then q' (written p ⇒ q) is a conditional statement. p is called the antecedent and q is the consequent. Truth table for p ⇒ q: T,T→T; T,F→F; F,T→T; F,F→T. The implication is false only when the antecedent is true and the consequent is false. Converse: q ⇒ p. Inverse: ∼p ⇒ ∼q. Contrapositive: ∼q ⇒ ∼p."
+    },
+    {
+      "heading": "Biconditional Statements and the Chain Rule",
+      "content": "The biconditional p ⟺ q means 'p if and only if q' — both p ⇒ q and q ⇒ p are true. p ⟺ q is true only when p and q have the same truth value (both T or both F). The chain rule states: if p ⇒ q and q ⇒ r, then p ⇒ r. This makes an argument valid. An argument is invalid if it does not follow this chain format."
+    }
+  ],
+  "keywords": [
+    "logic",
+    "logical statement",
+    "negation",
+    "implication",
+    "conditional statement",
+    "antecedent",
+    "consequent",
+    "converse",
+    "inverse",
+    "contrapositive",
+    "biconditional",
+    "chain rule",
+    "truth table",
+    "truth value"
+  ]
+}

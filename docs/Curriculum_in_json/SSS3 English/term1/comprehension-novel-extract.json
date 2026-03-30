@@ -1,0 +1,30 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 7,
+  "topic_title": "Comprehension: Novel Extract",
+  "topic_slug": "comprehension-novel-extract",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Read and understand a novel extract",
+    "Identify cultural beliefs in the passage",
+    "Answer comprehension questions"
+  ],
+  "sections": [
+    {
+      "heading": "Passage (Part 1)",
+      "content": "The passage is an extract from the Novel titled ‘A Good Man in Africa’ by William Boyd. A woman, named Innocence, had been struck dead by thunder."
+    },
+    {
+      "heading": "Passage (Part 2)",
+      "content": "All attempts by  Morgan to get Innocence’s body taken to the morgue was in vain. The belief that certain sacrifices need to be carried out on anyone struck down by thunder prevented anyone, including the police, from taking the corpse away. Morgan was surprised that even the “Christians” made reference to tribal protocol"
+    }
+  ],
+  "keywords": [
+    "comprehension",
+    "novel extract",
+    "culture",
+    "William Boyd"
+  ]
+}

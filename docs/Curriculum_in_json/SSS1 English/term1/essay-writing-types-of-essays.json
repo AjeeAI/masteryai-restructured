@@ -1,0 +1,38 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 3,
+  "topic_title": "Essay Writing: Types of Essays and Report Writing",
+  "topic_slug": "essay-writing-types-of-essays",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Identify and describe the main types of essays",
+    "Explain the structure of a formal report",
+    "Write minutes of a meeting correctly"
+  ],
+  "sections": [
+    {
+      "heading": "Types of Essays",
+      "content": "Essay writing is an art of communication that requires the acquisition of necessary skills.\n\n1. Narrative – Tells a story or relates events as an eyewitness.\n2. Descriptive – Describes a person, object, animal, scene, or incident.\n3. Expository – Explains a topic or process in detail.\n4. Argumentative – Presents a viewpoint to persuade the reader.\n5. Creative Writing – Imaginative writing in various forms."
+    },
+    {
+      "heading": "Formal Report Writing",
+      "content": "A formal report may cover a robbery, accident, meeting proceedings, work-camp, or petition. It requires good knowledge of direct and indirect speech.\n\nFormat when reporting to a school principal:\n[Class/Address]\n[Date]\nThe Principal,\n[Name of School],\n[Location].\nSir/Ma,\n[Subject Heading]\n(Body of the report)\nSignature\n[Name and Role/Title]"
+    },
+    {
+      "heading": "Minutes of a Meeting",
+      "content": "Minutes of a meeting are a record of events and discussions that took place at a meeting. Every meeting should have a prepared agenda – a list of items to be discussed.\n\nA minutes report should include:\n• Name of the club/organisation\n• Date and venue of the meeting\n• List of members present\n• Items discussed under each agenda point\n• Decisions or resolutions made"
+    }
+  ],
+  "keywords": [
+    "essay",
+    "narrative",
+    "descriptive",
+    "expository",
+    "argumentative",
+    "formal report",
+    "minutes of meeting",
+    "agenda"
+  ]
+}

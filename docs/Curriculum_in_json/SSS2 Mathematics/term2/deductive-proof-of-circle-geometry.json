@@ -1,0 +1,43 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 8,
+  "topic_title": "DEDUCTIVE PROOF OF CIRCLE GEOMETRY",
+  "topic_slug": "deductive-proof-of-circle-geometry",
+  "source_title": "SECOND TERM SS2 MATHEMATICS",
+  "learning_objectives": [
+    "Definition of Properties of a Circle.",
+    "Problems on Length of Arc and Chords.",
+    "Perimeter and Area of Sector and Segments of a Circle."
+  ],
+  "sections": [
+    {
+      "heading": "Definition of Properties of a Circle.",
+      "content": "Sector Sector Minor Segment Major Segment Minor Segment Major Segment Circumference Circumference Parts (properties) of a circle are:\n\n[Image of Parts of a Circle]\n1. Centre 2. Circumference 3. Arc 4 Radius 5. Chord 6. Diameter diameter 7. Segment segment 8. Sector 1.Circumference :This is the curved outer boundary of a circle. 2.Arc: Arc is a part/portion of the circumference of a circle 3.Major and Minor Arc: The chord which is not a diameter divides the circumference into two arc of diff sizes: a major and a minor arc. 4.Radius: this is any straight line joining the centre to the circumference of a circle. 5.Diameter: A diameter is a chord which passes through the centre and divides the circle into 3 equal parts. 6.Chord: A chord of a circle is a line segment joining the centre is a line its circumference. 7.Sector: This is the region between two radii and the circumference. 8.Segment: it is the region between a chord and the circumference. 9.Major and minor Segment: The chord also divides the circle into two segments of difference sizes: major and minor segments [cite: 1200, 1230]"
+    },
+    {
+      "heading": "Arcs and Chord",
+      "content": "Circumference of a circle (Perimeter) = 2π r Lenght of Arc = Ɵ x 2πr 3600 Perimeter of a sector = 2r + Ɵ × 2πr 3600 Where π= 22/7 Example 1 A chord of a circle is 12cm long the radius r of the circle is 10cm calculate the distance of the mid-point of the chord to the center. O is the center AB = 12cm AO = radius = 10cm M = mid –point of AB ∆ AMO |OA|2 = |OM|2 + |AM|2 (Pythagoras Theorem) 102= OM|2 + 62 |OM|2 = 102 - 62 |OM|2 = 100 -36 |OM|2 = 64 |OM = 64 = 8cm | OM| = 8cm The mid-point of the chord is 8cm from the centre of the circle Example 2 A chord of length 24cm is 13cm from the centre. . Calculate the radius of the circle radius of the circle. Solution ∆ OAC is a right angled triangle |OA|2 = AC2 + C02 |OA|2 = 122 + 132 |OA|2 = 144 + 169 |OA|2 = 313 |OA|= 313 = 17.69 OA = 17.7cm Example 3 Calculate the length of the minor arc /AB/ in example 2 above Length of arc = Ɵ × 2πr 3600 Π= 22/7 Ɵ = <AOB = <AOC + <COB Ɵ=<AOC = < COB Given: Tan <AOC = Opp= 12 Adj 13 Tan< AOC = 0.9231 Tan-1 (0.9231) =< AOC = 42.70 <AOC = 2 (42.70) <AOB = 85.40 Length of arc AB = Ɵ x 2πr 360 = 85.40× 2 × 22 × 17.69cm 3600 7 =26.38cm [cite: 1233, 1284]"
+    },
+    {
+      "heading": "Perimeter and Area of Sector and Segments of a Circle",
+      "content": "Area of sector = Ɵ× πr2 360 Area of segment = Area of sector – Area of the included triangle. Perimeter of sector = 2r + length of arc Perimeter of segment = length of chord + length of arc. Example The arc of a circle radius 7cm subtends an angle of 1350 at the centre. Calculate: i the area of the sector ii The perimeter of the sector Area =Ɵ x π r2 3600 = 57. 75 cm Perimeter = 2r + length of arc But Length of arc = Ɵ × 2πr 3600 =1350× 2 × 22 × 7 3600 7 =16. 5cm Perimeter = 2(7) + 16.5 = 14cm + 16.5cm =30.5cm [cite: 1291, 1313]"
+    },
+    {
+      "heading": "Theorem and Proofs Relating to Angles in a Plane.",
+      "content": "Theorem I. Theorem: A straight line drawn from the centre of a circle to bisect a chord, which is not diameter is at right angle to the chord. Given : a circle with centre O and Chord AB. OM Such that AM = MB To prove : < AMO = <BMO = 900 Construction : Join OA and AB Proof : OA = OB (radii) AM = MB (given)S OM = OM AMO= BMO (SSS) <AMO = < BMO but <AMO + <BMO = 1800 <AMO = <BMO = 1800 = 900 2 Example I : The radius of a circle is 10cm and the length of a chord of the circle is 16cm. Calculate the distance of the chord from the centre of the circle. Since ( COA is a right angled triangle, using Pythagoras theorem Solution x2 = 102 – 82 x2 = 100 – 64 x2 = 36 x = √ 36 = 6cm Example 2 : The distance of a chord of a circle of radius 5cm from the centre of the circle is 4cm. Calculate the distance of the length of the chord. Solution Chord AB = |AC| + |CB| | AC| = | CB| < AOC is a right angled triangle O Using Pythagoras: 5cm |AC|2 = 52 - 42 = 25 – 16 = 9 A C B |AC|2 = 9cm |AC| = √9 = 3cm |AB| = 3 + 3 = 6cm Length of chord AB = 6cm Theorem 2 The angle that an arc of a circle subtends at the centre is twice that which it subtends at any point on the remaining part of the circumference.  Given : a circle APB with centre O To prove :< AOB = 2 x <APB Construction : Join PO and produce to any point Q Proof : OA = OP ( radii) x1 = x2 (base angle of isosceles triangle) <AOQ = x1 + x2 (exterior angle of ∆ AOP) <AOQ = 2x2 (x1 = x2) Similarly, <BOQ = 2y2 In fig.8.20 (a) <AOB =<AOQ + <BOQ = 2x2 + 2y2 = 2(x2 + y2) But, < APB = x2 + y2 <AOB = 2x< APB . Examples: 1.Find the value of the lettered angle. Solution q = 2 × 410 (angle at the centre= 2 × angle at circumference) q= 840 2.Find the lettered angles z 1190 y x z 1190 y x x = 2 x 1190 = 2380 (angle at centre = 2x angle at circumference) y = 3600 – x (angle at a point) y = 3600 – 2380 = 1220 z = y = 1220= 610 (angle at centre = 2 x angle at circumference) 2 2 (x = 2380 y = 1220 z = 610 [cite: 1327, 1404]"
+    },
+    {
+      "heading": "Theorems and Proofs Relating to Angles on the Same Segments.",
+      "content": "Angle in the Same Segments Theorem:Angles in the same segment of a circle are equal. Q P O B A Given: P and Q are any points on the major arc of circle APQB. To proof: APB = AQB Construction: Join A and B to O, the centre of the Circle. Proof: <AOB = 2x (2x angle at circumference angle at centre) <AOB = 2x2 (same reason) 2x1 = 2x2 = <AOB x1 = x2 = ½ (AOB) APB = x1 AQB = x2 <APB =< AQB Since P and Q are any points on the major arc, all angles in the major segment are equal to each other. The theorem is also true for angles in the minor segments i.e. c c b b a a a = b = c Example a = b = 400 (angle in the same segments) c = 320 (angle in the same segment) a 33o b 40o c a 33o b 40o c Theorem and Proof : (The angle in a semi circle is a right angle) Theorem: The angle in a semi circle is a right angle . Given : AB is a diameter on a circle centre O. X is any point on the circumference on the circle. To prove : <AXB = 900 Proof : AOB = 2 x <A X B (angle at centre = 2x angle at circumference) But < AOB = 1800 (angle on a straight line) 180 = 2 (A X B) 180= A X B 2 <A X B = 900. Example: in the fig below: PQ is a diameter of a circle PMQN, centre O if <PQM = 630, find QNM. In ∆ PQM <PMQ = 900 (angle in a semi circle) <QPM = 1800 – (900 + 650) [sum of angle in a ∆ ] <QPM = 1800 – 1530 = 270 <QPM = 270 <QNM =< QPM = 270 (angle in the same segment) Example 2 : Find i and j. i j O 63o i j O 63o <PQR = 900 (angle in a semi circle) i = 650 (angle on the same segment with PRS) j = 900 – 650( angle in a semicircle) j = 250. [cite: 1408, 1490]"
+    }
+  ],
+  "keywords": [
+    "circle geometry",
+    "arcs and chords",
+    "circle theorems",
+    "deductive proof",
+    "angles in a segment"
+  ]
+}

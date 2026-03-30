@@ -1,0 +1,33 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 10,
+  "topic_title": "Spelling: Prefixes and Suffixes",
+  "topic_slug": "spelling-prefixes-and-suffixes",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define prefixes and suffixes",
+    "Identify common prefixes and the words they form",
+    "Identify common suffixes and the words they form",
+    "Use prefixes and suffixes to expand vocabulary"
+  ],
+  "sections": [
+    {
+      "heading": "Prefixes – Definition and Examples",
+      "content": "A prefix is a word or syllable placed before a root word to form a new word.\n\nun-   + happy → unhappy | un- + faithful → unfaithful\ndis-  + appear → disappear | dis- + respect → disrespect\nnon-  + sense → nonsense | non- + existence → non-existence\nmis-  + lead → mislead | mis- + direct → misdirect\nmal-  + treat → maltreat | mal- + practice → malpractice\nout-  + wit → outwit | out- + run → outrun\ntrans- + plant → transplant\ninter- + denominational → interdenominational | inter- + state → interstate\npost- + war → post-war | post- + independence → post-independence"
+    },
+    {
+      "heading": "Suffixes – Definition and Examples",
+      "content": "A suffix is a word or syllable placed after a root word to form a new word.\n\n-ness  + happy → happiness\n-ment  + punish → punishment\n-ship  + apprentice → apprenticeship | -ship + relation → relationship\n-ation + found → foundation | -ation + associate → association\n-ant   + inhabit → inhabitant | -ant + serve → servant\n-hood  + boy → boyhood | -hood + child → childhood\n-less  + child → childless | -less + guilt → guiltless"
+    }
+  ],
+  "keywords": [
+    "prefix",
+    "suffix",
+    "root word",
+    "morpheme",
+    "word formation",
+    "spelling"
+  ]
+}

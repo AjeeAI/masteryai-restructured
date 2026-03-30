@@ -1,0 +1,34 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 6,
+  "topic_title": "Surface Area and Volume of a Sphere, Hemisphere and Composite Shape Content",
+  "topic_slug": "surface-area-and-volume-of-a-sphere-hemisphere-and-composite-shape-content",
+  "source_title": "First Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand surface area and volume of a sphere",
+    "Understand hemisphere and composite shape content"
+  ],
+  "sections": [
+    {
+      "heading": "Concept",
+      "content": "Content:\nA solid in geometry is a shape with length, width, and height. It is not a flat shape. Some of the common solids are cuboid, cube, cylinder, cone, square based pyramids, sphere etc.\nBelow are sketches of common solids listed above.\nCuboid Cube\nCylinder Cone sphere\n\nSphere:\nTypical examples of sphere are football, oranges etc Area of a Sphere\nFig 4.2\nFig. 4.2 represents a solid sphere of radius r. Current surface area = 4πr2.\nVolume of Sphere = 4πr3\n3."
+    },
+    {
+      "heading": "Examples and Practice",
+      "content": "Example 1.\nFIFA 2010 world cup ball(Jabulani) is made with a radius of 7cm. Find\nthe curved surface area of the ball\nthe volume (Take π= 22/7)\nSolution\nSurface area = 4 πr2 r = 7cm\nSurface area = 4 x 22/7 x 72\n= 4 x 22 x 7 = 616 cm2\nVolume = 4/3 πr3\n= 4/3 x 22/7 x 7 3/1\n= 4 x 22 x 72= 1437.33cm3\n3.\n\nTHEORY:\nA sphere has a volume of 1000cm3(a) Calculate its radius correct to 3.s.f.\n(b) Find the surface area of the sphere.\nA hemisphere bowl has an external radius of 24cm and is made of wood 3cm thick calculate the volume of wood in the bowl.\n\nContent:\nTopic"
+    }
+  ],
+  "keywords": [
+    "surface",
+    "area",
+    "volume",
+    "sphere",
+    "hemisphere",
+    "composite",
+    "shape",
+    "content",
+    "theory"
+  ]
+}

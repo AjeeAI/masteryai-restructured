@@ -1,0 +1,41 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 8,
+  "topic_title": "Statistics — Grouped Data",
+  "topic_slug": "statistics-grouped-data",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Group large data sets into class intervals",
+    "Identify class limits, class boundaries, class width and class mark",
+    "Construct grouped frequency distribution tables for discrete and continuous data"
+  ],
+  "sections": [
+    {
+      "heading": "Introduction to Grouped Data",
+      "content": "When a data set has many different values, grouping into class intervals makes patterns visible. For example, scores 1–60 can be grouped into intervals 1–10, 11–20, 21–30, 31–40, 41–50, 51–60. Each interval has a class width of 10. In a grouped discrete data table, intervals do not overlap (e.g., use 1–10, 11–20 not 1–10, 10–20)."
+    },
+    {
+      "heading": "Class Limits, Boundaries, Width and Mark",
+      "content": "Class limits: the end numbers of each class interval (lower and upper limits). Class boundaries: account for the continuity of measurement; found by subtracting 0.5 from lower limit and adding 0.5 to upper limit for data to the nearest unit. For example, for class 40–44: lower boundary = 39.5, upper boundary = 44.5. Class width = upper boundary − lower boundary. Class mark (mid-value) = (lower boundary + upper boundary) / 2. For 40–44: class mark = (39.5 + 44.5)/2 = 42."
+    },
+    {
+      "heading": "Constructing a Grouped Frequency Table",
+      "content": "Steps: (1) find the range of the data; (2) choose suitable class intervals (equal width is standard); (3) tally each data value into its class; (4) count frequencies. Include columns for: class interval, class boundaries, class mark (x), tally, and frequency (f). For continuous data, class boundaries are used on the horizontal axis in histograms."
+    }
+  ],
+  "keywords": [
+    "grouped data",
+    "class interval",
+    "class limits",
+    "class boundaries",
+    "class width",
+    "class mark",
+    "mid-value",
+    "frequency distribution",
+    "continuous data",
+    "discrete data",
+    "tally"
+  ]
+}

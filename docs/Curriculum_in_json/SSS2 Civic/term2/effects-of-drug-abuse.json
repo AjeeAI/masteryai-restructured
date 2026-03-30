@@ -1,0 +1,34 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 7,
+  "topic_title": "Effects of Drug Abuse",
+  "topic_slug": "effects-of-drug-abuse",
+  "source_title": "Second Term SS2 Civic Education",
+  "learning_objectives": [
+    "Explain the effects of drug abuse on the individual",
+    "Discuss the social and economic consequences of drug abuse on the family and nation"
+  ],
+  "sections": [
+    {
+      "heading": "Effects on the Individual",
+      "content": "* Psychological: Anxiety, depression, memory loss, and low self-esteem.\n* Physical: Damage to vital organs (kidney, liver, lungs) and terminal diseases like cancer.\n* Health Risks: Increased risk of HIV/AIDS through the sharing of needles.\n* Academic/Career: Poor academic performance and eventual school dropout."
+    },
+    {
+      "heading": "Effects on the Family",
+      "content": "* Brings social stigma and bad image to the family name.\n* Causes financial strain as victims become a burden on family resources.\n* Often leads to the breakdown of marriages and domestic stability."
+    },
+    {
+      "heading": "Effects on the Society",
+      "content": "* Security: Increase in crimes like armed robbery, cultism, and rape.\n* Safety: A major cause of road traffic accidents.\n* Economic: Shortage of productive manpower and increased government spending on rehabilitation services."
+    }
+  ],
+  "keywords": [
+    "social stigma",
+    "organ damage",
+    "HIV/AIDS",
+    "manpower wastage",
+    "crime"
+  ]
+}

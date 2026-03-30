@@ -1,0 +1,31 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 1,
+  "topic_title": "Further Application of Logarithms using tables:",
+  "topic_slug": "further-application-of-logarithms-using-tables",
+  "source_title": "First Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand further application of logarithms using tables"
+  ],
+  "sections": [
+    {
+      "heading": "Content",
+      "content": "Examples:\nUse the tables to find the log of:\n(a) 37 (b) 3900 to base ten Solutions\n1. 37 = 3.7 x 10\n=3.7 x 101(standard form)\n=100.5682 + 1 x 101 (from table)\n=101.5682\nHence log1037 = 1.5682 2. 3900 = 3.9 x 1000\n=3.9 X 103 (standard form)\n=100.5911 x 103 (from table)\n=100.5911 + 3\n=103.5911\nTherefore log103900 = 3.5911\nEvaluate the following using tables 1. 4627 x 29.3\n2. 819.8 ÷ 3.905\n3. 48.63 x8.53\n15.39 x 3.52\nSolutions\n1.\n4627 x 29.3 = 135600 (4 s.f)\n2. 819.8 ÷ 3.905\nNo Log\n819.8 2.9137\n3.905 0.5916\n209.9 2.3221\nTherefore 819.8 ÷ 3.905 = 209.9\n3. 48.63 x 8.53\n15.39 x 3.52\nNumerato\n3.5\nDenom 7.658\nTherefore 48.63 x 8.53 = 7.658\n15.39 x 3.52"
+    },
+    {
+      "heading": "Theory",
+      "content": "Evaluate using logarithm table 6.28 x 304\nand express your answer in the form A X 10n, where A is a number between1 and 10 and n is an integer.\nUse logarithm table to calculate 6354 x 6.243 correct to 3 s.f\n16.76 x 0.0323"
+    }
+  ],
+  "keywords": [
+    "further",
+    "application",
+    "logarithms",
+    "using",
+    "tables",
+    "content",
+    "theory"
+  ]
+}

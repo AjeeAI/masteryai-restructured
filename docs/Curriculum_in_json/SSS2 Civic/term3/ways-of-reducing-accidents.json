@@ -1,0 +1,33 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS2",
+  "term": 3,
+  "week": 4,
+  "topic_title": "Ways of Reducing Accidents",
+  "topic_slug": "ways-of-reducing-accidents",
+  "source_title": "Third Term SS2 Civic Education",
+  "learning_objectives": [
+    "Define road accidents",
+    "Identify ways of reducing road accidents",
+    "Explain the functions of the Federal Road Safety Commission (FRSC)"
+  ],
+  "sections": [
+    {
+      "heading": "Ways of Reducing Accidents",
+      "content": "Road accidents can be reduced by keeping vehicles roadworthy, avoiding alcohol and drugs while driving, obeying traffic rules, displaying road signs clearly, running regular enlightenment campaigns, equipping law enforcement agencies properly, maintaining roads, and punishing offenders."
+    },
+    {
+      "heading": "Federal Road Safety Commission (FRSC)",
+      "content": "The FRSC was established in 1988 to ensure safety and order on Nigerian roads. Its functions include ensuring road safety, enforcing traffic regulations, checking vehicle roadworthiness, issuing drivers' licences, researching accident causes, prosecuting offenders, rescuing accident victims, educating the public, and working with related agencies for safer road use."
+    }
+  ],
+  "keywords": [
+    "road accidents",
+    "traffic regulations",
+    "FRSC",
+    "road safety",
+    "law enforcement",
+    "public enlightenment",
+    "road maintenance"
+  ]
+}

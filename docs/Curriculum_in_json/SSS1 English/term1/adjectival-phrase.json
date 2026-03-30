@@ -1,0 +1,37 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 8,
+  "topic_title": "Structure: Adjective and Adjectival Phrase",
+  "topic_slug": "adjectival-phrase",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define an adjective and identify it by its suffixes",
+    "Define an adjectival phrase",
+    "Identify adjectival phrases of different types in sentences"
+  ],
+  "sections": [
+    {
+      "heading": "Adjective – Review",
+      "content": "An adjective is a word that qualifies or modifies a noun or pronoun. Adjectives can often be identified by their suffixes:\n-able: drinkable | -ful: successful"
+    },
+    {
+      "heading": "Adjectival Phrase – Definition",
+      "content": "An adjectival phrase is a phrase that performs the work of an adjective – it qualifies or describes a noun or pronoun."
+    },
+    {
+      "heading": "Types and Examples of Adjectival Phrases",
+      "content": "Prepositional phrase as adjectival phrase:\nThe man with the red hair is my brother. (qualifying 'man')\nHe is a man of great wealth. (qualifying 'man')\n\nParticipial phrase as adjectival phrase:\nA person bringing good news is always welcome.\nThe woman standing over there is our new principal.\nThe boy selling garri is my brother.\nThe coat made of cotton is very lovely.\n\nRelative clause as adjectival phrase:\nI know a girl who has strange appetites. (qualifying 'girl')\nThe student forgot to bring back the bag that I gave her. (qualifying 'bag')\n\nSingle adjective (predicative):\nThe beautiful girl has been kidnapped. (qualifying 'girl')"
+    }
+  ],
+  "keywords": [
+    "adjective",
+    "adjectival phrase",
+    "prepositional phrase",
+    "participial phrase",
+    "relative clause",
+    "qualifier",
+    "modifier"
+  ]
+}

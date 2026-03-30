@@ -1,0 +1,33 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 3,
+  "topic_title": "TRIGONOMETRICAL GRAPHS OF SINE AND COSINE OF ANGLES BETWEEN 00< θ < 3600",
+  "topic_slug": "trigonometrical-graphs-of-sine-and-cosine-of-angles-between-00-3600",
+  "source_title": "First Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand trigonometrical graphs of sine and cosine of angles between 00< θ < 3600"
+  ],
+  "sections": [
+    {
+      "heading": "Content",
+      "content": "Sine θ Cosine\nThe figure above shows the development of (a) sine graph (b) cosine graph from a unit circle\nEach circle has a radius of 1 unit. The angle θ that the radius OP makes with Ox changes as P moves on the circumference of the circles. Since P is the general point (x, y) and OP = 1 unit, then sin θ = y, Cos θ = x. Hence the values of x and y gives cos θ and sin θ respectively. These values are used to draw the corresponding sine and cosine curves. The following points should be noted on the graphs of sin θ and cos θ:\nAll values of sin θ and cos θ lie between + 1 and – 1.\nThe sine and cosine curves have the same wave shape but they start from different points. Sine θ starts from 0 while cosine θ starts from 1.\nEach curve is symmetrical about its crest(high point) and trough(low point). Hence, for the values of Sin θ and Cos θ there are usually two corresponding values of θ between 00 and 3600 for each of them except at the quarter turns, where sin θ and cos θ have values as given in the table below.\nSin θ\n-1\nCos θ\n-1"
+    },
+    {
+      "heading": "Evaluation:",
+      "content": "(a) Copy and complete the table below giving values of Sin θ correct to 2 decimal places corresponding to θ = 00, 120, 240, in intervals of 120 up to 3600. Use tables to find Sin θ.\nUsing scales of 2cm to 600 on the θ axis and 10cm to 1 unit on the Sin θ axis, draw the graph of Sin θ.\n(a) Given the equation y = sin2θ – cosθ for 00 ≤ θ ≤ 1800, prepare the table of values for the equation (b)Using a scale of 2cm to 300 on the horizontal axis and 5cm to 1 unit on the vertical axis, draw the graph of y= sin2θ – cosθ for 00 ≤ θ ≤ 1800\nUse your graph to find: (i) the solution of the equation sin2θ – cosθ = 0, correct to the nearest degree.\nthe maximum value of y, correct to 1 d.p\n(a) Draw the graph of the equation y = 1 + cos 2x for 00 ≤ θ ≤ 3600 at interval of 300 Using a scale of 2cm to 300 on the horizontal axis and 2cm to 1 unit on the vertical axis\n(b)Use your graph to solve 1 + cos 2x = 0\nDraw the graph of Sin 3θ for values of θ from 00 to 3600 using the appropriate scales."
+    }
+  ],
+  "keywords": [
+    "trigonometrical",
+    "graphs",
+    "sine",
+    "cosine",
+    "angles",
+    "between",
+    "3600",
+    "content",
+    "evaluation"
+  ]
+}

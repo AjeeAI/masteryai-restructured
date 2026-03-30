@@ -1,0 +1,31 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 1,
+  "week": 8,
+  "topic_title": "WORD PROBLEMS LEADING TO LINEAR AND QUADRATIC EQUATIONS",
+  "topic_slug": "word-problems-leading-to-linear-and-quadratic-equations",
+  "source_title": "First Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Understand word problems leading to linear and quadratic equations"
+  ],
+  "sections": [
+    {
+      "heading": "Concept",
+      "content": "Example\nThe product of two numbers is 12. The sum of the larger number and twice the smaller number is 11. Find the two numbers.\nSolution\nLet x = the larger number\ny = the smaller number\nProduct, x y = 12 …………….eq1\nFrom the last statement,\nx + 2y = 11 ………….. eq2\nFrom eq2, x = 11 – 2y …………...eq3\nSub. Into eq1\ny(11 – 2y) = 12\n11y – 2y2 = 12\n2y2 -11y + 12 = 0\n2y2 – 8y – 3y + 12 = 0\n2y(y-4) – 3(y-4) = 0\n(2y-3)(y-4) =0\n2y-3 =0 or y-4 =0\n2y = 3 or y = 4\ny= 3/2 or 4\nwhen y = 3/2 when y=4\nx = 11 – 2y x = 11- 2y\nx = 11 – 2(3/2) x = 11 – 2(4)\nx = 11 – 3 x = 11 – 8\nx = 8 x = 3\nTherefore, (8 , 3/2)(3 , 4)"
+    },
+    {
+      "heading": "Examples and Practice",
+      "content": "Evaluation\nSolve the following simultaneous equation\n1. (a) 22x-3y = 32, 3x-2y = 81 (b) 2x+2y=1, 32x+y = 27\n2. Bisi’s and Fibie’s ages add up to 29. Seven years ago Bisi was twice as old as Fibie. Find their present ages."
+    }
+  ],
+  "keywords": [
+    "word",
+    "problems",
+    "leading",
+    "linear",
+    "quadratic",
+    "equations",
+    "content"
+  ]
+}

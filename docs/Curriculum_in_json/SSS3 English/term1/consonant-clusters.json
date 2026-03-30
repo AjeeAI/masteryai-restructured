@@ -1,0 +1,33 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 6,
+  "topic_title": "Consonant Clusters",
+  "topic_slug": "consonant-clusters",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Define consonant clusters",
+    "Identify initial and final clusters",
+    "Apply correct pronunciation"
+  ],
+  "sections": [
+    {
+      "heading": "Consonant Clusters",
+      "content": "A consonant cluster occurs when two or more consonants follow each other without an intervening vowel in a syllable. This cluster can appear at the beginning of the syllable or at the end. In some words, it is not easy to identify consonant clusters by merely looking at the written form of the word. Such words manifest the clusters only when they are pronounced. Examples include new -> /nju:/, few -> /fju:/, cute -> /kju:t/, tune -> /tju:n/, view -> /vju:/, stew -> /stju:/, and student -> /stju:dnt/."
+    },
+    {
+      "heading": "Examples (Initial Position)",
+      "content": "play -> /plei/, bright -> /brait/, drain -> /drein/, threat -> /?ret/, clan -> /kl?n/, hew -> /hju:/"
+    },
+    {
+      "heading": "Examples (Final Position)",
+      "content": "sacked -> /s?kt/, washed -> /w??t/, marks -> /ma:ks/, maps -> /m?ps/, lanes -> /leinz/, loaves -> /l??vz/"
+    }
+  ],
+  "keywords": [
+    "consonant clusters",
+    "phonetics",
+    "pronunciation"
+  ]
+}

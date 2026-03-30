@@ -1,0 +1,28 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 6,
+  "topic_title": "STANDARD INTEGRAL FORMS",
+  "topic_slug": "standard-integral-forms",
+  "source_title": "Second Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand standard integral forms"
+  ],
+  "sections": [
+    {
+      "heading": "Concept",
+      "content": "INTEGRATION: Is defined as the anti-differentiation or is the process from the derivative form to the anti-derivative form.\nY = + c, where a is the coefficient of x. n is the power of x and c is the constant value through differentiation.\nNOTE: when integrating = ln x + c.\n\nSTANDARD INTEGRAL FORMS:\n= G(x) + c"
+    },
+    {
+      "heading": "Examples and Practice",
+      "content": "EXAMPLE\n= 3- x + 5, find y?\nSOLUTION\nY = + c. y = + c\nY = 7+ + c = + 5x + c.\n\nEXAMPLE\nSOLUTION\n= + C\n= + C + C"
+    }
+  ],
+  "keywords": [
+    "standard",
+    "integral",
+    "forms",
+    "content"
+  ]
+}

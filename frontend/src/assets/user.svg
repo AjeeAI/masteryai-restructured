@@ -1,0 +1,18 @@
+<svg 
+  viewBox="0 0 100 100" 
+  fill="none" 
+  xmlns="http://www.w3.org/2000/svg"
+  className="w-10 h-10" // Adjust size here (e.g., w-12 h-12 for larger)
+>
+  {/* Light indigo background circle */}
+  <circle cx="50" cy="50" r="50" fill="#EEF2FF" />
+  
+  {/* User Head */}
+  <circle cx="50" cy="40" r="16" fill="#6B46C1" />
+  
+  {/* User Shoulders */}
+  <path 
+    d="M22 84.5C22 70.4167 33.4167 59 47.5 59H52.5C66.5833 59 78 70.4167 78 84.5V90C78 95.5228 73.5228 100 68 100H32C26.4772 100 22 95.5228 22 90V84.5Z" 
+    fill="#6B46C1" 
+  />
+</svg>

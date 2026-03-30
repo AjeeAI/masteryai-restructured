@@ -1,0 +1,54 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 11,
+  "topic_title": "Speech Work: More on Consonant Sounds – Spelling Variants",
+  "topic_slug": "speech-work-more-consonants",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Identify the spelling variants for /b/, /p/, /f/, /g/, /dʒ/, and /h/",
+    "Give word examples for each spelling variant"
+  ],
+  "sections": [
+    {
+      "heading": "/b/ – Voiced Bilabial Plosive",
+      "content": "'b' spellings: baby, bank, break, barber, lab, embark\n'bb' spellings: rubber, robber, babble"
+    },
+    {
+      "heading": "/p/ – Voiceless Bilabial Plosive",
+      "content": "'p' spellings: pain, people, leap, leper, emperor\n'gh' spellings: hiccough"
+    },
+    {
+      "heading": "/f/ – Voiceless Labio-Dental Fricative",
+      "content": "'f' spellings: form, frog, faith, fruit, proof, soft\n'ff' spellings: cliff, stuff, sniff, cuff, huff\n'gh' spellings: rough, tough, cough, enough\n'ph' spellings: physics, physical, Philip, phantom\n'v' spellings: Gorbachev, Volkswagen"
+    },
+    {
+      "heading": "/g/ – Voiced Velar Plosive",
+      "content": "'g' spellings: goat, gun, bag, vogue, vigour, garnish, goose, gamble, group\n'gg' spellings: haggle, baggage, baggy, struggle, bigger, shaggy\n'gh' spellings: ghost, aghast, ghetto, ghoul"
+    },
+    {
+      "heading": "/dʒ/ – Voiced Post-Alveolar Affricate",
+      "content": "'j' spellings: jug, junior, Jew\n'ge' spellings: germinate, damage, badge, germ\n'gi' spellings: ginger, giant, giraffe, gigantic\n'gy' spellings: technology, archaeology, gym\n'du' spellings: educate, graduate, gradual, due"
+    },
+    {
+      "heading": "/h/ – Voiceless Glottal Fricative",
+      "content": "'h' spellings: hope, horse, holy, perhaps, hunger\n'wh' spellings: whole, wholly, who, whose"
+    }
+  ],
+  "keywords": [
+    "consonant",
+    "spelling variant",
+    "/b/",
+    "/p/",
+    "/f/",
+    "/g/",
+    "/dʒ/",
+    "/h/",
+    "plosive",
+    "fricative",
+    "affricate",
+    "phoneme",
+    "IPA"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 9,
+  "topic_title": "THEOREMS AND PROOF RELATING TO CYCLIC QUADRILATERAL",
+  "topic_slug": "cyclic-quadrilateral",
+  "source_title": "SECOND TERM SS2 MATHEMATICS",
+  "learning_objectives": [
+    "Definition of Cyclic Quadrilateral",
+    "Theorems and proof relating to cyclic quadrilateral",
+    "Corrolary from Cyclic Quadrilateral",
+    "Solving problems on Cyclic Quadrilateral"
+  ],
+  "sections": [
+    {
+      "heading": "CYCLIC QUADRILATERAL",
+      "content": "Definition : A cyclic quadrilateral is described as any quadrilateral having its vertices lying on certain parts of the circumferences of a circle. i..e its four vertices.\n\n[Image of a cyclic quadrilateral]\nB D A C B D A C P Q R S P Q R S Note: that opposite angles of a cyclic quadrilateral lies in opposite segment of a circle. Theorem : The opposite angle of a cyclic quadrilateral are supplementary “or angle in opposite segment are supplementary i.e. They sum up to 1800. Proof : Given : A cyclic quadrilateral ABCD. To prove :< BAD +< BCD = 1800 Construction : join B and D to O the centre Proof :< BOD = 2y (angle of centre = 2 x angle at circumference) Reflex< BOD = 2x (angle at centre = 2x angle at circumference) 2x + 2y = 3600 (angle at a point) 2(x + y) = 3600 x + y = 3600 2 x + y = 1800 <BAD +< BCD = 1800 Example: Find the value of x x + 720=1800 (opp. Angle of a cyclic quadrilateral) x = 1800-720 = 1080 [cite: 1534, 1570]"
+    },
+    {
+      "heading": "Corollary from Cyclic Quadrilateral",
+      "content": "Theorem : The exterior angle of a cyclic quadrilateral to the interior opposite angle. Proof : Given : A cyclic quadrilateral ABCD To Prove : x1 = x2 or x2 = x1 Construction : Extend DC to x Proof: x1 + y = 1800 (opp. Angle in a cyclic quad) x2 + y = 1800 (angle in a straight line) x1 = x2 = (180-y) < BCX =< BAD Example : In the fig. below PQRS are points on a circle centre O. QP is produced to x if< XPS = 770 and <PSO = 680 find< PQO. <QRS = 770 (ext angle of a cyclic quadrilateral) < QPS = 1800 – 770 = 1030 (angle on a straight line) <QRS=<XPS=770(the exterior angle of a cyclic quad=interior opp.angle) <QOS=2 × 770=1540(angle at the centre=2×angle at the circumference) <PQO = 3600 – (1540 + 1030 + 680) sum of angle in a quadrilateral PQO = 3600 – 3250 PQO = 350 C D B A 85o 62o C D B A 85o 62o BEC is a triangle BCE = 1800 – 850 (angle on a straight line) CBE = 620 (exterior angle of cyclic quadrilateral) x =< BEC = 1800 – (620 + 950) [sum of angles in a ∆ ] 1800 – 1570 = 230 [cite: 1574, 1610]"
+    },
+    {
+      "heading": "Application of Cyclic Quadrilateral [Circle Geometry]",
+      "content": "M L 20o T M L 20o T Solution <ONM = 200 (base angle of Isosceles triangle ONM) < NOM = 180 – (20 + 20)[ sum of angle in a triangle 1800 – 400 = 1400] <NLM = 1400= 700 (2x angle at circum = angle at centre) 2 <MNT = 320 (base angle of Isos triangle MNT) <LMN = 640 (fe. 32 + 32) (extension of triangle MNT) <LMN = 180 – (700 + 640) sum of angle in a triangle <LMN = 180 – 134 = 460 [cite: 1617, 1634]"
+    }
+  ],
+  "keywords": [
+    "cyclic quadrilateral",
+    "supplementary angles",
+    "exterior angle",
+    "circle geometry"
+  ]
+}

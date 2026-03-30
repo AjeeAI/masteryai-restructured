@@ -1,0 +1,31 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 4,
+  "topic_title": "Vocabulary Development: Business",
+  "topic_slug": "vocabulary-business",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Identify business-related vocabulary",
+    "Explain their meanings",
+    "Use them correctly in sentences"
+  ],
+  "sections": [
+    {
+      "heading": "Word Bank (Part 1)",
+      "content": "The passage consist two passages on business. Some of the words used in them include trade, entrepreneurs, enterprises, factories"
+    },
+    {
+      "heading": "Word Bank (Part 2)",
+      "content": "Other words include industries, apprentices, labourers, warehouse, stock, manager, export, retail, merchant, e.t.c"
+    }
+  ],
+  "keywords": [
+    "business",
+    "trade",
+    "entrepreneur",
+    "commerce",
+    "vocabulary"
+  ]
+}

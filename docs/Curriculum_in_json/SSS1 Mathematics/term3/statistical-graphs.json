@@ -1,0 +1,41 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 10,
+  "topic_title": "Statistical Graphs — Bar Charts, Pie Charts and Histograms",
+  "topic_slug": "statistical-graphs",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Draw simple, compound and composite bar charts",
+    "Draw and interpret pie charts using sectoral angles",
+    "Draw histograms for grouped data using class boundaries",
+    "Read and draw inferences from statistical graphs"
+  ],
+  "sections": [
+    {
+      "heading": "Bar Charts",
+      "content": "A bar chart uses rectangular bars of equal width to represent data. Bar height is proportional to frequency. Equal gaps separate the bars. Bar charts are suitable for qualitative and discrete data. Frequency is recorded on the vertical axis and variables on the horizontal axis. The modal value corresponds to the tallest bar. A compound bar chart compares two or more data sets side by side for each category. A composite (stacked) bar chart stacks the components within each bar."
+    },
+    {
+      "heading": "Pie Charts",
+      "content": "A pie chart is a circle divided into sectors, where each sector angle is proportional to frequency. Sectoral angle = (frequency / Σfrequency) × 360°. Steps: (1) prepare a frequency table with a column for sectoral angles; (2) use a protractor and compasses to construct the pie chart accurately. Example: for 6 subjects with total periods 36, English has 10 periods → sector angle = (10/36) × 360° = 100°."
+    },
+    {
+      "heading": "Histograms",
+      "content": "A histogram is similar to a bar chart but has no gaps between bars, and is used for grouped (continuous) data. The class boundaries are used on the horizontal axis. Bar height is proportional to frequency. Example: for class intervals 1–10, 11–20, ..., 51–60 with boundaries 0.5, 10.5, ..., 60.5 and corresponding frequencies, draw adjacent bars with no spaces between them."
+    }
+  ],
+  "keywords": [
+    "bar chart",
+    "pie chart",
+    "histogram",
+    "sectoral angle",
+    "compound bar chart",
+    "composite bar chart",
+    "class boundaries",
+    "frequency",
+    "graphical representation",
+    "statistical graph"
+  ]
+}

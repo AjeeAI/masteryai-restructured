@@ -1,0 +1,30 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 3,
+  "topic_title": "Advantages of Constitutional Democracy",
+  "topic_slug": "advantages-of-constitutional-democracy",
+  "source_title": "First Term SS3 Civic Education E-Learning Note",
+  "learning_objectives": [
+    "Explain the advantages of constitutional democracy",
+    "Identify the disadvantages of constitutional democracy"
+  ],
+  "sections": [
+    {
+      "heading": "Advantages",
+      "content": "IT ALLOWS FOR PEACEFUL CHANGE OF GOVERNMENT, IT ALLOWS THE PEOPLE TO CHOOSE THEIR LEADERS, IT PROTECTS THE FUNDAMENTAL HUMAN RIGHTS OF PEOPLE, IT PROMOTES POPULAR PARTICIPATION, IT PROMOTES GOOD GOVERNANCE, IT PROMOTES DEVELOPMENT."
+    },
+    {
+      "heading": "Disadvantages",
+      "content": "IT IS EXPENSIVE TO RUN, DELAY IN POLICY MAKING, MINORITY CANNOT HAVE THEIR WAY IN A DEMOCRACY, INABILITY OF THE ELECTORATE TO REMOVE A BAD GOVERNMENT UNTIL ELECTION PERIOD."
+    }
+  ],
+  "keywords": [
+    "Advantages",
+    "Disadvantages",
+    "Governance",
+    "Election",
+    "Policy"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 6,
+  "topic_title": "Drug Use and Abuse II: Signs and Symptoms",
+  "topic_slug": "drug-use-and-abuse-ii",
+  "source_title": "Second Term SS2 Civic Education",
+  "learning_objectives": [
+    "Identify the behavioral signs of drug abuse",
+    "Recognize the physical symptoms of drug addiction"
+  ],
+  "sections": [
+    {
+      "heading": "Signs and Symptoms (Part 1)",
+      "content": "1. Constant anxiety, depression, and frustration.\n2. Mood swings and unpredictable behavior.\n3. Physical markers: Bloodshot eyes and significant weight loss.\n4. Cognitive issues: Forgetfulness and slow, disjointed speech."
+    },
+    {
+      "heading": "Signs and Symptoms (Part 2)",
+      "content": "5. Appearance: Shabby or unkempt physical appearance.\n6. Social behavior: Nervousness and a tendency toward violence or crime.\n7. Psychological state: Victims may be prone to thoughts of suicide."
+    }
+  ],
+  "keywords": [
+    "symptoms",
+    "mood swings",
+    "bloodshot eyes",
+    "depression",
+    "behavioral changes"
+  ]
+}

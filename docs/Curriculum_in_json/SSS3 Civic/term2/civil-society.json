@@ -1,0 +1,33 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS3",
+  "term": 2,
+  "week": 7,
+  "topic_title": "Civil Society",
+  "topic_slug": "civil-society",
+  "source_title": "Second Term SS3 Civic Education",
+  "learning_objectives": [
+    "Define civil society",
+    "Identify types and functions",
+    "Discuss challenges"
+  ],
+  "sections": [
+    {
+      "heading": "Meaning",
+      "content": "Civil society refers to non-governmental organizations formed to promote the interests and welfare of people."
+    },
+    {
+      "heading": "Types",
+      "content": "Types include professional groups, labour unions, student organizations, business groups, NGOs, and religious organizations."
+    },
+    {
+      "heading": "Functions",
+      "content": "They promote accountability, encourage participation, resolve conflicts, and monitor government activities."
+    },
+    {
+      "heading": "Problems",
+      "content": "Challenges include lack of transparency, misuse of funds, political bias, and conflicts with government."
+    }
+  ],
+  "keywords": ["civil society", "NGOs", "participation"]
+}

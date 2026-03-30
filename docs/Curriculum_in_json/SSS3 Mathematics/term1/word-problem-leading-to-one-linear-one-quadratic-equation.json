@@ -1,0 +1,33 @@
+{
+  "subject": "math",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 5,
+  "topic_title": "WORD PROBLEM LEADING TO ONE LINEAR-ONE QUADRATIC EQUATION",
+  "topic_slug": "word-problem-leading-to-one-linear-one-quadratic-equation",
+  "source_title": "First Term SSS3 Mathematics",
+  "learning_objectives": [
+    "Understand word problem leading to one linear-one quadratic equation"
+  ],
+  "sections": [
+    {
+      "heading": "Concept",
+      "content": "Theory:\n1 a. Find the coordinate of the points where the line 2x – y = 5 meets the curve 3x2 – xy -4 =10\nb. Solve the simultaneous equations: x + 2y = 5, 7(x2 +1) = y(x + 3y)\n2. A woman is q years old while her son is p years old. The sum of their ages is equal to twice the difference of\ntheir ages. The product of their ages is 675.\nWrite down the equations connecting their ages and solve the equations in order to find the ages of the woman and her son. (WAEC)\n\nContent:\nTopic"
+    },
+    {
+      "heading": "Examples and Practice",
+      "content": "Content:\nExample:\nThe product of two numbers is 12. The sum of the larger number and twice the smaller number is 11. Find the two numbers.\n\nSolution:\nLet x = the larger number y = the smaller number\nProduct, x y = 12 eq1\nFrom the last statement,\nx + 2y = 11 eq2\nFrom eq2, x = 11 – 2y eq3\nSub. Into eq1\ny(11 – 2y) = 12 11y – 2y2 = 12\n2y2 -11y + 12 = 0\n2y2 – 8y – 3y + 12 = 0\n2y(y-4) – 3(y-4) = 0\n(2y-3)(y-4) =0\n2y-3 =0 or y-4 =0 2y = 3 or y = 4\ny= 3/2 or 4\nwhen y = 3/2 when y=4\nx = 11 – 2y x = 11- 2y\nx = 11 – 2(3/2) x = 11 – 2(4)\nx = 11 – 3 x = 11 – 8\nx = 8 x = 3\nTherefore, (8 , 3/2)(3 , 4)\nFind a two digit number such that two times the tens digit is three less than thrice the unit digit and 4 times the number is 99 greater than the number obtained by reversing the digit.\n\nSolution:\nLet the two digit number be ab, where a is the tens digit and b is the unit digit From the first statement,\n2a + 3 = 3b\n2a – 3b = -3 eq1\nFrom the second statement,\n4(10a + b) – 99 = 10b + a\n40a + 4b – 99 = 10b + a\n40a – a + 4b – 10b = 99\n39a – 6b = 99\nDividing through by 3\n13a – 2b = 33 eq2\nSolving both equations simultaneously,\na = 3 , b = 3\nHence, the two digit number is 33\nNew General Mathematics for SS 2 by J B Chamnon & Co page 73 – 78\nPast SSCE Questions\nExam Focus (Mathematics).\nIn each of the following pairs of equations solve simultaneously,\n1. xy = -12 ; x – y = 7 a. (3 , -4)(4 ,-3) b. (-2 ,4)(-3, -4) c. (-4, 5)(-2 , 3) d(3 ,-3)(4,-4)\n2. x – 5y = 5 ; x2 – 25y2 = 55 a (-8, 0)(3/5 , 0) b(0, 0)(-8 , 3/5) c (8 , 3/5) d (0, 8)(0, 3/5)\n3. y = x2and y = x + 6 (a).(0,6) (3,9) (b)(-3,0) (2,4) (c)(-2,4) (3,9) (d).(-2, 3), (-3,2)\n4. x – y = -3/2 ; 4x2 + 2xy – y2 = 11/4 : a(-1, 1/2)(1, 5/2).b.(3, 2/5)(1, 1/2)c.(3/2 , -1)(4,2) d.(-1 , -1/2)(-1 ,\n5/2)\n5. m2 + n2 = 25 ; 2m + n – 5 = 0 : a. (0,5)(4, -3) b.(5,0)(-3,4)c.(4,0)(-3,5) d(-5,3)(0,4)"
+    }
+  ],
+  "keywords": [
+    "word",
+    "problem",
+    "leading",
+    "linear",
+    "quadratic",
+    "equation",
+    "content",
+    "solution",
+    "theory"
+  ]
+}

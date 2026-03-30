@@ -1,0 +1,46 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 4,
+  "topic_title": "Modular Arithmetic",
+  "topic_slug": "modular-arithmetic",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Understand and define the concept of modular arithmetic",
+    "Reduce numbers to their simplest form in a given modulus",
+    "Perform addition and subtraction operations in modular arithmetic",
+    "Perform multiplication operations in modular arithmetic",
+    "Apply modular arithmetic to real-life situations"
+  ],
+  "sections": [
+    {
+      "heading": "Concept of Modular Arithmetic",
+      "content": "Modular arithmetic involves arithmetic where numbers 'wrap around' after reaching a certain value called the modulus. The notation a = b (mod n) means a and b have the same remainder when divided by n. For example, 9 ÷ 4 = 2 remainder 1, so 9 = 1 (mod 4). Similarly 45 ÷ 4 = 11 remainder 1, so 45 = 1 (mod 4). To reduce a number modulo n, divide by n and take the remainder: 55 = 1 (mod 3), 55 = 3 (mod 4), 55 = 0 (mod 5), 55 = 1 (mod 6)."
+    },
+    {
+      "heading": "Addition and Subtraction in Modular Arithmetic",
+      "content": "In an addition table (mod 4), only numbers 0, 1, 2, 3 are used; any result ≥ 4 is reduced by taking its remainder on division by 4. The symbol ⊕ denotes modular addition. For example: 2 ⊕ 3 = 5 = 1 (mod 4). For subtraction (symbol ⊖), move anticlockwise on the number cycle: 0 ⊖ 3 = 1 (mod 4), starting at 0 and moving 3 steps anticlockwise. It is important to note that 2 ⊖ 1 ≠ 1 ⊖ 2 in modular arithmetic."
+    },
+    {
+      "heading": "Multiplication in Modular Arithmetic",
+      "content": "Modular multiplication (symbol ⊗) multiplies the numbers normally and then reduces the result modulo n. For example: 2 ⊗ 2 = 4 = 0 (mod 4); 3 ⊗ 2 = 6 = 2 (mod 4); 33 ⊗ 9 = 297 = 1 (mod 4). A useful shortcut is to reduce each number to its simplest modular form first before multiplying: 33 = 1 (mod 4) and 9 = 1 (mod 4), so 33 ⊗ 9 = 1 ⊗ 1 = 1 (mod 4)."
+    },
+    {
+      "heading": "Application to Daily Life",
+      "content": "Modular arithmetic applies to cyclical events such as: clock arithmetic (hours on a 12- or 24-hour clock), market days held in rotation over a set number of days, days of the week repeating every 7 days, and computer programming where values cycle within fixed bounds."
+    }
+  ],
+  "keywords": [
+    "modular arithmetic",
+    "modulus",
+    "mod",
+    "congruence",
+    "clock arithmetic",
+    "number cycle",
+    "remainder",
+    "addition table",
+    "modular addition",
+    "modular multiplication"
+  ]
+}

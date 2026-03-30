@@ -1,0 +1,35 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 4,
+  "topic_title": "Emergency",
+  "topic_slug": "emergency",
+  "source_title": "Second Term SS2 Civic Education",
+  "learning_objectives": [
+    "Define emergency in a political context",
+    "Describe the features of an emergency period",
+    "Discuss ways to reduce the occurrence of emergencies"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "An emergency refers to urgent situations that require the suspension of the constitution to restore law and order. During this period, regular functions of the legislature, executive, and judiciary may be disrupted."
+    },
+    {
+      "heading": "Characteristics of an Emergency Period",
+      "content": "* Partial or temporary suspension of the constitution.\n* Rule of law may be ignored.\n* Restriction of movement (curfews) and freedom of expression.\n* Arrests without warrants.\n* Potential violation of human rights for security purposes."
+    },
+    {
+      "heading": "Ways of Reducing Emergencies",
+      "content": "To prevent the need for emergency declarations, a state should focus on:\n1. Respect for the Constitution and democratic principles.\n2. Promotion of Human Rights.\n3. Good Governance: Responsive and responsible leadership.\n4. Socio-Economic Development: Providing basic infrastructure to reduce social friction.\n5. Public Enlightenment: Educating citizens on their civic responsibilities."
+    }
+  ],
+  "keywords": [
+    "emergency",
+    "curfew",
+    "constitution",
+    "law and order",
+    "security"
+  ]
+}

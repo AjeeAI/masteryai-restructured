@@ -1,0 +1,30 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 3,
+  "week": 8,
+  "topic_title": "Probability (Event And Outcome)",
+  "topic_slug": "probability-event-and-outcome",
+  "source_title": "Third Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Definition of terms",
+    "Events and outcome (measuring probability)",
+    "(a) Experimental probability",
+    "(b) Theoretical probability"
+  ],
+  "sections": [
+    {
+      "heading": "Definition Of Terms",
+      "content": "(i)Event: When an experiment is performed two or more results or outcomes will be expected to happen. Each attempt is called a trial and the outcome of a trial and the outcome of a trial is called an event, usually denoted by E.\n(ii)Random Experiment: A random experiment is a repetitive process which may result in any one of the possible outcomes of the experiment OR:\n(iii)Sample space: The sample space of a random experiment is the set containing all the possible outcomes of the experiment OR:\nSample space is all the possible outcomes of a trail in an experiment usually denoted by S.\n(iv)The number of the points in a sample space n(s), and in an event, E is n(E).\n\nExamples: 1. When a coin is tossed twice, all the possible outcomes i.e. the sample space"
+    },
+    {
+      "heading": "S = {Hh, Ht,Th, Tt}",
+      "content": "n(s) = 4\n2. If a die is cast once, there are six outcomes.\nthe sample space , S = {1, 2, 3, 4, 5, 6}\nn(S) = 6\nSuppose an event E that an even number is thrown,\nthen E = {2, 4, 6} and n(E) = 3.\n3. A box contain 16 red, 6 white, and 18 blues balls.\nThe sample spaces, S = {16 + 6 + 18) balls\nn (S) = 40\n4. When a die is tossed twice, the outcome of the first toss S1 = (1, 2, 3, 4, 5, 6) does not influence the outcome of the second throw. S2 = (1, 2, 3, 4, 5, 6). The two outcomes are independent of each other. For instance, the chance of throwing a5 in the first toss is 1/6 does not influence the chance of the throw of 2 in the second toss (i.e. 1/6); they are Independent Event.\nEqually likely events: Two or more events are said to be equally likely to happen if the chance of occurrence of each of the same.e.g.\n1.In the throw of a die, there are six equally likely outcomes, S = {1, 2, 3, 4, 5, 6} the change of each occurring is 1 out of 6 c.c. 1/6.\n2.From a pack of 52 cards, the chance of picking any of the cards at random is 1/52.\nPROBABILITY\nThe probability of an event is the chance of its occurrence, that is the likelihood of the event happening with respect to the sample space.\nProb. Of E = number of elements in E___\nnumber of total elements in S\nP(E) = n(E)\nn(S)\nNOTE: Probability of an event lies between 0 and 1 i.e. O<P(E) <1\nthen the prob. that it will not occur is 1 – P(E)."
+    }
+  ],
+  "keywords": [
+    "probability",
+    "event",
+    "outcome"
+  ]
+}

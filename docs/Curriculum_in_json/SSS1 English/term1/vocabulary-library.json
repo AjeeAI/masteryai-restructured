@@ -1,0 +1,31 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 2,
+  "topic_title": "Vocabulary Development: Words Associated with the Library",
+  "topic_slug": "vocabulary-library",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define a library and identify its purpose",
+    "Learn and use vocabulary specific to library settings"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "A library is a room or building containing books that can be looked at or borrowed."
+    },
+    {
+      "heading": "Library Vocabulary",
+      "content": "bindery – a place where books are bound or repaired\ncatalogue – a list of items (books) available in a collection, especially in a library\nentry card – a card on which details about a book are recorded\nshelf-guide – instructions (especially numbers) showing which books are on a particular shelf\nencyclopedia – a book or set of books containing facts about many different subjects or one particular subject"
+    }
+  ],
+  "keywords": [
+    "library",
+    "bindery",
+    "catalogue",
+    "entry card",
+    "shelf-guide",
+    "encyclopedia"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 4,
+  "topic_title": "Structure: Noun Phrase and Verb Phrase",
+  "topic_slug": "noun-phrase-and-verb-phrase",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define a noun phrase and identify its grammatical functions",
+    "Define a verb phrase and identify its components",
+    "Construct and analyse noun phrases and verb phrases in sentences"
+  ],
+  "sections": [
+    {
+      "heading": "Noun Phrase – Definition",
+      "content": "A noun phrase (NP) is a phrase in which the main word (the head) is a noun or pronoun. The noun phrase performs exactly the same functions as a noun."
+    },
+    {
+      "heading": "Functions of the Noun Phrase",
+      "content": "(i) As subject of a sentence:\nThe big ugly girl in the class is quarrelsome.\nA young talented Nigerian lady was presented an award last year.\nGerundial phrase as subject: Telling lies often belittles a person.\nInfinitive as subject: To tell lies belittles a person.\nAdjective as head: The poor suffer a lot. | The wise learn from experience.\n\n(ii) As object of a verb:\nThe officer praised the students. (direct object)\n\n(iii) As subject complement:\nThe grateful boy called his friend saviour.\nHis village made him a chief.\n\n(iv) As complement of a preposition:\nThe governor thought of the brilliant lawyer when choosing his cabinet.\nThe thief hid the gun under his bed."
+    },
+    {
+      "heading": "Verb Phrase – Definition and Structure",
+      "content": "A verb phrase (VP) is made up of a main verb and one or more auxiliary verbs.\n\nOne auxiliary + main verb:\nDike has done the work.\n\nTwo auxiliaries + main verb:\nDike has been doing the work since morning.\n\nModal auxiliary + main verb:\nObioma may come with us if he likes."
+    }
+  ],
+  "keywords": [
+    "noun phrase",
+    "verb phrase",
+    "head",
+    "gerundial phrase",
+    "infinitive",
+    "subject",
+    "object",
+    "complement",
+    "auxiliary verb"
+  ]
+}

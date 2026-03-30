@@ -1,0 +1,32 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 8,
+  "topic_title": "Vocabulary Development: Religion",
+  "topic_slug": "vocabulary-religion",
+  "source_title": "Second Term English Studies",
+  "learning_objectives": [
+    "Define religious vocabulary from Christian, traditional, and Islamic contexts",
+    "Distinguish terms belonging to different faith traditions",
+    "Use selected religious terms in sentences"
+  ],
+  "sections": [
+    {
+      "heading": "Christian Religion Terms",
+      "content": "Examples include theology, atheist, monotheist, ethics, worship, seer, crucifix, denomination, synagogue, baptism, christen, christendom, episcopacy, sacristy, tenet, benediction, divinity, papacy, pew, eucharist, and communion."
+    },
+    {
+      "heading": "Traditional Religion and Islam",
+      "content": "Traditional religion terms include deity, priest, myth, incantation, reincarnation, propitiation, cult, ritual, and libation.\nIslamic terms include ablution, hajj, injunction, pilgrimage, adherent, haram, sharia, sect, monotheism, imam, malam, sheikh, and the pillars of Islam."
+    }
+  ],
+  "keywords": [
+    "religion",
+    "Christianity",
+    "traditional religion",
+    "Islam",
+    "theology",
+    "pilgrimage"
+  ]
+}

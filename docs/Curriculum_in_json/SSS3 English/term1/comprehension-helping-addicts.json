@@ -1,0 +1,30 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 10,
+  "topic_title": "Comprehension: Helping Addicts",
+  "topic_slug": "comprehension-helping-addicts",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Read and understand a passage on addiction",
+    "Identify the role of psychotherapy in helping addicts",
+    "Answer comprehension questions"
+  ],
+  "sections": [
+    {
+      "heading": "Passage (Part 1)",
+      "content": "The passage is adapted from the Evening Standard. It centres on a psychotherapist named Malcolm Scott and his attempt to help drug addicts."
+    },
+    {
+      "heading": "Passage (Part 2)",
+      "content": "He puts them up in the lonely house where he lives. He and his patients get to know each other pretty well during this time: there are few distractions in the lonely house and the nearest bar is ten kilometers away."
+    }
+  ],
+  "keywords": [
+    "comprehension",
+    "addiction",
+    "psychotherapy",
+    "Malcolm Scott"
+  ]
+}

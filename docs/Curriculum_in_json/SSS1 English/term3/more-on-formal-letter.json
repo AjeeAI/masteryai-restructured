@@ -1,0 +1,31 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 4,
+  "topic_title": "Essay Writing: More on Formal Letter",
+  "topic_slug": "more-on-formal-letter",
+  "source_title": "Third Term SS1 English Language Lesson Notes",
+  "learning_objectives": [
+    "Recall the definition of a formal letter",
+    "Identify its major features",
+    "Apply the formal style required in official letters"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "Formal letters are official letters written to people in official positions."
+    },
+    {
+      "heading": "Features",
+      "content": "The note lists writer's address, receiver's address, salutation, heading, body of the letter, and complimentary close. It emphasises formal language and avoidance of slang and contractions."
+    }
+  ],
+  "keywords": [
+    "formal letter",
+    "official letter",
+    "letter writing",
+    "salutation",
+    "complimentary close"
+  ]
+}

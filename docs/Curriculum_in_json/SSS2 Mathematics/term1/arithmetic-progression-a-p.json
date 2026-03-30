@@ -1,0 +1,38 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 1,
+  "week": 3,
+  "topic_title": "ARITHMETIC PROGRESSION (A. P)",
+  "topic_slug": "arithmetic-progression-a-p",
+  "source_title": "First Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Sequence",
+    "Definition of Arithmetic Progression",
+    "Denotations in Arithmetic progression",
+    "Deriving formulae for the term of A. P.",
+    "Sum of an arithmetic series",
+    "Find the next two terms in each of the following sets of number and in each case state the rule which gives the term."
+  ],
+  "sections": [
+    {
+      "heading": "Content",
+      "content": "In each of the examples below, there is a rule which will give more terms in the list. A list like this is called a SEQUENCE in many cases; it can simply matter if a general term can be found for a sequence e.g.\n1, 5, 9, 13, 17 can be expressed as\n1, 5, 9, 13, 17 ……………. 4n – 3 where n = no of terms\nCheck: 5th term = 4(5) -3\n20 – 3 = 17\n10th term = 4(10) – 3\n40 – 3 = 37\nExample 2\nFind the 6th and 9th terms of the sequence whose nth term is\n(a) (2n + 1)\n(b) 3 – 5n.\nSolution\n(a) 2n + 1\n6th term = 2(6) + 1 = 12 + 1 = 13\n9th term = 2 (9) + 1 = 18 + 1 = 19\n(b) 3 – 5n\n6th term = 3 – 5 (6) = 3 – 30 = -27\n9th term = 3 – 5 (9) = 3 – 45 = -42\nEvaluation\nFor each of the following sequence, find the next two terms and the rules which give the term.\n1. 1, , , , , ____, ____\n2 100, 96, 92, 88, _____, ____\n3. 2, 4, 6, 8, 10, ____, _____\n4. 1, 4, 9, 16, 25, ____, _____\n(i) Arrange the numbers in ascending order (ii) Find the next two terms in the sequence\n5. 19, 13, 16, 22, 10\n6. -21/2, 51/2, 31/2, 11/2, -1/2\n7. Find the 15th term of the sequence whose nth term is 3n - 5"
+    },
+    {
+      "heading": "DEFINITION OF ARITHMETIC PROGRESSION",
+      "content": "A sequence in which the terms either increase or decrease in equal steps is called an Arithmetic Progression.\nThe sequence 9, 12, 15, 18, 21, ____, _____, _____ has a first term of 9 and a common difference of +3 between the terms.\nDenotations in A. P.\na = 1st term\nd = common difference\nn = no of terms\nUn = nth term\nSn = Sum of the first n terms\nFormula for nth term of Arithmetic Progression\ne.g. in the sequence 9, 12, 15, 18, 21.\na = 9\nd = 12 – 9 or 18 – 15 = 3.\n1st term = U1 = 9 = a\n2nd term = U2 = 9 + 3 = a + d\n3rd term = U3 = 9 + 3 + 3 = a + 2d\n10th term = U10 = 9 + 9(3) = a + 9d\nnth term = Un = 9+(n-1)3 = a + (n-1)d\nnth term = Un = a + (n-1)d\nExample:\n1.Given the A.P, 9, 12, 15, 18 …… find the 50th term.\na = 9 d = 3 n = 50 Un = U50\nUn= a + (n-1) d\nU50 = 9 + (50-1) 3\n= 9 + (49) 3\n= 9 + 147\n= 156\n2.The 43rd term of an AP is 26, find the 1st term of the progression given that its common difference is ½ and also find the 50th term.\nU43= 26 d = ½ a = ? n = 43\nUn = a + (n-1) d\n26 = a + (43-1) ½\n26 = a + 42(1/2)\n26 = a + 21\n26 – 21 = a\n5 = a\na = 5\n(b) a = 5 d = ½ n = 50 U50 =?\nUn = a + (n-1) d\nU50 = 5 + (50-1)1/2\n= 5 + 49(1/2)\nU50 = 5 + 241/2\nU50 = 291/2\nEvaluation\n1. Find the 37th term of the sequence 20, 10, 0, -10…\n2. 1, 5… 69 are the 1st, 2nd, and last term of the sequence; find the common difference between them and the number of terms in the sequence."
+    },
+    {
+      "heading": "SUM OF AN ARITHMETIC SERIES",
+      "content": "When the terms of a sequence are added, the resulting expression is called series e.g. in the sequence 1, 3, 5, 7, 9, 11.\nSeries = 1 + 3 + 5 + 7 + 9 + 11\nWhen the terms of a sequence are unending, the series is called infinite series, it is often impossible to find the sum of the terms in an infinite series.\ne.g. 1 + 3 + 5 + 7 + 9 + 11 + …………………. Infinite\nSequence with last term or nth term is termed finite series.\ne.g.\nFind the sum of\n1, 3, 5, 7, 9, 11, 13, 15\nIf sum = 2, n = 8\nThen\nS = 1 + 3 + 5 + 7 + 9 + 11 + 13 + 15\nOr S = 15 + 13 + 11 + 9 + 7 + 5 + 3 + 1\nAdd eqn1 and eqn 2\n2s = 16 + 16 + 16 + 16 + 16 + 16 + 16 + 16\n= 48 = 8(16)\n2 2 = S = 64\nDeriving the formula for sum of A. P. The following represent a general arithmetic series when the terms are added.\nS = a + (a+d) + a + 2d + …………………………… + (L-2d) + (L-d) + L – eqn\nS = L + (L-d) + L – 2d + ……………………………… a + 2d + (a+d) + a – eqn\n2s = (a + L) + (a + L) + (a + L) + …………………… (a + L) + (a + L) + (a + L)\n2s = n(a + L)\nS = n(a+L)\nL => Un = a + (n-1)d\nSubstitute L into eq*\nS = n(a + a+(n-1)d\nS = n(2a + (n-1)d = n ( 2a+ (n-1)d\nS = n[a + L] where L is the last term i.e Un\nor\nS =n[2a +(n-1)d] when d is given or obtained\nExample 2\nFind the sum of the 20th term of the series 16 + 9 + 2 + …………………\na = 16 d = 9 – 16 = -7 n = 20\nS = n(2a + (n-1)d)\nS = 20 (2x16) + (20-1)(-7)\n= 20 (32 + 19(-7)\nS =10 (32 - 133) = 10(-101)\nS = -1010\nEVALUATION\n1. Find the sum of the arithmetic series with 16 and -117 as the first and 20th term respectively.\n2. The salary scale for a clerical officer starts at N55, 200 per annum. A rise of N3, 600 is given at the end of each year; find the total amount of money earned in 12 years.\n1. An A. P. has 15 terms and a common difference of -3, find its first and last term if its sum is 120.\n2. On the 1st of January, a student puts N10 in a box, on the 2nd she puts N20 in the box, on the 3rd she puts N30 and so on putting on the same no. of N10 notes as the day of the month. How much will be in the box if she keeps doing this till 16th January?\n3. The salary scale for a clerical officer starts at N55, 200 per annum. A rise of N3, 600 is given at the end of each year, find the total amount of money earned in 12 years.\n4. Find the 7th term and the nth term of the progression 27,9,3,…\n5. If 8, x, y, - 4 are in A.P, find x and y.\n1. Find the 4th term of an A. P. whose first term is 2 and the common difference is 0.5 (a) 4 (b) 4.5 (c) 3.5 (d) 2.5\n2. In an A. P. the difference between the 8th and 4th term is 20 and the 8th term is 11/2 times the 4th term, find the common difference (a) 5 (b) 7 (c) 3 (d) 10\n3. Find the first term of the sequence in no. 2 (a) 70 (b) 45 (c) 25 (d) 5\n4. The next term of the sequence 18, 12, 60 is (a) 12 (b) 6 (c) -6 (d) -12\n5. Find the no. of terms of the sequence 1/2 , ¾, 1, ……………….. 51/2 (a) 21 (b) 43/4 (c) 1 (d) 22\nTHEORY\n1. Eight wooden poles are to be used for pillars and the length of the poles form an arc Arithmetic Progression (A. P.) if the second pole is 2m and the 6th pole is 5m, give the lengths of the poles in order and sum up the lengths of the poles.\n2 a. Write down the 15th term of the sequence.\n2_, 3 ,4 , 5\n1x3 2x4 3x5 4 x6\nb. An arithmetic progression (A. P.) has 3 as its term and 4 as the common difference.\nc. Write an expression in its simplest form for the nth term.\nd. Find the 10th term and the sum of the first\nNew General Mathematics SSS2"
+    }
+  ],
+  "keywords": [
+    "arithmetic",
+    "progression",
+    "content",
+    "definition",
+    "series"
+  ]
+}

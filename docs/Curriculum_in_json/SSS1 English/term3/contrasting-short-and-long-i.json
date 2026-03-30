@@ -1,0 +1,31 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 10,
+  "topic_title": "Speech Work: Contrasting /ɪ/ and /i:/",
+  "topic_slug": "contrasting-short-and-long-i",
+  "source_title": "Third Term SS1 English Language Lesson Notes",
+  "learning_objectives": [
+    "Identify the short and long front vowel sounds",
+    "Recognise spelling variants for each sound",
+    "Contrast minimal pairs containing the sounds"
+  ],
+  "sections": [
+    {
+      "heading": "The Two Vowels",
+      "content": "The note treats /ɪ/ as a short vowel and /i:/ as a long vowel, with spelling variants drawn from many word examples."
+    },
+    {
+      "heading": "Contrast Pairs",
+      "content": "Examples include hit/heat, hill/heel, sit/seat, sin/seen, dim/deem, will/wheel, list/least, dip/deep, lip/leap, fill/feel, and bitch/beach."
+    }
+  ],
+  "keywords": [
+    "speech work",
+    "vowel contrast",
+    "/ɪ/",
+    "/i:/",
+    "minimal pairs"
+  ]
+}

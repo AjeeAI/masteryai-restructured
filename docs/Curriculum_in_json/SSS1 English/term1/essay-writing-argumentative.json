@@ -1,0 +1,37 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 1,
+  "week": 8,
+  "topic_title": "Essay Writing: The Argumentative Essay",
+  "topic_slug": "essay-writing-argumentative",
+  "source_title": "First Term SS1 English Language",
+  "learning_objectives": [
+    "Define an argumentative essay",
+    "Distinguish one-sided from two-sided argumentative essays",
+    "Plan and write a persuasive argumentative essay"
+  ],
+  "sections": [
+    {
+      "heading": "Definition",
+      "content": "An argumentative essay is one that requires the writer to present a subject with the aim of persuading the reader to agree with a particular point of view against another."
+    },
+    {
+      "heading": "Scope and Method",
+      "content": "Begin by giving a clear, intelligent definition of the subject so your reader knows exactly what is being discussed. Then proceed to give points to support your view.\n\nVariant question types:\n(i) 'Write an essay either in favour of or against…' – choose one side.\n(ii) 'Write an essay both for and against…' – cover both sides.\n(iii) 'Write an essay to justify the view that…' – argue the stated position only."
+    },
+    {
+      "heading": "Sample Essay Framework – Co-education",
+      "content": "Topic: 'Co-education should be encouraged in secondary schools.'\n\nIntroduction: Define co-education; state your position.\nPoint 1 (for): It prepares students for real-world interaction between genders.\nPoint 2 (for): Promotes equality and removes gender stereotypes.\nPoint 3 (against, if two-sided): Can lead to distraction.\nPoint 4 (against, if two-sided): Some students perform better in single-sex schools.\nConclusion: Restate your position strongly."
+    }
+  ],
+  "keywords": [
+    "argumentative essay",
+    "persuasion",
+    "point of view",
+    "one-sided",
+    "two-sided",
+    "debate",
+    "justify"
+  ]
+}

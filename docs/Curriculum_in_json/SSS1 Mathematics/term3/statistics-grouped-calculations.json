@@ -1,0 +1,47 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 9,
+  "topic_title": "Statistics — Range, Median and Mode of Grouped Data",
+  "topic_slug": "statistics-grouped-calculations",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Calculate the range of grouped data",
+    "Calculate the mean of grouped data using the formula mean = Σfx / Σf",
+    "Find the mode and modal class of grouped data",
+    "Find the median of grouped data"
+  ],
+  "sections": [
+    {
+      "heading": "Range of Grouped Data",
+      "content": "The range of grouped data = highest upper class limit − lowest lower class limit. Example: for class intervals 1–10, 11–20, ..., 41–50, range = 50 − 1 = 49."
+    },
+    {
+      "heading": "Mean of Grouped Data",
+      "content": "The mean is calculated using the class marks (mid-values) as representative values for each class: mean = Σfx / Σf, where x is the class mark and f is the frequency. Example: waiting times grouped 1.5–1.9, 2.0–2.4, ..., 4.0–4.4 with mid-values 1.7, 2.2, ..., 4.2 and frequencies 3, 10, 18, 10, 7, 2 → Σf = 50; Σfx = 142.0; mean = 142/50 = 2.84 minutes."
+    },
+    {
+      "heading": "Mode of Grouped Data",
+      "content": "The mode of grouped data is the value (or class) with the highest frequency. For a frequency table, the mode is the variable with the greatest count. Data can be unimodal (one mode), bimodal (two modes), or multimodal (more than two modes). Example: in a marks table with frequencies 5, 3, 2, 6, 5, 1, 3 for marks 4 through 10, the mode = 7 (highest frequency = 6)."
+    },
+    {
+      "heading": "Median of Grouped Data",
+      "content": "To find the median from a frequency table: (1) find the median position = (Σf + 1)/2; (2) count down the frequency column to find which class contains that position. Example: with Σf = 25, median position = (25+1)/2 = 13. Counting down frequencies 5, 3, 2, 6... the 13th value falls in the class with mark 7 (since 5 + 3 + 2 = 10, the 13th is in the next group with frequency 6). So median = 7."
+    }
+  ],
+  "keywords": [
+    "grouped data",
+    "mean of grouped data",
+    "class mark",
+    "mode",
+    "modal class",
+    "median",
+    "range",
+    "frequency table",
+    "Σfx",
+    "mid-value",
+    "unimodal",
+    "bimodal"
+  ]
+}

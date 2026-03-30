@@ -1,0 +1,34 @@
+{
+  "subject": "english",
+  "sss_level": "SSS1",
+  "term": 3,
+  "week": 5,
+  "topic_title": "Speech Work: Contrasting /s/, /z/, /ʒ/, /f/, and /v/",
+  "topic_slug": "contrasting-fricative-sounds",
+  "source_title": "Third Term SS1 English Language Lesson Notes",
+  "learning_objectives": [
+    "Identify the fricative sounds treated in the lesson",
+    "Contrast voiceless and voiced pairs",
+    "Recognise example words for each contrast"
+  ],
+  "sections": [
+    {
+      "heading": "Labio-dental Contrast",
+      "content": "The note contrasts /f/ and /v/ with examples such as vine/fine, vast/fast, halve/half, alive/life, prove/proof, save/safe, and starve/staff."
+    },
+    {
+      "heading": "Alveolar and Post-alveolar Contrast",
+      "content": "It also contrasts /s/ and /z/ with examples like sow/zoo, sip/zip, rice/rise, and /ʒ/ with /ʃ/ through examples such as erasure, pleasure, treasure, measure, chauffeur, and mirage."
+    }
+  ],
+  "keywords": [
+    "speech work",
+    "fricatives",
+    "/f/",
+    "/v/",
+    "/s/",
+    "/z/",
+    "/ʒ/",
+    "/ʃ/"
+  ]
+}

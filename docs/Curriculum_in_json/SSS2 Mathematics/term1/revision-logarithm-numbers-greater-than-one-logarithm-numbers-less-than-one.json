@@ -1,0 +1,33 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 1,
+  "week": 1,
+  "topic_title": "REVISION OF LOGARITHM OF NUMBERS GREATER THAN ONE AND LOGARITHM OF NUMBERS LESS THAN ONE",
+  "topic_slug": "revision-logarithm-numbers-greater-than-one-logarithm-numbers-less-than-one",
+  "source_title": "First Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Standard forms",
+    "Logarithm of numbers greater than one",
+    "Multiplication and divisions of numbers greater than one using logarithm",
+    "Using logarithm to solve problems with roots and powers (no > 1)",
+    "Logarithm of numbers less than one.",
+    "Multiplication and division of numbers less than one using logarithm"
+  ],
+  "sections": [
+    {
+      "heading": "STANDARD FORMS",
+      "content": "A way of expressing numbers in the form A x 10x where 1< A 10 and x is an integer, is said to be a standard form. Numbers are grouped into two. Large and small numbers. Numbers greater than or equal to 1 are called large numbers. In this case the x, which is the power of 10 is positive. On the other hand, numbers less than 1 are called small numbers. Here, the integer is negative.\nNumbers such as 1000 can be converted to its power of ten in the form 10x where x can be termed as the number of times the decimal point is shifted to the front of the first significant figure i.e. 10000 = 104\nNumber Power of 10\n10-3\n10-1\nNote: One tenth; one hundredth, etc are expressed as negative powers of 10 because the decimal point is shifted to the right while that of whole numbers are shifted to the left to be after the first significant figure.\nExamples\n1. Express in standard form (i) 0.08356 (ii) 832.8 in standard form\nSolution\ni 0. 08356 = 8.356 x 10-2\nii 832.8 = 8.328 x 102\n2. Express the following in standard form\n(a) 39.32 = 3.932 x 101\n(b) 4.83 = 4.83 x 100\n(c) 0.005321 = 5.321 x 10-3"
+    },
+    {
+      "heading": "WORKING IN STANDARD FORM",
+      "content": "Example\nEvaluate the following leaving your answer in standard form\n4.72 x 103 + 3.648 x 103\n(ii)6.142 x 105 + 7.32 x 104\n(iii) 7.113 x 10-5- 8.13 x 10-6\nsolution\ni. 4.72 x 103 + 3.648 x 103\n= [ 4.72 + 3.648 ] x 103\n= 8.368 x 10 3\nii. = 6.142 x 105+ 7.32 x 104\n= 6.142 x 105+ 0.732 x 105\n= [6.142 + 0.732 ] x 105\n= 6.874 x 105\niii. = 7.113 x 10-5 – 8.13 x 10-6\n= 7.113 x 10-5 – 0.813 x 10-5\n= [ 7.113 – 0.813 ] x 10-5\n= 6.3 x 10-5\nExample:Simplify : √[P/Q], leaving your answer in standard form given that P = 3.6 x 10-3 and\nQ = 4 x 10-8.\nSolution\n= √[P/Q]\n3.6 x 10-3\n= 4 x 10-8\n= / 36 x 10-4\n√ 4 x 10-8\n= √ 9 x 10-4 –(-8)\n= 3 x (104) ½\n= 3 x 102\nEVALUATION\n1. Evaluate 2.5 x 10-3 + 3.2 x 10-2\n2. Without using table, evaluate the following leaving your answer in standard form,\ni. 4ab given that a= 3.5 x 10-3 and b = 2.3 x 106 ii. 0.08 x 0.000025\n0.0005"
+    }
+  ],
+  "keywords": [
+    "standard",
+    "forms",
+    "working",
+    "form"
+  ]
+}

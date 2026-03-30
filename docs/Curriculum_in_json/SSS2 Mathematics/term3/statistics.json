@@ -1,0 +1,27 @@
+{
+  "subject": "math",
+  "sss_level": "SSS2",
+  "term": 3,
+  "week": 4,
+  "topic_title": "Statistics",
+  "topic_slug": "statistics",
+  "source_title": "Third Term SSS2 Mathematics",
+  "learning_objectives": [
+    "Cumulative Frequency Table."
+  ],
+  "sections": [
+    {
+      "heading": "Concept",
+      "content": "This is the table that shows the cumulative frequency of each of the classes and it is the running total of the frequencies class by class, giving the total frequency."
+    },
+    {
+      "heading": "Examples and Practice",
+      "content": "EXAMPLE: In a mock examination for the final year Chemistry class, the following were obtained by 50 students.\n71 63 70 45 59 82 61 79 37 89\n33 56 39 42 64 73 59 67 72 60\n46 36 61 87 91 67 54 72 39 43\n57 65 45 52 35 46 64 37 95 86\n76 73 67 71 74 82 61 59 58 43\nUsing class interval 31 – 40, 41 – 50 ... e.t.c Construct a table showing the following columns: class interval, class boundary, class mark, frequency and cumulative frequency.\nClass interval | Frequency | Class boundary | Class mark | Cumulative Frequency\n31 – 40 | 6 | 30.5 – 40.5 | 35.5 | 6\n41 – 50 | 9 | 40.5 – 50.5 | 45.5 | 6 + 9 = 15\n51 – 60 | 9 | 50.5 – 60.5 | 55.5 | 9 + 15 = 24\n61 – 70 | 11 | 60.5 – 70.5 | 65.5 | 11 + 24 = 35\n71 – 80 | 9 | 70.5 – 80.5 | 75.5 | 9 + 35 = 44\n81 – 90 | 4 | 80.5 – 90.5 | 85.5 | 4 + 44 = 48\n91 – 100 | 2 | 90.5 – 100.5 | 95.5 | 2 + 48 = 50"
+    }
+  ],
+  "keywords": [
+    "cumulative",
+    "frequency",
+    "table"
+  ]
+}

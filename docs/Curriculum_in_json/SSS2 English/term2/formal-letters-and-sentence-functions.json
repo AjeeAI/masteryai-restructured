@@ -1,0 +1,36 @@
+{
+  "subject": "english",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 3,
+  "topic_title": "Formal Letters and Sentence Functions",
+  "topic_slug": "formal-letters-and-sentence-functions",
+  "source_title": "Second Term SS2 English Studies",
+  "learning_objectives": [
+    "Write a formal letter of complaint",
+    "Classify sentences into declarative, interrogative, imperative, and exclamatory types",
+    "Identify diphthongs"
+  ],
+  "sections": [
+    {
+      "heading": "Formal Letters: Letters of Complaints",
+      "content": "Formal letters are also known as official or business letters. They are addressed to people in their official capacity. Features include: Two addresses (the writer's and the recipient's), date, formal salutation (Dear Sir/Madam), a heading (title), and a formal closing (Yours faithfully). In a letter of complaint, the tone should be serious and polite, stating the grievance clearly."
+    },
+    {
+      "heading": "Sentence Types According to Functions",
+      "content": "1. Declarative Sentence: makes a statement. Example: The boy is here. 2. Interrogative Sentence: asks a question. Example: Where is the boy? 3. Imperative Sentence: gives a command or makes a request. Example: Give me the book. 4. Exclamatory Sentence: conveys strong emotions. Example: What a beautiful car!"
+    },
+    {
+      "heading": "Speech Work: Diphthongs",
+      "content": "A diphthong is a double quality vowel that starts with one quality and ends with another. There are eight in English. Examples include /ei/ as in 'play', /ai/ as in 'buy', /au/ as in 'house', and /ɔi/ as in 'boy'."
+    }
+  ],
+  "keywords": [
+    "formal letter",
+    "complaint",
+    "declarative",
+    "interrogative",
+    "imperative",
+    "diphthongs"
+  ]
+}

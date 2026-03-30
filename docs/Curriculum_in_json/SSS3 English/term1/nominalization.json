@@ -1,0 +1,31 @@
+{
+  "subject": "english",
+  "sss_level": "SSS3",
+  "term": 1,
+  "week": 4,
+  "topic_title": "Nominalization",
+  "topic_slug": "nominalization",
+  "source_title": "First Term SS3 English Language",
+  "learning_objectives": [
+    "Define nominalization",
+    "Identify nouns formed from adjectives and verbs",
+    "Apply nominalization in writing"
+  ],
+  "sections": [
+    {
+      "heading": "Nouns from Adjectives",
+      "content": "able → ability\nholy → holiness\nlazy → laziness\nclean → cleanliness\nbitter → bitterness\ndark → darkness\nwarm → warmth\nwise → wisdom\nyoung → youth\nstrong → strength\npoor → poverty\nill → illness\nheavy → heaviness\nequal → equality"
+    },
+    {
+      "heading": "Nouns from Verbs",
+      "content": "repeat → repetition\nmix → mixture\ninjure → injury\nenjoy → enjoyment\nbond → bondage\nchoose → choice\naccuse → accusation\nenter → entrance\ndiffer → difference\nhate → hatred\ngovern → government\nendure → endurance\nsatisfy → satisfaction\nthink → thought"
+    }
+  ],
+  "keywords": [
+    "nominalization",
+    "grammar",
+    "nouns",
+    "adjectives",
+    "verbs"
+  ]
+}

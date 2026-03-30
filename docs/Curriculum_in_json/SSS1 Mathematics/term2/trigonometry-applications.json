@@ -1,0 +1,40 @@
+{
+  "subject": "math",
+  "sss_level": "SSS1",
+  "term": 2,
+  "week": 8,
+  "topic_title": "Applications of Trigonometric Ratios",
+  "topic_slug": "trigonometry-applications",
+  "source_title": "New General Mathematics SSS 1 by M.F. Macrae et al",
+  "learning_objectives": [
+    "Solve right-angled triangle problems using sine, cosine and tangent",
+    "Calculate angles of elevation and angles of depression",
+    "Find bearings and distances using trigonometric ratios"
+  ],
+  "sections": [
+    {
+      "heading": "Solving Right-Angled Triangle Problems",
+      "content": "Using the ratios sin θ = opp/hyp, cos θ = adj/hyp, tan θ = opp/adj, find unknown sides or angles in right-angled triangles. Example: a ladder 6m long leans against a wall at 80° to the horizontal. Distance of foot from wall = 6 cos 80° = 6 × 0.1736 = 1.0m. Height on wall = 6 sin 80° = 6 × 0.9848 = 5.9m."
+    },
+    {
+      "heading": "Angles of Elevation and Depression",
+      "content": "The angle of elevation is the angle measured upward from the horizontal to a higher object. The angle of depression is the angle measured downward from the horizontal to a lower object. Example: from a window 10m above ground, the angle of depression of an object on the ground is 25.4°. Distance of object from building = 10/tan 25.4° = 10/0.4748 ≈ 21.06m."
+    },
+    {
+      "heading": "Bearings and Distances",
+      "content": "Bearings are measured clockwise from North, given as three-digit numbers (e.g., 046°). If the bearing of X from Y is 046°, then the bearing of Y from X = 180° + 46° = 226°. Use trigonometric ratios to calculate north/south and east/west components of distances. Example: town Y is 200km from X at bearing 040°, so Y is 200 × sin 40° = 128.6km east of X."
+    }
+  ],
+  "keywords": [
+    "angle of elevation",
+    "angle of depression",
+    "bearing",
+    "trigonometry applications",
+    "right-angled triangle",
+    "sine",
+    "cosine",
+    "tangent",
+    "north",
+    "distance"
+  ]
+}

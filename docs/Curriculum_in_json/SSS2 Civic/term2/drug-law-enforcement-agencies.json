@@ -1,0 +1,35 @@
+{
+  "subject": "civic",
+  "sss_level": "SSS2",
+  "term": 2,
+  "week": 9,
+  "topic_title": "Activities of Drug Law Enforcement Agencies",
+  "topic_slug": "drug-law-enforcement-agencies",
+  "source_title": "Second Term SS2 Civic Education",
+  "learning_objectives": [
+    "Identify the roles of NDLEA",
+    "Identify the roles of NAFDAC",
+    "Describe the general activities of law enforcement agencies regarding drugs"
+  ],
+  "sections": [
+    {
+      "heading": "NDLEA (National Drug Law Enforcement Agency)",
+      "content": "Established by Decree 48 of 1990. Functions include:\n* Eradicating illicit cultivation and demand for narcotic plants.\n* Prosecuting drug law offenders.\n* Eliminating root causes of drug production."
+    },
+    {
+      "heading": "NAFDAC (National Agency for Food and Drug Administration and Control)",
+      "content": "Established by Decree 15 of 1993. Functions include:\n* Regulating and inspecting foods, drugs, and chemicals.\n* Certifying products for consumption through laboratory tests.\n* Registering medical appliances and production centers."
+    },
+    {
+      "heading": "General Activities",
+      "content": "Law enforcement agencies engage in:\n* Detection and burning of fake/expired drugs.\n* Arrest and prosecution of drug traffickers.\n* Confiscation of smuggled items and destruction of illegal drug plantations."
+    }
+  ],
+  "keywords": [
+    "NDLEA",
+    "NAFDAC",
+    "regulation",
+    "trafficking",
+    "narcotics"
+  ]
+}

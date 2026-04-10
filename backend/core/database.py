@@ -63,7 +63,7 @@ def get_engine() -> Engine:
             poolclass=NullPool,  # Tells SQLAlchemy: "Don't hold connections, let the pooler handle it"
             connect_args={
                 "sslmode": "require",
-                "prepare_threshold": 0 # Recommended for Supabase Transaction mode
+                "prepare_threshold": None # Recommended for Supabase Transaction mode
             }
         )
     return _engine

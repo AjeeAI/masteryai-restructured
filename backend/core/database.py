@@ -37,6 +37,8 @@ class Base(DeclarativeBase):
     pass
 
 
+# core/database.py
+
 def get_engine() -> Engine:
     global _engine
     if _engine is None:
@@ -51,16 +53,26 @@ def get_engine() -> Engine:
                 return _engine
             raise RuntimeError("DATABASE_URL is not configured.")
         
-        # SUPABASE FIX: Added poolclass=NullPool to prevent Double Pooling 
-        # with Supabase's internal PgBouncer pooler.
+        # SUPABASE FIX (For Port 5432 - Session Pooling):
+        # 1. Remove NullPool so SQLAlchemy can maintain a stable queue.
+        # 2. pool_pre_ping: Checks if the connection is alive before using it.
+        # 3. pool_size & max_overflow: Gives you enough concurrent connections for the dashboard prewarm.
+        # 4. pool_recycle: Forces connections to refresh every 30 minutes.
         _engine = create_engine(
             database_url, 
-            pool_pre_ping=True, 
-            poolclass=NullPool
+            pool_pre_ping=True,
+            pool_size=15,
+            max_overflow=20,
+            pool_recycle=1800,
+            connect_args={
+                "sslmode": "require",
+                "keepalives": 1,
+                "keepalives_idle": 30,
+                "keepalives_interval": 10,
+                "keepalives_count": 5
+            }
         )
     return _engine
-
-
 def _get_session_factory() -> sessionmaker:
     global _session_factory
     if _session_factory is None:

@@ -49,7 +49,6 @@ class PostgresRepo:
             )
               AND t.sss_level = %s
               AND t.term = %s
-              AND t.is_approved = TRUE
             ORDER BY t.title ASC
         """
         normalized_subject = str(subject_id).strip().lower()
@@ -72,7 +71,6 @@ class PostgresRepo:
             SELECT title
             FROM topics
             WHERE id = %s::uuid
-              AND is_approved = TRUE
             LIMIT 1
         """
         try:
@@ -110,7 +108,6 @@ class PostgresRepo:
             WHERE s.slug = %s
               AND t.sss_level = %s
               AND t.term = %s
-              AND t.is_approved = TRUE
               {topic_filter_sql}
             GROUP BY m.concept_id
             ORDER BY MAX(m.confidence) DESC, m.concept_id ASC
@@ -184,7 +181,6 @@ class PostgresRepo:
               AND s.slug = %s
               AND t.sss_level = %s
               AND t.term = %s
-              AND t.is_approved = TRUE
             ORDER BY m.confidence DESC, m.updated_at DESC
             LIMIT 1
         """

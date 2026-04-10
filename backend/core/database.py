@@ -60,16 +60,10 @@ def get_engine() -> Engine:
         # 4. pool_recycle: Forces connections to refresh every 30 minutes.
         _engine = create_engine(
             database_url, 
-            pool_pre_ping=True,
-            pool_size=15,
-            max_overflow=20,
-            pool_recycle=1800,
+            poolclass=NullPool,  # Tells SQLAlchemy: "Don't hold connections, let the pooler handle it"
             connect_args={
                 "sslmode": "require",
-                "keepalives": 1,
-                "keepalives_idle": 30,
-                "keepalives_interval": 10,
-                "keepalives_count": 5
+                "prepare_threshold": 0 # Recommended for Supabase Transaction mode
             }
         )
     return _engine

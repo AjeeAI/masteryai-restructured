@@ -80,7 +80,10 @@ def _extract_json_object(raw: str) -> dict | None:
 
 
 def _normalize_text(value: str) -> str:
-    return re.sub(r"\s+", " ", value or "").strip()
+    if not value:
+        return ""
+    # Only strip leading/trailing whitespace, don't collapse internal newlines!
+    return value.strip()
 
 
 def _normalize_generated_blocks(raw_blocks: Any) -> list[dict]:
@@ -508,45 +511,51 @@ def _build_generation_prompt(
         chunk_id = str(chunk.chunk_id or "")
         context_lines.append(f"- ({source_id}#{chunk_id}) {text}")
 
-    total_context_chars = sum(len(line) for line in context_lines)
     if not context_lines:
-        raise LessonGenerationError("No usable curriculum context was retrieved for lesson generation.")
-    if len(context_lines) < 2 or total_context_chars < 300:
-        raise LessonGenerationError(
-            "Curriculum context is too sparse for reliable lesson generation for this topic."
-        )
+        raise LessonGenerationError("No usable curriculum context was retrieved.")
 
     return (
-        "You generate curriculum-grounded lesson drafts for one student.\n"
-        "Return JSON only. No markdown, no commentary.\n"
-        "Do not fabricate facts outside the provided curriculum context.\n"
-        "Use student preference and mastery weaknesses to shape explanation depth and pacing.\n\n"
-        f"Scope: subject={subject}, level={sss_level}, term={term}, topic={topic_title}\n"
-        f"Student preference: {json.dumps(preference_payload, ensure_ascii=True)}\n"
-        f"Weak concepts: {json.dumps(weak_concepts, ensure_ascii=True)}\n"
-        f"Strong concepts: {json.dumps(strong_concepts, ensure_ascii=True)}\n"
-        "Curriculum evidence:\n"
+        "You are an expert Nigerian Secondary School Tutor generating a personalized lesson.\n"
+        "Your goal is to transform raw, messy curriculum evidence into a high-quality, structured lesson.\n\n"
+        
+        "### CRITICAL SANITIZATION & FORMATTING RULES:\n"
+        "1. FIX PARSING ERRORS: The curriculum text may contain artifacts like spaced-out letters (e.g., 'O B A T' or 'T A X'). "
+        "   Interpret these as geometric vertices or labels and REWRITE them naturally (e.g., 'Triangle OAT' or 'Angle TAX').\n"
+        "2. MATH & LATEX: You MUST use LaTeX for all mathematical expressions and symbols. "
+        "   - Use $...$ for inline and $$...$$ for blocks.\n"
+        "   - Use $^\\circ$ for degree symbols (e.g., write $90^\\circ$ instead of 900).\n"
+        "   - Use proper notation for angles ($\\angle ABC$) and triangles ($\\triangle OAB$).\n"
+        "3. STRUCTURE: Use Markdown for hierarchy (##, ###). Bold key terms.\n"
+        "4. TONE: Be encouraging and clear. Use local Nigerian context where appropriate.\n\n"
+        
+        "### DATA INPUTS:\n"
+        f"Scope: {subject} | {sss_level} | Term {term} | Topic: {topic_title}\n"
+        f"Student Preference: {json.dumps(preference_payload)}\n"
+        f"Mastery Gaps: {json.dumps(weak_concepts)}\n\n"
+        
+        "### CURRICULUM EVIDENCE (RAW):\n"
         f"{chr(10).join(context_lines)}\n\n"
-        "Return EXACT JSON shape:\n"
+        
+        "### OUTPUT FORMAT:\n"
+        "Return ONLY a JSON object with this shape. Do not include markdown code blocks around the JSON.\n"
         "{\n"
         '  "title": "string",\n'
         '  "summary": "string",\n'
-        '  "estimated_duration_minutes": 18,\n'
+        '  "estimated_duration_minutes": 20,\n'
         '  "content_blocks": [\n'
-        '    {"type":"text","value":"string"},\n'
-        '    {"type":"example","value":{"prompt":"string","solution":"string","note":"string"}},\n'
-        '    {"type":"exercise","value":{"question":"string","expected_answer":"string"}}\n'
-        "  ]\n"
+        '    {"type": "text", "value": "Use Markdown & LaTeX here"},\n'
+        '    {"type": "example", "value": {"prompt": "...", "solution": "...", "note": "..."}},\n'
+        '    {"type": "exercise", "value": {"question": "...", "expected_answer": "..."}}\n'
+        '  ]\n'
         "}\n"
-        "Rules:\n"
-        "- At least 4 blocks.\n"
-        "- Keep blocks concise and teachable.\n"
-        "- Ensure at least one worked example and one exercise.\n"
-        "- Keep language clear for secondary school learners.\n"
-        "- Use concrete details from retrieved evidence; avoid generic restatements.\n"
-        "- Do not repeat placeholder wording like 'introduces core ideas'.\n"
+        
+        "### VISUAL HIERARCHY RULES:\n"
+        "1. DOUBLE NEWLINES: You MUST use double newlines (\\n\\n) between every paragraph and section.\n"
+        "2. SUBHEADINGS: Use '###' for internal sub-sections (e.g., ### Definition of Sample Space).\n"
+        "3. BULLET POINTS: Use bulleted lists for definitions and properties to avoid walls of text.\n"
+        "4. BOLDING: Use **bold** for key terms the first time they appear.\n"
+        "5. STEP-BY-STEP: For math problems, use a numbered list for each step of the solution.\n\n"
     )
-
 
 def _generate_personalized_lesson(
     *,

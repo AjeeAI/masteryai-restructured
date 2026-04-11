@@ -2,7 +2,10 @@
 
 Logic:
 - Wires routers under /api/v1
+- Performs health-check handshake with AI Core to prevent spin-down
 """
+import httpx  # Added for the keep-alive handshake
+import logging
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -47,6 +50,7 @@ from backend.endpoints.admin_governance import router as admin_governance_router
 from backend.endpoints.internal_rag import router as internal_rag_router
 from backend.services.prewarm_job_service import start_prewarm_worker, stop_prewarm_worker
 
+logger = logging.getLogger(__name__)
 API_PREFIX = "/api/v1"
 
 
@@ -70,7 +74,6 @@ app.add_middleware(
 
 
 # Register the routers
-# This mounts the endpoints defined in your other files onto the app
 app.include_router(learning_router, prefix=API_PREFIX)
 app.include_router(student_router, prefix=API_PREFIX)
 app.include_router(auth_router, prefix=API_PREFIX)
@@ -110,8 +113,22 @@ app.include_router(internal_rag_router, prefix=API_PREFIX)
 
 @app.get("/")
 async def root():
-    """Health check endpoint."""
+    """Health check endpoint that pings AI Core to keep it awake."""
+    ai_status = "ping_skipped"
+    
+    # Try to wake up the AI Core if a URL is configured
+    if settings.ai_core_base_url:
+        try:
+            async with httpx.AsyncClient() as client:
+                # We send a quick GET to the AI Core's root
+                response = await client.get(settings.ai_core_base_url, timeout=5.0)
+                ai_status = "awake" if response.status_code == 200 else f"error_{response.status_code}"
+        except Exception as e:
+            logger.error(f"Keep-alive handshake failed for AI Core: {e}")
+            ai_status = "unreachable"
+
     return {
         "status": "online",
+        "ai_core_handshake": ai_status,
         "message": "Welcome to the Personalized AI Tutor API. Visit /docs for interactive documentation."
     }

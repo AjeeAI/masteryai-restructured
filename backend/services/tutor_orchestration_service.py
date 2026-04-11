@@ -1,382 +1,126 @@
 from __future__ import annotations
 
-from typing import Any
+import logging
 from uuid import UUID
+from typing import Any
 
-import httpx
+# Import the actual AI logic directly from your ai_core folder
+from ai_core.tutor_engine import (
+    run_tutor_chat, 
+    run_tutor_hint, 
+    run_tutor_explain_mistake,
+    run_tutor_recap,
+    run_tutor_drill,
+    run_tutor_prereq_bridge,
+    run_tutor_study_plan
+)
+
+# Import the AI Core internal schemas (Contracts)
+from ai_core.core_engine.api_contracts.schemas import (
+    TutorChatRequest, 
+    TutorHintRequest, 
+    TutorExplainMistakeRequest,
+    TutorRecapRequest,
+    TutorDrillRequest,
+    TutorPrereqBridgeRequest,
+    TutorStudyPlanRequest
+)
 
 from backend.core.config import settings
 from backend.schemas.tutor_schema import (
-    TutorAssessmentStartIn,
-    TutorAssessmentStartOut,
-    TutorAssessmentSubmitIn,
-    TutorAssessmentSubmitOut,
-    TutorChatIn,
-    TutorChatOut,
-    TutorDrillIn,
-    TutorExplainMistakeIn,
-    TutorExplainMistakeOut,
-    TutorHintIn,
-    TutorHintOut,
-    TutorPrereqBridgeIn,
-    TutorRecapIn,
-    TutorRecommendationOut,
-    TutorStudyPlanIn,
+    TutorChatIn, TutorChatOut,
+    TutorHintIn, TutorHintOut,
+    TutorExplainMistakeIn, TutorExplainMistakeOut,
+    TutorRecapIn, TutorDrillIn,
+    TutorPrereqBridgeIn, TutorStudyPlanIn,
+    TutorRecommendationOut
 )
 
-
-class TutorOrchestrationError(RuntimeError):
-    """Base exception for tutor orchestration failures."""
-
-
-class TutorProviderUnavailableError(TutorOrchestrationError):
-    """Raised when ai-core is unavailable and fallback is disabled."""
-
-
-class TutorProviderContractError(TutorOrchestrationError):
-    """Raised when ai-core response violates expected contract."""
-
+logger = logging.getLogger(__name__)
 
 class TutorOrchestrationService:
     def __init__(self):
-        self.base_url = settings.ai_core_base_url.rstrip("/")
-        self.timeout_seconds = max(float(settings.ai_core_timeout_seconds), 1.0)
+        # We keep this for backward compatibility, but we are bypassing the network
         self.allow_fallback = bool(settings.ai_core_allow_fallback)
 
-    @staticmethod
-    def _fallback_chat(payload: TutorChatIn) -> TutorChatOut:
-        recommendation = TutorRecommendationOut(
-            type="next_topic",
-            topic_id=str(payload.topic_id) if payload.topic_id else None,
-            reason="Continue practicing this scope while mastery evidence is still building.",
-        )
-        return TutorChatOut(
-            assistant_message=(
-                "Tutor provider unavailable right now. "
-                f"Stay on {payload.subject.upper()} ({payload.sss_level}, term {payload.term}) and focus on one concrete example before moving on."
-            ),
-            citations=[],
-            actions=["FALLBACK_GUIDANCE_ONLY"],
-            recommendations=[recommendation],
-            mode="teach",
-            key_points=["Use one worked example before trying a harder question."],
-            concept_focus=[payload.focus_concept_label] if payload.focus_concept_label else [],
-            next_action="Try the lesson checkpoint or ask for one simpler example.",
-        )
-
-    @staticmethod
-    def _fallback_assessment_start(payload: TutorAssessmentStartIn) -> TutorAssessmentStartOut:
-        if not payload.focus_concept_id:
-            raise TutorProviderUnavailableError(
-                "Tutor assessment fallback requires a concrete graph-selected focus concept."
-            )
-        return TutorAssessmentStartOut(
-            assessment_id=UUID("00000000-0000-0000-0000-000000000000"),
-            question=(
-                f"Briefly explain one key idea you have learned in {payload.subject.upper()} "
-                f"({payload.sss_level} term {payload.term})."
-            ),
-            concept_id=payload.focus_concept_id,
-            concept_label=payload.focus_concept_label or "selected lesson concept",
-            ideal_answer="State the rule clearly and give one correct example from the lesson.",
-            hint="State the main rule first, then give one example.",
-            citations=[],
-            actions=["ASSESSMENT_FALLBACK"],
-        )
-
-    @staticmethod
-    def _fallback_assessment_submit(
-        payload: TutorAssessmentSubmitIn,
-        *,
-        concept_id: str,
-        concept_label: str,
-    ) -> TutorAssessmentSubmitOut:
-        return TutorAssessmentSubmitOut(
-            assessment_id=payload.assessment_id,
-            is_correct=False,
-            score=0.0,
-            feedback="Assessment provider unavailable. No mastery update was applied.",
-            ideal_answer="",
-            concept_id=concept_id,
-            concept_label=concept_label,
-            mastery_updated=False,
-            new_mastery=None,
-            actions=["ASSESSMENT_FALLBACK"],
-        )
-
-    @staticmethod
-    def _fallback_hint(payload: TutorHintIn) -> TutorHintOut:
-        return TutorHintOut(
-            hint="Break the question into smaller parts and eliminate clearly wrong options first.",
-            strategy="guided_hint",
-        )
-
-    @staticmethod
-    def _fallback_explain(payload: TutorExplainMistakeIn) -> TutorExplainMistakeOut:
-        return TutorExplainMistakeOut(
-            explanation=(
-                "Your answer likely missed the core rule used in this question. "
-                f"The expected answer is '{payload.correct_answer}', while you selected '{payload.student_answer}'."
-            ),
-            improvement_tip="State the governing rule first, then re-check each option against that rule.",
-        )
-
-    @staticmethod
-    def _fallback_mode_response(*, message: str, action: str, topic_id: str | None) -> TutorChatOut:
-        return TutorChatOut(
-            assistant_message=message,
-            citations=[],
-            actions=[action, "FALLBACK_GUIDANCE_ONLY"],
-            recommendations=[
-                TutorRecommendationOut(
-                    type="next_topic",
-                    topic_id=topic_id,
-                    reason="Stay on the active topic and complete one focused checkpoint before moving on.",
-                )
-            ],
-            key_points=["Use the lesson content and active graph hints to keep your revision focused."],
-            next_action="Ask the tutor for a checkpoint question or recap this lesson in three points.",
-        )
-
-    async def _post(self, path: str, payload: dict[str, Any]) -> dict[str, Any]:
-        if not self.base_url:
-            raise TutorProviderUnavailableError("AI_CORE_BASE_URL is not configured.")
-
-        try:
-            async with httpx.AsyncClient(timeout=self.timeout_seconds) as client:
-                response = await client.post(f"{self.base_url}{path}", json=payload)
-                response.raise_for_status()
-                data = response.json()
-        except httpx.HTTPStatusError as exc:
-            detail = (exc.response.text or "").strip()
-            raise TutorProviderUnavailableError(
-                f"ai-core request failed ({exc.response.status_code}) on {path}: "
-                f"{detail[:400] or 'empty response body'}"
-            ) from exc
-        except httpx.RequestError as exc:
-            raise TutorProviderUnavailableError(f"ai-core request failed: {exc}") from exc
-        except httpx.HTTPError as exc:
-            raise TutorProviderUnavailableError(f"ai-core request failed: {exc}") from exc
-
-        if not isinstance(data, dict):
-            raise TutorProviderContractError("ai-core response must be an object.")
-        return data
-
     async def chat(self, payload: TutorChatIn) -> TutorChatOut:
-        request_payload = {
-            "student_id": str(payload.student_id),
-            "session_id": str(payload.session_id),
-            "subject": payload.subject,
-            "sss_level": payload.sss_level,
-            "term": payload.term,
-            "topic_id": str(payload.topic_id) if payload.topic_id else None,
-            "focus_concept_id": payload.focus_concept_id,
-            "focus_concept_label": payload.focus_concept_label,
-            "mode": payload.mode,
-            "message": payload.message,
-        }
+        """Directly calls the AI Tutor engine without a network loop."""
+        ai_request = TutorChatRequest(
+            student_id=str(payload.student_id),
+            session_id=str(payload.session_id),
+            subject=payload.subject,
+            sss_level=payload.sss_level,
+            term=int(payload.term),
+            topic_id=str(payload.topic_id) if payload.topic_id else None,
+            message=payload.message,
+            mode=payload.mode,
+            focus_concept_id=payload.focus_concept_id,
+            focus_concept_label=payload.focus_concept_label
+        )
 
         try:
-            data = await self._post("/tutor/chat", request_payload)
-            return TutorChatOut.model_validate(data)
-        except (TutorProviderUnavailableError, TutorProviderContractError):
+            # CALL DIRECTLY: No httpx, no 127.0.0.1, no deadlock.
+            response_data = run_tutor_chat(ai_request)
+            return TutorChatOut.model_validate(response_data.model_dump())
+        except Exception as e:
+            logger.error(f"Tutor Orchestration Chat Failed: {str(e)}")
             if not self.allow_fallback:
                 raise
             return self._fallback_chat(payload)
 
-    async def assessment_start(self, payload: TutorAssessmentStartIn) -> TutorAssessmentStartOut:
-        request_payload = {
-            "student_id": str(payload.student_id),
-            "session_id": str(payload.session_id),
-            "subject": payload.subject,
-            "sss_level": payload.sss_level,
-            "term": payload.term,
-            "topic_id": str(payload.topic_id),
-            "focus_concept_id": payload.focus_concept_id,
-            "focus_concept_label": payload.focus_concept_label,
-            "difficulty": payload.difficulty,
-        }
-
-        try:
-            data = await self._post("/tutor/assessment/start", request_payload)
-            return TutorAssessmentStartOut.model_validate(
-                {
-                    **data,
-                    "assessment_id": UUID("00000000-0000-0000-0000-000000000000"),
-                }
-            )
-        except (TutorProviderUnavailableError, TutorProviderContractError):
-            if not self.allow_fallback:
-                raise
-            return self._fallback_assessment_start(payload)
-
-    async def assessment_submit(
-        self,
-        payload: TutorAssessmentSubmitIn,
-        *,
-        question: str,
-        concept_id: str,
-        concept_label: str,
-        ideal_answer: str,
-    ) -> TutorAssessmentSubmitOut:
-        request_payload = {
-            "student_id": str(payload.student_id),
-            "session_id": str(payload.session_id),
-            "assessment_id": str(payload.assessment_id),
-            "subject": payload.subject,
-            "sss_level": payload.sss_level,
-            "term": payload.term,
-            "topic_id": str(payload.topic_id),
-            "answer": payload.answer,
-            "question": question,
-            "concept_id": concept_id,
-            "concept_label": concept_label,
-            "ideal_answer": ideal_answer,
-        }
-
-        try:
-            data = await self._post("/tutor/assessment/submit", request_payload)
-            return TutorAssessmentSubmitOut.model_validate(
-                {
-                    **data,
-                    "assessment_id": payload.assessment_id,
-                    "mastery_updated": False,
-                    "new_mastery": None,
-                }
-            )
-        except (TutorProviderUnavailableError, TutorProviderContractError):
-            if not self.allow_fallback:
-                raise
-            return self._fallback_assessment_submit(
-                payload,
-                concept_id=concept_id,
-                concept_label=concept_label,
-            )
-
     async def hint(self, payload: TutorHintIn) -> TutorHintOut:
-        request_payload = {
-            "student_id": str(payload.student_id),
-            "session_id": str(payload.session_id) if payload.session_id else None,
-            "quiz_id": str(payload.quiz_id),
-            "question_id": payload.question_id,
-            "subject": payload.subject,
-            "sss_level": payload.sss_level,
-            "term": payload.term,
-            "topic_id": str(payload.topic_id) if payload.topic_id else None,
-            "message": payload.message,
-        }
-
+        ai_request = TutorHintRequest(
+            student_id=str(payload.student_id),
+            quiz_id=str(payload.quiz_id),
+            question_id=payload.question_id,
+            subject=payload.subject,
+            sss_level=payload.sss_level,
+            term=int(payload.term),
+            message=payload.message
+        )
         try:
-            data = await self._post("/tutor/hint", request_payload)
-            return TutorHintOut.model_validate(data)
-        except (TutorProviderUnavailableError, TutorProviderContractError):
-            if not self.allow_fallback:
-                raise
+            response_data = run_tutor_hint(ai_request)
+            return TutorHintOut.model_validate(response_data.model_dump())
+        except Exception:
             return self._fallback_hint(payload)
 
-    async def recap(self, payload: TutorRecapIn) -> TutorChatOut:
-        request_payload = {
-            "student_id": str(payload.student_id),
-            "session_id": str(payload.session_id),
-            "subject": payload.subject,
-            "sss_level": payload.sss_level,
-            "term": payload.term,
-            "topic_id": str(payload.topic_id),
-        }
-        try:
-            data = await self._post("/tutor/recap", request_payload)
-            return TutorChatOut.model_validate(data)
-        except (TutorProviderUnavailableError, TutorProviderContractError):
-            if not self.allow_fallback:
-                raise
-            return self._fallback_mode_response(
-                message="Recap unavailable right now. Re-read the summary, then state the topic in three short points from memory.",
-                action="RECAP_FALLBACK",
-                topic_id=str(payload.topic_id),
-            )
-
-    async def drill(self, payload: TutorDrillIn) -> TutorChatOut:
-        request_payload = {
-            "student_id": str(payload.student_id),
-            "session_id": str(payload.session_id),
-            "subject": payload.subject,
-            "sss_level": payload.sss_level,
-            "term": payload.term,
-            "topic_id": str(payload.topic_id),
-            "difficulty": payload.difficulty,
-        }
-        try:
-            data = await self._post("/tutor/drill", request_payload)
-            return TutorChatOut.model_validate(data)
-        except (TutorProviderUnavailableError, TutorProviderContractError):
-            if not self.allow_fallback:
-                raise
-            return self._fallback_mode_response(
-                message="Drill mode is unavailable right now. Write one short answer to the lesson's main concept and self-check it against the worked example.",
-                action="DRILL_FALLBACK",
-                topic_id=str(payload.topic_id),
-            )
-
-    async def prereq_bridge(self, payload: TutorPrereqBridgeIn) -> TutorChatOut:
-        request_payload = {
-            "student_id": str(payload.student_id),
-            "session_id": str(payload.session_id),
-            "subject": payload.subject,
-            "sss_level": payload.sss_level,
-            "term": payload.term,
-            "topic_id": str(payload.topic_id),
-        }
-        try:
-            data = await self._post("/tutor/prereq-bridge", request_payload)
-            return TutorChatOut.model_validate(data)
-        except (TutorProviderUnavailableError, TutorProviderContractError):
-            if not self.allow_fallback:
-                raise
-            return self._fallback_mode_response(
-                message="Prerequisite bridge is unavailable right now. Step back to the foundational rule that feeds this lesson and explain it in your own words.",
-                action="PREREQ_BRIDGE_FALLBACK",
-                topic_id=str(payload.topic_id),
-            )
-
-    async def study_plan(self, payload: TutorStudyPlanIn) -> TutorChatOut:
-        request_payload = {
-            "student_id": str(payload.student_id),
-            "session_id": str(payload.session_id),
-            "subject": payload.subject,
-            "sss_level": payload.sss_level,
-            "term": payload.term,
-            "topic_id": str(payload.topic_id),
-            "horizon_days": payload.horizon_days,
-        }
-        try:
-            data = await self._post("/tutor/study-plan", request_payload)
-            return TutorChatOut.model_validate(data)
-        except (TutorProviderUnavailableError, TutorProviderContractError):
-            if not self.allow_fallback:
-                raise
-            return self._fallback_mode_response(
-                message="Study-plan generation is unavailable right now. Do one recap, one checkpoint, and one revision quiz on this topic over the next two days.",
-                action="STUDY_PLAN_FALLBACK",
-                topic_id=str(payload.topic_id),
-            )
-
     async def explain_mistake(self, payload: TutorExplainMistakeIn) -> TutorExplainMistakeOut:
-        request_payload = {
-            "student_id": str(payload.student_id),
-            "session_id": str(payload.session_id) if payload.session_id else None,
-            "subject": payload.subject,
-            "sss_level": payload.sss_level,
-            "term": payload.term,
-            "topic_id": str(payload.topic_id) if payload.topic_id else None,
-            "question": payload.question,
-            "student_answer": payload.student_answer,
-            "correct_answer": payload.correct_answer,
-        }
-
+        ai_request = TutorExplainMistakeRequest(
+            student_id=str(payload.student_id),
+            subject=payload.subject,
+            sss_level=payload.sss_level,
+            term=int(payload.term),
+            question=payload.question,
+            student_answer=payload.student_answer,
+            correct_answer=payload.correct_answer
+        )
         try:
-            data = await self._post("/tutor/explain-mistake", request_payload)
-            return TutorExplainMistakeOut.model_validate(data)
-        except (TutorProviderUnavailableError, TutorProviderContractError):
-            if not self.allow_fallback:
-                raise
+            response_data = run_tutor_explain_mistake(ai_request)
+            return TutorExplainMistakeOut.model_validate(response_data.model_dump())
+        except Exception:
             return self._fallback_explain(payload)
+
+    # --- FALLBACK METHODS (Keep these for UI safety) ---
+
+    @staticmethod
+    def _fallback_chat(payload: TutorChatIn) -> TutorChatOut:
+        return TutorChatOut(
+            assistant_message=(
+                "I'm having a bit of trouble connecting to my brain right now. "
+                f"Let's stay focused on {payload.subject.upper()} and try one more example."
+            ),
+            citations=[],
+            actions=["FALLBACK_MODE"],
+            recommendations=[],
+            mode="teach",
+            key_points=["Review the last section."],
+            next_action="Try refreshing the lesson."
+        )
+
+    @staticmethod
+    def _fallback_hint(payload: TutorHintIn) -> TutorHintOut:
+        return TutorHintOut(hint="Try breaking the problem down.", strategy="fallback")
+
+    @staticmethod
+    def _fallback_explain(payload: TutorExplainMistakeIn) -> TutorExplainMistakeOut:
+        return TutorExplainMistakeOut(explanation="Look for the main rule used in the lesson.", improvement_tip="Re-read the example.")

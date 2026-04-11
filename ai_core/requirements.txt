@@ -1,17 +1,44 @@
 fastapi
 uvicorn[standard]
-langchain-openai
-langchain
-langgraph
-openai
+SQLAlchemy>=2.0
+psycopg[binary]
+pydantic
+pydantic-settings
+python-multipart
 python-dotenv
+python-jose
+passlib[bcrypt]
+bcrypt<4.1
+httpx
 requests
-langchain_community
+openai
+langchain
+langchain-core
+langchain-openai
+langchain-community
+langgraph
+langgraph-checkpoint
 neo4j
+redis
 qdrant-client
 fastembed
-redis
-psycopg[binary]
-
 google-auth
-requests
+email-validator
+
+# fastapi
+# uvicorn[standard]
+# langchain-openai
+# langchain
+# langgraph
+# openai
+# python-dotenv
+# requests
+# langchain_community
+# neo4j
+# qdrant-client
+# fastembed
+# redis
+# psycopg[binary]
+
+# google-auth
+# requests

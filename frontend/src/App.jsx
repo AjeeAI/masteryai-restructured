@@ -1,14 +1,12 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react'; // Added useEffect
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 
 // --- Providers & Guards (KEEP THESE STANDARD) ---
-// These are needed immediately for the app to function
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import { UserProvider } from './context/UserContext';
 
 // --- Layout Components (KEEP THESE STANDARD) ---
-// Layouts are used across many pages, so keeping them standard is usually better
 import Navbar from './components/Navbar';
 import PresentationWalkthroughDock from './components/PresentationWalkthroughDock';
 import RuntimeDebugDock from './components/RuntimeDebugDock';
@@ -16,20 +14,17 @@ import TeacherSidebar from './components/TeacherSidebar';
 import LandingLayout from './layouts/LandingLayout'; 
 
 // --- 🚀 LAZY LOADED PAGES ---
-// Public Pages
 const HomePage = lazy(() => import('./pages/HomePage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const Contactpage = lazy(() => import('./pages/ContactPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 
-// Onboarding
 const ClassSelection = lazy(() => import('./pages/ClassSelection'));
 const SubjectSelection = lazy(() => import('./pages/SubjectSelection'));
 const LearningPreferences = lazy(() => import('./pages/LearningPreferences'));
 const AssessmentSplash = lazy(() => import('./pages/AssessmentSplash'));
 
-// Core Student Pages
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const GraphPathPage = lazy(() => import('./pages/GraphPathPage'));
 const GraphBriefingPage = lazy(() => import('./pages/GraphBriefingPage'));
@@ -41,7 +36,6 @@ const QuizPage = lazy(() => import('./pages/QuizPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const ExplainMistakePage = lazy(() => import('./pages/ExplainMistakePage'));
 
-// Diagnostic/Results
 const InProgress = lazy(() => import('./pages/InProgress')); 
 const Completed = lazy(() => import('./pages/Completed'));
 const ModuleQuizPage = lazy(() => import('./pages/ModuleQuizPage'));
@@ -79,10 +73,38 @@ const TeacherLayout = () => (
 );
 
 function App() {
+  // --- 💓 HEARTBEAT / KEEP-ALIVE LOGIC ---
+  useEffect(() => {
+    // Replace these with your actual Render URLs if they aren't in your .env
+    const BACKEND_URL = import.meta.env.VITE_API_BASE_URL;
+    const AI_CORE_URL = "https://your-ai-core-url.onrender.com"; // Add your AI Core URL here
+
+    const keepAlive = async () => {
+      try {
+        // Ping Backend
+        await fetch(`${BACKEND_URL}/api/v1/system/health`);
+        
+        // Optional: Ping AI Core directly to ensure it doesn't sleep either
+        // await fetch(`${AI_CORE_URL}/health`); 
+        
+        console.log("💓 Heartbeat: Services are awake.");
+      } catch (err) {
+        console.error("💔 Heartbeat failed:", err);
+      }
+    };
+
+    // Trigger immediately on mount
+    keepAlive();
+
+    // Set interval to 8 minutes
+    const interval = setInterval(keepAlive, 480000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <AuthProvider>
       <UserProvider>
-        {/* 👇 Suspense handles the "Wait" while a new page chunk is being downloaded */}
         <Suspense fallback={<PageLoader />}>
           <Routes>
             

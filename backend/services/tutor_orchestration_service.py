@@ -20,22 +20,29 @@ class TutorProviderUnavailableError(Exception):
 
 class TutorOrchestrationService:
     def __init__(self):
+        # Point this to your AI Core Render URL
         self.base_url = settings.ai_core_base_url.rstrip("/")
         self.timeout = 60.0  # AI can take time to think
 
     async def _post(self, endpoint: str, payload: dict) -> dict:
-        """Internal helper. No internal try/except here; let it explode if it fails."""
+        """Internal helper to communicate with the remote AI Core service."""
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             headers = {"X-Internal-Service-Key": settings.internal_service_key}
+            
             response = await client.post(
                 f"{self.base_url}{endpoint}",
                 json=payload,
                 headers=headers
             )
             
+            # --- LOGGING: THE DEBUGGING X-RAY ---
+            # This allows you to see the raw string before Pydantic validation kicks in.
+            logger.info(f"TUTOR_ORCHESTRATOR_RAW_RESPONSE ({endpoint}): {response.text}")
+            # ------------------------------------
+            
             if response.status_code != 200:
                 logger.error(f"AI CORE FAILURE ({response.status_code}): {response.text}")
-                raise TutorProviderUnavailableError(f"AI Core rejected request: {response.text}")
+                raise TutorProviderUnavailableError(f"Remote AI Engine error: {response.text}")
                 
             return response.json()
 
@@ -52,7 +59,6 @@ class TutorOrchestrationService:
             "focus_concept_id": payload.focus_concept_id,
             "focus_concept_label": payload.focus_concept_label
         }
-        # No try/except. Let the error propagate to the API router.
         data = await self._post("/tutor/chat", ai_payload)
         return TutorChatOut.model_validate(data)
 

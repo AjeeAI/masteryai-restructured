@@ -34,14 +34,13 @@ class LessonNotFound(Exception): pass
 class ForbiddenLessonAccess(Exception): pass
 class LessonGenerationError(Exception): pass
 
-GENERATOR_VERSION = "rag_mastery_v2"
+GENERATOR_VERSION = "rag_mastery_v2_logging"
 ALLOWED_BLOCK_TYPES = {"text", "video", "image", "example", "exercise"}
 
 def _normalize_text(value: str) -> str:
     return value.strip() if value else ""
 
 def _lesson_response_from_blocks(*, topic, title, summary, estimated_duration_minutes, content_blocks, graph_context, covered_concepts=None):
-    # Formats the final dictionary for the frontend
     return {
         "topic_id": str(topic.id),
         "title": title,
@@ -77,12 +76,10 @@ def _retrieve_rag_context(*, topic_id: uuid.UUID, topic_title: str, subject: str
     return response.chunks
 
 async def _generate_personalized_lesson(*, topic_id, topic_title, subject, sss_level, term, preference, mastery_rows) -> dict:
-    """Calls the AI Core to generate the actual lesson content."""
     rag_chunks = _retrieve_rag_context(topic_id=topic_id, topic_title=topic_title, subject=subject, sss_level=sss_level, term=term)
     if not rag_chunks:
         raise LessonGenerationError("No curriculum context found.")
 
-    # Prepare payload for AI Core
     weak_concepts = [{"id": r.concept_id, "score": float(r.mastery_score)} for r in mastery_rows[:5]]
     curriculum_context = [c.text for c in rag_chunks if c.text]
     
@@ -107,14 +104,28 @@ async def _generate_personalized_lesson(*, topic_id, topic_title, subject, sss_l
                 json=payload,
                 headers={"X-Internal-Service-Key": settings.internal_service_key}
             )
+            
+            # --- LOGGING: CRITICAL X-RAY ---
+            logger.info(f"BACKEND_RECEIVED_RAW_FROM_CORE: {response.text}")
+            # -------------------------------
+
             response.raise_for_status()
-            return response.json()
+            generated = response.json()
+
+            # --- BACKEND SAFETY MAPPER ---
+            # Secondary line of defense before saving to DB
+            if "content_blocks" in generated:
+                for block in generated["content_blocks"]:
+                    if block.get("type") not in ALLOWED_BLOCK_TYPES:
+                        logger.warning(f"Mapper caught invalid type '{block.get('type')}' in Backend. Forcing to 'text'.")
+                        block["type"] = "text"
+            
+            return generated
         except Exception as e:
             logger.error(f"Remote Lesson Generation Failed: {e}")
             raise LessonGenerationError(f"AI Core unreachable: {e}")
 
 async def fetch_topic_lesson(db: Session, topic_id: uuid.UUID, student_id: uuid.UUID) -> dict:
-    """Main entrypoint. Now Async to support remote AI Core calls."""
     started_at = now_ms()
     profile = get_student_profile(db, student_id)
     if not profile: raise ForbiddenLessonAccess("Profile not found.")
@@ -127,25 +138,34 @@ async def fetch_topic_lesson(db: Session, topic_id: uuid.UUID, student_id: uuid.
     mastery_sig = _mastery_signature(mastery_rows)
 
     # 1. Check Cache
+    # NOTE: If this cache entry has "introduction" inside, it will keep failing until deleted.
     cached = get_personalized_lesson(db, student_id=student_id, topic_id=topic.id)
     if cached and dict(cached.generation_metadata or {}).get("mastery_signature") == mastery_sig:
-        return _lesson_response_from_blocks(topic=topic, title=cached.title, summary=cached.summary, 
-                                            estimated_duration_minutes=cached.estimated_duration_minutes, 
-                                            content_blocks=list(cached.content_blocks), graph_context=None)
+        return _lesson_response_from_blocks(
+            topic=topic, title=cached.title, summary=cached.summary, 
+            estimated_duration_minutes=cached.estimated_duration_minutes, 
+            content_blocks=list(cached.content_blocks), graph_context=None
+        )
 
-    # 2. Generate Fresh via AI Core
-    generated = await _generate_personalized_lesson(topic_id=topic.id, topic_title=topic.title, subject=subject.slug,
-                                                    sss_level=profile.sss_level, term=int(profile.active_term),
-                                                    preference=getattr(profile, "preference", None), mastery_rows=mastery_rows)
+    # 2. Generate Fresh
+    generated = await _generate_personalized_lesson(
+        topic_id=topic.id, topic_title=topic.title, subject=subject.slug,
+        sss_level=profile.sss_level, term=int(profile.active_term),
+        preference=getattr(profile, "preference", None), mastery_rows=mastery_rows
+    )
 
-    # 3. Save to Cache & Return
+    # 3. Save & Return
     metadata = {**generated.get("generation_metadata", {}), "mastery_signature": mastery_sig, "generator_version": GENERATOR_VERSION}
-    upsert_personalized_lesson(db, student_id=student_id, topic_id=topic.id, curriculum_version_id=topic.curriculum_version_id,
-                               title=generated["title"], summary=generated["summary"], 
-                               estimated_duration_minutes=generated["estimated_duration_minutes"],
-                               content_blocks=generated["content_blocks"], source_chunk_ids=[], generation_metadata=metadata)
+    upsert_personalized_lesson(
+        db, student_id=student_id, topic_id=topic.id, curriculum_version_id=topic.curriculum_version_id,
+        title=generated["title"], summary=generated["summary"], 
+        estimated_duration_minutes=generated["estimated_duration_minutes"],
+        content_blocks=generated["content_blocks"], source_chunk_ids=[], generation_metadata=metadata
+    )
     db.commit()
     
-    return _lesson_response_from_blocks(topic=topic, title=generated["title"], summary=generated["summary"],
-                                        estimated_duration_minutes=generated["estimated_duration_minutes"],
-                                        content_blocks=generated["content_blocks"], graph_context=None)
+    return _lesson_response_from_blocks(
+        topic=topic, title=generated["title"], summary=generated["summary"],
+        estimated_duration_minutes=generated["estimated_duration_minutes"],
+        content_blocks=generated["content_blocks"], graph_context=None
+    )

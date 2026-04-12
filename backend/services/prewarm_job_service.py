@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import json
 import logging
@@ -155,17 +156,24 @@ class PrewarmJobService:
 
     @staticmethod
     def _process_lesson_related_job(payload: dict) -> None:
+        """Processes lesson prewarming. Uses asyncio.run to bridge to async services."""
         from backend.services.course_experience_service import CourseExperienceService
         from backend.services.dashboard_experience_service import DashboardExperienceService
         from backend.services.lesson_experience_service import LessonExperienceService
 
-        LessonExperienceService.prewarm_related_topics(
-            student_id=UUID(str(payload["student_id"])),
-            subject=str(payload["subject"]),
-            sss_level=str(payload["sss_level"]),
-            term=int(payload["term"]),
-            topic_ids=[UUID(str(topic_id)) for topic_id in list(payload.get("topic_ids") or [])],
-        )
+        # FIXED: Use asyncio.run() to call the async prewarm method from this sync thread
+        try:
+            asyncio.run(LessonExperienceService.prewarm_related_topics(
+                student_id=UUID(str(payload["student_id"])),
+                subject=str(payload["subject"]),
+                sss_level=str(payload["sss_level"]),
+                term=int(payload["term"]),
+                topic_ids=[UUID(str(topic_id)) for topic_id in list(payload.get("topic_ids") or [])],
+            ))
+        except Exception as e:
+            logger.error(f"Async prewarm failed in background worker: {e}")
+
+        # These remain synchronous as per our previous checks
         CourseExperienceService.prewarm_scope(
             student_id=UUID(str(payload["student_id"])),
             subject=str(payload["subject"]),

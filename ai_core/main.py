@@ -12,33 +12,19 @@ from uuid import UUID
 from fastapi import FastAPI, HTTPException, status, Depends, Header
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from core_engine.api_contracts.lesson_schemas import LessonGenerateRequest, LessonGenerateResponse
-from core_engine.orchestration.lesson_engine import generate_lesson_content
-
-# --- ORCHESTRATION IMPORTS ---
-from core_engine.orchestration.quiz_engine import (
-    generate_quiz_questions,
-    generate_quiz_insights,
-    QuizGenerationError,
-)
-from core_engine.orchestration.diagnostic_engine import generate_pedagogical_questions
-from core_engine.orchestration.tutor_engine import (
-    run_tutor_drill,
-    run_tutor_assessment_start,
-    run_tutor_assessment_submit,
-    run_tutor_chat,
-    run_tutor_explain_mistake,
-    run_tutor_hint,
-    run_tutor_prereq_bridge,
-    run_tutor_recap,
-    run_tutor_study_plan,
-)
-
-# --- INTEGRATIONS & OBSERVABILITY ---
-from core_engine.integrations.internal_api import internal_service_key_configured
-from core_engine.observability.telemetry import telemetry_snapshot
 
 # --- SCHEMA / CONTRACT IMPORTS ---
+from core_engine.api_contracts.lesson_schemas import LessonGenerateRequest, LessonGenerateResponse
+from core_engine.api_contracts.diagnostic_schemas import (
+    DiagnosticGenerateRequest,
+    DiagnosticGenerateResponse,
+)
+from core_engine.api_contracts.quiz_schemas import (
+    QuizGenerateRequest,
+    QuizGenerateResponse,
+    QuizInsightsResponse,
+    QuestionSchema,
+)
 from core_engine.api_contracts.schemas import (
     TutorDrillRequest,
     TutorAssessmentStartRequest,
@@ -55,16 +41,30 @@ from core_engine.api_contracts.schemas import (
     TutorRecapRequest,
     TutorStudyPlanRequest,
 )
-from core_engine.api_contracts.quiz_schemas import (
-    QuizGenerateRequest,
-    QuizGenerateResponse,
-    QuizInsightsResponse,
-    QuestionSchema,
+
+# --- ORCHESTRATION & ENGINE IMPORTS ---
+from core_engine.orchestration.lesson_engine import generate_lesson_content
+from core_engine.orchestration.diagnostic_engine import generate_pedagogical_questions
+from core_engine.orchestration.quiz_engine import (
+    generate_quiz_questions,
+    generate_quiz_insights,
+    QuizGenerationError,
 )
-from core_engine.api_contracts.diagnostic_schemas import (
-    DiagnosticGenerateRequest,
-    DiagnosticGenerateResponse,
+from core_engine.orchestration.tutor_engine import (
+    run_tutor_drill,
+    run_tutor_assessment_start,
+    run_tutor_assessment_submit,
+    run_tutor_chat,
+    run_tutor_explain_mistake,
+    run_tutor_hint,
+    run_tutor_prereq_bridge,
+    run_tutor_recap,
+    run_tutor_study_plan,
 )
+
+# --- INTEGRATIONS & OBSERVABILITY ---
+from core_engine.integrations.internal_api import internal_service_key_configured
+from core_engine.observability.telemetry import telemetry_snapshot
 
 # --- APP SETUP ---
 app = FastAPI(title="Mastery AI Core", version="0.1.0")
@@ -132,14 +132,10 @@ def health():
         "runtime": {"telemetry": telemetry_snapshot()},
     }
 
-# --- NEW DIAGNOSTIC ROUTES ---
+# --- DIAGNOSTIC & LESSON GENERATION ---
 
 @app.post("/diagnostic/generate", response_model=DiagnosticGenerateResponse, dependencies=[Depends(verify_internal_key)])
 async def diagnostic_generate(payload: DiagnosticGenerateRequest):
-    """
-    High-fidelity onboarding assessment generator.
-    Called by Backend to replace generic 'fallback' questions.
-    """
     try:
         questions = await generate_pedagogical_questions(
             subject=payload.subject,
@@ -150,6 +146,15 @@ async def diagnostic_generate(payload: DiagnosticGenerateRequest):
     except Exception as exc:
         logger.error(f"Diagnostic generation failed: {exc}")
         raise HTTPException(status_code=500, detail="Failed to generate pedagogical questions")
+
+@app.post("/lesson/generate", response_model=LessonGenerateResponse, dependencies=[Depends(verify_internal_key)])
+async def ai_lesson_generate(payload: LessonGenerateRequest):
+    try:
+        content = await generate_lesson_content(payload.model_dump())
+        return content
+    except Exception as exc:
+        logger.error(f"Lesson generation failed: {exc}")
+        raise HTTPException(status_code=500, detail="Failed to generate lesson content")
 
 # --- QUIZ ROUTES ---
 
@@ -176,7 +181,7 @@ async def quiz_insights(quiz_id: UUID, attempt_id: UUID):
     insights = await generate_quiz_insights(quiz_id=quiz_id, attempt_id=attempt_id)
     return QuizInsightsResponse(insights=insights)
 
-# --- TUTOR ROUTES ---
+# --- TUTOR ROUTES (Now Secured) ---
 
 @app.post("/tutor/chat", response_model=TutorChatResponse, dependencies=[Depends(verify_internal_key)])
 def tutor_chat(payload: TutorChatRequest):
@@ -213,8 +218,3 @@ def tutor_assessment_start(payload: TutorAssessmentStartRequest):
 @app.post("/tutor/assessment/submit", response_model=TutorAssessmentSubmitResponse, dependencies=[Depends(verify_internal_key)])
 def tutor_assessment_submit(payload: TutorAssessmentSubmitRequest):
     return run_tutor_assessment_submit(payload)
-
-@app.post("/lesson/generate", response_model=LessonGenerateResponse, dependencies=[Depends(verify_internal_key)])
-async def ai_lesson_generate(payload: LessonGenerateRequest):
-    content = await generate_lesson_content(payload.model_dump())
-    return content

@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 # It will use your env vars (GROQ_API_KEY, etc.) automatically
 llm_client = LLMClient(
     provider=os.getenv("LLM_PROVIDER", "groq"),
-    model=os.getenv("LESSON_LLM_MODEL", "llama3-70b-8192")
+    model=os.getenv("LESSON_LLM_MODEL", "llama-3.3-70b-versatile")
 )
 
 def _extract_json(text: str) -> dict:

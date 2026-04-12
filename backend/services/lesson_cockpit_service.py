@@ -165,7 +165,7 @@ class LessonCockpitService:
             recommended_next=tutor_bootstrap.next_unlock,
         )
 
-    def bootstrap(self, payload: LessonCockpitBootstrapIn) -> LessonCockpitBootstrapOut:
+    async def bootstrap(self, payload: LessonCockpitBootstrapIn) -> LessonCockpitBootstrapOut:
         started_at = now_ms()
         mastery_signature = self._scope_mastery_signature(
             db=self.db,
@@ -203,7 +203,9 @@ class LessonCockpitService:
             subject=payload.subject,
             term=int(payload.term),
         )
-        tutor_bootstrap = self.lesson_service.bootstrap(
+        
+        # FIX 1: Assignment syntax must have 'await' on the right side
+        tutor_bootstrap = await self.lesson_service.bootstrap(
             TutorSessionBootstrapIn(
                 student_id=payload.student_id,
                 subject=payload.subject,
@@ -248,7 +250,8 @@ class LessonCockpitService:
         )
         _append_topic(weakest_prereq_topic_id)
 
-        prewarm = LessonExperienceService.prewarm_related_topics(
+        # FIX 2: You must 'await' prewarm_related_topics since we made it async
+        prewarm = await LessonExperienceService.prewarm_related_topics(
             student_id=payload.student_id,
             subject=payload.subject,
             sss_level=payload.sss_level,

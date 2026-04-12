@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 # Initialize client
 llm_client = LLMClient(
     provider=os.getenv("LLM_PROVIDER", "groq"),
-    model=os.getenv("DIAGNOSTIC_LLM_MODEL", "llama3-70b-8192")
+    model=os.getenv("DIAGNOSTIC_LLM_MODEL", "llama-3.3-70b-versatile")
 )
 
 def _extract_json(text: str) -> dict:

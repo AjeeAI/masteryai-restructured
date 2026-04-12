@@ -26,8 +26,6 @@ from backend.schemas.diagnostic_schema import (
     DiagnosticSubmitOut,
     DiagnosticWeakConceptOut,
 )
-from backend.schemas.learning_path_schema import PathNextIn
-from backend.services.learning_path_service import LearningPathValidationError, learning_path_service
 
 logger = logging.getLogger(__name__)
 
@@ -96,22 +94,6 @@ class DiagnosticService:
         cleaned = cls._display_text(str(topic_title or ""))
         return cleaned or None
 
-    @classmethod
-    def _normalize_prompt(cls, prompt: str | None, *, topic_title: str | None) -> str:
-        readable_topic = cls._display_topic_title(topic_title) or "this topic"
-        raw_prompt = str(prompt or "").strip()
-        if not raw_prompt:
-            return QUESTION_PROMPTS[0].format(topic_title=readable_topic)
-        return re.sub(r"\s+", " ", raw_prompt).strip()
-
-    @classmethod
-    def _build_option_display_lookup(cls, concept_rows: list[dict]) -> dict[str, str]:
-        lookup: dict[str, str] = {}
-        for row in concept_rows:
-            label = cls._readable_concept_label(row.get("concept_id"), fallback_topic_title=row.get("topic_title"))
-            lookup[cls._normalize_lookup_key(row.get("concept_id"))] = label
-        return lookup
-
     def _serialize_existing_questions(
         self,
         diagnostic,
@@ -146,17 +128,31 @@ class DiagnosticService:
         """Entrypoint for starting onboarding. Now fetches pedagogical questions from AI Core."""
         repo = DiagnosticRepository(db)
         
-        # 1. Validation
-        if not repo.validate_student_scope(payload.student_id, payload.subject, payload.sss_level, payload.term):
+        # 1. Validation (FIXED: Added parameter names to avoid TypeError)
+        if not repo.validate_student_scope(
+            student_id=payload.student_id, 
+            subject=payload.subject, 
+            sss_level=payload.sss_level, 
+            term=payload.term
+        ):
             raise DiagnosticValidationError("Student scope is invalid.")
 
-        # 2. Check Resume
-        existing = repo.get_in_progress_diagnostic(payload.student_id, payload.subject, payload.sss_level, payload.term)
+        # 2. Check Resume (FIXED: Added parameter names)
+        existing = repo.get_in_progress_diagnostic(
+            student_id=payload.student_id, 
+            subject=payload.subject, 
+            sss_level=payload.sss_level, 
+            term=payload.term
+        )
         if existing and existing.questions:
             return self._serialize_existing_questions(existing, resumed=True)
 
-        # 3. Get Curriculum context
-        concept_rows = repo.get_scope_topic_concept_rows(payload.subject, payload.sss_level, payload.term)
+        # 3. Get Curriculum context (FIXED: Added parameter names)
+        concept_rows = repo.get_scope_topic_concept_rows(
+            subject=payload.subject, 
+            sss_level=payload.sss_level, 
+            term=payload.term
+        )
         if not concept_rows:
             raise DiagnosticValidationError("No curriculum concepts found for this scope.")
 
@@ -194,7 +190,7 @@ class DiagnosticService:
             } for r in test_subset
         ]
 
-        async with httpx.AsyncClient(timeout=45.0) as client:
+        async with httpx.AsyncClient(timeout=60.0) as client:
             try:
                 response = await client.post(
                     f"{base_url}/diagnostic/generate",
@@ -215,7 +211,7 @@ class DiagnosticService:
     def _programmatic_fallback(self, selected: list[dict], all_pool: list[dict]) -> list[dict]:
         """Emergency fallback if AI Core is down."""
         questions = []
-        for i, row in enumerate(selected):
+        for row in selected:
             correct_label = self._readable_concept_label(row["concept_id"], fallback_topic_title=row["topic_title"])
             distractors = [
                 self._readable_concept_label(r["concept_id"], fallback_topic_title=r["topic_title"])
@@ -270,7 +266,11 @@ class DiagnosticService:
     def process_diagnostic_submission(self, db: Session, payload: DiagnosticSubmitIn) -> DiagnosticSubmitOut:
         repo = DiagnosticRepository(db)
         graph_repo = GraphRepository(db)
-        diagnostic = repo.get_diagnostic(payload.diagnostic_id, payload.student_id)
+        # FIXED: Added parameter names
+        diagnostic = repo.get_diagnostic(
+            diagnostic_id=payload.diagnostic_id, 
+            student_id=payload.student_id
+        )
         
         if not diagnostic or diagnostic.status == "submitted":
             raise DiagnosticValidationError("Diagnostic session not found or already submitted.")
@@ -281,7 +281,13 @@ class DiagnosticService:
         baseline_updates = []
         concept_breakdown = []
         
-        existing_mastery = graph_repo.get_mastery_map(payload.student_id, diagnostic.subject, diagnostic.sss_level, diagnostic.term)
+        # FIXED: Added parameter names
+        existing_mastery = graph_repo.get_mastery_map(
+            student_id=payload.student_id, 
+            subject=diagnostic.subject, 
+            sss_level=diagnostic.sss_level, 
+            term=diagnostic.term
+        )
 
         for ans in payload.answers:
             q = expected.get(str(ans.question_id))
@@ -292,11 +298,18 @@ class DiagnosticService:
             
             cid = q["concept_id"]
             prev_score = existing_mastery.get(cid, 0.0)
-            new_score = 0.7 if is_correct else 0.2 # Basic baseline logic
+            new_score = 0.7 if is_correct else 0.2 
             
+            # FIXED: Added parameter names
             _, stored_new = graph_repo.upsert_mastery(
-                payload.student_id, diagnostic.subject, diagnostic.sss_level, diagnostic.term,
-                cid, new_score, source="diagnostic", evaluated_at=datetime.now(timezone.utc)
+                student_id=payload.student_id, 
+                subject=diagnostic.subject, 
+                sss_level=diagnostic.sss_level, 
+                term=diagnostic.term,
+                concept_id=cid, 
+                new_score=new_score, 
+                source="diagnostic", 
+                evaluated_at=datetime.now(timezone.utc)
             )
             
             baseline_updates.append(BaselineMasteryUpdateOut(concept_id=cid, previous_score=prev_score, new_score=stored_new, delta=stored_new - prev_score))

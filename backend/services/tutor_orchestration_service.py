@@ -1,126 +1,150 @@
 from __future__ import annotations
 
 import logging
-from uuid import UUID
+import httpx
 from typing import Any
-
-# Import the actual AI logic directly from your ai_core folder
-from ai_core.tutor_engine import (
-    run_tutor_chat, 
-    run_tutor_hint, 
-    run_tutor_explain_mistake,
-    run_tutor_recap,
-    run_tutor_drill,
-    run_tutor_prereq_bridge,
-    run_tutor_study_plan
-)
-
-# Import the AI Core internal schemas (Contracts)
-from ai_core.core_engine.api_contracts.schemas import (
-    TutorChatRequest, 
-    TutorHintRequest, 
-    TutorExplainMistakeRequest,
-    TutorRecapRequest,
-    TutorDrillRequest,
-    TutorPrereqBridgeRequest,
-    TutorStudyPlanRequest
-)
-
 from backend.core.config import settings
 from backend.schemas.tutor_schema import (
     TutorChatIn, TutorChatOut,
     TutorHintIn, TutorHintOut,
     TutorExplainMistakeIn, TutorExplainMistakeOut,
     TutorRecapIn, TutorDrillIn,
-    TutorPrereqBridgeIn, TutorStudyPlanIn,
-    TutorRecommendationOut
+    TutorPrereqBridgeIn, TutorStudyPlanIn
 )
 
 logger = logging.getLogger(__name__)
 
+class TutorProviderUnavailableError(Exception):
+    """Exception raised when the remote AI Core service is unreachable."""
+    pass
+
 class TutorOrchestrationService:
     def __init__(self):
-        # We keep this for backward compatibility, but we are bypassing the network
+        # Point this to your new AI Core Render URL (e.g., https://ai-core.onrender.com)
+        self.base_url = settings.ai_core_base_url.rstrip("/")
+        self.timeout = 60.0  # AI can take time to think
         self.allow_fallback = bool(settings.ai_core_allow_fallback)
 
-    async def chat(self, payload: TutorChatIn) -> TutorChatOut:
-        """Directly calls the AI Tutor engine without a network loop."""
-        ai_request = TutorChatRequest(
-            student_id=str(payload.student_id),
-            session_id=str(payload.session_id),
-            subject=payload.subject,
-            sss_level=payload.sss_level,
-            term=int(payload.term),
-            topic_id=str(payload.topic_id) if payload.topic_id else None,
-            message=payload.message,
-            mode=payload.mode,
-            focus_concept_id=payload.focus_concept_id,
-            focus_concept_label=payload.focus_concept_label
-        )
+    async def _post(self, endpoint: str, payload: dict) -> dict:
+        """Internal helper to communicate with the remote AI Core service."""
+        async with httpx.AsyncClient(timeout=self.timeout) as client:
+            try:
+                headers = {"X-Internal-Service-Key": settings.internal_service_key}
+                response = await client.post(
+                    f"{self.base_url}{endpoint}",
+                    json=payload,
+                    headers=headers
+                )
+                response.raise_for_status()
+                return response.json()
+            except Exception as e:
+                logger.error(f"AI Core request failed at {endpoint}: {str(e)}")
+                raise TutorProviderUnavailableError(f"Remote AI Engine error: {e}")
 
+    async def chat(self, payload: TutorChatIn) -> TutorChatOut:
+        # Map Backend Schema to AI Core Request Schema
+        ai_payload = {
+            "student_id": str(payload.student_id),
+            "session_id": str(payload.session_id),
+            "subject": payload.subject,
+            "sss_level": payload.sss_level,
+            "term": int(payload.term),
+            "topic_id": str(payload.topic_id) if payload.topic_id else None,
+            "message": payload.message,
+            "mode": payload.mode,
+            "focus_concept_id": payload.focus_concept_id,
+            "focus_concept_label": payload.focus_concept_label
+        }
         try:
-            # CALL DIRECTLY: No httpx, no 127.0.0.1, no deadlock.
-            response_data = run_tutor_chat(ai_request)
-            return TutorChatOut.model_validate(response_data.model_dump())
+            data = await self._post("/tutor/chat", ai_payload)
+            return TutorChatOut.model_validate(data)
         except Exception as e:
-            logger.error(f"Tutor Orchestration Chat Failed: {str(e)}")
-            if not self.allow_fallback:
-                raise
+            logger.warning(f"Tutor chat fallback triggered: {e}")
             return self._fallback_chat(payload)
 
     async def hint(self, payload: TutorHintIn) -> TutorHintOut:
-        ai_request = TutorHintRequest(
-            student_id=str(payload.student_id),
-            quiz_id=str(payload.quiz_id),
-            question_id=payload.question_id,
-            subject=payload.subject,
-            sss_level=payload.sss_level,
-            term=int(payload.term),
-            message=payload.message
-        )
+        ai_payload = {
+            "student_id": str(payload.student_id),
+            "quiz_id": str(payload.quiz_id),
+            "question_id": payload.question_id,
+            "subject": payload.subject,
+            "sss_level": payload.sss_level,
+            "term": int(payload.term),
+            "message": payload.message
+        }
         try:
-            response_data = run_tutor_hint(ai_request)
-            return TutorHintOut.model_validate(response_data.model_dump())
+            data = await self._post("/tutor/hint", ai_payload)
+            return TutorHintOut.model_validate(data)
         except Exception:
             return self._fallback_hint(payload)
 
     async def explain_mistake(self, payload: TutorExplainMistakeIn) -> TutorExplainMistakeOut:
-        ai_request = TutorExplainMistakeRequest(
-            student_id=str(payload.student_id),
-            subject=payload.subject,
-            sss_level=payload.sss_level,
-            term=int(payload.term),
-            question=payload.question,
-            student_answer=payload.student_answer,
-            correct_answer=payload.correct_answer
-        )
+        ai_payload = {
+            "student_id": str(payload.student_id),
+            "subject": payload.subject,
+            "sss_level": payload.sss_level,
+            "term": int(payload.term),
+            "question": payload.question,
+            "student_answer": payload.student_answer,
+            "correct_answer": payload.correct_answer
+        }
         try:
-            response_data = run_tutor_explain_mistake(ai_request)
-            return TutorExplainMistakeOut.model_validate(response_data.model_dump())
+            data = await self._post("/tutor/explain-mistake", ai_payload)
+            return TutorExplainMistakeOut.model_validate(data)
         except Exception:
             return self._fallback_explain(payload)
 
-    # --- FALLBACK METHODS (Keep these for UI safety) ---
+    # --- Section 5 & 7 Remote Endpoints ---
 
-    @staticmethod
-    def _fallback_chat(payload: TutorChatIn) -> TutorChatOut:
+    async def recap(self, payload: TutorRecapIn) -> TutorChatOut:
+        try:
+            data = await self._post("/tutor/recap", payload.model_dump())
+            return TutorChatOut.model_validate(data)
+        except Exception:
+            return self._fallback_chat(payload)
+
+    async def drill(self, payload: TutorDrillIn) -> TutorChatOut:
+        try:
+            data = await self._post("/tutor/drill", payload.model_dump())
+            return TutorChatOut.model_validate(data)
+        except Exception:
+            return self._fallback_chat(payload)
+
+    async def prereq_bridge(self, payload: TutorPrereqBridgeIn) -> TutorChatOut:
+        try:
+            data = await self._post("/tutor/prereq-bridge", payload.model_dump())
+            return TutorChatOut.model_validate(data)
+        except Exception:
+            return self._fallback_chat(payload)
+
+    async def study_plan(self, payload: TutorStudyPlanIn) -> TutorChatOut:
+        try:
+            data = await self._post("/tutor/study-plan", payload.model_dump())
+            return TutorChatOut.model_validate(data)
+        except Exception:
+            return self._fallback_chat(payload)
+
+    # --- FALLBACK METHODS ---
+
+    def _fallback_chat(self, payload: TutorChatIn) -> TutorChatOut:
         return TutorChatOut(
             assistant_message=(
                 "I'm having a bit of trouble connecting to my brain right now. "
-                f"Let's stay focused on {payload.subject.upper()} and try one more example."
+                f"Let's stay focused on {payload.subject.upper()} while I reconnect."
             ),
             citations=[],
             actions=["FALLBACK_MODE"],
             recommendations=[],
             mode="teach",
-            key_points=["Review the last section."],
-            next_action="Try refreshing the lesson."
+            key_points=["Review your current lesson materials."],
+            next_action="Try refreshing the page or sending another message in a moment."
         )
 
-    @staticmethod
-    def _fallback_hint(payload: TutorHintIn) -> TutorHintOut:
-        return TutorHintOut(hint="Try breaking the problem down.", strategy="fallback")
+    def _fallback_hint(self, payload: TutorHintIn) -> TutorHintOut:
+        return TutorHintOut(hint="Try breaking the problem down into smaller steps.", strategy="fallback")
 
-    @staticmethod
-    def _fallback_explain(payload: TutorExplainMistakeIn) -> TutorExplainMistakeOut:
-        return TutorExplainMistakeOut(explanation="Look for the main rule used in the lesson.", improvement_tip="Re-read the example.")
+    def _fallback_explain(self, payload: TutorExplainMistakeIn) -> TutorExplainMistakeOut:
+        return TutorExplainMistakeOut(
+            explanation="I'm having trouble analyzing this mistake right now. Re-read the core rule for this topic.",
+            improvement_tip="Check the lesson examples again."
+        )

@@ -220,7 +220,7 @@ class LessonExperienceService:
                 _TOPIC_SNAPSHOT_CACHE.pop(cache_key, None)
 
     @classmethod
-    def _build_topic_snapshot(
+    async def _build_topic_snapshot(
         cls,
         *,
         db: Session,
@@ -249,7 +249,9 @@ class LessonExperienceService:
         if cached is not None:
             return cached, "cache"
 
-        lesson = fetch_topic_lesson(db=db, topic_id=topic_id, student_id=student_id)
+        # CRITICAL: Added 'await' here
+        lesson = await fetch_topic_lesson(db=db, topic_id=topic_id, student_id=student_id)
+        
         try:
             graph_context = lesson_graph_service.get_lesson_graph_context(
                 db,
@@ -284,7 +286,7 @@ class LessonExperienceService:
         return snapshot, "fresh"
 
     @classmethod
-    def prewarm_topics(
+    async def prewarm_topics(
         cls,
         *,
         student_id: UUID,
@@ -309,7 +311,8 @@ class LessonExperienceService:
                     continue
                 seen.add(topic_token)
                 try:
-                    _, source = cls._build_topic_snapshot(
+                    # CRITICAL: Added 'await' here
+                    _, source = await cls._build_topic_snapshot(
                         db=db,
                         student_id=student_id,
                         subject=subject,
@@ -344,7 +347,7 @@ class LessonExperienceService:
         return result
 
     @classmethod
-    def prewarm_bootstrap_preview(
+    async def prewarm_bootstrap_preview(
         cls,
         *,
         student_id: UUID,
@@ -381,7 +384,8 @@ class LessonExperienceService:
                     result["cache_hit_topic_ids"].append(topic_token)
                     continue
                 try:
-                    snapshot, _ = cls._build_topic_snapshot(
+                    # CRITICAL: Added 'await' here
+                    snapshot, _ = await cls._build_topic_snapshot(
                         db=db,
                         student_id=student_id,
                         subject=subject,
@@ -419,7 +423,7 @@ class LessonExperienceService:
         return result
 
     @classmethod
-    def prewarm_related_topics(
+    async def prewarm_related_topics(
         cls,
         *,
         student_id: UUID,
@@ -428,14 +432,16 @@ class LessonExperienceService:
         term: int,
         topic_ids: list[UUID],
     ) -> dict[str, list[str]]:
-        result = cls.prewarm_topics(
+        # CRITICAL: Added 'await' here
+        result = await cls.prewarm_topics(
             student_id=student_id,
             subject=subject,
             sss_level=sss_level,
             term=term,
             topic_ids=topic_ids,
         )
-        preview = cls.prewarm_bootstrap_preview(
+        # CRITICAL: Added 'await' here
+        preview = await cls.prewarm_bootstrap_preview(
             student_id=student_id,
             subject=subject,
             sss_level=sss_level,
@@ -548,7 +554,7 @@ class LessonExperienceService:
             assessment_ready=bool(graph_context.current_concepts),
         )
 
-    def bootstrap(self, payload: TutorSessionBootstrapIn) -> TutorSessionBootstrapOut:
+    async def bootstrap(self, payload: TutorSessionBootstrapIn) -> TutorSessionBootstrapOut:
         started_at = now_ms()
         preview = None
         if payload.session_id is None:
@@ -617,7 +623,8 @@ class LessonExperienceService:
             )
             return self._write_cached_bootstrap(cache_key=cache_key, payload=bootstrap)
 
-        snapshot, snapshot_source = self._build_topic_snapshot(
+        # CRITICAL: Added 'await' here
+        snapshot, snapshot_source = await self._build_topic_snapshot(
             db=self.db,
             student_id=payload.student_id,
             subject=payload.subject,

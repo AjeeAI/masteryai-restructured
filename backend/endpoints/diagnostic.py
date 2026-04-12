@@ -29,7 +29,7 @@ router = APIRouter(prefix="/learning/diagnostic", tags=["Learning Diagnostic"])
 
 
 @router.get("/status", response_model=DiagnosticStatusOut)
-def diagnostic_status(
+async def diagnostic_status(
     student_id: UUID = Query(...),
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user),
@@ -40,20 +40,22 @@ def diagnostic_status(
             detail="student_id must match authenticated user id",
         )
     try:
+        # Though this service method is currently sync, 
+        # making the endpoint async is better for consistency.
         return diagnostic_service.get_diagnostic_status(db=db, student_id=student_id)
     except DiagnosticValidationError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
 
 
 @router.post("/start", response_model=DiagnosticStartOut, status_code=status.HTTP_201_CREATED)
-def start_diagnostic(
+async def start_diagnostic(
     payload: DiagnosticStartIn,
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user),
 ):
     """Start a diagnostic session for a scoped student/subject/term.
 
-    Returns a diagnostic id, concept targets, and generated diagnostic questions.
+    Returns a diagnostic id, concept targets, and AI-generated pedagogical questions.
     """
     if payload.student_id != current_user.id:
         raise HTTPException(
@@ -61,13 +63,14 @@ def start_diagnostic(
             detail="student_id must match authenticated user id",
         )
     try:
-        return diagnostic_service.create_diagnostic_session(db=db, payload=payload)
+        # CRITICAL: Added 'await' here because the service now calls the AI Core
+        return await diagnostic_service.create_diagnostic_session(db=db, payload=payload)
     except DiagnosticValidationError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
 
 
 @router.post("/submit", response_model=DiagnosticSubmitOut)
-def submit_diagnostic(
+async def submit_diagnostic(
     payload: DiagnosticSubmitIn,
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user),

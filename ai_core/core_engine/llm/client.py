@@ -20,24 +20,6 @@ def _is_truthy_env(value: str | None, *, default: bool = False) -> bool:
     return value.strip().lower() in {"1", "true", "yes", "on"}
 
 
-def _is_retryable_provider_error(exc: Exception) -> bool:
-    text = str(exc).lower()
-    markers = (
-        "rate limit",
-        "rate_limit_exceeded",
-        "insufficient_quota",
-        "quota",
-        "429",
-        "too many requests",
-        "service unavailable",
-        "temporarily unavailable",
-        "timed out",
-        "timeout",
-        "connection error",
-    )
-    return any(marker in text for marker in markers)
-
-
 @dataclass(frozen=True)
 class _ProviderAttempt:
     provider: str
@@ -63,38 +45,23 @@ class LLMClient:
             return key
         raise LLMClientError("No LLM API key configured. Set GROQ_API_KEY, LLM_API_KEY, or OPENAI_API_KEY.")
 
-    def _candidate_attempts(self) -> list[_ProviderAttempt]:
+    def _primary_attempt(self) -> _ProviderAttempt:
+        """Configures the single primary attempt. No safety net logic."""
         provider = (self.provider or "groq").strip().lower()
         model = (self.model or "").strip()
         if not model:
             raise LLMClientError("No LLM model configured.")
 
-        attempts = [
-            _ProviderAttempt(
-                provider=provider,
-                model=model,
-                api_key=self._resolve_api_key(provider),
-                base_url=(
-                    os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1")
-                    if provider == "groq"
-                    else None
-                ),
-            )
-        ]
-
-        fallback_enabled = _is_truthy_env(os.getenv("LLM_OPENAI_FALLBACK_ENABLED"), default=True)
-        fallback_key = (os.getenv("OPENAI_API_KEY") or os.getenv("LLM_API_KEY") or "").strip()
-        fallback_model = (os.getenv("OPENAI_LLM_MODEL") or "gpt-4o-mini").strip()
-        if fallback_enabled and provider != "openai" and fallback_key and fallback_model:
-            attempts.append(
-                _ProviderAttempt(
-                    provider="openai",
-                    model=fallback_model,
-                    api_key=fallback_key,
-                    base_url=None,
-                )
-            )
-        return attempts
+        return _ProviderAttempt(
+            provider=provider,
+            model=model,
+            api_key=self._resolve_api_key(provider),
+            base_url=(
+                os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1")
+                if provider == "groq"
+                else None
+            ),
+        )
 
     def _client(self, attempt: _ProviderAttempt):
         try:
@@ -111,41 +78,28 @@ class LLMClient:
         raise LLMClientError(f"Unsupported LLM provider: {self.provider}")
 
     def generate(self, prompt: str) -> str:
-        """Generate a completion from configured provider."""
-        errors: list[str] = []
-        attempts = self._candidate_attempts()
-        for index, attempt in enumerate(attempts):
-            client = self._client(attempt)
-            try:
-                response = client.chat.completions.create(
-                    model=attempt.model,
-                    messages=[{"role": "user", "content": prompt}],
-                    temperature=0.2,
-                )
-                content = response.choices[0].message.content if response.choices else None
-                if not content:
-                    raise LLMClientError("LLM returned empty content.")
-                logger.info(
-                    "llm.generate success provider=%s model=%s fallback_used=%s attempt_index=%s",
-                    attempt.provider,
-                    attempt.model,
-                    index > 0,
-                    index,
-                )
-                return str(content).strip()
-            except Exception as exc:
-                errors.append(f"{attempt.provider}:{attempt.model}: {exc}")
-                has_more_attempts = index < len(attempts) - 1
-                logger.warning(
-                    "llm.generate failed provider=%s model=%s attempt_index=%s retryable=%s error=%s",
-                    attempt.provider,
-                    attempt.model,
-                    index,
-                    has_more_attempts and _is_retryable_provider_error(exc),
-                    exc,
-                )
-                if has_more_attempts and _is_retryable_provider_error(exc):
-                    continue
-                raise LLMClientError(f"LLM generation failed: {exc}") from exc
-
-        raise LLMClientError("LLM generation failed: " + " | ".join(errors[:2]))
+        """Generate a completion. NO FALLBACKS. If it fails, it explodes loudly."""
+        attempt = self._primary_attempt()
+        client = self._client(attempt)
+        
+        try:
+            response = client.chat.completions.create(
+                model=attempt.model,
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.2,
+            )
+            content = response.choices[0].message.content if response.choices else None
+            if not content:
+                raise LLMClientError("LLM returned empty content.")
+            
+            logger.info(
+                "llm.generate success provider=%s model=%s",
+                attempt.provider,
+                attempt.model,
+            )
+            return str(content).strip()
+            
+        except Exception as exc:
+            # LOUD ERROR: Log the full context so we can debug on Render.
+            logger.error(f"LLM CRASH: provider={attempt.provider} model={attempt.model} error={exc}")
+            raise LLMClientError(f"LLM Engine Failure ({attempt.provider}/{attempt.model}): {str(exc)}")

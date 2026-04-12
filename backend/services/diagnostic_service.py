@@ -29,13 +29,6 @@ from backend.schemas.diagnostic_schema import (
 
 logger = logging.getLogger(__name__)
 
-MASTERY_PASS_THRESHOLD = 0.7
-QUESTION_PROMPTS = [
-    "For the topic '{topic_title}', which concept should you recognise first?",
-    "Which concept best matches the core idea behind '{topic_title}'?",
-    "If you begin studying '{topic_title}', which concept is the best starting focus?",
-    "Which concept is most central to understanding '{topic_title}'?",
-]
 _MINOR_WORDS = {"a", "an", "and", "as", "at", "by", "for", "from", "in", "of", "on", "or", "the", "to", "with"}
 
 class DiagnosticValidationError(ValueError):
@@ -125,10 +118,8 @@ class DiagnosticService:
         )
 
     async def create_diagnostic_session(self, db: Session, payload: DiagnosticStartIn) -> DiagnosticStartOut:
-        """Entrypoint for starting onboarding. Now fetches pedagogical questions from AI Core."""
         repo = DiagnosticRepository(db)
         
-        # 1. Validation (FIXED: Added parameter names to avoid TypeError)
         if not repo.validate_student_scope(
             student_id=payload.student_id, 
             subject=payload.subject, 
@@ -137,7 +128,6 @@ class DiagnosticService:
         ):
             raise DiagnosticValidationError("Student scope is invalid.")
 
-        # 2. Check Resume (FIXED: Added parameter names)
         existing = repo.get_in_progress_diagnostic(
             student_id=payload.student_id, 
             subject=payload.subject, 
@@ -147,7 +137,6 @@ class DiagnosticService:
         if existing and existing.questions:
             return self._serialize_existing_questions(existing, resumed=True)
 
-        # 3. Get Curriculum context (FIXED: Added parameter names)
         concept_rows = repo.get_scope_topic_concept_rows(
             subject=payload.subject, 
             sss_level=payload.sss_level, 
@@ -156,10 +145,9 @@ class DiagnosticService:
         if not concept_rows:
             raise DiagnosticValidationError("No curriculum concepts found for this scope.")
 
-        # 4. Fetch real questions from AI Core
+        # This will now throw a loud error if the AI Core call fails
         ai_questions = await self._fetch_ai_questions_from_core(payload, concept_rows)
 
-        # 5. Save and Return
         concept_targets = list(dict.fromkeys(q["concept_id"] for q in ai_questions))
         diagnostic = repo.create_diagnostic(
             student_id=payload.student_id,
@@ -175,10 +163,9 @@ class DiagnosticService:
         return self._serialize_existing_questions(diagnostic, resumed=False)
 
     async def _fetch_ai_questions_from_core(self, payload: DiagnosticStartIn, concept_rows: list[dict]) -> list[dict]:
-        """Sends concepts to AI Core to get high-quality assessment questions."""
+        """Sends concepts to AI Core. No safety net—if it fails, the request fails."""
         base_url = settings.ai_core_base_url.rstrip("/")
         
-        # Pick relevant concepts for the diagnostic
         random.shuffle(concept_rows)
         test_subset = concept_rows[:payload.num_questions]
         
@@ -191,46 +178,27 @@ class DiagnosticService:
         ]
 
         async with httpx.AsyncClient(timeout=60.0) as client:
-            try:
-                response = await client.post(
-                    f"{base_url}/diagnostic/generate",
-                    json={
-                        "subject": payload.subject,
-                        "sss_level": payload.sss_level,
-                        "term": payload.term,
-                        "concepts": concepts_data
-                    },
-                    headers={"X-Internal-Service-Key": settings.internal_service_key}
-                )
-                response.raise_for_status()
-                return response.json()["questions"]
-            except Exception as e:
-                logger.error(f"AI Diagnostic Generation failed: {e}. Falling back to programmatic.")
-                return self._programmatic_fallback(test_subset, concept_rows)
-
-    def _programmatic_fallback(self, selected: list[dict], all_pool: list[dict]) -> list[dict]:
-        """Emergency fallback if AI Core is down."""
-        questions = []
-        for row in selected:
-            correct_label = self._readable_concept_label(row["concept_id"], fallback_topic_title=row["topic_title"])
-            distractors = [
-                self._readable_concept_label(r["concept_id"], fallback_topic_title=r["topic_title"])
-                for r in all_pool if r["concept_id"] != row["concept_id"]
-            ]
-            random.shuffle(distractors)
-            options = [correct_label] + distractors[:3]
-            random.shuffle(options)
+            # We removed the try/except loop. 
+            # Network errors (DNS, Timeout) will now be caught by FastAPI and returned as 500s.
+            response = await client.post(
+                f"{base_url}/diagnostic/generate",
+                json={
+                    "subject": payload.subject,
+                    "sss_level": payload.sss_level,
+                    "term": payload.term,
+                    "concepts": concepts_data
+                },
+                headers={"X-Internal-Service-Key": settings.internal_service_key}
+            )
             
-            questions.append({
-                "question_id": str(uuid4()),
-                "concept_id": row["concept_id"],
-                "topic_id": row.get("topic_id"),
-                "topic_title": row.get("topic_title"),
-                "prompt": f"Which concept is most central to understanding {row.get('topic_title', 'this topic')}?",
-                "options": options,
-                "correct_answer": chr(ord("A") + options.index(correct_label))
-            })
-        return questions
+            # If AI Core returns 422, 403, or 500, we raise it as a ValidationError 
+            # so you can see the response body in the logs/UI.
+            if response.status_code != 200:
+                error_detail = response.text
+                logger.error(f"AI CORE FAILURE ({response.status_code}): {error_detail}")
+                raise DiagnosticValidationError(f"AI Core rejected request: {error_detail}")
+
+            return response.json()["questions"]
 
     def get_diagnostic_status(self, db: Session, *, student_id: UUID) -> DiagnosticStatusOut:
         repo = DiagnosticRepository(db)
@@ -266,7 +234,6 @@ class DiagnosticService:
     def process_diagnostic_submission(self, db: Session, payload: DiagnosticSubmitIn) -> DiagnosticSubmitOut:
         repo = DiagnosticRepository(db)
         graph_repo = GraphRepository(db)
-        # FIXED: Added parameter names
         diagnostic = repo.get_diagnostic(
             diagnostic_id=payload.diagnostic_id, 
             student_id=payload.student_id
@@ -279,9 +246,7 @@ class DiagnosticService:
         expected = {str(q["question_id"]): q for q in questions}
         correct_count = 0
         baseline_updates = []
-        concept_breakdown = []
         
-        # FIXED: Added parameter names
         existing_mastery = graph_repo.get_mastery_map(
             student_id=payload.student_id, 
             subject=diagnostic.subject, 
@@ -300,7 +265,6 @@ class DiagnosticService:
             prev_score = existing_mastery.get(cid, 0.0)
             new_score = 0.7 if is_correct else 0.2 
             
-            # FIXED: Added parameter names
             _, stored_new = graph_repo.upsert_mastery(
                 student_id=payload.student_id, 
                 subject=diagnostic.subject, 
@@ -312,8 +276,12 @@ class DiagnosticService:
                 evaluated_at=datetime.now(timezone.utc)
             )
             
-            baseline_updates.append(BaselineMasteryUpdateOut(concept_id=cid, previous_score=prev_score, new_score=stored_new, delta=stored_new - prev_score))
-            concept_breakdown.append({"concept_id": cid, "is_correct": is_correct, "weight_change": stored_new - prev_score})
+            baseline_updates.append(BaselineMasteryUpdateOut(
+                concept_id=cid, 
+                previous_score=prev_score, 
+                new_score=stored_new, 
+                delta=stored_new - prev_score
+            ))
 
         repo.mark_submitted(diagnostic)
         db.commit()

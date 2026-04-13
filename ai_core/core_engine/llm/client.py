@@ -61,8 +61,8 @@ class LLMClient:
         )
 
         try:
-            # Gemini 3 natively handles high-concurrency async calls
-            response = await client.models.generate_content(
+            # THE FIX: Added .aio. to trigger the async I/O engine!
+            response = await client.aio.models.generate_content(
                 model=attempt.model,
                 contents=prompt,
                 config=config

@@ -40,8 +40,8 @@ async def diagnostic_status(
             detail="student_id must match authenticated user id",
         )
     try:
-        # Though this service method is currently sync, 
-        # making the endpoint async is better for consistency.
+        # If get_diagnostic_status is ever updated to be async (e.g., calling Neo4j),
+        # remember to add 'await' here too.
         return diagnostic_service.get_diagnostic_status(db=db, student_id=student_id)
     except DiagnosticValidationError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
@@ -63,7 +63,7 @@ async def start_diagnostic(
             detail="student_id must match authenticated user id",
         )
     try:
-        # CRITICAL: Added 'await' here because the service now calls the AI Core
+        # Correctly awaiting the async service method
         return await diagnostic_service.create_diagnostic_session(db=db, payload=payload)
     except DiagnosticValidationError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
@@ -85,7 +85,10 @@ async def submit_diagnostic(
             detail="student_id must match authenticated user id",
         )
     try:
-        return diagnostic_service.process_diagnostic_submission(db=db, payload=payload)
+        # --- THE FINAL FIX ---
+        # Added 'await' here because process_diagnostic_submission is now async
+        # to support the Neo4j Graph sync logic.
+        return await diagnostic_service.process_diagnostic_submission(db=db, payload=payload)
     except DiagnosticValidationError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
     except DiagnosticNotFoundError as exc:

@@ -231,9 +231,11 @@ class DiagnosticService:
             subject_runs=subject_runs
         )
 
-    def process_diagnostic_submission(self, db: Session, payload: DiagnosticSubmitIn) -> DiagnosticSubmitOut:
+
+async def process_diagnostic_submission(self, db: Session, payload: DiagnosticSubmitIn) -> DiagnosticSubmitOut:
         repo = DiagnosticRepository(db)
         graph_repo = GraphRepository(db)
+        
         diagnostic = repo.get_diagnostic(
             diagnostic_id=payload.diagnostic_id, 
             student_id=payload.student_id
@@ -242,11 +244,15 @@ class DiagnosticService:
         if not diagnostic or diagnostic.status == "submitted":
             raise DiagnosticValidationError("Diagnostic session not found or already submitted.")
 
+        if not settings.use_neo4j_graph:
+            logger.critical(f"INTEGRITY ALERT: {payload.student_id} submitting diagnostic while USE_NEO4J_GRAPH is False.")
+            raise DiagnosticValidationError("System configuration error: Knowledge Graph is disabled.")
+
         questions = diagnostic.questions or []
         expected = {str(q["question_id"]): q for q in questions}
-        correct_count = 0
         baseline_updates = []
         
+        # Note: If get_mastery_map ever moves to Neo4j, make this 'await' too
         existing_mastery = graph_repo.get_mastery_map(
             student_id=payload.student_id, 
             subject=diagnostic.subject, 
@@ -254,37 +260,42 @@ class DiagnosticService:
             term=diagnostic.term
         )
 
-        for ans in payload.answers:
-            q = expected.get(str(ans.question_id))
-            if not q: continue
-            
-            is_correct = ans.answer.strip().upper() == q["correct_answer"].strip().upper()
-            if is_correct: correct_count += 1
-            
-            cid = q["concept_id"]
-            prev_score = existing_mastery.get(cid, 0.0)
-            new_score = 0.7 if is_correct else 0.2 
-            
-            _, stored_new = graph_repo.upsert_mastery(
-                student_id=payload.student_id, 
-                subject=diagnostic.subject, 
-                sss_level=diagnostic.sss_level, 
-                term=diagnostic.term,
-                concept_id=cid, 
-                new_score=new_score, 
-                source="diagnostic", 
-                evaluated_at=datetime.now(timezone.utc)
-            )
-            
-            baseline_updates.append(BaselineMasteryUpdateOut(
-                concept_id=cid, 
-                previous_score=prev_score, 
-                new_score=stored_new, 
-                delta=stored_new - prev_score
-            ))
+        try:
+            for ans in payload.answers:
+                q = expected.get(str(ans.question_id))
+                if not q: continue
+                
+                is_correct = ans.answer.strip().upper() == q["correct_answer"].strip().upper()
+                cid = q["concept_id"]
+                prev_score = existing_mastery.get(cid, 0.0)
+                new_score = 0.7 if is_correct else 0.2 
+                
+                # CRITICAL: Added 'await' here because graph_repo is now async
+                _, stored_new = await graph_repo.upsert_mastery(
+                    student_id=payload.student_id, 
+                    subject=diagnostic.subject, 
+                    sss_level=diagnostic.sss_level, 
+                    term=diagnostic.term,
+                    concept_id=cid, 
+                    new_score=new_score, 
+                    source="diagnostic", 
+                    evaluated_at=datetime.now(timezone.utc)
+                )
+                
+                baseline_updates.append(BaselineMasteryUpdateOut(
+                    concept_id=cid, 
+                    previous_score=prev_score, 
+                    new_score=stored_new, 
+                    delta=stored_new - prev_score
+                ))
 
-        repo.mark_submitted(diagnostic)
-        db.commit()
+            repo.mark_submitted(diagnostic)
+            db.commit() # Save Postgres only if the Neo4j loop finishes
+
+        except Exception as exc:
+            db.rollback() # Rollback Postgres if Neo4j sync fails
+            logger.error(f"DIAGNOSTIC SYNC FAILED for {payload.student_id}: {str(exc)}")
+            raise DiagnosticValidationError(f"Could not sync results to Knowledge Graph: {str(exc)}")
 
         return DiagnosticSubmitOut(
             baseline_mastery_updates=baseline_updates,

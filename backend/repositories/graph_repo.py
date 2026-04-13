@@ -41,7 +41,7 @@ class GraphRepository:
         )
         return {row.concept_id: self._to_float(row.mastery_score) for row in rows}
 
-    def upsert_mastery(
+    async def upsert_mastery(
         self,
         *,
         student_id: UUID,
@@ -56,6 +56,7 @@ class GraphRepository:
         evaluated_at = evaluated_at or datetime.now(timezone.utc)
         safe_score = max(0.0, min(1.0, round(new_score, 4)))
 
+        # 1. SQL UPDATE (Postgres)
         row = (
             self.db.query(StudentConceptMastery)
             .filter(
@@ -68,28 +69,59 @@ class GraphRepository:
             .first()
         )
 
+        previous = 0.0
         if row:
             previous = self._to_float(row.mastery_score)
             row.mastery_score = safe_score
             row.source = source
             row.last_evaluated_at = evaluated_at
-            self.db.flush()
-            return previous, safe_score
+        else:
+            created = StudentConceptMastery(
+                student_id=student_id,
+                subject=subject,
+                sss_level=sss_level,
+                term=term,
+                concept_id=concept_id,
+                mastery_score=safe_score,
+                source=source,
+                last_evaluated_at=evaluated_at,
+            )
+            self.db.add(created)
 
-        created = StudentConceptMastery(
-            student_id=student_id,
-            subject=subject,
-            sss_level=sss_level,
-            term=term,
-            concept_id=concept_id,
-            mastery_score=safe_score,
-            source=source,
-            last_evaluated_at=evaluated_at,
-        )
-        self.db.add(created)
-        self.db.flush()
-        return 0.0, safe_score
+        self.db.flush() # Ensure SQL state is ready
 
+        # 2. NEO4J SYNC (The Missing Link)
+        if settings.use_neo4j_graph:
+            await self._sync_to_external_graph(
+                student_id=student_id,
+                subject=subject,
+                sss_level=sss_level,
+                term=term,
+                concept_id=concept_id,
+                score=safe_score
+            )
+
+        return previous, safe_score
+
+    async def _sync_to_external_graph(self, **kwargs):
+        """Triggers the actual Neo4j update via the AI Core's internal API."""
+        from backend.core.config import settings
+        import httpx
+        
+        try:
+            async with httpx.AsyncClient(timeout=5.0) as client:
+                # This points to your AI Core's internal graph update endpoint
+                url = f"{settings.ai_core_base_url}/internal/graph/update"
+                headers = {"X-Internal-Service-Key": settings.internal_service_key}
+                
+                response = await client.post(url, json=kwargs, headers=headers)
+                response.raise_for_status()
+        except Exception as e:
+            # We log this loudly so it's not silent anymore!
+            logger.error(f"NEO4J SYNC FAILURE: Could not update graph for student {kwargs['student_id']}: {e}")
+            # In a 'Strict' mode, you could raise an error here to rollback Postgres
+            raise
+ 
     def record_update_event(
         self,
         *,

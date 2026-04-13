@@ -58,7 +58,7 @@ class Settings(BaseModel):
     neo4j_uri: str = os.getenv("NEO4J_URI", "")
     neo4j_user: str = os.getenv("NEO4J_USER", "")
     neo4j_password: str = os.getenv("NEO4J_PASSWORD", "")
-    use_neo4j_graph: bool = _parse_bool(os.getenv("USE_NEO4J_GRAPH"), default=False)
+    use_neo4j_graph: bool = _parse_bool(os.getenv("USE_NEO4J_GRAPH"), default=True)
     vector_db_url: str = os.getenv("VECTOR_DB_URL", "")
     qdrant_url: str = os.getenv("QDRANT_URL", os.getenv("VECTOR_DB_URL", ""))
     qdrant_api_key: str = os.getenv("QDRANT_API_KEY", "")

@@ -6,10 +6,10 @@ from core_engine.llm.client import LLMClient
 
 logger = logging.getLogger(__name__)
 
-# Initialize the client using the current Llama 3.3 versatile model
+# Initialize the client using the current Gemini 3 model defaults
 llm_client = LLMClient(
-    provider=os.getenv("LLM_PROVIDER", "groq"),
-    model=os.getenv("LESSON_LLM_MODEL", "llama-3.3-70b-versatile")
+    provider=os.getenv("LLM_PROVIDER", "gemini"),
+    model=os.getenv("LESSON_LLM_MODEL", "gemini-3-flash-preview")
 )
 
 def _extract_json(text: str) -> dict:
@@ -43,7 +43,7 @@ def _extract_json(text: str) -> dict:
         return json.loads(json_str)
     except json.JSONDecodeError as e:
         logger.warning(f"Standard JSON load failed: {e}. Attempting raw-newline replacement.")
-        # Llama 3.3 sometimes puts literal line breaks inside strings
+        # Llama 3.3/Gemini sometimes puts literal line breaks inside strings
         # We replace them with the escaped \n version
         json_str_fixed = json_str.replace('\n', '\\n').replace('\r', '\\r')
         try:
@@ -69,7 +69,8 @@ async def generate_lesson_content(data: dict):
     """
     
     try:
-        raw_response = llm_client.generate(prompt)
+        # THE FIX: Added 'await' here so Python waits for the actual text!
+        raw_response = await llm_client.generate(prompt)
         parsed = _extract_json(raw_response)
         
         # 2. THE SANITY MAPPER (Pydantic Fix)

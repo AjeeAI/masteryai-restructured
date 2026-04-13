@@ -145,7 +145,6 @@ class DiagnosticService:
         if not concept_rows:
             raise DiagnosticValidationError("No curriculum concepts found for this scope.")
 
-        # This will now throw a loud error if the AI Core call fails
         ai_questions = await self._fetch_ai_questions_from_core(payload, concept_rows)
 
         concept_targets = list(dict.fromkeys(q["concept_id"] for q in ai_questions))
@@ -163,7 +162,6 @@ class DiagnosticService:
         return self._serialize_existing_questions(diagnostic, resumed=False)
 
     async def _fetch_ai_questions_from_core(self, payload: DiagnosticStartIn, concept_rows: list[dict]) -> list[dict]:
-        """Sends concepts to AI Core. No safety net—if it fails, the request fails."""
         base_url = settings.ai_core_base_url.rstrip("/")
         
         random.shuffle(concept_rows)
@@ -178,8 +176,6 @@ class DiagnosticService:
         ]
 
         async with httpx.AsyncClient(timeout=60.0) as client:
-            # We removed the try/except loop. 
-            # Network errors (DNS, Timeout) will now be caught by FastAPI and returned as 500s.
             response = await client.post(
                 f"{base_url}/diagnostic/generate",
                 json={
@@ -191,8 +187,6 @@ class DiagnosticService:
                 headers={"X-Internal-Service-Key": settings.internal_service_key}
             )
             
-            # If AI Core returns 422, 403, or 500, we raise it as a ValidationError 
-            # so you can see the response body in the logs/UI.
             if response.status_code != 200:
                 error_detail = response.text
                 logger.error(f"AI CORE FAILURE ({response.status_code}): {error_detail}")
@@ -231,8 +225,8 @@ class DiagnosticService:
             subject_runs=subject_runs
         )
 
-
-async def process_diagnostic_submission(self, db: Session, payload: DiagnosticSubmitIn) -> DiagnosticSubmitOut:
+    # --- FIXED: Indented this method to be part of the DiagnosticService class ---
+    async def process_diagnostic_submission(self, db: Session, payload: DiagnosticSubmitIn) -> DiagnosticSubmitOut:
         repo = DiagnosticRepository(db)
         graph_repo = GraphRepository(db)
         
@@ -252,7 +246,6 @@ async def process_diagnostic_submission(self, db: Session, payload: DiagnosticSu
         expected = {str(q["question_id"]): q for q in questions}
         baseline_updates = []
         
-        # Note: If get_mastery_map ever moves to Neo4j, make this 'await' too
         existing_mastery = graph_repo.get_mastery_map(
             student_id=payload.student_id, 
             subject=diagnostic.subject, 
@@ -290,10 +283,10 @@ async def process_diagnostic_submission(self, db: Session, payload: DiagnosticSu
                 ))
 
             repo.mark_submitted(diagnostic)
-            db.commit() # Save Postgres only if the Neo4j loop finishes
+            db.commit()
 
         except Exception as exc:
-            db.rollback() # Rollback Postgres if Neo4j sync fails
+            db.rollback()
             logger.error(f"DIAGNOSTIC SYNC FAILED for {payload.student_id}: {str(exc)}")
             raise DiagnosticValidationError(f"Could not sync results to Knowledge Graph: {str(exc)}")
 
@@ -309,4 +302,5 @@ async def process_diagnostic_submission(self, db: Session, payload: DiagnosticSu
             )
         )
 
+# Instantiation
 diagnostic_service = DiagnosticService()

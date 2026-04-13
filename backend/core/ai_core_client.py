@@ -84,7 +84,7 @@ async def generate_quiz_questions(
     difficulty: str,
     num_questions: int,
 ) -> list[dict[str, Any]]:
-    """Fetch quiz questions from ai-core with strict response validation."""
+    """Fetch quiz questions from ai-core with aligned security headers."""
     started_at = now_ms()
     base_url = settings.ai_core_base_url.rstrip("/")
     if not base_url:
@@ -101,20 +101,15 @@ async def generate_quiz_questions(
         "num_questions": num_questions,
     }
 
-    # Header authentication for AI Core
+    # THE FIX: Header name must match ai-core/main.py (X-Internal-Service-Key)
     headers = {
-        "X-AI-CORE-TOKEN": settings.ai_core_internal_token,
+        "X-Internal-Service-Key": settings.internal_service_key,
         "Content-Type": "application/json"
     }
 
     try:
         async with httpx.AsyncClient(timeout=settings.ai_core_timeout_seconds) as client:
-            # Pass the security headers into the POST request
-            response = await client.post(
-                f"{base_url}/quiz/generate", 
-                json=payload, 
-                headers=headers
-            )
+            response = await client.post(f"{base_url}/quiz/generate", json=payload, headers=headers)
             response.raise_for_status()
             data = response.json()
     except httpx.HTTPError as exc:
@@ -155,22 +150,21 @@ async def generate_quiz_questions(
 
 
 async def generate_quiz_insights(quiz_id, attempt_id) -> list[str]:
-    """Fetch insight text from ai-core, returning no insights when unavailable."""
+    """Fetch insight text from ai-core with aligned security headers."""
     started_at = now_ms()
     base_url = settings.ai_core_base_url.rstrip("/")
     if not base_url:
         logger.warning("ai-core insights unavailable: AI_CORE_BASE_URL is not configured")
         return []
 
-    # Header authentication for AI Core
+    # THE FIX: Aligned header name
     headers = {
-        "X-AI-CORE-TOKEN": settings.ai_core_internal_token,
+        "X-Internal-Service-Key": settings.internal_service_key,
         "Content-Type": "application/json"
     }
 
     try:
         async with httpx.AsyncClient(timeout=settings.ai_core_timeout_seconds) as client:
-            # Pass the security headers into the GET request
             response = await client.get(
                 f"{base_url}/quiz/{quiz_id}/attempt/{attempt_id}/insights",
                 headers=headers

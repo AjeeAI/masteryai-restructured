@@ -47,6 +47,7 @@ def _parse_bool(raw_value: str | None, default: bool) -> bool:
 
 
 class Settings(BaseModel):
+   
     database_url: str = os.getenv("DATABASE_URL", "")
     jwt_secret: str = os.getenv("JWT_SECRET", "change_me")
     jwt_algorithm: str = os.getenv("JWT_ALGORITHM", "HS256")

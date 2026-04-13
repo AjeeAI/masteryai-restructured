@@ -1,4 +1,4 @@
-"""LLM client supporting Gemini (via LangChain) and OpenAI."""
+"""LLM client supporting Gemini 3 Series (Modern SDK) and OpenAI."""
 
 from __future__ import annotations
 
@@ -20,13 +20,12 @@ class _ProviderAttempt:
 
 @dataclass
 class LLMClient:
-    provider: str  # Now expecting 'gemini' or 'openai'
+    provider: str  # 'gemini' or 'openai'
     model: str
     api_key: Optional[str] = None
 
     def _resolve_api_key(self, provider: str) -> str:
         normalized = provider.lower()
-        # Prioritize specific keys, then fall back to a generic LLM_API_KEY
         if normalized == "gemini":
             key = os.getenv("GEMINI_API_KEY")
         elif normalized == "openai":
@@ -39,34 +38,58 @@ class LLMClient:
             raise LLMClientError(f"No API key found for {provider}. Set GEMINI_API_KEY or OPENAI_API_KEY.")
         return final_key
 
-    def _get_gemini_engine(self, attempt: _ProviderAttempt):
-        """Initializes Gemini via LangChain ChatGoogleGenerativeAI."""
+    async def _generate_gemini(self, attempt: _ProviderAttempt, prompt: str) -> str:
+        """Calls Gemini using the modern 2026 google-genai SDK."""
         try:
-            from langchain_google_genai import ChatGoogleGenerativeAI
-            from google.generativeai.types import HarmCategory, HarmBlockThreshold
+            from google import genai
+            from google.genai import types
         except ModuleNotFoundError:
-            raise LLMClientError("Missing dependencies: pip install langchain-google-genai google-generativeai")
+            raise LLMClientError("Missing dependency: pip install google-genai")
 
-        # Safety settings are mandatory to prevent blocked curriculum blocks
-        safety_settings = {
-            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-        }
-
-        return ChatGoogleGenerativeAI(
-            model=attempt.model,
-            google_api_key=attempt.api_key,
+        client = genai.Client(api_key=attempt.api_key)
+        
+        # 2026 Best Practice: Block nothing for curriculum, enforce JSON mime type
+        config = types.GenerateContentConfig(
             temperature=0.2,
-            safety_settings=safety_settings,
-            model_kwargs={"response_mime_type": "application/json"} # Native JSON enforcement
+            response_mime_type="application/json",
+            safety_settings=[
+                types.SafetySetting(category="HARM_CATEGORY_HARASSMENT", threshold="BLOCK_NONE"),
+                types.SafetySetting(category="HARM_CATEGORY_HATE_SPEECH", threshold="BLOCK_NONE"),
+                types.SafetySetting(category="HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold="BLOCK_NONE"),
+                types.SafetySetting(category="HARM_CATEGORY_DANGEROUS_CONTENT", threshold="BLOCK_NONE"),
+            ]
         )
 
+        try:
+            # Gemini 3 natively handles high-concurrency async calls
+            response = await client.models.generate_content(
+                model=attempt.model,
+                contents=prompt,
+                config=config
+            )
+            return response.text
+        except Exception as e:
+            logger.error(f"Gemini 3 API Failure: {e}")
+            raise
+
+    async def _generate_openai(self, attempt: _ProviderAttempt, prompt: str) -> str:
+        """Calls OpenAI with modern Async client."""
+        from openai import AsyncOpenAI
+        client = AsyncOpenAI(api_key=attempt.api_key)
+        
+        response = await client.chat.completions.create(
+            model=attempt.model,
+            messages=[{"role": "user", "content": prompt}],
+            response_format={"type": "json_object"},
+            temperature=0.2
+        )
+        return response.choices[0].message.content or ""
+
     async def generate(self, prompt: str) -> str:
-        """Asynchronously generates content. Defaults to Gemini if not specified."""
+        """Asynchronously generates content. Defaults to Gemini 3 Flash."""
         provider = (self.provider or "gemini").strip().lower()
-        model = (self.model or "gemini-1.5-flash").strip()
+        # Defaulting to the 2026 '3' series model
+        model = (self.model or "gemini-3-flash-preview").strip()
         
         attempt = _ProviderAttempt(
             provider=provider,
@@ -76,18 +99,9 @@ class LLMClient:
 
         try:
             if provider == "gemini":
-                engine = self._get_gemini_engine(attempt)
-                response = await engine.ainvoke(prompt)
-                content = response.content
+                content = await self._generate_gemini(attempt, prompt)
             elif provider == "openai":
-                from openai import AsyncOpenAI
-                client = AsyncOpenAI(api_key=attempt.api_key)
-                response = await client.chat.completions.create(
-                    model=attempt.model,
-                    messages=[{"role": "user", "content": prompt}],
-                    response_format={"type": "json_object"}
-                )
-                content = response.choices[0].message.content
+                content = await self._generate_openai(attempt, prompt)
             else:
                 raise LLMClientError(f"Unsupported provider: {provider}")
 

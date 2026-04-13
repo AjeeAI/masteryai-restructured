@@ -117,7 +117,8 @@ def root():
 
 @app.get("/health")
 def health():
-    llm_key_present = bool(os.getenv("GROQ_API_KEY") or os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY"))
+    # Removed Groq. Now checking for Gemini primarily.
+    llm_key_present = bool(os.getenv("GEMINI_API_KEY") or os.getenv("OPENAI_API_KEY"))
     postgres_dsn_present = bool(os.getenv("POSTGRES_DSN") or os.getenv("DATABASE_URL"))
     checks = {
         "llm_api_key": "configured" if llm_key_present else "not_configured",
@@ -181,40 +182,41 @@ async def quiz_insights(quiz_id: UUID, attempt_id: UUID):
     insights = await generate_quiz_insights(quiz_id=quiz_id, attempt_id=attempt_id)
     return QuizInsightsResponse(insights=insights)
 
-# --- TUTOR ROUTES (Now Secured) ---
+# --- TUTOR ROUTES (Now Secured & Async) ---
+# CRITICAL: We changed these to `async def` and added `await` to prevent blocking the Render thread.
 
 @app.post("/tutor/chat", response_model=TutorChatResponse, dependencies=[Depends(verify_internal_key)])
-def tutor_chat(payload: TutorChatRequest):
-    return run_tutor_chat(payload)
+async def tutor_chat(payload: TutorChatRequest):
+    return await run_tutor_chat(payload)
 
 @app.post("/tutor/recap", response_model=TutorChatResponse, dependencies=[Depends(verify_internal_key)])
-def tutor_recap(payload: TutorRecapRequest):
-    return run_tutor_recap(payload)
+async def tutor_recap(payload: TutorRecapRequest):
+    return await run_tutor_recap(payload)
 
 @app.post("/tutor/drill", response_model=TutorChatResponse, dependencies=[Depends(verify_internal_key)])
-def tutor_drill(payload: TutorDrillRequest):
-    return run_tutor_drill(payload)
+async def tutor_drill(payload: TutorDrillRequest):
+    return await run_tutor_drill(payload)
 
 @app.post("/tutor/hint", response_model=TutorHintResponse, dependencies=[Depends(verify_internal_key)])
-def tutor_hint(payload: TutorHintRequest):
-    return run_tutor_hint(payload)
+async def tutor_hint(payload: TutorHintRequest):
+    return await run_tutor_hint(payload)
 
 @app.post("/tutor/explain-mistake", response_model=TutorExplainMistakeResponse, dependencies=[Depends(verify_internal_key)])
-def tutor_explain_mistake(payload: TutorExplainMistakeRequest):
-    return run_tutor_explain_mistake(payload)
+async def tutor_explain_mistake(payload: TutorExplainMistakeRequest):
+    return await run_tutor_explain_mistake(payload)
 
 @app.post("/tutor/prereq-bridge", response_model=TutorChatResponse, dependencies=[Depends(verify_internal_key)])
-def tutor_prereq_bridge(payload: TutorPrereqBridgeRequest):
-    return run_tutor_prereq_bridge(payload)
+async def tutor_prereq_bridge(payload: TutorPrereqBridgeRequest):
+    return await run_tutor_prereq_bridge(payload)
 
 @app.post("/tutor/study-plan", response_model=TutorChatResponse, dependencies=[Depends(verify_internal_key)])
-def tutor_study_plan(payload: TutorStudyPlanRequest):
-    return run_tutor_study_plan(payload)
+async def tutor_study_plan(payload: TutorStudyPlanRequest):
+    return await run_tutor_study_plan(payload)
 
 @app.post("/tutor/assessment/start", response_model=TutorAssessmentStartResponse, dependencies=[Depends(verify_internal_key)])
-def tutor_assessment_start(payload: TutorAssessmentStartRequest):
-    return run_tutor_assessment_start(payload)
+async def tutor_assessment_start(payload: TutorAssessmentStartRequest):
+    return await run_tutor_assessment_start(payload)
 
 @app.post("/tutor/assessment/submit", response_model=TutorAssessmentSubmitResponse, dependencies=[Depends(verify_internal_key)])
-def tutor_assessment_submit(payload: TutorAssessmentSubmitRequest):
-    return run_tutor_assessment_submit(payload)
+async def tutor_assessment_submit(payload: TutorAssessmentSubmitRequest):
+    return await run_tutor_assessment_submit(payload)

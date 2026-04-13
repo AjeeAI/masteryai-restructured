@@ -10,10 +10,9 @@ from __future__ import annotations
 import json
 import os
 import re
+import httpx  # Swapped from requests for non-blocking Async I/O
 from typing import TYPE_CHECKING
 from uuid import UUID
-
-import requests
 
 from core_engine.api_contracts.schemas import (
     Citation,
@@ -100,7 +99,7 @@ def _extract_json_object(raw: str) -> dict | None:
     return parsed if isinstance(parsed, dict) else None
 
 
-def _request_json(
+async def _request_json(
     method: str,
     url: str,
     *,
@@ -108,25 +107,27 @@ def _request_json(
     payload: dict | None = None,
     timeout: float,
 ) -> dict:
+    """Asynchronous JSON requester to prevent blocking the Render thread."""
     if not internal_service_key_configured():
         raise RuntimeError("INTERNAL_SERVICE_KEY is not configured for ai-core internal backend calls.")
-    response = requests.request(
-        method,
-        url,
-        params=params,
-        json=payload,
-        timeout=timeout,
-        headers=internal_service_headers(),
-    )
-    if not response.ok:
-        detail = (response.text or "").strip()
-        raise RuntimeError(
-            f"internal request failed ({response.status_code}): {detail[:500] or 'no response body'}"
+    
+    async with httpx.AsyncClient(timeout=timeout) as client:
+        response = await client.request(
+            method,
+            url,
+            params=params,
+            json=payload,
+            headers=internal_service_headers(),
         )
-    data = response.json()
-    if not isinstance(data, dict):
-        raise RuntimeError("internal request returned a non-object payload")
-    return data
+        if not response.is_success:
+            detail = (response.text or "").strip()
+            raise RuntimeError(
+                f"internal request failed ({response.status_code}): {detail[:500] or 'no response body'}"
+            )
+        data = response.json()
+        if not isinstance(data, dict):
+            raise RuntimeError("internal request returned a non-object payload")
+        return data
 
 
 def _internal_postgres_base_url() -> str:
@@ -144,45 +145,45 @@ def _internal_context_timeout() -> float:
     return float(os.getenv("INTERNAL_CONTEXT_TIMEOUT_SECONDS", "12"))
 
 
-def _internal_profile_context(request: TutorChatRequest) -> dict:
-    return _request_json(
+async def _internal_profile_context(request: TutorChatRequest) -> dict:
+    return await _request_json(
         "GET",
         f"{_internal_postgres_base_url()}/profile",
-        params={"student_id": request.student_id},
+        params={"student_id": str(request.student_id)},
         timeout=_internal_context_timeout(),
     )
 
 
-def _internal_history_context(request: TutorChatRequest) -> dict:
-    return _request_json(
+async def _internal_history_context(request: TutorChatRequest) -> dict:
+    return await _request_json(
         "GET",
         f"{_internal_postgres_base_url()}/history",
-        params={"student_id": request.student_id, "session_id": request.session_id},
+        params={"student_id": str(request.student_id), "session_id": str(request.session_id)},
         timeout=_internal_context_timeout(),
     )
 
 
-def _internal_lesson_context(request: TutorChatRequest) -> dict | None:
+async def _internal_lesson_context(request: TutorChatRequest) -> dict | None:
     if not request.topic_id:
         return None
-    return _request_json(
+    return await _request_json(
         "GET",
         f"{_internal_postgres_base_url()}/lesson-context",
-        params={"student_id": request.student_id, "topic_id": request.topic_id},
+        params={"student_id": str(request.student_id), "topic_id": str(request.topic_id)},
         timeout=_internal_context_timeout(),
     )
 
 
-def _internal_graph_context(request: TutorChatRequest) -> dict:
+async def _internal_graph_context(request: TutorChatRequest) -> dict:
     params = {
-        "student_id": request.student_id,
+        "student_id": str(request.student_id),
         "subject": request.subject,
         "sss_level": request.sss_level,
         "term": int(request.term),
     }
     if request.topic_id:
-        params["topic_id"] = request.topic_id
-    return _request_json(
+        params["topic_id"] = str(request.topic_id)
+    return await _request_json(
         "GET",
         _internal_graph_context_url(),
         params=params,
@@ -190,7 +191,7 @@ def _internal_graph_context(request: TutorChatRequest) -> dict:
     )
 
 
-def _internal_rag_retrieve(request: TutorChatRequest) -> list[Citation]:
+async def _internal_rag_retrieve(request: TutorChatRequest) -> list[Citation]:
     base_url = os.getenv("BACKEND_INTERNAL_RAG_URL", "http://127.0.0.1:8000/api/v1/internal/rag/retrieve").strip()
     timeout = float(os.getenv("INTERNAL_RAG_TIMEOUT_SECONDS", "12"))
     top_k = int(os.getenv("INTERNAL_RAG_TOP_K", "6"))
@@ -208,43 +209,33 @@ def _internal_rag_retrieve(request: TutorChatRequest) -> list[Citation]:
         "approved_only": True,
     }
     allow_scope_fallback = os.getenv("TUTOR_CHAT_ALLOW_SCOPE_FALLBACK", "false").strip().lower() in {
-        "1",
-        "true",
-        "yes",
-        "on",
+        "1", "true", "yes", "on",
     }
 
-    def _request_chunks(request_payload: dict) -> list[dict]:
+    async def _request_chunks(request_payload: dict) -> list[dict]:
         if not internal_service_key_configured():
             raise RuntimeError("INTERNAL_SERVICE_KEY is not configured for ai-core internal backend calls.")
-        response = requests.post(
-            base_url,
-            json=request_payload,
-            timeout=timeout,
-            headers=internal_service_headers(),
-        )
-        if not response.ok:
-            detail = (response.text or "").strip()
-            raise RuntimeError(
-                f"internal RAG request failed ({response.status_code}): {detail[:500] or 'no response body'}"
+        
+        async with httpx.AsyncClient(timeout=timeout) as client:
+            response = await client.post(
+                base_url,
+                json=request_payload,
+                headers=internal_service_headers(),
             )
-        data = response.json()
-        return list(data.get("chunks", []))
+            if not response.is_success:
+                detail = (response.text or "").strip()
+                raise RuntimeError(
+                    f"internal RAG request failed ({response.status_code}): {detail[:500] or 'no response body'}"
+                )
+            data = response.json()
+            return list(data.get("chunks", []))
 
-    chunks = _request_chunks(payload)
+    chunks = await _request_chunks(payload)
     if allow_scope_fallback and not chunks and payload["topic_ids"]:
         fallback_payload = dict(payload)
         fallback_payload["topic_ids"] = []
-        logger.info(
-            "tutor._internal_rag_retrieve empty topic-scoped result; retrying scope-only retrieval",
-            extra={
-                "subject": request.subject,
-                "sss_level": request.sss_level,
-                "term": int(request.term),
-                "topic_id": request.topic_id,
-            },
-        )
-        chunks = _request_chunks(fallback_payload)
+        logger.info("tutor._internal_rag_retrieve empty topic-scoped result; retrying scope-only retrieval")
+        chunks = await _request_chunks(fallback_payload)
 
     citations: list[Citation] = []
     for chunk in chunks:
@@ -261,7 +252,7 @@ def _internal_rag_retrieve(request: TutorChatRequest) -> list[Citation]:
     return citations
 
 
-def _internal_rag_retrieve_for_prompt(
+async def _internal_rag_retrieve_for_prompt(
     *,
     student_id: str,
     session_id: str,
@@ -272,24 +263,24 @@ def _internal_rag_retrieve_for_prompt(
     message: str,
 ) -> list[Citation]:
     request = TutorChatRequest(
-        student_id=student_id,
-        session_id=session_id,
+        student_id=UUID(student_id) if isinstance(student_id, str) else student_id,
+        session_id=UUID(session_id) if isinstance(session_id, str) else session_id,
         subject=subject,
         sss_level=sss_level,
         term=term,
-        topic_id=topic_id,
+        topic_id=UUID(topic_id) if isinstance(topic_id, str) else topic_id,
         message=message,
     )
-    return _internal_rag_retrieve(request)
+    return await _internal_rag_retrieve(request)
 
 
-def _llm_generate(prompt: str) -> str:
+async def _llm_generate(prompt: str) -> str:
+    """Async wrapper for the centralized LLM client. Defaults to Gemini."""
     client = LLMClient(
-        provider=os.getenv("LLM_PROVIDER", "groq"),
-        model=os.getenv("LLM_MODEL", "openai/gpt-oss-20b"),
-        api_key=os.getenv("LLM_API_KEY"),
+        provider=os.getenv("LLM_PROVIDER", "gemini"),
+        model=os.getenv("LESSON_LLM_MODEL", "gemini-3-flash-preview"),
     )
-    return client.generate(prompt)
+    return await client.generate(prompt)
 
 
 def _readable_concept_label(concept_id: str) -> str:
@@ -723,62 +714,6 @@ def _is_question_request(message: str) -> bool:
     return any(marker in normalized for marker in markers)
 
 
-def _chat_prompt(
-    request: TutorChatRequest,
-    *,
-    citations: list[Citation],
-    profile_context: dict | None,
-    history_context: dict | None,
-    lesson_context: dict | None,
-    graph_context: dict | None,
-) -> str:
-    if citations:
-        citations_block = "\n".join(
-            f"- ({item.source_id}#{item.chunk_id}) {item.snippet}" for item in citations
-        )
-    else:
-        citations_block = "- No verified curriculum context retrieved."
-
-    lesson_lines = _lesson_context_block_lines(lesson_context)
-    lesson_block = "\n".join(lesson_lines) if lesson_lines else "- No persisted lesson body available."
-    history_block = "\n".join(_history_context_lines(history_context)) or "- No prior tutor history."
-    graph_block = "\n".join(_graph_context_lines(graph_context, lesson_context)) or "- No graph/mastery context available."
-    profile_block = "\n".join(_profile_context_lines(profile_context)) or "- No profile preferences available."
-    covered_concepts_block = "\n".join(_lesson_covered_concept_lines(lesson_context)) or "- No explicit lesson concept coverage metadata."
-    lesson_title = str((lesson_context or {}).get("title") or "").strip() or "No persisted lesson title"
-    lesson_summary = str((lesson_context or {}).get("summary") or "").strip() or "No persisted lesson summary."
-    question_mode = _is_question_request(request.message)
-
-    return (
-        "You are Mastery AI, a lesson-aware curriculum-bound tutor for Nigerian SSS learners.\n"
-        f"Scope: subject={request.subject}, level={request.sss_level}, term={request.term}.\n"
-        "Hard constraints:\n"
-        "- Do not answer outside this exact scope (subject, level, and term).\n"
-        "- Treat the persisted current lesson as the primary context when it is available.\n"
-        "- Use retrieved curriculum chunks as supporting evidence and cite source/chunk IDs when possible.\n"
-        "- Personalize scaffolding using the mastery/graph context and profile preferences when available.\n"
-        "- Do not fabricate facts, sources, or curriculum claims.\n"
-        "- If context is insufficient, say what is missing and ask one focused follow-up question.\n"
-        "- Keep explanation concise, stepwise, and student-friendly.\n"
-        "- Stay inside the currently selected lesson topic unless the student explicitly asks to broaden the scope.\n"
-        "- Never pretend a student has mastered something unless there is explicit evidence.\n"
-        "- For unsafe requests, refuse and redirect to safe learning support.\n\n"
-        f"Current lesson title: {lesson_title}\n"
-        f"Current lesson summary: {lesson_summary}\n"
-        f"Lesson covered concepts:\n{covered_concepts_block}\n\n"
-        f"Current lesson body:\n{lesson_block}\n\n"
-        f"Student profile and preferences:\n{profile_block}\n\n"
-        f"Recent tutor history:\n{history_block}\n\n"
-        f"Mastery / graph context:\n{graph_block}\n\n"
-        f"Question-request mode: {'yes' if question_mode else 'no'}\n"
-        "If question-request mode is yes, ask exactly one lesson-scoped check question first. "
-        "Prefer the weakest concept inside the current lesson when identifiable. "
-        "Do not give the answer in the same turn.\n\n"
-        f"Student question: {request.message}\n\n"
-        f"Retrieved context:\n{citations_block}\n"
-    )
-
-
 def _infer_tutor_mode_from_message(message: str) -> str:
     text = (message or "").strip().lower()
     if (
@@ -1019,6 +954,7 @@ def _structured_tutor_prompt(
         "recap": "Compress the topic into three sharp points, one memory hook, and one exam-useful reminder.",
         "exam-practice": "Coach the learner in WAEC style: exam-focused, precise, time-aware, and grounded in this lesson.",
     }.get(mode, "Explain clearly and stay grounded.")
+    
     return (
         "You are Mastery AI, a graph-aware tutor for Nigerian SSS learners.\n"
         "Return JSON only.\n"
@@ -1036,7 +972,7 @@ def _structured_tutor_prompt(
         f"Graph-selected focus:\n{focused_node_block}\n\n"
         f"Lesson covered concepts:\n{covered_concepts_block}\n\n"
         f"Next unlock:\n- topic_title: {next_unlock_title}\n- reason: {next_unlock_reason}\n\n"
-          f"Lesson body:\n{lesson_block}\n\n"
+        f"Lesson body:\n{lesson_block}\n\n"
         f"Student profile:\n{profile_block}\n\n"
         f"Recent tutor history:\n{history_block}\n\n"
         f"Graph / mastery context:\n{graph_block}\n\n"
@@ -1158,7 +1094,8 @@ def _plain_text_tutor_payload(
     )
 
 
-def _collect_tutor_context(request: TutorChatRequest) -> tuple[list[Citation], dict | None, dict | None, dict | None, dict | None, list[str]]:
+async def _collect_tutor_context(request: TutorChatRequest) -> tuple[list[Citation], dict | None, dict | None, dict | None, dict | None, list[str]]:
+    """Asynchronously fetches all required context."""
     citations: list[Citation] = []
     profile_context: dict | None = None
     history_context: dict | None = None
@@ -1168,7 +1105,7 @@ def _collect_tutor_context(request: TutorChatRequest) -> tuple[list[Citation], d
 
     actions.append("CALLED_TOOL:internal_postgres.profile")
     try:
-        profile_context = _internal_profile_context(request)
+        profile_context = await _internal_profile_context(request)
     except Exception as exc:
         logger.warning("tutor.context profile fetch failed: %s", exc)
         actions.append("PROFILE_CONTEXT_FAILED")
@@ -1177,7 +1114,7 @@ def _collect_tutor_context(request: TutorChatRequest) -> tuple[list[Citation], d
 
     actions.append("CALLED_TOOL:internal_postgres.history")
     try:
-        history_context = _internal_history_context(request)
+        history_context = await _internal_history_context(request)
     except Exception as exc:
         logger.warning("tutor.context history fetch failed: %s", exc)
         actions.append("SESSION_HISTORY_FAILED")
@@ -1187,7 +1124,7 @@ def _collect_tutor_context(request: TutorChatRequest) -> tuple[list[Citation], d
     if request.topic_id:
         actions.append("CALLED_TOOL:internal_postgres.lesson_context")
         try:
-            lesson_context = _internal_lesson_context(request)
+            lesson_context = await _internal_lesson_context(request)
         except Exception as exc:
             logger.warning("tutor.context lesson-context fetch failed: %s", exc)
             actions.append("LESSON_CONTEXT_FAILED")
@@ -1204,7 +1141,7 @@ def _collect_tutor_context(request: TutorChatRequest) -> tuple[list[Citation], d
 
     actions.append("CALLED_TOOL:internal_graph.context")
     try:
-        graph_context = _internal_graph_context(request)
+        graph_context = await _internal_graph_context(request)
     except Exception as exc:
         logger.warning("tutor.context graph-context fetch failed: %s", exc)
         actions.append("GRAPH_CONTEXT_FAILED")
@@ -1213,7 +1150,7 @@ def _collect_tutor_context(request: TutorChatRequest) -> tuple[list[Citation], d
 
     actions.append("CALLED_TOOL:internal_rag.retrieve")
     try:
-        citations = _internal_rag_retrieve(request)
+        citations = await _internal_rag_retrieve(request)
     except Exception as exc:
         logger.warning("tutor.context retrieval failed: %s", exc)
         actions.append("RAG_RETRIEVAL_FAILED")
@@ -1223,14 +1160,15 @@ def _collect_tutor_context(request: TutorChatRequest) -> tuple[list[Citation], d
     return citations, profile_context, history_context, lesson_context, graph_context, actions
 
 
-def _run_structured_tutor_mode(
+async def _run_structured_tutor_mode(
     *,
     request: TutorChatRequest,
     mode: str,
     user_goal: str,
 ) -> TutorChatResponse:
     started_at = now_ms()
-    citations, profile_context, history_context, lesson_context, graph_context, actions = _collect_tutor_context(request)
+    citations, profile_context, history_context, lesson_context, graph_context, actions = await _collect_tutor_context(request)
+    
     if request.focus_concept_label or request.focus_concept_id:
         actions.append("USED_GRAPH_SELECTED_FOCUS")
 
@@ -1245,7 +1183,7 @@ def _run_structured_tutor_mode(
             mode=mode,
             subject=request.subject,
             term=request.term,
-            topic_id=request.topic_id or "none",
+            topic_id=str(request.topic_id or "none"),
         )
         return TutorChatResponse(
             assistant_message=(
@@ -1270,7 +1208,7 @@ def _run_structured_tutor_mode(
         graph_context=graph_context,
     )
     try:
-        raw = _llm_generate(prompt)
+        raw = await _llm_generate(prompt)
     except (LLMClientError, Exception) as exc:
         detail = str(exc) or "unknown model error"
         logger.warning("tutor.mode llm generation failed mode=%s detail=%s", mode, detail)
@@ -1283,7 +1221,7 @@ def _run_structured_tutor_mode(
             mode=mode,
             subject=request.subject,
             term=request.term,
-            topic_id=request.topic_id or "none",
+            topic_id=str(request.topic_id or "none"),
             detail=detail,
         )
         return TutorChatResponse(
@@ -1315,6 +1253,7 @@ def _run_structured_tutor_mode(
             graph_context=graph_context,
             lesson_context=lesson_context,
         )
+    
     log_timed_event(
         logger,
         "tutor.mode",
@@ -1324,7 +1263,7 @@ def _run_structured_tutor_mode(
         subject=request.subject,
         sss_level=request.sss_level,
         term=request.term,
-        topic_id=request.topic_id or "none",
+        topic_id=str(request.topic_id or "none"),
         lesson_context=_lesson_context_available(lesson_context),
         context_source=_lesson_context_source(lesson_context) or "none",
         covered_concepts=len(_lesson_covered_concept_ids(lesson_context)),
@@ -1335,102 +1274,7 @@ def _run_structured_tutor_mode(
     return response
 
 
-def handle_question(
-    request: TutorRequest,
-    *,
-    settings: "Settings",
-    curriculum: "CurriculumResolver",
-    retriever: "RagRetriever",
-    prereqs: "PrereqService",
-    llm: "LLMClient",
-    mastery: "MasteryUpdater",
-    cost_tracker: "CostTracker",
-) -> TutorResponse:
-    """MVP orchestration:
-    resolve scope -> retrieve chunks -> prereq hints -> LLM response -> mastery update -> logs/cost
-    """
-
-    from core_engine.llm.prompts import build_tutor_prompt
-    from core_engine.rag.citations import format_citations
-    # 1) Safety and hygiene
-    user_text = request.message[: settings.max_input_chars]
-    user_text = sanitize_user_text(user_text)
-    if settings.enable_basic_moderation:
-        basic_moderate(user_text)
-
-    # 2) Curriculum scoping
-    scope = curriculum.resolve_scope(
-        subject_id=request.subject_id,
-        sss_level=request.sss_level,
-        term=int(request.term),
-        topic_id=request.topic_id,
-    )
-
-    # 3) RAG retrieval with strict filters
-    chunks = retriever.retrieve(
-        query=user_text,
-        subject_id=scope.subject_id,
-        sss_level=scope.sss_level,
-        term=scope.term,
-        allowed_topic_ids=scope.allowed_topic_ids,
-        approved_only=True,
-        top_k=6,
-    )
-    citations = format_citations(chunks)
-
-    # 4) Optional prerequisite chain
-    remediation_prereqs = []
-    if request.topic_id:
-        remediation_prereqs = prereqs.get_prerequisites_for_topic(topic_id=request.topic_id)
-
-    # 5) LLM prompt + generation
-    prompt = build_tutor_prompt(
-        user_message=user_text,
-        mode=request.mode,
-        sss_level=request.sss_level,
-        term=int(request.term),
-        citations=citations,
-        remediation_prereqs=remediation_prereqs,
-    )
-    with cost_tracker.track(request_id=request.session_id or "single"):
-        assistant_text = llm.generate(prompt)
-
-    # 6) Minimal mastery update (only on practice for MVP)
-    actions = []
-    if request.mode == "practice" and request.topic_id:
-        mastery.update_from_interaction(
-            user_id=request.user_id,
-            subject_id=request.subject_id,
-            topic_id=request.topic_id,
-            interaction_type="practice",
-            signal={"message": user_text},
-        )
-        actions.append("UPDATED_MASTERY_BASIC")
-
-    # 7) Logs
-    logger.info(
-        "tutor.handle_question",
-        extra={
-            "user_id": request.user_id,
-            "subject_id": request.subject_id,
-            "sss_level": request.sss_level,
-            "term": int(request.term),
-            "topic_id": request.topic_id,
-            "mode": request.mode,
-            "rag_chunks": len(chunks),
-        },
-    )
-
-    return TutorResponse(
-        assistant_message=assistant_text,
-        citations=[Citation(**c) for c in citations],
-        remediation_prereqs=remediation_prereqs,
-        actions=actions,
-        cost=cost_tracker.snapshot(),
-    )
-
-
-def run_tutor_chat(request: TutorChatRequest) -> TutorChatResponse:
+async def run_tutor_chat(request: TutorChatRequest) -> TutorChatResponse:
     """Run agentic tutor chat flow using retrieval tool + LLM generation."""
     try:
         safe_message = _sanitize_and_moderate(request.message)
@@ -1447,10 +1291,10 @@ def run_tutor_chat(request: TutorChatRequest) -> TutorChatResponse:
 
     request = request.model_copy(update={"message": safe_message})
     mode = request.mode or _infer_tutor_mode_from_message(request.message)
-    return _run_structured_tutor_mode(request=request, mode=mode, user_goal=request.message)
+    return await _run_structured_tutor_mode(request=request, mode=mode, user_goal=request.message)
 
 
-def run_tutor_recap(request: TutorRecapRequest) -> TutorChatResponse:
+async def run_tutor_recap(request: TutorRecapRequest) -> TutorChatResponse:
     chat_request = TutorChatRequest(
         student_id=request.student_id,
         session_id=request.session_id,
@@ -1465,7 +1309,7 @@ def run_tutor_recap(request: TutorRecapRequest) -> TutorChatResponse:
     graph_context: dict | None = None
 
     try:
-        lesson_context = _internal_lesson_context(chat_request)
+        lesson_context = await _internal_lesson_context(chat_request)
     except Exception as exc:
         logger.warning("tutor.recap lesson-context fetch failed: %s", exc)
         actions.append("LESSON_CONTEXT_FAILED")
@@ -1481,7 +1325,7 @@ def run_tutor_recap(request: TutorRecapRequest) -> TutorChatResponse:
             actions.append("LESSON_CONTEXT_EMPTY")
 
     try:
-        graph_context = _internal_graph_context(chat_request)
+        graph_context = await _internal_graph_context(chat_request)
     except Exception as exc:
         logger.warning("tutor.recap graph-context fetch failed: %s", exc)
         actions.append("GRAPH_CONTEXT_FAILED")
@@ -1496,14 +1340,14 @@ def run_tutor_recap(request: TutorRecapRequest) -> TutorChatResponse:
             actions=actions,
         )
 
-    return _run_structured_tutor_mode(
+    return await _run_structured_tutor_mode(
         request=chat_request,
         mode="recap",
         user_goal="Give a concise revision recap of the active lesson.",
     )
 
 
-def run_tutor_drill(request: TutorDrillRequest) -> TutorChatResponse:
+async def run_tutor_drill(request: TutorDrillRequest) -> TutorChatResponse:
     chat_request = TutorChatRequest(
         student_id=request.student_id,
         session_id=request.session_id,
@@ -1513,14 +1357,14 @@ def run_tutor_drill(request: TutorDrillRequest) -> TutorChatResponse:
         topic_id=request.topic_id,
         message=f"Generate one {request.difficulty} drill for this lesson and coach me through it.",
     )
-    return _run_structured_tutor_mode(
+    return await _run_structured_tutor_mode(
         request=chat_request,
         mode="drill",
         user_goal=f"Create one {request.difficulty} drill around the active lesson and coach the learner.",
     )
 
 
-def run_tutor_prereq_bridge(request: TutorPrereqBridgeRequest) -> TutorChatResponse:
+async def run_tutor_prereq_bridge(request: TutorPrereqBridgeRequest) -> TutorChatResponse:
     chat_request = TutorChatRequest(
         student_id=request.student_id,
         session_id=request.session_id,
@@ -1530,14 +1374,14 @@ def run_tutor_prereq_bridge(request: TutorPrereqBridgeRequest) -> TutorChatRespo
         topic_id=request.topic_id,
         message="Explain the prerequisite bridge into this lesson and why it matters now.",
     )
-    return _run_structured_tutor_mode(
+    return await _run_structured_tutor_mode(
         request=chat_request,
         mode="diagnose",
         user_goal="Explain the weakest prerequisite bridge feeding the active lesson and what it unlocks next.",
     )
 
 
-def run_tutor_study_plan(request: TutorStudyPlanRequest) -> TutorChatResponse:
+async def run_tutor_study_plan(request: TutorStudyPlanRequest) -> TutorChatResponse:
     chat_request = TutorChatRequest(
         student_id=request.student_id,
         session_id=request.session_id,
@@ -1547,17 +1391,17 @@ def run_tutor_study_plan(request: TutorStudyPlanRequest) -> TutorChatResponse:
         topic_id=request.topic_id,
         message=f"Create a focused {request.horizon_days}-day study plan for this lesson.",
     )
-    return _run_structured_tutor_mode(
+    return await _run_structured_tutor_mode(
         request=chat_request,
         mode="teach",
         user_goal=f"Create a focused {request.horizon_days}-day study plan using the current lesson, graph weaknesses, and retrieval evidence.",
     )
 
 
-def run_tutor_assessment_start(request: TutorAssessmentStartRequest) -> TutorAssessmentStartResponse:
+async def run_tutor_assessment_start(request: TutorAssessmentStartRequest) -> TutorAssessmentStartResponse:
     started_at = now_ms()
     try:
-        profile_context = _internal_profile_context(
+        profile_context = await _internal_profile_context(
             TutorChatRequest(
                 student_id=request.student_id,
                 session_id=request.session_id,
@@ -1572,7 +1416,7 @@ def run_tutor_assessment_start(request: TutorAssessmentStartRequest) -> TutorAss
         profile_context = None
 
     try:
-        lesson_context = _internal_lesson_context(
+        lesson_context = await _internal_lesson_context(
             TutorChatRequest(
                 student_id=request.student_id,
                 session_id=request.session_id,
@@ -1588,7 +1432,7 @@ def run_tutor_assessment_start(request: TutorAssessmentStartRequest) -> TutorAss
         lesson_context = None
 
     try:
-        graph_context = _internal_graph_context(
+        graph_context = await _internal_graph_context(
             TutorChatRequest(
                 student_id=request.student_id,
                 session_id=request.session_id,
@@ -1604,13 +1448,13 @@ def run_tutor_assessment_start(request: TutorAssessmentStartRequest) -> TutorAss
         graph_context = None
 
     try:
-        citations = _internal_rag_retrieve_for_prompt(
-            student_id=request.student_id,
-            session_id=request.session_id,
+        citations = await _internal_rag_retrieve_for_prompt(
+            student_id=str(request.student_id),
+            session_id=str(request.session_id),
             subject=request.subject,
             sss_level=request.sss_level,
             term=int(request.term),
-            topic_id=request.topic_id,
+            topic_id=str(request.topic_id) if request.topic_id else None,
             message=(
                 f"{request.subject} {request.sss_level} term {request.term} "
                 f"{request.focus_concept_label or request.topic_id} assessment question"
@@ -1629,7 +1473,7 @@ def run_tutor_assessment_start(request: TutorAssessmentStartRequest) -> TutorAss
             outcome="no_context",
             subject=request.subject,
             term=request.term,
-            topic_id=request.topic_id or "none",
+            topic_id=str(request.topic_id or "none"),
         )
         raise RuntimeError(
             "No lesson-aware assessment context found. Generate the lesson and ensure approved curriculum chunks exist."
@@ -1651,7 +1495,7 @@ def run_tutor_assessment_start(request: TutorAssessmentStartRequest) -> TutorAss
             outcome="no_target_concept",
             subject=request.subject,
             term=request.term,
-            topic_id=request.topic_id or "none",
+            topic_id=str(request.topic_id or "none"),
         )
         raise RuntimeError("No valid target concept found for tutor assessment.")
     concept_id, concept_label = target
@@ -1665,7 +1509,7 @@ def run_tutor_assessment_start(request: TutorAssessmentStartRequest) -> TutorAss
         citations=citations,
     )
     try:
-        raw = _llm_generate(prompt)
+        raw = await _llm_generate(prompt)
     except (LLMClientError, Exception) as exc:
         log_timed_event(
             logger,
@@ -1675,7 +1519,7 @@ def run_tutor_assessment_start(request: TutorAssessmentStartRequest) -> TutorAss
             outcome="llm_error",
             subject=request.subject,
             term=request.term,
-            topic_id=request.topic_id or "none",
+            topic_id=str(request.topic_id or "none"),
             concept_id=concept_id,
             detail=str(exc),
         )
@@ -1696,6 +1540,7 @@ def run_tutor_assessment_start(request: TutorAssessmentStartRequest) -> TutorAss
     actions.append("ASSESSMENT_TARGET_CONCEPT")
     if request.focus_concept_id or request.focus_concept_label:
         actions.append("USED_GRAPH_SELECTED_FOCUS")
+    
     response = out.model_copy(update={"actions": actions})
     log_timed_event(
         logger,
@@ -1704,7 +1549,7 @@ def run_tutor_assessment_start(request: TutorAssessmentStartRequest) -> TutorAss
         outcome="success",
         subject=request.subject,
         term=request.term,
-        topic_id=request.topic_id or "none",
+        topic_id=str(request.topic_id or "none"),
         concept_id=response.concept_id,
         citations=len(response.citations),
         lesson_context=_lesson_context_available(lesson_context),
@@ -1714,10 +1559,10 @@ def run_tutor_assessment_start(request: TutorAssessmentStartRequest) -> TutorAss
     return response
 
 
-def run_tutor_assessment_submit(request: TutorAssessmentSubmitRequest) -> TutorAssessmentSubmitResponse:
+async def run_tutor_assessment_submit(request: TutorAssessmentSubmitRequest) -> TutorAssessmentSubmitResponse:
     started_at = now_ms()
     try:
-        lesson_context = _internal_lesson_context(
+        lesson_context = await _internal_lesson_context(
             TutorChatRequest(
                 student_id=request.student_id,
                 session_id=request.session_id,
@@ -1733,7 +1578,7 @@ def run_tutor_assessment_submit(request: TutorAssessmentSubmitRequest) -> TutorA
         lesson_context = None
 
     try:
-        graph_context = _internal_graph_context(
+        graph_context = await _internal_graph_context(
             TutorChatRequest(
                 student_id=request.student_id,
                 session_id=request.session_id,
@@ -1749,13 +1594,13 @@ def run_tutor_assessment_submit(request: TutorAssessmentSubmitRequest) -> TutorA
         graph_context = None
 
     try:
-        citations = _internal_rag_retrieve_for_prompt(
-            student_id=request.student_id,
-            session_id=request.session_id,
+        citations = await _internal_rag_retrieve_for_prompt(
+            student_id=str(request.student_id),
+            session_id=str(request.session_id),
             subject=request.subject,
             sss_level=request.sss_level,
             term=int(request.term),
-            topic_id=request.topic_id,
+            topic_id=str(request.topic_id) if request.topic_id else None,
             message=f"{request.question} {request.concept_label} {request.answer}",
         )
     except Exception as exc:
@@ -1771,7 +1616,7 @@ def run_tutor_assessment_submit(request: TutorAssessmentSubmitRequest) -> TutorA
             outcome="no_context",
             subject=request.subject,
             term=request.term,
-            topic_id=request.topic_id or "none",
+            topic_id=str(request.topic_id or "none"),
             concept_id=request.concept_id,
         )
         raise RuntimeError(
@@ -1785,7 +1630,7 @@ def run_tutor_assessment_submit(request: TutorAssessmentSubmitRequest) -> TutorA
         citations=citations,
     )
     try:
-        raw = _llm_generate(prompt)
+        raw = await _llm_generate(prompt)
     except (LLMClientError, Exception) as exc:
         log_timed_event(
             logger,
@@ -1795,7 +1640,7 @@ def run_tutor_assessment_submit(request: TutorAssessmentSubmitRequest) -> TutorA
             outcome="llm_error",
             subject=request.subject,
             term=request.term,
-            topic_id=request.topic_id or "none",
+            topic_id=str(request.topic_id or "none"),
             concept_id=request.concept_id,
             detail=str(exc),
         )
@@ -1803,6 +1648,7 @@ def run_tutor_assessment_submit(request: TutorAssessmentSubmitRequest) -> TutorA
 
     parsed = _extract_json_object(raw)
     response = _validate_assessment_submit_payload(parsed, request=request, citations=citations)
+    
     log_timed_event(
         logger,
         "tutor.assessment.submit",
@@ -1810,7 +1656,7 @@ def run_tutor_assessment_submit(request: TutorAssessmentSubmitRequest) -> TutorA
         outcome="success",
         subject=request.subject,
         term=request.term,
-        topic_id=request.topic_id or "none",
+        topic_id=str(request.topic_id or "none"),
         concept_id=request.concept_id,
         score=response.score,
         citations=len(response.citations),
@@ -1820,7 +1666,7 @@ def run_tutor_assessment_submit(request: TutorAssessmentSubmitRequest) -> TutorA
     return response
 
 
-def run_tutor_hint(request: TutorHintRequest) -> TutorHintResponse:
+async def run_tutor_hint(request: TutorHintRequest) -> TutorHintResponse:
     """Return a concise scaffolded hint for an in-progress quiz question."""
     try:
         safe_note = _sanitize_and_moderate(request.message or "")
@@ -1837,13 +1683,13 @@ def run_tutor_hint(request: TutorHintRequest) -> TutorHintResponse:
         f"Student note: {safe_note}\n"
     )
     try:
-        hint_text = _llm_generate(prompt)
+        hint_text = await _llm_generate(prompt)
     except (LLMClientError, Exception):
         hint_text = "Focus on the core rule, eliminate one wrong option, then compare the remaining choices."
     return TutorHintResponse(hint=hint_text, strategy="guided_hint")
 
 
-def run_tutor_explain_mistake(request: TutorExplainMistakeRequest) -> TutorExplainMistakeResponse:
+async def run_tutor_explain_mistake(request: TutorExplainMistakeRequest) -> TutorExplainMistakeResponse:
     """Explain why an answer is wrong and provide a targeted correction tip."""
     try:
         safe_question = _sanitize_and_moderate(request.question)
@@ -1863,7 +1709,7 @@ def run_tutor_explain_mistake(request: TutorExplainMistakeRequest) -> TutorExpla
         f"Correct answer: {safe_correct_answer}\n"
     )
     try:
-        explanation = _llm_generate(prompt)
+        explanation = await _llm_generate(prompt)
     except (LLMClientError, Exception):
         explanation = (
             "Your answer did not follow the governing rule in this question. "

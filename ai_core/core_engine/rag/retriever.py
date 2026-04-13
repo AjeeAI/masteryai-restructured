@@ -1,4 +1,4 @@
-"""Qdrant-backed RAG retriever with strict scope filters."""
+"""Qdrant-backed RAG retriever with Gemini 3 Series API-based embeddings."""
 
 from __future__ import annotations
 
@@ -44,9 +44,13 @@ class RagRetriever:
         self.qdrant_url = qdrant_url or os.getenv("QDRANT_URL", "")
         self.qdrant_api_key = qdrant_api_key or os.getenv("QDRANT_API_KEY", "")
         self.qdrant_collection = qdrant_collection or os.getenv("QDRANT_COLLECTION", "MasteryAI")
-        self.embedding_model = embedding_model or os.getenv("QDRANT_EMBEDDING_MODEL", "BAAI/bge-small-en-v1.5")
+        
+        # Using the current 2026 standard embedding model
+        # NOTE: This model uses 3072 dimensions.
+        self.embedding_model = embedding_model or os.getenv("QDRANT_EMBEDDING_MODEL", "gemini-embedding-001")
+        
         self._client = None
-        self._embedder = None
+        self._genai_client = None
 
     def _ensure_client(self):
         if self._client is not None:
@@ -61,23 +65,42 @@ class RagRetriever:
         self._client = QdrantClient(url=self.qdrant_url, api_key=self.qdrant_api_key or None)
         return self._client
 
-    def _ensure_embedder(self):
-        if self._embedder is not None:
-            return self._embedder
+    def _ensure_genai(self):
+        """Initializes the modern 2026 Google GenAI Client."""
+        if self._genai_client is not None:
+            return self._genai_client
         try:
-            from fastembed import TextEmbedding
+            from google import genai
         except ModuleNotFoundError as exc:
-            raise RagRetrieverError("fastembed dependency missing in ai-core environment.") from exc
+            raise RagRetrieverError("google-genai dependency missing. Run: pip install google-genai") from exc
 
-        self._embedder = TextEmbedding(model_name=self.embedding_model)
-        return self._embedder
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            raise RagRetrieverError("GEMINI_API_KEY is not configured in environment.")
+
+        self._genai_client = genai.Client(api_key=api_key)
+        return self._genai_client
 
     def _embed_query(self, query: str) -> list[float]:
-        embedder = self._ensure_embedder()
-        vectors = list(embedder.embed([query]))
-        if not vectors:
-            raise RagRetrieverError("Embedding provider returned empty result for query.")
-        return vectors[0].tolist()
+        """Generates embedding via modern API call to Google."""
+        client = self._ensure_genai()
+        try:
+            # Using the latest embed_content interface
+            from google.genai import types
+            
+            result = client.models.embed_content(
+                model=self.embedding_model,
+                contents=query,
+                config=types.EmbedContentConfig(task_type="RETRIEVAL_QUERY")
+            )
+            
+            if not result.embeddings or not result.embeddings[0].values:
+                raise RagRetrieverError("Gemini Embeddings returned empty result.")
+                
+            return result.embeddings[0].values
+        except Exception as e:
+            logger.error(f"Embedding API Call Failed: {e}")
+            raise RagRetrieverError(f"Embedding failure: {e}")
 
     @staticmethod
     def _cache_key(
@@ -115,7 +138,6 @@ class RagRetriever:
         if not query.strip() or not allowed_topic_ids:
             return []
         if not self.qdrant_url:
-            # ai-core should degrade gracefully when vector DB is not configured.
             return []
 
         cache_key = self._cache_key(
@@ -157,6 +179,7 @@ class RagRetriever:
                 "with_payload": True,
                 "limit": top_k,
             }
+
             if hasattr(client, "search"):
                 response = client.search(
                     query_vector=query_vector,

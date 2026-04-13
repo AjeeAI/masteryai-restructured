@@ -1,4 +1,4 @@
-"""Service for internal RAG retrieval against Qdrant."""
+"""Service for internal RAG retrieval against Qdrant (Gemini 2026 API)."""
 
 from __future__ import annotations
 
@@ -10,7 +10,6 @@ from uuid import UUID
 import logging
 
 from backend.core.telemetry import log_timed_event, now_ms
-
 from backend.core.config import settings
 from backend.schemas.internal_rag_schema import (
     InternalRagChunkOut,
@@ -39,7 +38,7 @@ class QdrantRuntimeConfig:
 
 
 class QdrantVectorStore:
-    """Qdrant wrapper with embedding and payload-filtered retrieval."""
+    """Qdrant wrapper with Gemini embedding and payload-filtered retrieval."""
 
     def __init__(self, config: QdrantRuntimeConfig):
         self.config = config
@@ -65,34 +64,60 @@ class QdrantVectorStore:
         return self._client
 
     def _ensure_embedder(self):
+        """Initializes the modern 2026 Google GenAI Client."""
         if self._embedder is not None:
             return self._embedder
         try:
-            from fastembed import TextEmbedding
+            from google import genai
         except ModuleNotFoundError as exc:
             raise RagRetrieveServiceError(
-                "fastembed is not installed. Add `fastembed` to backend dependencies."
+                "google-genai is not installed. Add `google-genai` to backend dependencies."
             ) from exc
 
-        self._embedder = TextEmbedding(model_name=self.config.embedding_model)
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            raise RagRetrieveServiceError("GEMINI_API_KEY is not configured in the environment.")
+
+        self._embedder = genai.Client(api_key=api_key)
         return self._embedder
 
     def _embed_texts(self, texts: list[str]) -> list[list[float]]:
-        embedder = self._ensure_embedder()
-        vectors = list(embedder.embed(texts))
-        return [vector.tolist() for vector in vectors]
+        """Used for Batch Ingestion: Embeds curriculum chunks."""
+        client = self._ensure_embedder()
+        try:
+            from google.genai import types
+            result = client.models.embed_content(
+                model=self.config.embedding_model,
+                contents=texts,
+                config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT")
+            )
+            return [emb.values for emb in result.embeddings]
+        except Exception as e:
+            logger.error(f"Failed to embed document batch: {e}")
+            raise RagRetrieveServiceError(f"Embedding API Call Failed: {e}")
 
     def embed_query(self, query: str) -> list[float]:
-        vectors = self._embed_texts([query])
-        if not vectors:
-            raise RagRetrieveServiceError("Embedding model returned no vector for query")
-        return vectors[0]
+        """Used for Chat: Embeds the user's question."""
+        client = self._ensure_embedder()
+        try:
+            from google.genai import types
+            result = client.models.embed_content(
+                model=self.config.embedding_model,
+                contents=query,
+                config=types.EmbedContentConfig(task_type="RETRIEVAL_QUERY")
+            )
+            if not result.embeddings or not result.embeddings[0].values:
+                raise RagRetrieveServiceError("Embedding model returned no vector for query")
+            return result.embeddings[0].values
+        except Exception as e:
+            logger.error(f"Failed to embed query: {e}")
+            raise RagRetrieveServiceError(f"Embedding API Call Failed: {e}")
 
     def ensure_collection(self, vector_size: int) -> None:
         client = self._ensure_client()
         try:
             exists = client.collection_exists(self.config.collection)
-        except Exception as exc:  # pragma: no cover - defensive wrapper for qdrant API variants
+        except Exception as exc:  # pragma: no cover
             raise RagRetrieveServiceError(f"Failed to check Qdrant collection: {exc}") from exc
 
         if exists:
@@ -104,6 +129,7 @@ class QdrantVectorStore:
 
             client.create_collection(
                 collection_name=self.config.collection,
+                # Dynamic vector size injection handles the 3072 dimension jump natively
                 vectors_config=VectorParams(size=vector_size, distance=Distance.COSINE),
             )
             self._ensure_payload_indexes()
@@ -134,7 +160,6 @@ class QdrantVectorStore:
                     wait=True,
                 )
             except Exception:
-                # Index may already exist (or provider may not support explicit indexing); continue best-effort.
                 continue
 
     def upsert_chunks(self, rows: list[dict[str, Any]]) -> None:
@@ -155,6 +180,7 @@ class QdrantVectorStore:
                 raise RagRetrieveServiceError("Embedding model returned no vectors for chunk batch")
             if first_vector_size is None:
                 first_vector_size = len(vectors[0])
+                # This ensures the collection is built with 3072 dimensions
                 self.ensure_collection(vector_size=first_vector_size)
 
             try:

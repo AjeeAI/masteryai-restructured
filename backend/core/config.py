@@ -62,7 +62,11 @@ class Settings(BaseModel):
     qdrant_url: str = os.getenv("QDRANT_URL", os.getenv("VECTOR_DB_URL", ""))
     qdrant_api_key: str = os.getenv("QDRANT_API_KEY", "")
     qdrant_collection: str = os.getenv("QDRANT_COLLECTION", "MasteryAI")
-    qdrant_embedding_model: str = os.getenv("QDRANT_EMBEDDING_MODEL", "BAAI/bge-small-en-v1.5")
+    
+    # --- GEMINI EMBEDDING UPDATE ---
+    # Upgraded from BAAI/bge-small-en-v1.5 to gemini-embedding-001 (3072 dimensions)
+    qdrant_embedding_model: str = os.getenv("QDRANT_EMBEDDING_MODEL", "gemini-embedding-001")
+    
     llm_api_base: str = os.getenv("LLM_API_BASE", "")
 
     ai_core_base_url: str = os.getenv("AI_CORE_BASE_URL", "")

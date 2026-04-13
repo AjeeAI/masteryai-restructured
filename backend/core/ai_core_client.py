@@ -101,9 +101,20 @@ async def generate_quiz_questions(
         "num_questions": num_questions,
     }
 
+    # Header authentication for AI Core
+    headers = {
+        "X-AI-CORE-TOKEN": settings.ai_core_internal_token,
+        "Content-Type": "application/json"
+    }
+
     try:
         async with httpx.AsyncClient(timeout=settings.ai_core_timeout_seconds) as client:
-            response = await client.post(f"{base_url}/quiz/generate", json=payload)
+            # Pass the security headers into the POST request
+            response = await client.post(
+                f"{base_url}/quiz/generate", 
+                json=payload, 
+                headers=headers
+            )
             response.raise_for_status()
             data = response.json()
     except httpx.HTTPError as exc:
@@ -129,6 +140,7 @@ async def generate_quiz_questions(
         normalized_questions = normalized_questions[:num_questions]
     if not normalized_questions:
         raise AICoreContractError("ai-core /quiz/generate produced no valid questions after validation")
+    
     log_timed_event(
         logger,
         "ai_core.quiz.generate",
@@ -150,9 +162,19 @@ async def generate_quiz_insights(quiz_id, attempt_id) -> list[str]:
         logger.warning("ai-core insights unavailable: AI_CORE_BASE_URL is not configured")
         return []
 
+    # Header authentication for AI Core
+    headers = {
+        "X-AI-CORE-TOKEN": settings.ai_core_internal_token,
+        "Content-Type": "application/json"
+    }
+
     try:
         async with httpx.AsyncClient(timeout=settings.ai_core_timeout_seconds) as client:
-            response = await client.get(f"{base_url}/quiz/{quiz_id}/attempt/{attempt_id}/insights")
+            # Pass the security headers into the GET request
+            response = await client.get(
+                f"{base_url}/quiz/{quiz_id}/attempt/{attempt_id}/insights",
+                headers=headers
+            )
             response.raise_for_status()
             data = response.json()
     except httpx.HTTPError as exc:

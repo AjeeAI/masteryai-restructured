@@ -13,11 +13,17 @@ from pydantic import BaseModel, Field
 BlockType = Literal["text", "video", "image", "example", "exercise"]
 
 
+# class ContentBlockOut(BaseModel):
+#     type: BlockType
+#     value: Any | None = None
+#     url: str | None = None
+
 class ContentBlockOut(BaseModel):
     type: BlockType
-    value: Any | None = None
+    content: str | None = None  # ADD THIS: Captures the new Gemini output
+    note: str | None = ""       # ADD THIS: Captures metadata notes
+    value: Any | None = None    # Keep this so old data doesn't break
     url: str | None = None
-
 
 class LessonConceptOut(BaseModel):
     concept_id: str

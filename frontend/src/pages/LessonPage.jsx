@@ -238,11 +238,17 @@ const LessonPage = () => {
 
   // --- CORE RENDERER (Updated with Math Support) ---
 const renderContentBlock = (block, index) => {
+    // 1. Safe Type Extraction
     const type = block.type?.toLowerCase() || 'text';
+    
+    // 2. Defensive Content Extraction (Gemini sends .content, Legacy sends .value)
+    // We use ?. to prevent "Cannot read property of null" crashes
+    const mainContent = block.content || block.value?.content || block.value?.prompt || block.value?.question || (typeof block.value === 'string' ? block.value : "");
+    const solution = block.solution || block.value?.solution || "";
+
     const markdownPlugins = [remarkGfm, remarkMath];
     const htmlPlugins = [rehypeRaw, rehypeKatex];
 
-    // Shared prose classes for consistent high-quality typography
     const baseProse = "prose prose-slate max-w-none transition-all duration-200";
     const dynamicProse = "prose-headings:mt-8 prose-headings:mb-4 prose-headings:font-black prose-headings:text-slate-800 " +
                          "prose-p:leading-relaxed prose-p:mb-6 prose-p:text-slate-600 " +
@@ -258,7 +264,6 @@ const renderContentBlock = (block, index) => {
         );
 
       case 'example':
-        const example = typeof block.value === 'object' ? block.value : { content: block.value };
         return (
           <div key={index} className="bg-indigo-50/50 border-l-4 border-indigo-600 p-6 md:p-8 rounded-r-3xl mb-10 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
@@ -266,15 +271,15 @@ const renderContentBlock = (block, index) => {
             </div>
             <div className={`${baseProse} prose-indigo prose-sm md:prose-base ${dynamicProse}`}>
               <ReactMarkdown remarkPlugins={markdownPlugins} rehypePlugins={htmlPlugins}>
-                {formatContent(example.prompt || example.content || "")}
+                {formatContent(mainContent)}
               </ReactMarkdown>
             </div>
-            {example.solution && (
+            {solution && (
               <div className="mt-6 p-5 bg-white rounded-2xl border border-indigo-100 shadow-sm">
                 <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest block mb-2">Detailed Solution</span>
                 <div className={`${baseProse} prose-indigo prose-sm ${dynamicProse}`}>
                   <ReactMarkdown remarkPlugins={markdownPlugins} rehypePlugins={htmlPlugins}>
-                    {formatContent(example.solution)}
+                    {formatContent(solution)}
                   </ReactMarkdown>
                 </div>
               </div>
@@ -283,7 +288,6 @@ const renderContentBlock = (block, index) => {
         );
 
       case 'exercise':
-        const exercise = typeof block.value === 'object' ? block.value : { question: block.value };
         return (
           <div key={index} className="bg-emerald-50/50 border-l-4 border-emerald-600 p-6 md:p-8 rounded-r-3xl mb-10 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
@@ -291,18 +295,17 @@ const renderContentBlock = (block, index) => {
             </div>
             <div className={`${baseProse} prose-emerald prose-sm md:prose-base ${dynamicProse}`}>
               <ReactMarkdown remarkPlugins={markdownPlugins} rehypePlugins={htmlPlugins}>
-                {formatContent(exercise.question || exercise.content || "")}
+                {formatContent(mainContent)}
               </ReactMarkdown>
             </div>
           </div>
         );
 
       default:
-        const textContent = typeof block.value === 'object' ? (block.value.note || block.value.content || "") : block.value;
         return (
           <div key={index} className={`${baseProse} lg:prose-lg mb-12 dark:prose-invert ${dynamicProse}`}>
             <ReactMarkdown remarkPlugins={markdownPlugins} rehypePlugins={htmlPlugins}>
-              {formatContent(textContent)}
+              {formatContent(mainContent || block.note || "")}
             </ReactMarkdown>
           </div>
         );

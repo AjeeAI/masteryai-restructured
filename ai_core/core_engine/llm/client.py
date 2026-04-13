@@ -1,4 +1,4 @@
-"""LLM client supporting Groq/OpenAI compatible chat completion APIs."""
+"""LLM client supporting Gemini (via LangChain) and OpenAI."""
 
 from __future__ import annotations
 
@@ -9,97 +9,94 @@ from typing import Optional
 
 logger = logging.getLogger(__name__)
 
-
 class LLMClientError(RuntimeError):
     pass
-
-
-def _is_truthy_env(value: str | None, *, default: bool = False) -> bool:
-    if value is None:
-        return default
-    return value.strip().lower() in {"1", "true", "yes", "on"}
-
 
 @dataclass(frozen=True)
 class _ProviderAttempt:
     provider: str
     model: str
     api_key: str
-    base_url: str | None = None
-
 
 @dataclass
 class LLMClient:
-    provider: str
+    provider: str  # Now expecting 'gemini' or 'openai'
     model: str
     api_key: Optional[str] = None
 
     def _resolve_api_key(self, provider: str) -> str:
         normalized = provider.lower()
-        if normalized == "groq":
-            key = os.getenv("GROQ_API_KEY")
-            if key:
-                return key
-        key = self.api_key or os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY")
-        if key:
-            return key
-        raise LLMClientError("No LLM API key configured. Set GROQ_API_KEY, LLM_API_KEY, or OPENAI_API_KEY.")
+        # Prioritize specific keys, then fall back to a generic LLM_API_KEY
+        if normalized == "gemini":
+            key = os.getenv("GEMINI_API_KEY")
+        elif normalized == "openai":
+            key = os.getenv("OPENAI_API_KEY")
+        else:
+            key = None
+            
+        final_key = key or self.api_key or os.getenv("LLM_API_KEY")
+        if not final_key:
+            raise LLMClientError(f"No API key found for {provider}. Set GEMINI_API_KEY or OPENAI_API_KEY.")
+        return final_key
 
-    def _primary_attempt(self) -> _ProviderAttempt:
-        """Configures the single primary attempt. No safety net logic."""
-        provider = (self.provider or "groq").strip().lower()
-        model = (self.model or "").strip()
-        if not model:
-            raise LLMClientError("No LLM model configured.")
+    def _get_gemini_engine(self, attempt: _ProviderAttempt):
+        """Initializes Gemini via LangChain ChatGoogleGenerativeAI."""
+        try:
+            from langchain_google_genai import ChatGoogleGenerativeAI
+            from google.generativeai.types import HarmCategory, HarmBlockThreshold
+        except ModuleNotFoundError:
+            raise LLMClientError("Missing dependencies: pip install langchain-google-genai google-generativeai")
 
-        return _ProviderAttempt(
-            provider=provider,
-            model=model,
-            api_key=self._resolve_api_key(provider),
-            base_url=(
-                os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1")
-                if provider == "groq"
-                else None
-            ),
+        # Safety settings are mandatory to prevent blocked curriculum blocks
+        safety_settings = {
+            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+        }
+
+        return ChatGoogleGenerativeAI(
+            model=attempt.model,
+            google_api_key=attempt.api_key,
+            temperature=0.2,
+            safety_settings=safety_settings,
+            model_kwargs={"response_mime_type": "application/json"} # Native JSON enforcement
         )
 
-    def _client(self, attempt: _ProviderAttempt):
-        try:
-            from openai import OpenAI
-        except ModuleNotFoundError as exc:
-            raise LLMClientError("openai dependency is required for LLM calls.") from exc
-
-        api_key = attempt.api_key
-        provider = attempt.provider.lower()
-        if provider == "groq":
-            return OpenAI(api_key=api_key, base_url=attempt.base_url or os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1"))
-        if provider in {"openai", ""}:
-            return OpenAI(api_key=api_key)
-        raise LLMClientError(f"Unsupported LLM provider: {self.provider}")
-
-    def generate(self, prompt: str) -> str:
-        """Generate a completion. NO FALLBACKS. If it fails, it explodes loudly."""
-        attempt = self._primary_attempt()
-        client = self._client(attempt)
+    async def generate(self, prompt: str) -> str:
+        """Asynchronously generates content. Defaults to Gemini if not specified."""
+        provider = (self.provider or "gemini").strip().lower()
+        model = (self.model or "gemini-1.5-flash").strip()
         
+        attempt = _ProviderAttempt(
+            provider=provider,
+            model=model,
+            api_key=self._resolve_api_key(provider)
+        )
+
         try:
-            response = client.chat.completions.create(
-                model=attempt.model,
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.2,
-            )
-            content = response.choices[0].message.content if response.choices else None
+            if provider == "gemini":
+                engine = self._get_gemini_engine(attempt)
+                response = await engine.ainvoke(prompt)
+                content = response.content
+            elif provider == "openai":
+                from openai import AsyncOpenAI
+                client = AsyncOpenAI(api_key=attempt.api_key)
+                response = await client.chat.completions.create(
+                    model=attempt.model,
+                    messages=[{"role": "user", "content": prompt}],
+                    response_format={"type": "json_object"}
+                )
+                content = response.choices[0].message.content
+            else:
+                raise LLMClientError(f"Unsupported provider: {provider}")
+
             if not content:
                 raise LLMClientError("LLM returned empty content.")
-            
-            logger.info(
-                "llm.generate success provider=%s model=%s",
-                attempt.provider,
-                attempt.model,
-            )
+
+            logger.info(f"llm.generate success | provider={provider} | model={model}")
             return str(content).strip()
-            
+
         except Exception as exc:
-            # LOUD ERROR: Log the full context so we can debug on Render.
-            logger.error(f"LLM CRASH: provider={attempt.provider} model={attempt.model} error={exc}")
-            raise LLMClientError(f"LLM Engine Failure ({attempt.provider}/{attempt.model}): {str(exc)}")
+            logger.error(f"LLM FAILURE: {exc}")
+            raise LLMClientError(f"AI Core Engine Error ({provider}): {str(exc)}")

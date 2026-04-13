@@ -7,10 +7,10 @@ from core_engine.llm.client import LLMClient
 
 logger = logging.getLogger(__name__)
 
-# Initialize client
+# Initialize client (Updated defaults to Gemini 3 Flash)
 llm_client = LLMClient(
-    provider=os.getenv("LLM_PROVIDER", "groq"),
-    model=os.getenv("DIAGNOSTIC_LLM_MODEL", "llama-3.3-70b-versatile")
+    provider=os.getenv("LLM_PROVIDER", "gemini"),
+    model=os.getenv("DIAGNOSTIC_LLM_MODEL", "gemini-3-flash-preview")
 )
 
 def _extract_json(text: str) -> dict:
@@ -42,8 +42,8 @@ async def generate_pedagogical_questions(subject: str, level: str, concepts: lis
     """
 
     try:
-        # Call sync method
-        raw_response = llm_client.generate(prompt)
+        # THE FIX: Added 'await' here to wait for Gemini to finish generating!
+        raw_response = await llm_client.generate(prompt)
         data = _extract_json(raw_response)
         
         final_questions = []

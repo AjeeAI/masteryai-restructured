@@ -238,22 +238,27 @@ const LessonPage = () => {
 
   // --- CORE RENDERER (Updated with Math Support) ---
 const renderContentBlock = (block, index) => {
-    // 1. Safe Type Extraction
+    // 1. Safety first: Handle null blocks or missing types
+    if (!block) return null;
     const type = block.type?.toLowerCase() || 'text';
     
-    // 2. Defensive Content Extraction (Gemini sends .content, Legacy sends .value)
-    // We use ?. to prevent "Cannot read property of null" crashes
-    const mainContent = block.content || block.value?.content || block.value?.prompt || block.value?.question || (typeof block.value === 'string' ? block.value : "");
-    const solution = block.solution || block.value?.solution || "";
-
     const markdownPlugins = [remarkGfm, remarkMath];
     const htmlPlugins = [rehypeRaw, rehypeKatex];
 
+    // Shared prose styles
     const baseProse = "prose prose-slate max-w-none transition-all duration-200";
     const dynamicProse = "prose-headings:mt-8 prose-headings:mb-4 prose-headings:font-black prose-headings:text-slate-800 " +
                          "prose-p:leading-relaxed prose-p:mb-6 prose-p:text-slate-600 " +
                          "prose-li:my-2 prose-strong:text-indigo-700 " +
                          "prose-img:rounded-3xl prose-img:shadow-lg";
+
+    // 2. THE NULL-SAFE EXTRACTOR
+    // We check for 'content' first, then safely navigate 'value' only if it's a real object (not null)
+    const mainContent = block.content || 
+                       (block.value && typeof block.value === 'object' ? (block.value.content || block.value.prompt || block.value.question || "") : block.value) || 
+                       "";
+    
+    const solution = block.solution || block.value?.solution || "";
 
     switch (type) {
       case 'video':
@@ -302,6 +307,7 @@ const renderContentBlock = (block, index) => {
         );
 
       default:
+        // Use mainContent, falling back to an empty string to keep ReactMarkdown happy
         return (
           <div key={index} className={`${baseProse} lg:prose-lg mb-12 dark:prose-invert ${dynamicProse}`}>
             <ReactMarkdown remarkPlugins={markdownPlugins} rehypePlugins={htmlPlugins}>
@@ -311,7 +317,6 @@ const renderContentBlock = (block, index) => {
         );
     }
   };
-
   return (
     <div className="flex bg-slate-50 h-[calc(100vh-64px)] overflow-hidden relative">
       

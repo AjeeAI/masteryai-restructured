@@ -21,9 +21,10 @@ langgraph-checkpoint
 neo4j
 redis
 qdrant-client
-fastembed
 google-auth
 email-validator
+langchain-google-genai
+google-genai
 
 # fastapi
 # uvicorn[standard]

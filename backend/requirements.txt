@@ -18,8 +18,9 @@ openai
 neo4j
 redis
 qdrant-client
-fastembed
 python-docx
 
 google-auth
 requests
+langchain-google-genai
+google-genai

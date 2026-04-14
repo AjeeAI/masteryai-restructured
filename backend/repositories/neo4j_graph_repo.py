@@ -23,7 +23,7 @@ class Neo4jGraphConfig:
 class Neo4jGraphRepository:
     """Small Neo4j adapter for section-3/5 graph context and mastery updates."""
     PREREQ_REL = "PREREQ_OF"
-    LEGACY_PREREQ_REL = "PREREQUISITE_OF"
+    LEGACY_PREREQ_REL = "PREREQ_OF"
     LEGACY_TOPIC_CONCEPT_REL = "MAPS_TO"
 
     def __init__(self, config: Neo4jGraphConfig):
@@ -196,10 +196,10 @@ class Neo4jGraphRepository:
         )
 
     def remove_legacy_prerequisite_edges(self) -> None:
-        """Cleanup helper to remove old :PREREQUISITE_OF edges."""
+        """Cleanup helper to remove old :PREREQ_OF edges."""
         self._run(
             """
-            MATCH (:Concept)-[r:PREREQUISITE_OF]->(:Concept)
+            MATCH (:Concept)-[r:PREREQ_OF]->(:Concept)
             DELETE r
             """
         )
@@ -288,7 +288,7 @@ class Neo4jGraphRepository:
             return []
         rows = self._run(
             """
-            MATCH (p:Concept)-[r:PREREQ_OF|PREREQUISITE_OF]->(c:Concept)
+            MATCH (p:Concept)-[r:PREREQ_OF|PREREQ_OF]->(c:Concept)
             WHERE p.id IN $concept_ids AND c.id IN $concept_ids
             RETURN p.id AS prerequisite_concept_id, c.id AS concept_id
             """,

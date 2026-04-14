@@ -1,4 +1,4 @@
-"""LLM client supporting Gemini 3 Series (Modern SDK) and OpenAI."""
+"""LLM client supporting Gemini 2.5/3 Series (Modern SDK) and OpenAI."""
 
 from __future__ import annotations
 
@@ -6,6 +6,10 @@ import logging
 import os
 from dataclasses import dataclass
 from typing import Optional
+
+# New imports for 503 handling
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+from google.genai.errors import ServerError
 
 logger = logging.getLogger(__name__)
 
@@ -38,8 +42,14 @@ class LLMClient:
             raise LLMClientError(f"No API key found for {provider}. Set GEMINI_API_KEY or OPENAI_API_KEY.")
         return final_key
 
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+        retry=retry_if_exception_type(ServerError),
+        reraise=True
+    )
     async def _generate_gemini(self, attempt: _ProviderAttempt, prompt: str) -> str:
-        """Calls Gemini using the modern 2026 google-genai SDK."""
+        """Calls Gemini using the modern google-genai SDK with automatic 503 retries."""
         try:
             from google import genai
             from google.genai import types
@@ -48,7 +58,6 @@ class LLMClient:
 
         client = genai.Client(api_key=attempt.api_key)
         
-        # 2026 Best Practice: Block nothing for curriculum, enforce JSON mime type
         config = types.GenerateContentConfig(
             temperature=0.2,
             response_mime_type="application/json",
@@ -61,7 +70,6 @@ class LLMClient:
         )
 
         try:
-            # THE FIX: Added .aio. to trigger the async I/O engine!
             response = await client.aio.models.generate_content(
                 model=attempt.model,
                 contents=prompt,
@@ -69,7 +77,7 @@ class LLMClient:
             )
             return response.text
         except Exception as e:
-            logger.error(f"Gemini 3 API Failure: {e}")
+            logger.error(f"Gemini API Core Failure: {e}")
             raise
 
     async def _generate_openai(self, attempt: _ProviderAttempt, prompt: str) -> str:
@@ -86,10 +94,15 @@ class LLMClient:
         return response.choices[0].message.content or ""
 
     async def generate(self, prompt: str) -> str:
-        """Asynchronously generates content. Defaults to Gemini 3 Flash."""
+        """Asynchronously generates content. Defaults to Gemini 2.5 Flash."""
         provider = (self.provider or "gemini").strip().lower()
-        # Defaulting to the 2026 '3' series model
         model = (self.model or "gemini-2.5-flash").strip()
+        
+        # --- BULLETPROOF OVERRIDE ---
+        # If the model name looks like an old preview or wrong provider, fix it.
+        if provider == "gemini" and ("openai" in model or "3-flash-preview" in model):
+            logger.warning(f"Fixing invalid Gemini model string '{model}' to 'gemini-2.5-flash'")
+            model = "gemini-2.5-flash"
         
         attempt = _ProviderAttempt(
             provider=provider,
@@ -112,5 +125,5 @@ class LLMClient:
             return str(content).strip()
 
         except Exception as exc:
-            logger.error(f"LLM FAILURE: {exc}")
+            # We already log specifics in the provider methods; this is the final catch-all.
             raise LLMClientError(f"AI Core Engine Error ({provider}): {str(exc)}")

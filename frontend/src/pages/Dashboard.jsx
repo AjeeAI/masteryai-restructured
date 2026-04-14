@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, GitBranch } from 'lucide-react';
+import { ArrowRight, GitBranch, Loader2, BookOpen, AlertCircle } from 'lucide-react';
 
 import HeroSection from '../components/HeroSection';
 import AIRecommendation from '../components/AIRecommendation';
@@ -92,6 +92,9 @@ export default function Dashboard() {
     const [isLoadingMap, setIsLoadingMap] = useState(false);
     const [mapError, setMapError] = useState('');
     const [graphIntervention, setGraphIntervention] = useState(null);
+    
+    // Safe global navigation lock
+    const [isNavigating, setIsNavigating] = useState(false);
 
     const apiUrl = API_URL;
     const interventionScope = useMemo(
@@ -133,19 +136,16 @@ export default function Dashboard() {
    useEffect(() => {
         if (!studentData) return;
 
-        // Step 1: Check for basic class level and term
         if (!studentData.sss_level || !studentData.current_term) {
             navigate('/class-selection', { replace: true });
             return;
         }
 
-        // Step 2: Check if subjects are selected
         if (!Array.isArray(studentData.subjects) || studentData.subjects.length === 0) {
             navigate('/subject-selection', { replace: true });
             return;
         }
 
-        // Step 3: Check if learning preferences are set (or profile is incomplete)
         if (!studentData.has_profile || !studentData.preferences) {
             navigate('/learning-preferences', { replace: true });
             return;
@@ -225,39 +225,63 @@ export default function Dashboard() {
         fetchDashboardBootstrap();
     }, [activeId, activeSubject, token, apiUrl]);
 
-    const openTopicFromGraph = useCallback(async (topicId) => {
-        if (!topicId) return;
-        await prewarmTopics({
-            apiUrl,
-            token,
-            studentId: activeId,
-            subject: activeSubject,
-            sssLevel: currentLevel,
-            term: currentTerm,
-            topicIds: [topicId],
-        });
-        navigate(`/lesson/${topicId}`);
-    }, [activeId, activeSubject, apiUrl, currentLevel, currentTerm, navigate, token]);
+    // Handlers with setTimeout to ensure UI paints before navigation unmounts
+    const openTopicFromGraph = useCallback((topicId) => {
+        if (!topicId || isNavigating) return;
+        setIsNavigating(true);
+        
+        setTimeout(async () => {
+            try {
+                await prewarmTopics({
+                    apiUrl,
+                    token,
+                    studentId: activeId,
+                    subject: activeSubject,
+                    sssLevel: currentLevel,
+                    term: currentTerm,
+                    topicIds: [topicId],
+                });
+                navigate(`/lesson/${topicId}`);
+            } catch (err) {
+                setIsNavigating(false);
+            }
+        }, 200);
+    }, [activeId, activeSubject, apiUrl, currentLevel, currentTerm, navigate, token, isNavigating]);
 
-    const resumeLatestIntervention = useCallback(async () => {
+    const resumeLatestIntervention = useCallback(() => {
+        if (isNavigating) return;
         const topicId = dashboardSignal?.payload?.next_step?.recommended_topic_id;
         if (!topicId) return;
-        await prewarmTopics({
-            apiUrl,
-            token,
-            studentId: activeId,
-            subject: dashboardSignal?.subject || activeSubject,
-            sssLevel: dashboardSignal?.sssLevel || currentLevel,
-            term: Number(dashboardSignal?.term || currentTerm),
-            topicIds: [topicId],
-        });
-        navigate(`/lesson/${topicId}`);
-    }, [activeId, activeSubject, apiUrl, currentLevel, currentTerm, dashboardSignal, navigate, token]);
+        
+        setIsNavigating(true);
+        
+        setTimeout(async () => {
+            try {
+                await prewarmTopics({
+                    apiUrl,
+                    token,
+                    studentId: activeId,
+                    subject: dashboardSignal?.subject || activeSubject,
+                    sssLevel: dashboardSignal?.sssLevel || currentLevel,
+                    term: Number(dashboardSignal?.term || currentTerm),
+                    topicIds: [topicId],
+                });
+                navigate(`/lesson/${topicId}`);
+            } catch (err) {
+                setIsNavigating(false);
+            }
+        }, 200);
+    }, [activeId, activeSubject, apiUrl, currentLevel, currentTerm, dashboardSignal, navigate, token, isNavigating]);
 
     const openGraphPath = useCallback(() => {
-        const query = activeSubject ? `?subject=${encodeURIComponent(activeSubject)}` : '';
-        navigate(`/graph-path${query}`);
-    }, [activeSubject, navigate]);
+        if (isNavigating) return;
+        setIsNavigating(true);
+        
+        setTimeout(() => {
+            const query = activeSubject ? `?subject=${encodeURIComponent(activeSubject)}` : '';
+            navigate(`/graph-path${query}`);
+        }, 200);
+    }, [activeSubject, navigate, isNavigating]);
 
     const dashboardTasks = useMemo(() => {
         const tasks = [];
@@ -276,7 +300,7 @@ export default function Dashboard() {
                 badge: 'Checkpoint',
                 title: recommendationStory?.headline || nextStep?.recommended_topic_title || 'Resume your checkpoint',
                 subtext: recommendationStory?.supporting_reason || 'A tutor checkpoint is waiting inside the current lesson.',
-                actionLabel: 'Resume checkpoint',
+                actionLabel: isNavigating ? 'Loading...' : 'Resume checkpoint',
                 onClick: resumeLatestIntervention,
                 tone: 'emerald',
             });
@@ -288,7 +312,7 @@ export default function Dashboard() {
                 badge: recommendationStory?.status === 'bridge_prerequisite' ? 'Repair gap' : 'Next lesson',
                 title: nextStep.recommended_topic_title || nextStep.recommended_concept_label || 'Continue your graph path',
                 subtext: recommendationStory?.supporting_reason || nextStep.reason || 'Open the lesson the graph recommends next.',
-                actionLabel: recommendationStory?.action_label || 'Open lesson',
+                actionLabel: isNavigating ? 'Loading...' : (recommendationStory?.action_label || 'Open lesson'),
                 onClick: resumeLatestIntervention,
                 tone: recommendationStory?.status === 'bridge_prerequisite' ? 'amber' : 'indigo',
             });
@@ -300,7 +324,7 @@ export default function Dashboard() {
                 badge: timeline[0].source_label || 'Latest evidence',
                 title: timeline[0].focus_concept_label || 'Review your latest intervention',
                 subtext: timeline[0].summary,
-                actionLabel: 'Resume',
+                actionLabel: isNavigating ? 'Loading...' : 'Resume',
                 onClick: resumeLatestIntervention,
                 tone: 'slate',
             });
@@ -320,14 +344,15 @@ export default function Dashboard() {
                 badge: 'Ready concept',
                 title: alternateNode.concept_label || alternateNode.topic_title || 'Explore a ready concept',
                 subtext: alternateNode.details || 'Open another graph-ready lesson in this scope.',
-                actionLabel: 'Open node',
+                actionLabel: isNavigating ? 'Loading...' : 'Open node',
                 onClick: () => openTopicFromGraph(alternateNode.topic_id),
                 tone: 'indigo',
             });
         }
 
         return tasks.slice(0, 3);
-    }, [dashboardSignal, effectiveMapData, openTopicFromGraph, resumeLatestIntervention]);
+    }, [dashboardSignal, effectiveMapData, openTopicFromGraph, resumeLatestIntervention, isNavigating]);
+
 
     return (
         <div className="min-h-screen overflow-x-hidden bg-[#F8FAFC] font-sans">
@@ -342,6 +367,7 @@ export default function Dashboard() {
                         graphSignal={dashboardSignal}
                         signalSubject={dashboardSignal?.subject || activeSubject}
                         onResumeSignal={dashboardSignal?.payload?.next_step?.recommended_topic_id ? resumeLatestIntervention : null}
+                        isNavigating={isNavigating} // Passed down to handle top banner loader
                     />
                     <AIRecommendation
                         activeSubject={activeSubject}
@@ -349,7 +375,7 @@ export default function Dashboard() {
                         recentEvidence={activeSubject ? effectiveMapData?.recent_evidence : null}
                         recommendationStory={activeSubject ? effectiveMapData?.recommendation_story : null}
                         errorOverride={activeSubject ? mapError : ''}
-                        disableAutoFetch={Boolean(activeSubject)}
+                        disableAutoFetch={Boolean(activeSubject) || isNavigating}
                     />
                 </div>
 
@@ -458,38 +484,59 @@ export default function Dashboard() {
                                 {dashboardSignal.subject && dashboardSignal.subject !== activeSubject && (
                                     <button
                                         type="button"
+                                        disabled={isNavigating}
                                         onClick={() => setActiveSubject(dashboardSignal.subject)}
-                                        className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50"
+                                        className={`inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 ${isNavigating ? 'opacity-50 cursor-not-allowed' : ''}`}
                                     >
                                         Open {dashboardSignal.subject}
                                     </button>
                                 )}
                                 <button
                                     type="button"
+                                    disabled={isNavigating}
                                     onClick={openGraphPath}
-                                    className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50"
+                                    className={`inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 ${isNavigating ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
                                     View path
                                 </button>
                                 {dashboardSignal.payload.next_step?.recommended_topic_id && (
                                     <button
                                         type="button"
-                                        onClick={async () => {
-                                            await prewarmTopics({
-                                                apiUrl,
-                                                token,
-                                                studentId: activeId,
-                                                subject: dashboardSignal.subject,
-                                                sssLevel: dashboardSignal.sssLevel || currentLevel,
-                                                term: Number(dashboardSignal.term || currentTerm),
-                                                topicIds: [dashboardSignal.payload.next_step.recommended_topic_id],
-                                            });
-                                            navigate(`/lesson/${dashboardSignal.payload.next_step.recommended_topic_id}`);
+                                        disabled={isNavigating}
+                                        onClick={() => {
+                                            if (isNavigating) return;
+                                            setIsNavigating(true);
+                                            
+                                            setTimeout(async () => {
+                                                try {
+                                                    await prewarmTopics({
+                                                        apiUrl,
+                                                        token,
+                                                        studentId: activeId,
+                                                        subject: dashboardSignal.subject,
+                                                        sssLevel: dashboardSignal.sssLevel || currentLevel,
+                                                        term: Number(dashboardSignal.term || currentTerm),
+                                                        topicIds: [dashboardSignal.payload.next_step.recommended_topic_id],
+                                                    });
+                                                    navigate(`/lesson/${dashboardSignal.payload.next_step.recommended_topic_id}`);
+                                                } catch (e) {
+                                                    setIsNavigating(false);
+                                                }
+                                            }, 200);
                                         }}
-                                        className="inline-flex items-center gap-2 rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-bold text-white hover:bg-indigo-700"
+                                        className={`inline-flex min-w-[140px] justify-center items-center gap-2 rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-bold text-white hover:bg-indigo-700 ${isNavigating ? 'opacity-75 cursor-not-allowed' : ''}`}
                                     >
-                                        Resume now
-                                        <ArrowRight className="h-4 w-4" />
+                                        {isNavigating ? (
+                                            <>
+                                                <Loader2 className="h-4 w-4 animate-spin" />
+                                                Loading...
+                                            </>
+                                        ) : (
+                                            <>
+                                                Resume now
+                                                <ArrowRight className="h-4 w-4" />
+                                            </>
+                                        )}
                                     </button>
                                 )}
                             </div>
@@ -512,20 +559,20 @@ export default function Dashboard() {
                 {!activeSubject ? (
                     <div className="mb-6 flex w-full flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
                         <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-indigo-50 text-indigo-400 shadow-inner">
-                            <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+                            <BookOpen className="h-10 w-10" strokeWidth={1.5} />
                         </div>
                         <h3 className="mb-3 text-lg font-bold text-slate-800">Choose a subject to load the path</h3>
                         <p className="mx-auto max-w-md text-sm leading-6 text-slate-500">Select a subject to load the graph-backed path and the next lesson recommendation.</p>
                     </div>
                 ) : isLoadingMap ? (
                     <div className="mb-6 flex w-full flex-col items-center rounded-2xl border border-slate-200 bg-white p-6 text-center font-medium text-indigo-500 shadow-sm animate-pulse">
-                        <div className="mb-4 h-10 w-10 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"></div>
+                        <Loader2 className="mb-4 h-10 w-10 animate-spin" />
                         Syncing your {activeSubject} path...
                     </div>
                 ) : mapError ? (
                     <div className="mb-6 flex w-full flex-col items-center justify-center rounded-2xl border border-rose-200 bg-white p-6 text-center shadow-sm">
                         <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-rose-50 text-rose-400 shadow-inner">
-                            <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v4m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"></path></svg>
+                            <AlertCircle className="h-10 w-10" strokeWidth={1.5} />
                         </div>
                         <h3 className="mb-3 text-lg font-bold text-slate-800">Learning map unavailable</h3>
                         <p className="mx-auto max-w-md text-sm leading-6 text-slate-500">{mapError}</p>
@@ -543,11 +590,21 @@ export default function Dashboard() {
                     <div className="mb-6 flex justify-end gap-3">
                         <button
                             type="button"
+                            disabled={isNavigating}
                             onClick={openGraphPath}
-                            className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-sm hover:bg-slate-50"
+                            className={`inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-sm hover:bg-slate-50 ${isNavigating ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
-                            Open full path
-                            <ArrowRight className="h-4 w-4" />
+                            {isNavigating ? (
+                                <>
+                                    <Loader2 className="h-4 w-4 animate-spin text-slate-500" />
+                                    Loading...
+                                </>
+                            ) : (
+                                <>
+                                    Open full path
+                                    <ArrowRight className="h-4 w-4" />
+                                </>
+                            )}
                         </button>
                     </div>
                 )}

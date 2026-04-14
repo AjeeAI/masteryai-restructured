@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, BookOpen, GitBranch, PlayCircle, ShieldAlert, Sparkles } from 'lucide-react';
+import { ArrowRight, BookOpen, GitBranch, PlayCircle, ShieldAlert, Sparkles, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 import { useUser } from '../context/UserContext';
@@ -12,13 +12,14 @@ export default function HeroSection({
   graphSignal = null,
   signalSubject = null,
   onResumeSignal = null,
+  isNavigating = false, // <-- Added new prop here
 }) {
   const { userData } = useUser();
   const firstName = userData?.first_name || 'Student';
   const navigate = useNavigate();
 
   const handleStartLearning = () => {
-    if (activeSubject) {
+    if (activeSubject && !isNavigating) {
       navigate(`/course/${activeSubject}`);
     }
   };
@@ -30,6 +31,7 @@ export default function HeroSection({
   const canResumeSignal = typeof onResumeSignal === 'function' && Boolean(signalNextStep?.recommended_topic_id);
 
   const handlePrimaryAction = () => {
+    if (isNavigating) return; // Guard clause
     if (canResumeSignal) {
       onResumeSignal();
       return;
@@ -56,13 +58,16 @@ export default function HeroSection({
           {activeSubject && (
             <button
               type="button"
+              disabled={isNavigating}
               onClick={handlePrimaryAction}
-              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-indigo-600 px-4 py-2.5 text-sm font-black text-white shadow-lg shadow-indigo-200 transition hover:bg-indigo-700"
+              className={`inline-flex items-center justify-center gap-2 rounded-2xl bg-indigo-600 px-4 py-2.5 text-sm font-black text-white shadow-lg shadow-indigo-200 transition hover:bg-indigo-700 ${isNavigating ? 'opacity-75 cursor-not-allowed' : ''}`}
             >
-              <PlayCircle className="h-4 w-4" />
-              {signalNextStep?.recommended_topic_id
-                ? `Open ${signalSubject || activeSubject}`
-                : hasStartedLearning ? 'Resume lesson' : 'Start first lesson'}
+              {isNavigating ? <Loader2 className="h-4 w-4 animate-spin" /> : <PlayCircle className="h-4 w-4" />}
+              {isNavigating 
+                ? 'Loading...' 
+                : signalNextStep?.recommended_topic_id
+                  ? `Open ${signalSubject || activeSubject}`
+                  : hasStartedLearning ? 'Resume lesson' : 'Start first lesson'}
             </button>
           )}
         </div>
@@ -116,12 +121,13 @@ export default function HeroSection({
               <button
                 key={sub}
                 type="button"
+                disabled={isNavigating}
                 onClick={() => onSelectSubject(sub)}
                 className={`inline-flex items-center gap-2 rounded-full border px-3 py-2 text-sm font-bold capitalize transition ${
                   isActive
                     ? 'border-indigo-200 bg-indigo-50 text-indigo-700'
                     : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-200 hover:text-indigo-700'
-                }`}
+                } ${isNavigating ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 <BookOpen className="h-4 w-4" />
                 {sub}
@@ -131,8 +137,9 @@ export default function HeroSection({
           {activeSubject && (
             <button
               type="button"
+              disabled={isNavigating}
               onClick={() => onSelectSubject(null)}
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-500 transition hover:border-slate-300 hover:text-slate-700"
+              className={`inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-500 transition hover:border-slate-300 hover:text-slate-700 ${isNavigating ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               Switch subject
               <ArrowRight className="h-4 w-4" />

@@ -349,8 +349,8 @@ def _build_quiz_prompt(
 # --- FIX 1: Made function async and added await ---
 async def _llm_generate(prompt: str) -> str:
     client = LLMClient(
-        provider=os.getenv("LLM_PROVIDER", "groq"),
-        model=os.getenv("LLM_MODEL", "openai/gpt-oss-20b"),
+        provider=os.getenv("LLM_PROVIDER", "gemini"),       # Force Gemini
+        model=os.getenv("LLM_MODEL", "gemini-2.5-flash"),   # Force valid model
         api_key=os.getenv("LLM_API_KEY"),
     )
     return await client.generate(prompt)

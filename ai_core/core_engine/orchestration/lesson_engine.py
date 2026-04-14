@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 # Initialize the client
 llm_client = LLMClient(
     provider=os.getenv("LLM_PROVIDER", "gemini"),
-    model=os.getenv("LESSON_LLM_MODEL", "gemini-3-flash-preview")
+    model=os.getenv("LESSON_LLM_MODEL", "gemini-2.5-flash")
 )
 
 def _extract_json(text: str) -> dict:

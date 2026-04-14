@@ -278,7 +278,7 @@ async def _llm_generate(prompt: str) -> str:
     """Async wrapper for the centralized LLM client. Defaults to Gemini."""
     client = LLMClient(
         provider=os.getenv("LLM_PROVIDER", "gemini"),
-        model=os.getenv("LESSON_LLM_MODEL", "gemini-3-flash-preview"),
+        model=os.getenv("LESSON_LLM_MODEL", "gemini-2.5-flash"),
     )
     return await client.generate(prompt)
 

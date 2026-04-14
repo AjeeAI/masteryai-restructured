@@ -89,7 +89,7 @@ class LLMClient:
         """Asynchronously generates content. Defaults to Gemini 3 Flash."""
         provider = (self.provider or "gemini").strip().lower()
         # Defaulting to the 2026 '3' series model
-        model = (self.model or "gemini-3-flash-preview").strip()
+        model = (self.model or "gemini-2.5-flash").strip()
         
         attempt = _ProviderAttempt(
             provider=provider,

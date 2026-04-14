@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 # Initialize client (Updated defaults to Gemini 3 Flash)
 llm_client = LLMClient(
     provider=os.getenv("LLM_PROVIDER", "gemini"),
-    model=os.getenv("DIAGNOSTIC_LLM_MODEL", "gemini-3-flash-preview")
+    model=os.getenv("DIAGNOSTIC_LLM_MODEL", "gemini-2.5-flash")
 )
 
 def _extract_json(text: str) -> dict:

@@ -13,6 +13,10 @@ from sqlalchemy.orm import Session
 from backend.core.config import settings
 from backend.repositories.diagnostic_repo import DiagnosticRepository
 from backend.repositories.graph_repo import GraphRepository
+
+# --- CRITICAL ADDITION: Import your real Neo4j adapter ---
+from backend.repositories.neo4j_graph_repo import Neo4jGraphRepository, Neo4jGraphConfig
+
 from backend.schemas.diagnostic_schema import (
     BaselineMasteryUpdateOut,
     DiagnosticLearningGapSummaryOut,
@@ -225,10 +229,10 @@ class DiagnosticService:
             subject_runs=subject_runs
         )
 
-    # --- FIXED: Indented this method to be part of the DiagnosticService class ---
-    async def process_diagnostic_submission(self, db: Session, payload: DiagnosticSubmitIn) -> DiagnosticSubmitOut:
+    # --- THE FIX: Kept Synchronous, Integrated with Real Neo4j Repo ---
+    def process_diagnostic_submission(self, db: Session, payload: DiagnosticSubmitIn) -> DiagnosticSubmitOut:
         repo = DiagnosticRepository(db)
-        graph_repo = GraphRepository(db)
+        graph_repo = GraphRepository(db) # The Postgres Repo
         
         diagnostic = repo.get_diagnostic(
             diagnostic_id=payload.diagnostic_id, 
@@ -237,10 +241,6 @@ class DiagnosticService:
         
         if not diagnostic or diagnostic.status == "submitted":
             raise DiagnosticValidationError("Diagnostic session not found or already submitted.")
-
-        if not settings.use_neo4j_graph:
-            logger.critical(f"INTEGRITY ALERT: {payload.student_id} submitting diagnostic while USE_NEO4J_GRAPH is False.")
-            raise DiagnosticValidationError("System configuration error: Knowledge Graph is disabled.")
 
         questions = diagnostic.questions or []
         expected = {str(q["question_id"]): q for q in questions}
@@ -253,6 +253,18 @@ class DiagnosticService:
             term=diagnostic.term
         )
 
+        # 1. Initialize the Real Neo4j Connection
+        neo4j_repo = None
+        if settings.use_neo4j_graph:
+            try:
+                neo4j_repo = Neo4jGraphRepository(Neo4jGraphConfig(
+                    uri=settings.neo4j_uri,
+                    user=settings.neo4j_user,
+                    password=settings.neo4j_password
+                ))
+            except Exception as e:
+                logger.error(f"Failed to initialize Neo4j for diagnostic sync: {e}")
+
         try:
             for ans in payload.answers:
                 q = expected.get(str(ans.question_id))
@@ -263,8 +275,8 @@ class DiagnosticService:
                 prev_score = existing_mastery.get(cid, 0.0)
                 new_score = 0.7 if is_correct else 0.2 
                 
-                # CRITICAL: Added 'await' here because graph_repo is now async
-                _, stored_new = await graph_repo.upsert_mastery(
+                # 2. Update Postgres
+                _, stored_new = graph_repo.upsert_mastery(
                     student_id=payload.student_id, 
                     subject=diagnostic.subject, 
                     sss_level=diagnostic.sss_level, 
@@ -275,6 +287,19 @@ class DiagnosticService:
                     evaluated_at=datetime.now(timezone.utc)
                 )
                 
+                # 3. Update Neo4j (Creates Student node and Relationships!)
+                if neo4j_repo:
+                    try:
+                        neo4j_repo.upsert_mastery(
+                            student_id=str(payload.student_id),
+                            concept_id=cid,
+                            score=stored_new,
+                            source="diagnostic",
+                            evaluated_at=datetime.now(timezone.utc)
+                        )
+                    except Exception as e:
+                        logger.error(f"Neo4j sync failed for concept {cid}: {e}")
+
                 baseline_updates.append(BaselineMasteryUpdateOut(
                     concept_id=cid, 
                     previous_score=prev_score, 
@@ -288,7 +313,11 @@ class DiagnosticService:
         except Exception as exc:
             db.rollback()
             logger.error(f"DIAGNOSTIC SYNC FAILED for {payload.student_id}: {str(exc)}")
-            raise DiagnosticValidationError(f"Could not sync results to Knowledge Graph: {str(exc)}")
+            raise DiagnosticValidationError(f"Could not complete diagnostic: {str(exc)}")
+        finally:
+            # 4. Clean up connection
+            if neo4j_repo:
+                neo4j_repo.close()
 
         return DiagnosticSubmitOut(
             baseline_mastery_updates=baseline_updates,

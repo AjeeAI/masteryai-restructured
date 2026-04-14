@@ -14,8 +14,8 @@ llm_client = LLMClient(
 
 def _extract_json(text: str) -> dict:
     """
-    Simplified JSON extractor. 
-    Trusts Gemini's native 'application/json' mode while handling code blocks.
+    Safely extract and parse JSON.
+    Trusts the modern SDK's application/json mime type.
     """
     # 1. Strip markdown code blocks if present
     text = re.sub(r"```json\s?|\s?```", "", text).strip()
@@ -28,31 +28,39 @@ def _extract_json(text: str) -> dict:
     
     json_str = match.group(0)
 
-    # 3. Simple character cleaning (No aggressive backslash regex)
-    # We only replace literal newlines that might be inside strings
-    # and clean up smart quotes.
+    # 3. Simple character cleaning for smart quotes
     json_str = json_str.replace('“', '"').replace('”', '"').replace('‘', "'").replace('’', "'")
     
     try:
-        return json.loads(json_str)
-    except json.JSONDecodeError:
-        # Fallback: if there are literal newlines inside the JSON string, 
-        # escape them and try one last time.
-        try:
-            fixed_str = json_str.replace('\n', '\\n').replace('\r', '\\r')
-            return json.loads(fixed_str)
-        except Exception as e:
-            logger.error(f"FATAL DECODE ERROR: {e}\nString: {json_str[:300]}...")
-            raise
+        # strict=False allows actual unescaped newlines inside strings without crashing
+        return json.loads(json_str, strict=False)
+    except json.JSONDecodeError as e:
+        logger.error(f"FATAL DECODE ERROR: {e}\nProblematic String snippet:\n{json_str[max(0, e.pos-50):e.pos+50]}")
+        raise
 
 async def generate_lesson_content(data: dict):
     """Generates lesson content with the EXACT schema the backend requires."""
     
+    subject_lower = str(data.get('subject', '')).lower()
+    
+    # DYNAMIC RULE: Define which subjects need strict Math escaping
+    math_heavy_subjects = ["math", "mathematics", "further math", "physics", "chemistry", "basic science"]
+    is_math_subject = any(sub in subject_lower for sub in math_heavy_subjects)
+
+    if is_math_subject:
+        formatting_instruction = """
+    2. MATH/LATEX ESCAPING: You MUST use LaTeX ($...$) for ALL math/science symbols. Because this is a JSON response, you MUST DOUBLE-ESCAPE all LaTeX backslashes (e.g., write \\\\frac instead of \\frac, and \\\\times instead of \\times). Do NOT use unescaped backslashes.
+        """
+    else:
+        formatting_instruction = """
+    2. TEXT FORMATTING: Write clearly and naturally in standard prose. Use standard English punctuation. Do NOT use excessive backslashes or mathematical formatting unless strictly necessary for a specific example.
+        """
+
     prompt = f"""
     You are an expert Nigerian Secondary School Tutor.
     Topic: {data['topic_title']} ({data['subject']} - {data['sss_level']})
     Mastery Gaps: {json.dumps(data['mastery_gaps'])}
-    Curriculum context: {" ".join(data['curriculum_context'][:5])}
+    Curriculum context: {" ".join(data['curriculum_context'][:3])}
 
     Task: Write a high-quality personalized lesson.
     
@@ -69,9 +77,9 @@ async def generate_lesson_content(data: dict):
     }}
 
     CRITICAL RULES:
-    1. Use LaTeX ($...$) for ALL math/science symbols (e.g. $U_n = a + (n-1)d$).
-    2. Ensure every block has a "type" and "content" key.
-    3. Return ONLY the JSON object.
+    1. STRICT LENGTH LIMIT: Return EXACTLY 3 content_blocks. Do not write a long essay. Keep text blocks under 100 words.{formatting_instruction}
+    3. Ensure every block has a "type" and "content" key.
+    4. Return ONLY the raw JSON object. Do not wrap in markdown blocks.
     """
     
     try:

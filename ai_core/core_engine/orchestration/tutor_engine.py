@@ -1688,7 +1688,6 @@ async def run_tutor_hint(request: TutorHintRequest) -> TutorHintResponse:
         hint_text = "Focus on the core rule, eliminate one wrong option, then compare the remaining choices."
     return TutorHintResponse(hint=hint_text, strategy="guided_hint")
 
-
 async def run_tutor_explain_mistake(request: TutorExplainMistakeRequest) -> TutorExplainMistakeResponse:
     """Explain why an answer is wrong and provide a targeted correction tip."""
     try:
@@ -1701,21 +1700,44 @@ async def run_tutor_explain_mistake(request: TutorExplainMistakeRequest) -> Tuto
             improvement_tip="Rephrase your question using neutral academic language.",
         )
 
+    # 1. Update the prompt to explicitly request the JSON shape
     prompt = (
-        "Explain the student's mistake briefly and give one improvement tip.\n"
+        "You are an expert tutor. Explain the student's mistake briefly and give one improvement tip.\n"
+        "Return EXACT JSON only.\n"
         f"Scope: {request.subject}, {request.sss_level}, term {request.term}.\n"
         f"Question: {safe_question}\n"
         f"Student answer: {safe_student_answer}\n"
-        f"Correct answer: {safe_correct_answer}\n"
+        f"Correct answer: {safe_correct_answer}\n\n"
+        "OUTPUT FORMAT:\n"
+        "{\n"
+        '  "explanation": "string explaining the core misconception",\n'
+        '  "improvement_tip": "string with actionable advice for next time"\n'
+        "}"
     )
+    
     try:
-        explanation = await _llm_generate(prompt)
-    except (LLMClientError, Exception):
+        raw_response = await _llm_generate(prompt)
+        
+        # 2. Parse the JSON safely using your existing helper
+        parsed = _extract_json_object(raw_response)
+        
+        if not parsed:
+            raise RuntimeError("Failed to parse JSON from mistake explanation")
+            
+        # 3. Extract the strings (with fallbacks just in case)
+        explanation = parsed.get("explanation") or parsed.get("mistake_explanation") or "Your answer did not match the core rule."
+        improvement_tip = parsed.get("improvement_tip") or "Review the rules for this concept before trying again."
+        
+    except (LLMClientError, Exception) as e:
+        logger.warning(f"Mistake explanation generation failed: {e}")
+        # 4. Fallback if the LLM crashes or returns garbage
         explanation = (
             "Your answer did not follow the governing rule in this question. "
             f"You selected '{request.student_answer}' while the correct answer is '{request.correct_answer}'."
         )
+        improvement_tip = "Write the relevant rule first, then verify each option against that rule."
+        
     return TutorExplainMistakeResponse(
         explanation=explanation,
-        improvement_tip="Write the relevant rule first, then verify each option against that rule.",
+        improvement_tip=improvement_tip,
     )

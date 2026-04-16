@@ -1,12 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, GitBranch, Loader2, BookOpen, AlertCircle } from 'lucide-react';
+import { ArrowRight, Loader2, BookOpen } from 'lucide-react';
 
 import HeroSection from '../components/HeroSection';
-import AIRecommendation from '../components/AIRecommendation';
 import DashboardStats from '../components/DashboardStats';
-import InterventionTimeline from '../components/InterventionTimeline';
-import LearningMap from '../components/LearningMap';
 import LearningTasks from '../components/LearningTasks';
 import Leaderboard from '../components/Leaderboard';
 import { useAuth } from '../context/AuthContext';
@@ -52,7 +49,6 @@ const normalizeCourseBootstrap = (data) => ({
     recent_evidence: data?.recent_evidence || null,
     intervention_timeline: Array.isArray(data?.intervention_timeline) ? data.intervention_timeline : [],
     recommendation_story: data?.recommendation_story || null,
-    evidence_summary: data?.evidence_summary || null,
 });
 
 const EMPTY_MAP_DATA = {
@@ -62,7 +58,6 @@ const EMPTY_MAP_DATA = {
     recent_evidence: null,
     intervention_timeline: [],
     recommendation_story: null,
-    evidence_summary: null,
 };
 
 export default function Dashboard() {
@@ -85,12 +80,8 @@ export default function Dashboard() {
         failed_subjects: [],
         available_subjects: [],
     });
-    const [diagnosticStatus, setDiagnosticStatus] = useState(null);
-    const [learningGapSummary, setLearningGapSummary] = useState(null);
-    const [initialLessonPlan, setInitialLessonPlan] = useState(null);
     const [mapData, setMapData] = useState(EMPTY_MAP_DATA);
     const [isLoadingMap, setIsLoadingMap] = useState(false);
-    const [mapError, setMapError] = useState('');
     const [graphIntervention, setGraphIntervention] = useState(null);
     
     // Safe global navigation lock
@@ -150,7 +141,6 @@ export default function Dashboard() {
             navigate('/learning-preferences', { replace: true });
             return;
         }
-        
     }, [studentData, navigate]);
 
     useEffect(() => {
@@ -181,8 +171,6 @@ export default function Dashboard() {
 
         const fetchDashboardBootstrap = async () => {
             setIsLoadingMap(true);
-            setMapError('');
-
             try {
                 const queryParams = new URLSearchParams({ student_id: activeId });
                 if (activeSubject) {
@@ -200,23 +188,11 @@ export default function Dashboard() {
                     failed_subjects: Array.isArray(data?.failed_subjects) ? data.failed_subjects : [],
                     available_subjects: Array.isArray(data?.available_subjects) ? data.available_subjects : [],
                 });
-                setDiagnosticStatus(data?.diagnostic_status || null);
-                setLearningGapSummary(data?.learning_gap_summary || null);
-                setInitialLessonPlan(data?.initial_lesson_plan || null);
                 setMapData(normalizeCourseBootstrap(data?.course_bootstrap || {}));
-                setMapError(data?.course_bootstrap?.map_error || '');
             } catch (err) {
                 console.error('Map fetch error:', err);
-                setDashboardBootstrap({
-                    warmed_subjects: [],
-                    failed_subjects: [],
-                    available_subjects: [],
-                });
-                setDiagnosticStatus(null);
-                setLearningGapSummary(null);
-                setInitialLessonPlan(null);
+                setDashboardBootstrap({ warmed_subjects: [], failed_subjects: [], available_subjects: [] });
                 setMapData(EMPTY_MAP_DATA);
-                setMapError(err.message || 'Learning map unavailable.');
             } finally {
                 setIsLoadingMap(false);
             }
@@ -225,7 +201,6 @@ export default function Dashboard() {
         fetchDashboardBootstrap();
     }, [activeId, activeSubject, token, apiUrl]);
 
-    // Handlers with setTimeout to ensure UI paints before navigation unmounts
     const openTopicFromGraph = useCallback((topicId) => {
         if (!topicId || isNavigating) return;
         setIsNavigating(true);
@@ -233,13 +208,8 @@ export default function Dashboard() {
         setTimeout(async () => {
             try {
                 await prewarmTopics({
-                    apiUrl,
-                    token,
-                    studentId: activeId,
-                    subject: activeSubject,
-                    sssLevel: currentLevel,
-                    term: currentTerm,
-                    topicIds: [topicId],
+                    apiUrl, token, studentId: activeId, subject: activeSubject,
+                    sssLevel: currentLevel, term: currentTerm, topicIds: [topicId],
                 });
                 navigate(`/lesson/${topicId}`);
             } catch (err) {
@@ -258,9 +228,7 @@ export default function Dashboard() {
         setTimeout(async () => {
             try {
                 await prewarmTopics({
-                    apiUrl,
-                    token,
-                    studentId: activeId,
+                    apiUrl, token, studentId: activeId,
                     subject: dashboardSignal?.subject || activeSubject,
                     sssLevel: dashboardSignal?.sssLevel || currentLevel,
                     term: Number(dashboardSignal?.term || currentTerm),
@@ -353,11 +321,10 @@ export default function Dashboard() {
         return tasks.slice(0, 3);
     }, [dashboardSignal, effectiveMapData, openTopicFromGraph, resumeLatestIntervention, isNavigating]);
 
-
     return (
         <div className="min-h-screen overflow-x-hidden bg-[#F8FAFC] font-sans">
             <main className="mx-auto max-w-[1440px] px-4 py-6 sm:px-6">
-                <div className="mb-6 grid gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
+                <div className="mb-6">
                     <HeroSection
                         enrolledSubjects={dashboardBootstrap.available_subjects.length ? dashboardBootstrap.available_subjects : enrolledSubjects}
                         activeSubject={activeSubject}
@@ -367,192 +334,9 @@ export default function Dashboard() {
                         graphSignal={dashboardSignal}
                         signalSubject={dashboardSignal?.subject || activeSubject}
                         onResumeSignal={dashboardSignal?.payload?.next_step?.recommended_topic_id ? resumeLatestIntervention : null}
-                        isNavigating={isNavigating} // Passed down to handle top banner loader
-                    />
-                    <AIRecommendation
-                        activeSubject={activeSubject}
-                        recommendation={activeSubject ? effectiveMapData?.next_step : null}
-                        recentEvidence={activeSubject ? effectiveMapData?.recent_evidence : null}
-                        recommendationStory={activeSubject ? effectiveMapData?.recommendation_story : null}
-                        errorOverride={activeSubject ? mapError : ''}
-                        disableAutoFetch={Boolean(activeSubject) || isNavigating}
+                        isNavigating={isNavigating} 
                     />
                 </div>
-
-                {activeSubject && effectiveMapData?.evidence_summary && (
-                    <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.18em] text-slate-500">
-                            <GitBranch className="h-3.5 w-3.5 text-emerald-500" />
-                            Mastery evidence snapshot
-                        </div>
-                        <div className="mt-4 grid gap-4 md:grid-cols-3">
-                            {[
-                                { label: 'Demonstrated', value: effectiveMapData.evidence_summary.demonstrated, tone: 'text-emerald-700' },
-                                { label: 'Needs review', value: effectiveMapData.evidence_summary.needs_review, tone: 'text-amber-700' },
-                                { label: 'Unassessed', value: effectiveMapData.evidence_summary.unassessed, tone: 'text-slate-500' },
-                            ].map((item) => (
-                                <div key={item.label} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                                    <div className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">{item.label}</div>
-                                    <p className={`mt-2 text-xl font-black ${item.tone}`}>{item.value}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {(initialLessonPlan || learningGapSummary) && (
-                    <div className="mb-6 rounded-2xl border border-indigo-200 bg-gradient-to-r from-indigo-50 via-white to-cyan-50 p-4 shadow-sm">
-                        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                            <div className="max-w-3xl">
-                                <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-white px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-indigo-700">
-                                    <GitBranch className="h-3.5 w-3.5" />
-                                    Start plan
-                                </div>
-                                <h2 className="mt-3 text-xl font-black text-slate-900 sm:text-2xl">
-                                    {initialLessonPlan?.recommended_topic_title
-                                        || learningGapSummary?.recommended_start_topic_title
-                                        || 'Your first graph-backed study move is ready'}
-                                </h2>
-                                <p className="mt-2 text-sm leading-7 text-slate-600">
-                                    {initialLessonPlan?.rationale
-                                        || learningGapSummary?.rationale
-                                        || 'This path is based on the weakest concepts from your onboarding diagnostic.'}
-                                </p>
-                                {learningGapSummary?.blocking_prerequisite_label && (
-                                    <p className="mt-3 text-sm font-semibold text-amber-700">
-                                        Repair first: {learningGapSummary.blocking_prerequisite_label}
-                                    </p>
-                                )}
-                                {Array.isArray(learningGapSummary?.weakest_concepts) && learningGapSummary.weakest_concepts.length > 0 && (
-                                    <div className="mt-4 flex flex-wrap gap-2">
-                                        {learningGapSummary.weakest_concepts.slice(0, 3).map((concept) => (
-                                            <span
-                                                key={concept.concept_id}
-                                                className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-slate-600"
-                                            >
-                                                {concept.concept_label}
-                                            </span>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                            <div className="grid gap-3 sm:grid-cols-2 lg:w-[19rem]">
-                                <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                                    <div className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">Subjects complete</div>
-                                    <p className="mt-2 text-xl font-black text-slate-900">
-                                        {diagnosticStatus?.completed_subjects?.length || 0}/{diagnosticStatus?.subject_runs?.length || enrolledSubjects.length || 0}
-                                    </p>
-                                </div>
-                                <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                                    <div className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">Next action</div>
-                                    <p className="mt-2 text-sm font-black text-slate-900">
-                                        {initialLessonPlan?.next_best_action || learningGapSummary?.next_best_action || 'Open the recommended lesson'}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {dashboardSignal?.payload && (
-                    <div className="mb-6 rounded-2xl border border-indigo-200 bg-gradient-to-r from-indigo-50 via-white to-sky-50 p-4 shadow-sm">
-                        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                            <div className="max-w-3xl">
-                                <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-white px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-indigo-700">
-                                    <GitBranch className="h-3.5 w-3.5" />
-                                    Continue from your latest evidence
-                                </div>
-                                <h2 className="mt-3 text-xl font-black text-slate-900 sm:text-2xl">
-                                    {dashboardSignal.payload.recommendation_story?.headline
-                                        || dashboardSignal.payload.next_step?.recommended_topic_title
-                                        || dashboardSignal.payload.next_step?.recommended_concept_label
-                                        || `Continue ${dashboardSignal.subject}`}
-                                </h2>
-                                <p className="mt-2 text-sm leading-7 text-slate-600">
-                                    {dashboardSignal.payload.recommendation_story?.supporting_reason
-                                        || dashboardSignal.payload.next_step?.reason
-                                        || dashboardSignal.payload.recent_evidence?.summary
-                                        || 'Resume the last graph-backed recommendation from your latest evidence.'}
-                                </p>
-                                {dashboardSignal.payload.recent_evidence?.summary && (
-                                    <p className="mt-3 text-xs font-semibold text-slate-500">
-                                        Latest evidence: {dashboardSignal.payload.recent_evidence.summary}
-                                    </p>
-                                )}
-                            </div>
-                            <div className="flex flex-wrap gap-3">
-                                {dashboardSignal.subject && dashboardSignal.subject !== activeSubject && (
-                                    <button
-                                        type="button"
-                                        disabled={isNavigating}
-                                        onClick={() => setActiveSubject(dashboardSignal.subject)}
-                                        className={`inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 ${isNavigating ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                    >
-                                        Open {dashboardSignal.subject}
-                                    </button>
-                                )}
-                                <button
-                                    type="button"
-                                    disabled={isNavigating}
-                                    onClick={openGraphPath}
-                                    className={`inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 ${isNavigating ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                >
-                                    View path
-                                </button>
-                                {dashboardSignal.payload.next_step?.recommended_topic_id && (
-                                    <button
-                                        type="button"
-                                        disabled={isNavigating}
-                                        onClick={() => {
-                                            if (isNavigating) return;
-                                            setIsNavigating(true);
-                                            
-                                            setTimeout(async () => {
-                                                try {
-                                                    await prewarmTopics({
-                                                        apiUrl,
-                                                        token,
-                                                        studentId: activeId,
-                                                        subject: dashboardSignal.subject,
-                                                        sssLevel: dashboardSignal.sssLevel || currentLevel,
-                                                        term: Number(dashboardSignal.term || currentTerm),
-                                                        topicIds: [dashboardSignal.payload.next_step.recommended_topic_id],
-                                                    });
-                                                    navigate(`/lesson/${dashboardSignal.payload.next_step.recommended_topic_id}`);
-                                                } catch (e) {
-                                                    setIsNavigating(false);
-                                                }
-                                            }, 200);
-                                        }}
-                                        className={`inline-flex min-w-[140px] justify-center items-center gap-2 rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-bold text-white hover:bg-indigo-700 ${isNavigating ? 'opacity-75 cursor-not-allowed' : ''}`}
-                                    >
-                                        {isNavigating ? (
-                                            <>
-                                                <Loader2 className="h-4 w-4 animate-spin" />
-                                                Loading...
-                                            </>
-                                        ) : (
-                                            <>
-                                                Resume now
-                                                <ArrowRight className="h-4 w-4" />
-                                            </>
-                                        )}
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {activeSubject && Array.isArray(effectiveMapData?.intervention_timeline) && effectiveMapData.intervention_timeline.length > 0 && (
-                    <div className="mb-6">
-                        <InterventionTimeline
-                            title={`${activeSubject} Evidence Timeline`}
-                            subtitle="Recent quiz and checkpoint evidence shaping this subject."
-                            timeline={effectiveMapData.intervention_timeline}
-                        />
-                    </div>
-                )}
 
                 <DashboardStats />
 
@@ -561,58 +345,47 @@ export default function Dashboard() {
                         <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-indigo-50 text-indigo-400 shadow-inner">
                             <BookOpen className="h-10 w-10" strokeWidth={1.5} />
                         </div>
-                        <h3 className="mb-3 text-lg font-bold text-slate-800">Choose a subject to load the path</h3>
-                        <p className="mx-auto max-w-md text-sm leading-6 text-slate-500">Select a subject to load the graph-backed path and the next lesson recommendation.</p>
+                        <h3 className="mb-3 text-lg font-bold text-slate-800">Choose a subject to launch</h3>
+                        <p className="mx-auto max-w-md text-sm leading-6 text-slate-500">Select a subject above to load your active path and next tasks.</p>
                     </div>
                 ) : isLoadingMap ? (
                     <div className="mb-6 flex w-full flex-col items-center rounded-2xl border border-slate-200 bg-white p-6 text-center font-medium text-indigo-500 shadow-sm animate-pulse">
                         <Loader2 className="mb-4 h-10 w-10 animate-spin" />
                         Syncing your {activeSubject} path...
                     </div>
-                ) : mapError ? (
-                    <div className="mb-6 flex w-full flex-col items-center justify-center rounded-2xl border border-rose-200 bg-white p-6 text-center shadow-sm">
-                        <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-rose-50 text-rose-400 shadow-inner">
-                            <AlertCircle className="h-10 w-10" strokeWidth={1.5} />
-                        </div>
-                        <h3 className="mb-3 text-lg font-bold text-slate-800">Learning map unavailable</h3>
-                        <p className="mx-auto max-w-md text-sm leading-6 text-slate-500">{mapError}</p>
-                    </div>
                 ) : (
-                    <LearningMap
-                        classLevel={currentLevel}
-                        subject={activeSubject}
-                        mapData={effectiveMapData}
-                        onSelectTopic={openTopicFromGraph}
-                    />
+                    <>
+                        <div className="mb-6 rounded-2xl border border-indigo-100 bg-indigo-50/50 p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+                            <div className="text-center sm:text-left">
+                                <h3 className="text-lg font-bold text-slate-900">Curious why we recommended this?</h3>
+                                <p className="mt-1 text-sm text-slate-600">Explore your full knowledge graph, mastery evidence, and upcoming unlocks.</p>
+                            </div>
+                            <button
+                                type="button"
+                                disabled={isNavigating}
+                                onClick={openGraphPath}
+                                className={`shrink-0 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-indigo-600 shadow-sm border border-indigo-200 hover:bg-indigo-50 transition ${isNavigating ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            >
+                                {isNavigating ? (
+                                    <>
+                                        <Loader2 className="h-4 w-4 animate-spin" />
+                                        Loading...
+                                    </>
+                                ) : (
+                                    <>
+                                        View full path
+                                        <ArrowRight className="h-4 w-4" />
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+                            <LearningTasks tasks={dashboardTasks} />
+                            <Leaderboard leagueName={studentData?.league_name || 'Current League'} />
+                        </div>
+                    </>
                 )}
-
-                {activeSubject && !isLoadingMap && !mapError && (
-                    <div className="mb-6 flex justify-end gap-3">
-                        <button
-                            type="button"
-                            disabled={isNavigating}
-                            onClick={openGraphPath}
-                            className={`inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-sm hover:bg-slate-50 ${isNavigating ? 'opacity-50 cursor-not-allowed' : ''}`}
-                        >
-                            {isNavigating ? (
-                                <>
-                                    <Loader2 className="h-4 w-4 animate-spin text-slate-500" />
-                                    Loading...
-                                </>
-                            ) : (
-                                <>
-                                    Open full path
-                                    <ArrowRight className="h-4 w-4" />
-                                </>
-                            )}
-                        </button>
-                    </div>
-                )}
-
-                <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-                    <LearningTasks tasks={dashboardTasks} />
-                    <Leaderboard leagueName={studentData?.league_name || 'Current League'} />
-                </div>
             </main>
         </div>
     );

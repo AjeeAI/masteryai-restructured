@@ -25,6 +25,7 @@ google-auth
 email-validator
 langchain-google-genai
 google-genai
+cloudinary
 
 # fastapi
 # uvicorn[standard]

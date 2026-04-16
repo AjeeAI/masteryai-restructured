@@ -238,6 +238,7 @@ const LessonPage = () => {
 
   // --- CORE RENDERER (Updated with Math Support) ---
 // --- HARDENED CORE RENDERER ---
+// --- HARDENED CORE RENDERER ---
   const renderContentBlock = (block, index) => {
     const type = block.type?.toLowerCase() || 'text';
     const markdownPlugins = [remarkGfm, remarkMath];
@@ -250,8 +251,6 @@ const LessonPage = () => {
                          "prose-img:rounded-3xl prose-img:shadow-lg";
 
     // 1. DEFENSIVE CONTENT EXTRACTION
-    // We prioritize block.content (Gemini), then look inside block.value (Legacy)
-    // We use !!block.value to ensure it's not null before checking its type
     const mainContent = block.content || 
                        (block.value && typeof block.value === 'object' ? (block.value.content || block.value.prompt || block.value.question || "") : block.value) || 
                        "";
@@ -259,6 +258,25 @@ const LessonPage = () => {
     const solution = block.solution || block.value?.solution || "";
 
     switch (type) {
+      // --- NEW IMAGE HANDLER ---
+      case 'image':
+        if (!block.url) return null; // Failsafe if the image URL didn't generate
+        return (
+          <div key={index} className="mb-10 rounded-2xl md:rounded-3xl shadow-lg overflow-hidden border border-slate-200 bg-white">
+            <img 
+              src={block.url} 
+              alt="Lesson visual aid" 
+              className="w-full h-auto object-cover"
+              loading="lazy" 
+            />
+            {mainContent && (
+              <div className="bg-slate-50 p-4 text-center text-xs font-medium text-slate-500 border-t border-slate-200 uppercase tracking-wide">
+                {mainContent}
+              </div>
+            )}
+          </div>
+        );
+
       case 'video':
         return (
           <div key={index} className="aspect-video bg-slate-900 rounded-2xl md:rounded-3xl mb-12 shadow-2xl overflow-hidden ring-1 ring-slate-200">
@@ -316,6 +334,7 @@ const LessonPage = () => {
         );
     }
   };
+  
   return (
     <div className="flex bg-slate-50 h-[calc(100vh-64px)] overflow-hidden relative">
       

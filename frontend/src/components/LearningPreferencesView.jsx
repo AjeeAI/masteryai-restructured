@@ -62,9 +62,15 @@ const LearningPreferencesView = () => {
     // Identify the correct User ID from context
     const targetUserId = resolveUserId(studentData, userData);
 
-    const payload = {
+   const payload = {
       explanation_depth: depth === 'quick' ? 'simple' : depth === 'deep' ? 'detailed' : 'standard',
-      examples_first: Boolean(styles.visual),
+      examples_first: Boolean(styles.visual), // Keeping this for legacy logic if needed
+      
+      // Add the explicit boolean flags your new backend schema expects
+      visual_learner: Boolean(styles.visual),
+      practice_heavy: Boolean(styles.interactive),
+      auditory_narrations: Boolean(styles.auditory),
+      
       pace: styles.interactive ? 'fast' : 'normal',
     };
 
@@ -72,12 +78,16 @@ const LearningPreferencesView = () => {
       await updateStudentPreferences(token, targetUserId, payload);
 
       // 4. Update global state instantly so Navbar/Dashboard are in sync
+      // 4. Update global state instantly so Navbar/Dashboard are in sync
       updateLocalStudent({
         preferences: {
           ...(studentData?.preferences || {}),
           student_id: targetUserId,
           explanation_depth: payload.explanation_depth,
           examples_first: payload.examples_first,
+          visual_learner: payload.visual_learner,       // <-- ADDED
+          practice_heavy: payload.practice_heavy,       // <-- ADDED
+          auditory_narrations: payload.auditory_narrations, // <-- ADDED
           pace: payload.pace,
           updated_at: new Date().toISOString(),
         },

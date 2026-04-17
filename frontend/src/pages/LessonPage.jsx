@@ -89,6 +89,7 @@ const LessonPage = () => {
             sss_level: currentLevel,
             term: currentTerm,
             topic_id: topicId,
+            preferences: studentData?.preferences || {}
           })
         });
 
@@ -334,7 +335,7 @@ const LessonPage = () => {
         );
     }
   };
-  
+
   return (
     <div className="flex bg-slate-50 h-[calc(100vh-64px)] overflow-hidden relative">
       

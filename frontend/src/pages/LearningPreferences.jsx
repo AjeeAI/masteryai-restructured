@@ -67,9 +67,22 @@ const LearningPreferences = () => {
 
     try {
       const preferencesPayload = {
+        // Step-by-step maps to explanation depth
         explanation_depth: selectedStyles.includes('step_by_step') ? 'detailed' : 'standard',
+        
+        // Maps to the specific examples_first boolean
         examples_first: selectedStyles.includes('examples_first'),
-        pace: selectedStyles.includes('practice_heavy') ? 'fast' : 'normal',
+        
+        // Maps to the new visual_learner boolean in your DB
+        visual_learner: selectedStyles.includes('visual'),
+        
+        // Maps to the new practice_heavy boolean in your DB
+        practice_heavy: selectedStyles.includes('practice_heavy'),
+        
+        // You can leave auditory narrations false during initial onboarding
+        auditory_narrations: false, 
+        
+        pace: 'normal',
       };
 
       const response = await fetch(`${API_URL}/students/profile`, {

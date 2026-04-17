@@ -47,7 +47,6 @@ class StudentSubject(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
     # Relationships
     student_profile: Mapped["StudentProfile"] = relationship("StudentProfile", back_populates="subjects")
-    # subject relationship can be added if needed, but not required for now
 
 
 class LearningPreference(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -63,8 +62,16 @@ class LearningPreference(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # simple, standard, detailed
     explanation_depth: Mapped[str] = mapped_column(String(20), nullable=False, default="standard")
 
-    # true/false
+    # true/false (Maps to "Examples first" card)
     examples_first: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+
+    # true/false (Maps to "Visual breakdowns" card)
+    visual_learner: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+
+    # true/false (Maps to "Practice questions" card)
+    practice_heavy: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    
+    auditory_narrations: Mapped[bool] = mapped_column(Boolean, default=False)
 
     # slow, normal, fast
     pace: Mapped[str] = mapped_column(String(20), nullable=False, default="normal")

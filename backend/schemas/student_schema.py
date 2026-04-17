@@ -34,6 +34,9 @@ class Pace(str, enum.Enum):
 class LearningPreferenceUpdateRequest(BaseModel):
     explanation_depth: Optional[ExplanationDepth] = None
     examples_first: Optional[bool] = None
+    visual_learner: Optional[bool] = None  # Maps to "Visual breakdowns"
+    practice_heavy: Optional[bool] = None  # Maps to "Practice questions"
+    auditory_narrations: Optional[bool] = None
     pace: Optional[Pace] = None
 
     model_config = ConfigDict(
@@ -97,6 +100,8 @@ class LearningPreferenceResponse(BaseModel):
     student_id: UUID
     explanation_depth: str
     examples_first: bool
+    visual_learner: bool
+    practice_heavy: bool
     pace: str
     updated_at: datetime
 

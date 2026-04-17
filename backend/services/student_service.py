@@ -115,6 +115,9 @@ class StudentService:
             student_id=pref.student_profile.student_id,
             explanation_depth=pref.explanation_depth,
             examples_first=pref.examples_first,
+            visual_learner=pref.visual_learner,
+            practice_heavy=pref.practice_heavy,
+            auditory_narrations=pref.auditory_narrations,
             pace=pref.pace,
             updated_at=pref.updated_at
         )

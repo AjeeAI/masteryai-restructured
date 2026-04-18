@@ -132,31 +132,36 @@ async def generate_lesson_content(data: dict):
     
     try:
         # STEP 1: Generate Text Structure (Gemini 2.5 Flash)
+        logger.info("🧠 [ENGINE TRACE] Master prompt built. Dispatching to text LLM...")
         raw_response = await llm_client.generate(prompt)
         parsed = _extract_json(raw_response)
         
         final_blocks = parsed.get("content_blocks", [])
         
-        # STEP 2: The Multimodal Pipeline (Gemini 3 Flash Image + Cloudinary)
+        # STEP 2: The Multimodal Pipeline (Gemini Developer API + Cloudinary)
         for block in final_blocks:
             if block.get("type") == "image":
                 image_prompt = block.get("content")
                 
                 try:
-                    logger.info(f"Generating image for: {image_prompt[:50]}...")
+                    logger.info(f"🚀 [ENGINE TRACE] Starting Image Gen Pipeline for prompt: {image_prompt[:50]}...")
                     
-                    # Call Nano Banana 2
-                    image_bytes = await llm_client.generate_image(
+                    # Call Gemini Image API
+                    image_data_uri = await llm_client.generate_image(
                         prompt=image_prompt
                     )
                     
-                    if not image_bytes:
+                    if not image_data_uri:
+                        logger.error("🚨 [ENGINE TRACE] llm_client.generate_image returned None! The API call failed.")
                         raise ValueError("LLM returned None for image, skipping Cloudinary upload.")
+                    
+                    logger.info(f"✅ [ENGINE TRACE] Image Generated Successfully! Data URI length: {len(image_data_uri)}")
+                    logger.info("☁️ [ENGINE TRACE] Uploading to Cloudinary...")
                     
                     # Async Upload to Cloudinary
                     upload_res = await asyncio.to_thread(
                         cloudinary.uploader.upload,
-                        image_bytes,
+                        image_data_uri,
                         folder="masteryai/lesson_visuals",
                         resource_type="image"
                     )
@@ -169,11 +174,15 @@ async def generate_lesson_content(data: dict):
                         secure=True
                     )
                     
+                    logger.info(f"✅ [ENGINE TRACE] Cloudinary Success! URL: {optimized_url}")
+                    
                     block["url"] = optimized_url
                     block["content"] = "Visual aid for this lesson."
                     
                 except Exception as img_err:
-                    logger.warning(f"Media generation failed: {img_err}")
+                    # exc_info=True forces the full stack trace into the Render logs
+                    logger.error(f"❌ [ENGINE TRACE] CRITICAL MEDIA FAILURE: {str(img_err)}", exc_info=True)
+                    
                     # Fallback to text so the UI doesn't break
                     block["type"] = "text"
                     block["content"] = f"[Visual Aid: {image_prompt}]"
@@ -191,5 +200,5 @@ async def generate_lesson_content(data: dict):
         }
 
     except Exception as e:
-        logger.error(f"Lesson Engine Crash: {e}", exc_info=True)
+        logger.error(f"❌ [ENGINE TRACE] Lesson Engine Crash: {e}", exc_info=True)
         raise

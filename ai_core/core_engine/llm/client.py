@@ -77,7 +77,7 @@ class LLMClient:
             )
             return response.text
         except Exception as e:
-            logger.error(f"Gemini API Core Failure: {e}")
+            logger.error(f"Gemini API Core Failure: {e}", exc_info=True)
             raise
 
     async def _generate_openai(self, attempt: _ProviderAttempt, prompt: str) -> str:
@@ -99,7 +99,6 @@ class LLMClient:
         model = (self.model or "gemini-2.5-flash").strip()
         
         # --- BULLETPROOF OVERRIDE ---
-        # If the model name looks like an old preview or wrong provider, fix it.
         if provider == "gemini" and ("openai" in model or "3-flash-preview" in model):
             logger.warning(f"Fixing invalid Gemini model string '{model}' to 'gemini-2.5-flash'")
             model = "gemini-2.5-flash"
@@ -125,56 +124,67 @@ class LLMClient:
             return str(content).strip()
 
         except Exception as exc:
-            # We already log specifics in the provider methods; this is the final catch-all.
             raise LLMClientError(f"AI Core Engine Error ({provider}): {str(exc)}")
     
     async def generate_image(self, prompt: str) -> Optional[str]:
         """Asynchronously generates an image using the Gemini Developer API."""
         provider = (self.provider or "gemini").strip().lower()
+        logger.info(f"🔍 [CLIENT TRACE] generate_image initialized. Provider: {provider}")
+        
         if provider != "gemini":
-            logger.warning("Image generation only supported via Gemini SDK.")
+            logger.warning("⚠️ [CLIENT TRACE] Image generation bypassed. Only supported via Gemini SDK.")
             return None
             
         api_key = self._resolve_api_key(provider)
+        logger.info("🔑 [CLIENT TRACE] API key resolved successfully.")
         
         try:
             from google import genai
             from google.genai import types
             import base64
         except ModuleNotFoundError:
+            logger.critical("🚨 [CLIENT TRACE] google-genai module missing!")
             raise LLMClientError("Missing dependency: pip install google-genai")
 
         client = genai.Client(api_key=api_key)
 
         try:
-            logger.info(f"Requesting image generation for prompt: {prompt[:50]}...")
+            target_model = 'gemini-2.5-flash-image'
+            logger.info(f"🚀 [CLIENT TRACE] Dispatching to {target_model} with prompt length: {len(prompt)}")
             
-            # The unified generate_content endpoint is what AI Studio keys use!
             response = await client.aio.models.generate_content(
-                model='gemini-2.5-flash-image', 
+                model=target_model, 
                 contents=prompt,
                 config=types.GenerateContentConfig(
-                    response_modalities=["IMAGE"], # Forces the model to return an image
+                    response_modalities=["IMAGE"],
                     image_config=types.ImageConfig(
-                        aspect_ratio="16:9" # Keeps your lesson headers perfectly sized
+                        aspect_ratio="16:9" 
                     )
                 )
             )
             
-            # Extract the image from the response parts
+            logger.info("✅ [CLIENT TRACE] Google API responded. Analyzing payload...")
+            
             if response.parts:
-                for part in response.parts:
+                logger.info(f"📦 [CLIENT TRACE] Payload contains {len(response.parts)} parts.")
+                for idx, part in enumerate(response.parts):
                     if part.inline_data:
+                        logger.info(f"🖼️ [CLIENT TRACE] Part {idx} contains inline_data. Extracting bytes...")
                         image_bytes = part.inline_data.data
                         base64_encoded = base64.b64encode(image_bytes).decode('utf-8')
                         mime_type = getattr(part.inline_data, 'mime_type', 'image/jpeg')
                         
-                        logger.info("Successfully generated and encoded image!")
+                        logger.info("✨ [CLIENT TRACE] Extraction and Base64 encoding complete!")
                         return f"data:{mime_type};base64,{base64_encoded}"
+                    else:
+                        logger.warning(f"⚠️ [CLIENT TRACE] Part {idx} exists but has NO inline_data. Content: {part}")
+            else:
+                logger.warning("⚠️ [CLIENT TRACE] response.parts is entirely empty or None!")
             
-            logger.error("API returned success but no image data was found.")
+            logger.error("❌ [CLIENT TRACE] End of function reached. API succeeded but no valid image data was parsed.")
             return None
                 
         except Exception as e:
-            logger.error(f"Image generation failed: {e}")
+            # exc_info=True dumps the full stack trace to the terminal
+            logger.error(f"❌ [CLIENT TRACE] CRITICAL FAILURE during image generation: {e}", exc_info=True)
             return None

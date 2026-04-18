@@ -150,6 +150,9 @@ async def generate_lesson_content(data: dict):
                         prompt=image_prompt
                     )
                     
+                    if not image_bytes:
+                        raise ValueError("LLM returned None for image, skipping Cloudinary upload.")
+                    
                     # Async Upload to Cloudinary
                     upload_res = await asyncio.to_thread(
                         cloudinary.uploader.upload,

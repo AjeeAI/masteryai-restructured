@@ -129,13 +129,10 @@ class LLMClient:
             raise LLMClientError(f"AI Core Engine Error ({provider}): {str(exc)}")
     
     async def generate_image(self, prompt: str) -> Optional[str]:
-        """
-        Asynchronously generates an image using Imagen 3 via the Gemini SDK.
-        Returns the raw base64 string of the image.
-        """
+        """Asynchronously generates an image using the Gemini Developer API."""
         provider = (self.provider or "gemini").strip().lower()
         if provider != "gemini":
-            logger.warning(f"Image generation currently only supported via Gemini SDK. Skipping for provider: {provider}")
+            logger.warning("Image generation only supported via Gemini SDK.")
             return None
             
         api_key = self._resolve_api_key(provider)
@@ -143,50 +140,40 @@ class LLMClient:
         try:
             from google import genai
             from google.genai import types
+            import base64
         except ModuleNotFoundError:
             raise LLMClientError("Missing dependency: pip install google-genai")
 
-        # Initialize the synchronous client. 
-        # (Note: imagen currently does not have full aio support in the genai SDK, 
-        # so we run it in a threadpool to avoid blocking the event loop)
         client = genai.Client(api_key=api_key)
-        
-        config = types.GenerateImagesConfig(
-            number_of_images=1,
-            output_mime_type="image/jpeg",
-            aspect_ratio="16:9" # Great for lesson headers
-        )
 
         try:
             logger.info(f"Requesting image generation for prompt: {prompt[:50]}...")
             
-            import asyncio
-            loop = asyncio.get_running_loop()
-            
-            # Run the synchronous generate_images call in a separate thread
-            response = await loop.run_in_executor(
-                None, 
-                lambda: client.models.generate_images(
-                    model='imagen-3.0-generate-001',
-                    prompt=prompt,
-                    config=config
+            # The unified generate_content endpoint is what AI Studio keys use!
+            response = await client.aio.models.generate_content(
+                model='gemini-2.5-flash-image', 
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    response_modalities=["IMAGE"], # Forces the model to return an image
+                    image_config=types.ImageConfig(
+                        aspect_ratio="16:9" # Keeps your lesson headers perfectly sized
+                    )
                 )
             )
             
-            if response.generated_images and len(response.generated_images) > 0:
-                # The SDK returns the image as bytes. 
-                # We need to convert it to a base64 string for easier frontend handling/uploading
-                import base64
-                image_bytes = response.generated_images[0].image.image_bytes
-                base64_encoded = base64.b64encode(image_bytes).decode('utf-8')
-                
-                # Format it as a proper data URI
-                data_uri = f"data:image/jpeg;base64,{base64_encoded}"
-                logger.info("Successfully generated and encoded image via Imagen 3.")
-                return data_uri
-            else:
-                logger.error("Imagen API returned no images.")
-                return None
+            # Extract the image from the response parts
+            if response.parts:
+                for part in response.parts:
+                    if part.inline_data:
+                        image_bytes = part.inline_data.data
+                        base64_encoded = base64.b64encode(image_bytes).decode('utf-8')
+                        mime_type = getattr(part.inline_data, 'mime_type', 'image/jpeg')
+                        
+                        logger.info("Successfully generated and encoded image!")
+                        return f"data:{mime_type};base64,{base64_encoded}"
+            
+            logger.error("API returned success but no image data was found.")
+            return None
                 
         except Exception as e:
             logger.error(f"Image generation failed: {e}")

@@ -57,7 +57,7 @@ def _extract_json(text: str) -> dict:
 async def generate_lesson_content(data: dict):
     """
     Generates a personalized lesson payload.
-    Orchestrates Gemini 2.5 Flash (Text) and Gemini 3 Flash Image (Visuals).
+    Orchestrates Gemini 2.5 Flash (Text) and Gemini Image (Visuals) with retry logic.
     """
     
     subject_lower = str(data.get('subject', '')).lower()
@@ -131,10 +131,21 @@ async def generate_lesson_content(data: dict):
     """
     
     try:
-        # STEP 1: Generate Text Structure (Gemini 2.5 Flash)
-        logger.info("🧠 [ENGINE TRACE] Master prompt built. Dispatching to text LLM...")
-        raw_response = await llm_client.generate(prompt)
-        parsed = _extract_json(raw_response)
+        # STEP 1: Generate Text Structure (Gemini 2.5 Flash) WITH RETRY LOGIC
+        max_retries = 3
+        parsed = None
+        
+        for attempt in range(max_retries):
+            try:
+                logger.info(f"🧠 [ENGINE TRACE] Dispatching to text LLM (Attempt {attempt + 1}/{max_retries})...")
+                raw_response = await llm_client.generate(prompt)
+                parsed = _extract_json(raw_response)
+                break  # Success! Break out of the retry loop
+            except Exception as parse_err:
+                logger.warning(f"⚠️ [ENGINE TRACE] Output parsing failed on attempt {attempt + 1}: {parse_err}")
+                if attempt == max_retries - 1:
+                    logger.error("❌ [ENGINE TRACE] Max retries reached for text generation.")
+                    raise  # If it fails 3 times, let it crash to trigger the 500
         
         final_blocks = parsed.get("content_blocks", [])
         

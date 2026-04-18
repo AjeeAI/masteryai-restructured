@@ -147,7 +147,6 @@ async def generate_lesson_content(data: dict):
                     
                     # Call Nano Banana 2
                     image_bytes = await llm_client.generate_image(
-                        model="gemini-3-flash-image", 
                         prompt=image_prompt
                     )
                     

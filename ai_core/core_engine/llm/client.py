@@ -167,7 +167,7 @@ class LLMClient:
             response = await loop.run_in_executor(
                 None, 
                 lambda: client.models.generate_images(
-                    model='imagen-3.0-generate-001',
+                    model='gemini-3.0-flash-image', # <-- Update this line
                     prompt=prompt,
                     config=config
                 )

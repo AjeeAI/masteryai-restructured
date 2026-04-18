@@ -90,7 +90,9 @@ async def generate_lesson_content(data: dict):
     if is_visual:
         style_segments.append(
             "USER PREFERENCE - VISUAL: Include exactly ONE block with type 'image'. "
-            "The 'content' must be a detailed prompt for an educational illustration."
+            "The 'content' must be a highly descriptive, literal prompt for an educational illustration. "
+            "STRICT RULES FOR IMAGES: If the topic is abstract (like Math), prompt for a specific infographic, chart, or a literal real-world scenario (e.g., 'A scientist measuring a beaker', 'A ruler measuring a block'). "
+            "ABSOLUTELY NO fantasy, no metaphors, no fictional book covers, and no abstract art. Keep it strictly academic and realistic."
         )
     
     if is_practical or examples_first:
@@ -117,7 +119,7 @@ async def generate_lesson_content(data: dict):
       "estimated_duration_minutes": 15,
       "content_blocks": [
         {{ "type": "text", "content": "..." }},
-        {{ "type": "image", "content": "PROMPT_FOR_ILLUSTRATION" }},
+        {{ "type": "image", "content": "<WRITE YOUR HIGHLY DESCRIPTIVE IMAGE PROMPT HERE>" }},
         {{ "type": "exercise", "content": "..." }}
       ]
     }}
@@ -148,6 +150,7 @@ async def generate_lesson_content(data: dict):
                     raise  # If it fails 3 times, let it crash to trigger the 500
         
         final_blocks = parsed.get("content_blocks", [])
+        valid_blocks = [] # Array to hold only successful blocks
         
         # STEP 2: The Multimodal Pipeline (Gemini Developer API + Cloudinary)
         for block in final_blocks:
@@ -163,8 +166,7 @@ async def generate_lesson_content(data: dict):
                     )
                     
                     if not image_data_uri:
-                        logger.error("🚨 [ENGINE TRACE] llm_client.generate_image returned None! The API call failed.")
-                        raise ValueError("LLM returned None for image, skipping Cloudinary upload.")
+                        raise ValueError("LLM returned None for image.")
                     
                     logger.info(f"✅ [ENGINE TRACE] Image Generated Successfully! Data URI length: {len(image_data_uri)}")
                     logger.info("☁️ [ENGINE TRACE] Uploading to Cloudinary...")
@@ -189,21 +191,23 @@ async def generate_lesson_content(data: dict):
                     
                     block["url"] = optimized_url
                     block["content"] = "Visual aid for this lesson."
+                    valid_blocks.append(block) # Image succeeded, add it to the valid list
                     
                 except Exception as img_err:
-                    # exc_info=True forces the full stack trace into the Render logs
-                    logger.error(f"❌ [ENGINE TRACE] CRITICAL MEDIA FAILURE: {str(img_err)}", exc_info=True)
-                    
-                    # Fallback to text so the UI doesn't break
-                    block["type"] = "text"
-                    block["content"] = f"[Visual Aid: {image_prompt}]"
+                    logger.warning(f"⚠️ [ENGINE TRACE] Image generation failed ({img_err}). Silently dropping visual block.")
+                    # We simply DO NOT append the block to valid_blocks. 
+                    # The loop moves on, and the image vanishes like it never existed.
+                    continue 
+            else:
+                 # If it's a text or exercise block, it's always valid
+                 valid_blocks.append(block)
 
-        # STEP 3: Return final sanitized payload
+        # STEP 3: Return final sanitized payload using ONLY the valid blocks
         return {
             "title": parsed.get("title") or data['topic_title'],
             "summary": parsed.get("summary") or f"A lesson on {data['topic_title']}",
             "estimated_duration_minutes": parsed.get("estimated_duration_minutes") or 15,
-            "content_blocks": final_blocks,
+            "content_blocks": valid_blocks, # <-- Return the filtered list here!
             "generation_metadata": {
                 "model": llm_client.model,
                 "engine": "v3_multimodal_lesson_engine"

@@ -52,7 +52,8 @@ class TutorChatOut(BaseModel):
     next_action: str | None = None
     recommended_assessment: str | None = None
     recommended_topic_title: str | None = None
-
+    # --- NEW FIELD FOR UI WIDGETS ---
+    interactive_widget: dict | None = None
 
 class TutorQuickActionOut(BaseModel):
     id: str

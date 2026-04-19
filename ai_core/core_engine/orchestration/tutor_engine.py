@@ -984,7 +984,8 @@ def _structured_tutor_prompt(
         '  "concept_focus": ["string"],\n'
         '  "prerequisite_warning": "string or empty",\n'
         '  "next_action": "string",\n'
-        '  "recommended_assessment": "string or empty"\n'
+        '  "recommended_assessment": "string or empty",\n'
+        '  "interactive_widget": { "type": "multiple_choice", "question": "string", "options": ["A", "B", "C", "D"], "correct_answer": "string" } // OR null if no widget needed\n'
         "}\n"
         "Rules:\n"
         "- assistant_message must be engaging, concise, and lesson-specific, not generic.\n"
@@ -998,8 +999,9 @@ def _structured_tutor_prompt(
         "- prerequisite_warning should be empty if not needed.\n"
         "- next_action must tell the student exactly what to do next.\n"
         "- recommended_assessment should suggest one check if useful, else empty.\n"
+        "- INTERACTIVE WIDGET RULE: If the mode is 'socratic', 'drill', or 'exam-practice', you MUST output an interactive_widget containing a 1-question multiple-choice quiz related to the topic. Do NOT put the question or options in the assistant_message.\n"
+        "- If the mode is 'teach', 'recap', or 'diagnose', set interactive_widget to null.\n"
     )
-
 
 def _validate_structured_tutor_payload(
     parsed: dict | None,
@@ -1038,6 +1040,12 @@ def _validate_structured_tutor_payload(
     prerequisite_warning = " ".join(str(parsed.get("prerequisite_warning") or "").split()).strip() or None
     next_action = " ".join(str(parsed.get("next_action") or "").split()).strip() or None
     recommended_assessment = " ".join(str(parsed.get("recommended_assessment") or "").split()).strip() or None
+    
+    # Extract the new widget!
+    interactive_widget = parsed.get("interactive_widget")
+    if not isinstance(interactive_widget, dict) or "type" not in interactive_widget:
+        interactive_widget = None
+
     return TutorChatResponse(
         assistant_message=assistant_message,
         citations=citations,
@@ -1052,9 +1060,9 @@ def _validate_structured_tutor_payload(
         recommended_topic_title=(
             str(dict((graph_context or {}).get("next_unlock") or {}).get("topic_title") or "").strip() or None
         ),
+        interactive_widget=interactive_widget, # Pass it to the response
     )
-
-
+    
 def _plain_text_tutor_payload(
     raw: str,
     *,

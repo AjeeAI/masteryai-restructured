@@ -28,6 +28,7 @@ const LessonPage = () => {
   // --- UI STATE ---
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 1024);
   const [isChatOpen, setIsChatOpen] = useState(window.innerWidth > 1280); 
+  const [isChatMaximized, setIsChatMaximized] = useState(false); // Tracks fullscreen chat
 
   // --- CORE DATA STATES ---
   const [bootstrap, setBootstrap] = useState(null);
@@ -121,7 +122,11 @@ const LessonPage = () => {
       </div>
 
       {/* AI CHAT PANEL */}
-      <div className={`bg-white border-l border-slate-200 transition-all duration-300 flex-shrink-0 flex flex-col fixed inset-y-0 right-0 z-50 lg:relative ${isChatOpen ? 'w-full sm:w-[400px] translate-x-0' : 'w-0 translate-x-full lg:hidden'}`}>
+      <div className={`bg-white border-l border-slate-200 transition-all duration-300 flex flex-col right-0 ${
+        isChatMaximized 
+          ? 'fixed inset-0 z-[9999] w-full h-full' 
+          : `fixed inset-y-0 z-50 lg:relative flex-shrink-0 ${isChatOpen ? 'w-full sm:w-[400px] translate-x-0' : 'w-0 translate-x-full lg:hidden'}`
+      }`}>
         {bootstrap && (
             <AITutorPanel 
                 activeId={activeId}
@@ -133,7 +138,12 @@ const LessonPage = () => {
                 topicId={topicId}
                 initialGreeting={bootstrap.greeting}
                 initialPendingAssessment={bootstrap.pending_assessment}
-                onClose={() => setIsChatOpen(false)}
+                isMaximized={isChatMaximized}
+                onToggleMaximize={() => setIsChatMaximized(!isChatMaximized)}
+                onClose={() => {
+                  setIsChatOpen(false);
+                  setIsChatMaximized(false);
+                }}
             />
         )}
       </div>

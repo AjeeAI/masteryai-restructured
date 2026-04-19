@@ -982,10 +982,10 @@ def _structured_tutor_prompt(
         '  "assistant_message": "string",\n'
         '  "key_points": ["string"],\n'
         '  "concept_focus": ["string"],\n'
-        '  "prerequisite_warning": "string or null",\n'
-        '  "next_action": "string or null",\n'
-        '  "recommended_assessment": "string or null",\n'
-        '  "interactive_widget": { "type": "multiple_choice", "question": "string", "options": ["A", "B", "C", "D"], "correct_answer": "string" } // OR null\n'
+        '  "prerequisite_warning": "string",\n'
+        '  "next_action": "string",\n'
+        '  "recommended_assessment": "string",\n'
+        '  "interactive_widget": { "type": "multiple_choice", "question": "string", "options": ["string", "string", "string", "string"], "correct_answer": "string" }\n'
         "}\n\n"
         "*** CRITICAL INTERACTIVE WIDGET RULES ***\n"
         "1. If the mode is 'socratic', 'drill', or 'exam-practice', you MUST generate an interactive_widget.\n"

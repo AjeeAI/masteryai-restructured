@@ -54,7 +54,12 @@ class TutorRecommendation(BaseModel):
     topic_title: Optional[str] = None
     reason: str
 
-
+class InteractiveWidget(BaseModel):
+    type: Literal["multiple_choice"]
+    question: str
+    options: List[str]
+    correct_answer: str
+    
 class TutorChatResponse(BaseModel):
     assistant_message: str
     citations: List[Citation] = Field(default_factory=list)
@@ -67,7 +72,7 @@ class TutorChatResponse(BaseModel):
     next_action: Optional[str] = None
     recommended_assessment: Optional[str] = None
     recommended_topic_title: Optional[str] = None
-
+    interactive_widget: Optional[InteractiveWidget] = None # <--- ADD THIS LINE
 
 class TutorAssessmentStartRequest(BaseModel):
     student_id: str
@@ -188,3 +193,4 @@ class TutorStudyPlanRequest(BaseModel):
     term: Literal[1, 2, 3]
     topic_id: str
     horizon_days: int = Field(default=7, ge=1, le=21)
+

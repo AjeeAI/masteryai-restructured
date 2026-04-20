@@ -39,6 +39,10 @@ class TutorChatIn(BaseModel):
     mode: Literal["teach", "socratic", "diagnose", "drill", "recap", "exam-practice"] | None = None
     message: str = Field(min_length=1, max_length=4000)
 
+class InlineMasteryUpdate(BaseModel):
+    concept_label: str
+    score_delta: float
+    reason: str
 
 class TutorChatOut(BaseModel):
     assistant_message: str
@@ -54,6 +58,8 @@ class TutorChatOut(BaseModel):
     recommended_topic_title: str | None = None
     # --- NEW FIELD FOR UI WIDGETS ---
     interactive_widget: dict | None = None
+    inline_mastery_update: InlineMasteryUpdate | None = None
+
 
 class TutorQuickActionOut(BaseModel):
     id: str

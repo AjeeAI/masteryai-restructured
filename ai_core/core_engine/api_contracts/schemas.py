@@ -59,7 +59,12 @@ class InteractiveWidget(BaseModel):
     question: str
     options: List[str]
     correct_answer: str
-    
+
+class InlineMasteryUpdate(BaseModel):
+    concept_label: str
+    score_delta: float
+    reason: str
+       
 class TutorChatResponse(BaseModel):
     assistant_message: str
     citations: List[Citation] = Field(default_factory=list)
@@ -73,7 +78,8 @@ class TutorChatResponse(BaseModel):
     recommended_assessment: Optional[str] = None
     recommended_topic_title: Optional[str] = None
     interactive_widget: Optional[InteractiveWidget] = None # <--- ADD THIS LINE
-
+    inline_mastery_update: Optional[InlineMasteryUpdate] = None
+    
 class TutorAssessmentStartRequest(BaseModel):
     student_id: str
     session_id: str

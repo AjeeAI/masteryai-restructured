@@ -960,7 +960,7 @@ def _structured_tutor_prompt(
         "Return ONLY a single, valid JSON object. Do not use markdown code blocks (```json). Just return the raw JSON.\n"
         "Use lesson context as primary grounding, graph/mastery context as adaptive guidance, and retrieved chunks as evidence.\n"
         "Do not fabricate facts, sources, or topic progression.\n"
-        "Never claim mastery updates happened.\n"
+        "Never claim mastery updates happened in the visible text.\n"
         "Do not mention internal IDs in visible text.\n\n"
         f"Mode: {mode}\n"
         f"Mode guidance: {mode_guidance}\n"
@@ -985,29 +985,34 @@ def _structured_tutor_prompt(
         '  "prerequisite_warning": "string",\n'
         '  "next_action": "string",\n'
         '  "recommended_assessment": "string",\n'
-        '  "interactive_widget": { "type": "multiple_choice", "question": "string", "options": ["string", "string", "string", "string"], "correct_answer": "string" }\n'
+        '  "interactive_widget": { "type": "multiple_choice", "question": "string", "options": ["string", "string", "string", "string"], "correct_answer": "string" },\n'
+        '  "inline_mastery_update": { "concept_label": "string", "score_delta": 0.1, "reason": "string" }\n'
         "}\n\n"
         "*** CRITICAL INTERACTIVE WIDGET RULES ***\n"
         "1. If the mode is 'socratic', 'drill', or 'exam-practice', you MUST generate an interactive_widget.\n"
-        "2. FATAL ERROR: Do NOT put the quiz question or the options inside the 'assistant_message' string. The 'assistant_message' MUST ONLY contain a brief intro (e.g., 'Let us test your knowledge.').\n"
+        "2. FATAL ERROR: Do NOT put the quiz question or the options inside the 'assistant_message'. The 'assistant_message' MUST ONLY contain a brief intro (e.g., 'Let us test your knowledge.').\n"
         "3. If the mode is 'teach', 'recap', or 'diagnose', set 'interactive_widget' to null.\n\n"
-        "*** PERFECT EXAMPLE OF SOCRATIC/QUIZ OUTPUT ***\n"
+        "*** AGENTIC MASTERY GRADING RULES ***\n"
+        "1. You are an autonomous grader. If the user's message answers a previous quiz or demonstrates new knowledge, you MUST output an 'inline_mastery_update'.\n"
+        "2. 'score_delta' must be a float: +0.1 (correct), +0.05 (partial), -0.05 (minor error), or -0.1 (completely wrong).\n"
+        "3. 'reason' must briefly explain the score.\n"
+        "4. If the user is just saying hello or asking a new question, set 'inline_mastery_update' to null.\n\n"
+        "*** PERFECT EXAMPLE OUTPUT ***\n"
         "{\n"
-        '  "assistant_message": "Let us check your understanding of this concept before we move on.",\n'
+        '  "assistant_message": "Spot on! Private individuals control production in a capitalist democracy.",\n'
         '  "key_points": ["Capitalism involves private ownership.", "Democracy involves citizen participation."],\n'
         '  "concept_focus": ["Capitalist Democracy"],\n'
         '  "prerequisite_warning": null,\n'
-        '  "next_action": "Select an option below.",\n'
+        '  "next_action": "Let us move to the next concept.",\n'
         '  "recommended_assessment": null,\n'
-        '  "interactive_widget": {\n'
-        '    "type": "multiple_choice",\n'
-        '    "question": "In a Capitalist Democracy, who primarily controls the major means of production?",\n'
-        '    "options": ["The Government", "Private Individuals", "The Military", "Foreign Nations"],\n'
-        '    "correct_answer": "Private Individuals"\n'
+        '  "interactive_widget": null,\n'
+        '  "inline_mastery_update": {\n'
+        '    "concept_label": "Capitalist Democracy",\n'
+        '    "score_delta": 0.1,\n'
+        '    "reason": "Correctly identified the role of private individuals."\n'
         '  }\n'
         "}\n"
     )
-    
 def _validate_structured_tutor_payload(
     parsed: dict | None,
     *,
@@ -1046,10 +1051,24 @@ def _validate_structured_tutor_payload(
     next_action = " ".join(str(parsed.get("next_action") or "").split()).strip() or None
     recommended_assessment = " ".join(str(parsed.get("recommended_assessment") or "").split()).strip() or None
     
-    # Extract the new widget!
+    # Extract the widget
     interactive_widget = parsed.get("interactive_widget")
     if not isinstance(interactive_widget, dict) or "type" not in interactive_widget:
         interactive_widget = None
+
+    # --- NEW: EXTRACT & TRIGGER MASTERY UPDATE ---
+    inline_mastery_update = parsed.get("inline_mastery_update")
+    if isinstance(inline_mastery_update, dict) and "score_delta" in inline_mastery_update:
+        # AGENTIC ACTION: In a real system, you would fire an async task here to hit your Postgres DB.
+        # For now, we log it so we can verify the agent is making the decision!
+        logger.info(
+            "🔥 AGENT TRIGGERED MASTERY UPDATE: Concept '%s', Delta: %s, Reason: '%s'",
+            inline_mastery_update.get("concept_label"),
+            inline_mastery_update.get("score_delta"),
+            inline_mastery_update.get("reason")
+        )
+    else:
+        inline_mastery_update = None
 
     return TutorChatResponse(
         assistant_message=assistant_message,
@@ -1065,7 +1084,8 @@ def _validate_structured_tutor_payload(
         recommended_topic_title=(
             str(dict((graph_context or {}).get("next_unlock") or {}).get("topic_title") or "").strip() or None
         ),
-        interactive_widget=interactive_widget, # Pass it to the response
+        interactive_widget=interactive_widget,
+        inline_mastery_update=inline_mastery_update, # Pass it to the response
     )
     
 def _plain_text_tutor_payload(

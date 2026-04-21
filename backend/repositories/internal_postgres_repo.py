@@ -273,31 +273,49 @@ class InternalPostgresRepository:
         return [row["student_id"] for row in rows]
 
     def upsert_concept_mastery(
-        self, *, user_id: str, concept_label: str, mastery_delta: float
+        self, *, user_id: str, topic_id: str, concept_label: str, mastery_delta: float
     ) -> None:
-        """Upsert concept mastery row using the concept label."""
-        # 1. Resolve the label to a concept_id and scope
-        resolve_sql = text("""
-            SELECT m.concept_id, s.slug as subject, t.sss_level, t.term 
-            FROM curriculum_topic_maps m
-            JOIN topics t ON t.id = m.topic_id
+        """Upsert concept mastery, falling back to the topic level if the specific concept isn't mapped."""
+        
+        # Step 1: Resolve the Subject, Level, and Term from the active Topic ID
+        # This is much safer than trying to guess the scope from the concept string.
+        scope_sql = text("""
+            SELECT s.slug as subject, t.sss_level, t.term 
+            FROM topics t
             JOIN subjects s ON s.id = t.subject_id
-            WHERE m.concept_id = :label OR m.concept_id ILIKE :like_label
+            WHERE t.id = :topic_id::uuid
+        """)
+        
+        scope_row = self.db.execute(scope_sql, {"topic_id": topic_id}).fetchone()
+        
+        if not scope_row:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"Agentic Update Failed: Could not resolve scope for topic_id {topic_id}")
+            return
+            
+        db_subject, db_sss_level, db_term = scope_row
+
+        # Step 2: Try to find a specific concept_id mapping
+        resolve_sql = text("""
+            SELECT concept_id
+            FROM curriculum_topic_maps
+            WHERE topic_id = :topic_id::uuid
+              AND (LOWER(concept_id) = LOWER(:label) OR LOWER(concept_id) LIKE LOWER(:like_label))
             LIMIT 1
         """)
         
-        row = self.db.execute(resolve_sql, {
-            "label": concept_label, 
-            "like_label": f"%{concept_label}%"
+        concept_row = self.db.execute(resolve_sql, {
+            "topic_id": topic_id,
+            "label": concept_label.strip(), 
+            "like_label": f"%{concept_label.strip()}%"
         }).fetchone()
         
-        if not row:
-            # If we can't map the string label to a curriculum node, we cannot save it.
-            raise ValueError(f"Could not resolve concept label '{concept_label}' to a valid curriculum concept.")
-            
-        db_concept_id, db_subject, db_sss_level, db_term = row
+        # FALLBACK: If no specific concept maps to this string, just use the string itself as the ID!
+        # Because the student is in this topic, any mastery they demonstrate belongs to this topic's umbrella.
+        final_concept_id = concept_row[0] if concept_row else concept_label.strip()
         
-        # 2. Perform the safe UPSERT
+        # Step 3: Perform the safe UPSERT
         upsert_sql = text("""
             INSERT INTO student_concept_mastery (
                 student_id, subject, sss_level, term, concept_id, mastery_score, source, last_evaluated_at, created_at, updated_at
@@ -321,7 +339,7 @@ class InternalPostgresRepository:
             "subject": db_subject,
             "sss_level": db_sss_level,
             "term": db_term,
-            "concept_id": db_concept_id,
+            "concept_id": final_concept_id,
             "delta": float(mastery_delta)
         })
         self.db.commit()

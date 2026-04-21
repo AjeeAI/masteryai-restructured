@@ -118,6 +118,7 @@ def update_inline_mastery(
     try:
         _service(db).update_inline_mastery(
             student_id=payload.student_id,
+            topic_id=payload.topic_id,
             concept_label=payload.concept_label,
             score_delta=payload.score_delta,
             reason=payload.reason

@@ -146,6 +146,7 @@ async def _trigger_agentic_mastery_update(student_id: UUID, update_data: dict):
             f"{_internal_postgres_base_url()}/mastery/inline-update",
             payload={
                 "student_id": str(student_id),
+                "topic_id": str(update_data.get("topic_id")),
                 "concept_label": update_data.get("concept_label"),
                 "score_delta": update_data.get("score_delta"),
                 "reason": update_data.get("reason")

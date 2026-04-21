@@ -344,7 +344,9 @@ class LearningPathService:
             sss_level=sss_level,
             term=term,
         )
-        topic_rows, _, prereqs_by_concept, unmapped_topics = self._topic_graph(
+        
+        # We capture concept_to_topic instead of discarding it
+        topic_rows, concept_to_topic, prereqs_by_concept, unmapped_topics = self._topic_graph(
             topics=topics,
             rows=rows,
             mastery_map=mastery_map,
@@ -363,9 +365,27 @@ class LearningPathService:
         edges: list[LearningMapEdgeOut] = []
         current_assigned = False
         previous_topic_id: str | None = None
+        
+        # Keep track of AI concepts we have successfully pulled in
+        processed_concepts = set()
+
         for topic in topics:
             topic_id = str(topic.id)
             concept_rows = topic_rows.get(topic_id, [])
+
+            # --- THE FIX: Inject orphaned AI Tutor scores into the active rows ---
+            for orphan_concept_id, score in mastery_map.items():
+                if orphan_concept_id not in processed_concepts and orphan_concept_id not in concept_to_topic:
+                    if not self._looks_uuid(orphan_concept_id):
+                        concept_rows.append({
+                            "concept_id": orphan_concept_id,
+                            "concept_label": self._readable_concept_label(orphan_concept_id),
+                            "topic_title": str(topic.title),
+                            "score": score,
+                            "prereqs": []
+                        })
+                        processed_concepts.add(orphan_concept_id)
+
             if not concept_rows:
                 nodes.append(
                     LearningMapNodeOut(
@@ -382,6 +402,7 @@ class LearningPathService:
                 if view == "topic":
                     previous_topic_id = topic_id
                 continue
+                
             topic_mastery = mean([float(item["score"]) for item in concept_rows]) if concept_rows else 0.0
             weakest_concept = min(concept_rows, key=lambda item: float(item["score"])) if concept_rows else None
 
@@ -423,6 +444,10 @@ class LearningPathService:
                     kind="topic" if view == "topic" else "concept",
                 )
             )
+            
+            for row in concept_rows:
+                 processed_concepts.add(str(row["concept_id"]))
+
             if view == "topic":
                 if previous_topic_id is not None:
                     edges.append(

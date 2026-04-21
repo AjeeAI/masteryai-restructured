@@ -153,7 +153,7 @@ const CoursePage = () => {
     };
     
     fetchTopicsList();
-  }, [activeId, token, subject, currentLevel, currentTerm, apiUrl]);
+  }, [activeId, token, subject, currentLevel, currentTerm, apiUrl, graphIntervention]);
 
   const displayTopics = useMemo(
     () => (Array.isArray(topics) ? topics : []).map((topic) => (

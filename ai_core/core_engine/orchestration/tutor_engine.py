@@ -13,6 +13,7 @@ import re
 import httpx  # Swapped from requests for non-blocking Async I/O
 from typing import TYPE_CHECKING
 from uuid import UUID
+import asyncio
 
 from core_engine.api_contracts.schemas import (
     Citation,
@@ -134,6 +135,28 @@ def _internal_postgres_base_url() -> str:
     return os.getenv("BACKEND_INTERNAL_POSTGRES_URL", "http://127.0.0.1:8000/api/v1/internal/postgres").strip().rstrip("/")
 
 
+
+
+async def _trigger_agentic_mastery_update(student_id: UUID, update_data: dict):
+    """Fires a background HTTP request to the internal DB to update mastery."""
+    try:
+        # NOTE: This endpoint must exist in your backend router!
+        await _request_json(
+            "POST",
+            f"{_internal_postgres_base_url()}/mastery/inline-update",
+            payload={
+                "student_id": str(student_id),
+                "concept_label": update_data.get("concept_label"),
+                "score_delta": update_data.get("score_delta"),
+                "reason": update_data.get("reason")
+            },
+            timeout=5.0
+        )
+        logger.info(f"✅ Agentic mastery successfully saved to DB for {update_data.get('concept_label')}")
+    except Exception as exc:
+        logger.error(f"❌ Failed to persist agentic mastery update to DB: {exc}")
+        
+        
 def _internal_graph_context_url() -> str:
     return os.getenv(
         "BACKEND_INTERNAL_GRAPH_CONTEXT_URL",
@@ -1287,6 +1310,19 @@ async def _run_structured_tutor_mode(
             lesson_context=lesson_context,
         )
     
+    # --- NEW: INTERCEPT AND FIRE DATABASE TRIGGER ---
+    if getattr(response, "inline_mastery_update", None):
+        # Convert Pydantic model to dict for the helper
+        update_data = response.inline_mastery_update.model_dump()
+        
+        # Fire and forget! This runs in the background so the chat UI doesn't lag.
+        asyncio.create_task(
+            _trigger_agentic_mastery_update(
+                student_id=request.student_id, 
+                update_data=update_data
+            )
+        )
+
     log_timed_event(
         logger,
         "tutor.mode",
@@ -1305,7 +1341,6 @@ async def _run_structured_tutor_mode(
         history_messages=len(list((history_context or {}).get("messages") or [])),
     )
     return response
-
 
 async def run_tutor_chat(request: TutorChatRequest) -> TutorChatResponse:
     """Run agentic tutor chat flow using retrieval tool + LLM generation."""

@@ -218,43 +218,65 @@ class PostgresRepo:
             return str(row[0]), int(row[1])
         return "SSS1", 1
 
-    def upsert_topic_mastery(
-        self, *, user_id: str, subject_id: str, topic_id: str, mastery_delta: float
+    def upsert_concept_mastery(
+        self, *, user_id: str, concept_label: str, mastery_delta: float
     ) -> None:
-        """Upsert concept mastery row using topic ID as concept anchor."""
+        """Upsert concept mastery row using the concept label. 
+        Creates the row if it doesn't exist, updates it if it does."""
+        
+        # 1. We first need to find the actual concept_id based on the label
+        # because the database primary key requires the concept_id, not just the label.
+        resolve_sql = """
+            SELECT concept_id, subject, sss_level, term 
+            FROM curriculum_topic_maps m
+            JOIN topics t ON t.id = m.topic_id
+            WHERE m.concept_id = %s OR m.concept_id ILIKE %s
+            LIMIT 1
+        """
+        
         upsert_sql = """
             INSERT INTO student_concept_mastery (
                 student_id, subject, sss_level, term, concept_id, mastery_score, source, last_evaluated_at
             )
             VALUES (
-                %s::uuid, %s, %s, %s, %s, GREATEST(0.0, LEAST(1.0, %s)), 'practice', NOW()
+                %s::uuid, %s, %s, %s, %s, GREATEST(0.0, LEAST(1.0, %s)), 'agentic_inline', NOW()
             )
             ON CONFLICT (student_id, subject, sss_level, term, concept_id)
             DO UPDATE
             SET mastery_score = GREATEST(
-                0.0,
+                0.0, 
                 LEAST(1.0, student_concept_mastery.mastery_score + EXCLUDED.mastery_score)
             ),
             source = EXCLUDED.source,
             last_evaluated_at = NOW(),
             updated_at = NOW()
         """
+        
         try:
             with self._connect() as conn:
                 with conn.cursor() as cursor:
-                    subject_slug = self._resolve_subject_slug(cursor, subject_id)
-                    sss_level, term = self._resolve_student_scope(cursor, user_id)
+                    # Step 1: Resolve the label to a real concept_id and get the scope
+                    cursor.execute(resolve_sql, (concept_label, f"%{concept_label}%"))
+                    row = cursor.fetchone()
+                    
+                    if not row:
+                        # If we can't find the concept in the curriculum map, we can't safely insert it.
+                        raise PostgresRepoError(f"Could not resolve concept label '{concept_label}' to a valid curriculum concept.")
+                        
+                    db_concept_id, db_subject, db_sss_level, db_term = row
+                    
+                    # Step 2: Perform the safe UPSERT using the resolved data
                     cursor.execute(
                         upsert_sql,
                         (
                             user_id,
-                            subject_slug,
-                            sss_level,
-                            term,
-                            topic_id,
-                            float(mastery_delta),
-                        ),
+                            db_subject,
+                            db_sss_level,
+                            db_term,
+                            db_concept_id,
+                            float(mastery_delta)
+                        )
                     )
                 conn.commit()
         except Exception as exc:
-            raise PostgresRepoError(f"Failed to upsert topic mastery: {exc}") from exc
+            raise PostgresRepoError(f"Failed to execute agentic concept mastery upsert: {exc}") from exc

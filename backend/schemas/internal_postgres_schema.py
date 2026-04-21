@@ -67,3 +67,10 @@ class InternalQuizAttemptOut(BaseModel):
 class InternalClassRosterOut(BaseModel):
     class_id: UUID
     student_ids: list[UUID]
+
+
+class InlineMasteryPayload(BaseModel):
+    student_id: UUID
+    concept_label: str
+    score_delta: float
+    reason: str

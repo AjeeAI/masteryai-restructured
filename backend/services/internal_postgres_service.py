@@ -103,3 +103,20 @@ class InternalPostgresService:
     def get_class_roster(self, class_id: UUID) -> InternalClassRosterOut:
         student_ids = self.repo.get_class_roster(class_id=class_id)
         return InternalClassRosterOut(class_id=class_id, student_ids=student_ids)
+
+    def update_inline_mastery(self, student_id: UUID, concept_label: str, score_delta: float, reason: str) -> None:
+        """Process an autonomous agentic mastery update directly from the chat tutor."""
+        
+        # 1. Safety Check: Clamp the delta so a hallucinating LLM can't give +1000 score
+        safe_delta = max(-0.2, min(0.2, float(score_delta)))
+        
+        # 2. Log the agentic action on the backend
+        print(f"🧠 [MASTERY ENGINE] Updating '{concept_label}' by {safe_delta} for {student_id}. Reason: {reason}")
+        
+        # 3. Call the repository to execute the upsert SQL we wrote earlier!
+        # Make sure your repository instance has access to the upsert_concept_mastery method.
+        self.repo.upsert_concept_mastery(
+            user_id=str(student_id),
+            concept_label=concept_label,
+            mastery_delta=safe_delta
+        )

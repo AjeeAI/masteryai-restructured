@@ -271,3 +271,57 @@ class InternalPostgresRepository:
             {"class_id": class_id},
         ).mappings().all()
         return [row["student_id"] for row in rows]
+
+    def upsert_concept_mastery(
+        self, *, user_id: str, concept_label: str, mastery_delta: float
+    ) -> None:
+        """Upsert concept mastery row using the concept label."""
+        # 1. Resolve the label to a concept_id and scope
+        resolve_sql = text("""
+            SELECT m.concept_id, s.slug as subject, t.sss_level, t.term 
+            FROM curriculum_topic_maps m
+            JOIN topics t ON t.id = m.topic_id
+            JOIN subjects s ON s.id = t.subject_id
+            WHERE m.concept_id = :label OR m.concept_id ILIKE :like_label
+            LIMIT 1
+        """)
+        
+        row = self.db.execute(resolve_sql, {
+            "label": concept_label, 
+            "like_label": f"%{concept_label}%"
+        }).fetchone()
+        
+        if not row:
+            # If we can't map the string label to a curriculum node, we cannot save it.
+            raise ValueError(f"Could not resolve concept label '{concept_label}' to a valid curriculum concept.")
+            
+        db_concept_id, db_subject, db_sss_level, db_term = row
+        
+        # 2. Perform the safe UPSERT
+        upsert_sql = text("""
+            INSERT INTO student_concept_mastery (
+                student_id, subject, sss_level, term, concept_id, mastery_score, source, last_evaluated_at, created_at, updated_at
+            )
+            VALUES (
+                :student_id::uuid, :subject, :sss_level, :term, :concept_id, GREATEST(0.0, LEAST(1.0, :delta)), 'agentic_inline', NOW(), NOW(), NOW()
+            )
+            ON CONFLICT (student_id, subject, sss_level, term, concept_id)
+            DO UPDATE
+            SET mastery_score = GREATEST(
+                0.0, 
+                LEAST(1.0, student_concept_mastery.mastery_score + EXCLUDED.mastery_score)
+            ),
+            source = EXCLUDED.source,
+            last_evaluated_at = NOW(),
+            updated_at = NOW()
+        """)
+        
+        self.db.execute(upsert_sql, {
+            "student_id": user_id,
+            "subject": db_subject,
+            "sss_level": db_sss_level,
+            "term": db_term,
+            "concept_id": db_concept_id,
+            "delta": float(mastery_delta)
+        })
+        self.db.commit()

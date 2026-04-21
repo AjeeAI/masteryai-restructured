@@ -20,6 +20,7 @@ from backend.schemas.internal_postgres_schema import (
     InternalProfileOut,
     InternalQuizAttemptIn,
     InternalQuizAttemptOut,
+    InlineMasteryPayload,
 )
 from backend.services.internal_postgres_service import (
     InternalLessonContextNotFoundError,
@@ -104,3 +105,23 @@ def get_class_roster(
     Used by internal analytics and bulk assignment workflows.
     """
     return _service(db).get_class_roster(class_id=class_id)
+
+@router.post("/mastery/inline-update")
+def update_inline_mastery(
+    payload: InlineMasteryPayload,
+    db: Session = Depends(get_db),
+):
+    """
+    Internal endpoint called by the AI Core to autonomously update
+    a student's concept mastery based on chat interactions.
+    """
+    try:
+        _service(db).update_inline_mastery(
+            student_id=payload.student_id,
+            concept_label=payload.concept_label,
+            score_delta=payload.score_delta,
+            reason=payload.reason
+        )
+        return {"status": "success", "message": f"Mastery updated for {payload.concept_label}"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

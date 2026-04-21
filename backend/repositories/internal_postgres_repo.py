@@ -283,7 +283,7 @@ class InternalPostgresRepository:
             SELECT s.slug as subject, t.sss_level, t.term 
             FROM topics t
             JOIN subjects s ON s.id = t.subject_id
-            WHERE t.id = :topic_id::uuid
+            WHERE t.id = :topic_id
         """)
         
         scope_row = self.db.execute(scope_sql, {"topic_id": topic_id}).fetchone()
@@ -300,7 +300,7 @@ class InternalPostgresRepository:
         resolve_sql = text("""
             SELECT concept_id
             FROM curriculum_topic_maps
-            WHERE topic_id = :topic_id::uuid
+            WHERE topic_id = :topic_id
               AND (LOWER(concept_id) = LOWER(:label) OR LOWER(concept_id) LIKE LOWER(:like_label))
             LIMIT 1
         """)
@@ -321,7 +321,7 @@ class InternalPostgresRepository:
                 student_id, subject, sss_level, term, concept_id, mastery_score, source, last_evaluated_at, created_at, updated_at
             )
             VALUES (
-                :student_id::uuid, :subject, :sss_level, :term, :concept_id, GREATEST(0.0, LEAST(1.0, :delta)), 'agentic_inline', NOW(), NOW(), NOW()
+                :student_id, :subject, :sss_level, :term, :concept_id, GREATEST(0.0, LEAST(1.0, :delta)), 'agentic_inline', NOW(), NOW(), NOW()
             )
             ON CONFLICT (student_id, subject, sss_level, term, concept_id)
             DO UPDATE

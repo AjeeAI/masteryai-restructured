@@ -137,7 +137,7 @@ def _internal_postgres_base_url() -> str:
 
 
 
-async def _trigger_agentic_mastery_update(student_id: UUID, update_data: dict):
+async def _trigger_agentic_mastery_update(student_id: UUID, topic_id: UUID, update_data: dict):
     """Fires a background HTTP request to the internal DB to update mastery."""
     try:
         # NOTE: This endpoint must exist in your backend router!
@@ -156,7 +156,6 @@ async def _trigger_agentic_mastery_update(student_id: UUID, update_data: dict):
         logger.info(f"✅ Agentic mastery successfully saved to DB for {update_data.get('concept_label')}")
     except Exception as exc:
         logger.error(f"❌ Failed to persist agentic mastery update to DB: {exc}")
-        
         
 def _internal_graph_context_url() -> str:
     return os.getenv(

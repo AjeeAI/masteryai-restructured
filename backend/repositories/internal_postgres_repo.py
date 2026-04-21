@@ -318,10 +318,10 @@ class InternalPostgresRepository:
         # Step 3: Perform the safe UPSERT
         upsert_sql = text("""
             INSERT INTO student_concept_mastery (
-                student_id, subject, sss_level, term, concept_id, mastery_score, source, last_evaluated_at, created_at, updated_at
+                id, student_id, subject, sss_level, term, concept_id, mastery_score, source, last_evaluated_at, created_at, updated_at
             )
             VALUES (
-                :student_id, :subject, :sss_level, :term, :concept_id, GREATEST(0.0, LEAST(1.0, :delta)), 'agentic_inline', NOW(), NOW(), NOW()
+                :id, :student_id, :subject, :sss_level, :term, :concept_id, GREATEST(0.0, LEAST(1.0, :delta)), 'agentic_inline', NOW(), NOW(), NOW()
             )
             ON CONFLICT (student_id, subject, sss_level, term, concept_id)
             DO UPDATE
@@ -335,6 +335,7 @@ class InternalPostgresRepository:
         """)
         
         self.db.execute(upsert_sql, {
+            "id": str(uuid.uuid4()), # <-- ADD THIS NEW LINE
             "student_id": user_id,
             "subject": db_subject,
             "sss_level": db_sss_level,

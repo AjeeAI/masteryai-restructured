@@ -344,3 +344,44 @@ class InternalPostgresRepository:
             "delta": float(mastery_delta)
         })
         self.db.commit()
+        
+        # --- THE NEW FIX: Trigger a Graph Intervention ---
+        # The frontend CoursePage listens to this table to know when to refresh the sidebar!
+        if self._table_exists("graph_interventions"):
+            try:
+                intervention_sql = text("""
+                    INSERT INTO graph_interventions (
+                        id, student_id, subject, sss_level, term, 
+                        source, analytics, next_step, recent_evidence, recommendation_story, 
+                        created_at, updated_at
+                    )
+                    VALUES (
+                        :id, :student_id, :subject, :sss_level, :term,
+                        'agentic_tutor', :analytics::jsonb, :next_step::jsonb, :recent_evidence::jsonb, :story::jsonb,
+                        NOW(), NOW()
+                    )
+                """)
+                
+                import json
+                self.db.execute(intervention_sql, {
+                    "id": str(uuid.uuid4()),
+                    "student_id": user_id,
+                    "subject": db_subject,
+                    "sss_level": db_sss_level,
+                    "term": db_term,
+                    "analytics": json.dumps({
+                        "source_label": "AI Tutor Chat",
+                        "outcome": "Inline concept mastery updated",
+                        "focus_concept": final_concept_id
+                    }),
+                    "next_step": json.dumps(None),
+                    "recent_evidence": json.dumps({
+                        "summary": f"Demonstrated understanding of {concept_label} during chat."
+                    }),
+                    "story": json.dumps(None)
+                })
+                self.db.commit()
+            except Exception as e:
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.warning(f"Failed to save agentic graph intervention: {e}")

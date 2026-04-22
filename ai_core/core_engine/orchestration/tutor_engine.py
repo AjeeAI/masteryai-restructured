@@ -1009,7 +1009,7 @@ def _structured_tutor_prompt(
         '  "next_action": "string",\n'
         '  "recommended_assessment": "string",\n'
         '  "interactive_widget": { "type": "multiple_choice", "question": "string", "options": ["string", "string", "string", "string"], "correct_answer": "string" },\n'
-        '  "inline_mastery_update": { "concept_label": "string", "score_delta": 0.1, "reason": "string" }\n'
+        '  "inline_mastery_update": { "concept_id": "string", "score_delta": 0.1, "reason": "string" }\n'
         "}\n\n"
         "*** CRITICAL INTERACTIVE WIDGET RULES ***\n"
         "1. If the mode is 'socratic', 'drill', or 'exam-practice', you MUST generate an interactive_widget.\n"

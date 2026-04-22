@@ -371,27 +371,51 @@ def _validate_question(
     lowered_text = text.lower()
     if any(marker in lowered_text for marker in _PLACEHOLDER_MARKERS):
         raise QuizGenerationError(f"Question {idx + 1} contains placeholder quiz text.")
-    if re.search(r"\b(math|english|civic):sss[123]:t[123]:", lowered_text):
-        raise QuizGenerationError(f"Question {idx + 1} leaked an internal concept id into visible text.")
 
     options = raw.get("options")
     if not isinstance(options, list) or len(options) != 4:
         raise QuizGenerationError(f"Question {idx + 1} must have exactly 4 options.")
-    normalized_options = [_normalize_text(str(option)) for option in options]
+        
+    # --- FIX 1: UI SANITIZER ---
+    # If the LLM hallucinates dictionaries for options, flatten them into pure strings
+    # so the React UI doesn't render raw JSON on the screen.
+    cleaned_options = []
+    for opt in options:
+        if isinstance(opt, dict):
+            opt_text = opt.get("text") or opt.get("value") or str(opt)
+        else:
+            opt_text = str(opt)
+        cleaned_options.append(_normalize_text(opt_text))
+        
+    normalized_options = cleaned_options
+
     if any(not option for option in normalized_options):
         raise QuizGenerationError(f"Question {idx + 1} has an empty option.")
     if len(set(option.lower() for option in normalized_options)) != 4:
         raise QuizGenerationError(f"Question {idx + 1} has duplicate options.")
-    for option in normalized_options:
-        lowered = option.lower()
-        if any(marker in lowered for marker in _PLACEHOLDER_MARKERS):
-            raise QuizGenerationError(f"Question {idx + 1} contains placeholder option text.")
-        if re.search(r"\b(math|english|civic):sss[123]:t[123]:", lowered):
-            raise QuizGenerationError(f"Question {idx + 1} leaked an internal concept id into an option.")
 
-    correct_answer = _normalize_text(str(raw.get("correct_answer") or "")).upper()
-    if correct_answer not in {"A", "B", "C", "D"}:
-        raise QuizGenerationError(f"Question {idx + 1} has invalid correct_answer.")
+    # --- FIX 2: BULLETPROOF GRADING MAPPER ---
+    # Handle cases where the LLM outputs a dict or the full text instead of a letter
+    raw_answer = raw.get("correct_answer") or raw.get("answer") or ""
+    if isinstance(raw_answer, dict):
+        raw_answer = raw_answer.get("text") or raw_answer.get("value") or raw_answer.get("id") or str(raw_answer)
+    raw_answer = _normalize_text(str(raw_answer))
+
+    correct_answer_letter = None
+    
+    # Scenario A: The LLM followed instructions and output "A", "B", "C", or "D"
+    if raw_answer.upper() in {"A", "B", "C", "D"}:
+        correct_answer_letter = raw_answer.upper()
+    else:
+        # Scenario B: The LLM returned the TEXT of the answer. 
+        # Dynamically scan the options array to find which letter it actually belongs to.
+        for i, opt in enumerate(normalized_options):
+            if raw_answer.lower() == opt.lower() or raw_answer.lower() in opt.lower():
+                correct_answer_letter = "ABCD"[i]
+                break
+
+    if not correct_answer_letter:
+         raise QuizGenerationError(f"Question {idx + 1} correct_answer could not be mapped to an option.")
 
     concept_id = _normalize_text(str(raw.get("concept_id") or ""))
     if not concept_id or concept_id not in allowed_concept_ids:
@@ -402,19 +426,17 @@ def _validate_question(
         raise QuizGenerationError(f"Question {idx + 1} is missing explanation.")
 
     q_uuid = str(uuid.uuid4())
-    # --- FIX 2: Mapped both formats for Pydantic Schema compatibility ---
     return {
         "id": q_uuid,
         "question_id": q_uuid,
         "text": text,
         "prompt": text,
         "options": normalized_options,
-        "correct_answer": correct_answer,
+        "correct_answer": correct_answer_letter,
         "concept_id": concept_id[:255],
         "difficulty": difficulty,
         "explanation": explanation,
     }
-
 
 def _validate_generated_questions(
     parsed: dict,

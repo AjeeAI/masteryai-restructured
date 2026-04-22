@@ -72,6 +72,6 @@ class InternalClassRosterOut(BaseModel):
 class InlineMasteryPayload(BaseModel):
     student_id: UUID
     topic_id: UUID
-    concept_label: str
+    concept_id: str
     score_delta: float
     reason: str

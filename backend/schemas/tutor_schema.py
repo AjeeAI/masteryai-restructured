@@ -40,7 +40,7 @@ class TutorChatIn(BaseModel):
     message: str = Field(min_length=1, max_length=4000)
 
 class InlineMasteryUpdate(BaseModel):
-    concept_label: str
+    concept_id: str
     score_delta: float
     reason: str
 

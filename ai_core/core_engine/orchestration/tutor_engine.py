@@ -147,7 +147,7 @@ async def _trigger_agentic_mastery_update(student_id: UUID, topic_id: UUID, upda
             payload={
                 "student_id": str(student_id),
                 "topic_id": str(topic_id),
-                "concept_label": update_data.get("concept_label"),
+                "concept_id": update_data.get("concept_id"),
                 "score_delta": update_data.get("score_delta"),
                 "reason": update_data.get("reason")
             },
@@ -1086,7 +1086,7 @@ def _validate_structured_tutor_payload(
         # For now, we log it so we can verify the agent is making the decision!
         logger.info(
             "🔥 AGENT TRIGGERED MASTERY UPDATE: Concept '%s', Delta: %s, Reason: '%s'",
-            inline_mastery_update.get("concept_label"),
+            inline_mastery_update.get("concept_id"),
             inline_mastery_update.get("score_delta"),
             inline_mastery_update.get("reason")
         )

@@ -61,7 +61,7 @@ class InteractiveWidget(BaseModel):
     correct_answer: str
 
 class InlineMasteryUpdate(BaseModel):
-    concept_label: str
+    concept_id: str
     score_delta: float
     reason: str
        

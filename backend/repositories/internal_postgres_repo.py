@@ -273,12 +273,11 @@ class InternalPostgresRepository:
         return [row["student_id"] for row in rows]
 
     def upsert_concept_mastery(
-        self, *, user_id: str, topic_id: str, concept_label: str, mastery_delta: float
+        self, *, user_id: str, topic_id: str, concept_id: str, mastery_delta: float
     ) -> None:
         """Upsert concept mastery, falling back to the topic level if the specific concept isn't mapped."""
         
         # Step 1: Resolve the Subject, Level, and Term from the active Topic ID
-        # This is much safer than trying to guess the scope from the concept string.
         scope_sql = text("""
             SELECT s.slug as subject, t.sss_level, t.term 
             FROM topics t
@@ -297,6 +296,8 @@ class InternalPostgresRepository:
         db_subject, db_sss_level, db_term = scope_row
 
         # Step 2: Try to find a specific concept_id mapping
+        # Even though we expect a clean UUID now, we keep the fuzzy match as an indestructible safety net 
+        # in case the LLM hallucinates a string anyway.
         resolve_sql = text("""
             SELECT concept_id
             FROM curriculum_topic_maps
@@ -307,13 +308,12 @@ class InternalPostgresRepository:
         
         concept_row = self.db.execute(resolve_sql, {
             "topic_id": topic_id,
-            "label": concept_label.strip(), 
-            "like_label": f"%{concept_label.strip()}%"
+            "label": concept_id.strip(), 
+            "like_label": f"%{concept_id.strip()}%"
         }).fetchone()
         
-        # FALLBACK: If no specific concept maps to this string, just use the string itself as the ID!
-        # Because the student is in this topic, any mastery they demonstrate belongs to this topic's umbrella.
-        final_concept_id = concept_row[0] if concept_row else concept_label.strip()
+        # FALLBACK: If no specific concept maps, use the provided ID/string directly.
+        final_mapped_id = concept_row[0] if concept_row else concept_id.strip()
         
         # Step 3: Perform the safe UPSERT
         upsert_sql = text("""
@@ -335,18 +335,17 @@ class InternalPostgresRepository:
         """)
         
         self.db.execute(upsert_sql, {
-            "id": str(uuid.uuid4()), # <-- ADD THIS NEW LINE
+            "id": str(uuid.uuid4()), 
             "student_id": user_id,
             "subject": db_subject,
             "sss_level": db_sss_level,
             "term": db_term,
-            "concept_id": final_concept_id,
+            "concept_id": final_mapped_id,
             "delta": float(mastery_delta)
         })
         self.db.commit()
         
         # --- THE NEW FIX: Trigger a Graph Intervention ---
-        # The frontend CoursePage listens to this table to know when to refresh the sidebar!
         if self._table_exists("graph_interventions"):
             try:
                 intervention_sql = text("""
@@ -372,11 +371,11 @@ class InternalPostgresRepository:
                     "analytics": json.dumps({
                         "source_label": "AI Tutor Chat",
                         "outcome": "Inline concept mastery updated",
-                        "focus_concept": final_concept_id
+                        "focus_concept": final_mapped_id
                     }),
                     "next_step": json.dumps(None),
                     "recent_evidence": json.dumps({
-                        "summary": f"Demonstrated understanding of {concept_label} during chat."
+                        "summary": f"Demonstrated understanding of {concept_id} during chat."
                     }),
                     "story": json.dumps(None)
                 })

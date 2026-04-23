@@ -54,19 +54,25 @@ def get_engine() -> Engine:
             raise RuntimeError("DATABASE_URL is not configured.")
         
         # SUPABASE FIX (For Port 5432 - Session Pooling):
-        # 1. Remove NullPool so SQLAlchemy can maintain a stable queue.
-        # 2. pool_pre_ping: Checks if the connection is alive before using it.
-        # 3. pool_size & max_overflow: Gives you enough concurrent connections for the dashboard prewarm.
-        # 4. pool_recycle: Forces connections to refresh every 30 minutes.
+        # Dynamically determine SSL requirement based on environment
+        # Local docker usually resolves to 'postgres' or 'localhost'
+        is_local = "postgres@" in database_url and ("localhost" in database_url or "127.0.0.1" in database_url or "postgres:" in database_url)
+        
+        connect_args = {
+            "prepare_threshold": None # Recommended for Supabase Transaction mode
+        }
+        
+        # Only enforce SSL if we are NOT running locally
+        if not is_local:
+             connect_args["sslmode"] = "require"
+
         _engine = create_engine(
             database_url, 
             poolclass=NullPool,  # Tells SQLAlchemy: "Don't hold connections, let the pooler handle it"
-            connect_args={
-                "sslmode": "require",
-                "prepare_threshold": None # Recommended for Supabase Transaction mode
-            }
+            connect_args=connect_args
         )
     return _engine
+
 def _get_session_factory() -> sessionmaker:
     global _session_factory
     if _session_factory is None:

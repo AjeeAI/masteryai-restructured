@@ -56,15 +56,15 @@ def get_engine() -> Engine:
         # SUPABASE FIX (For Port 5432 - Session Pooling):
         # Dynamically determine SSL requirement based on environment
         # Local docker usually resolves to 'postgres' or 'localhost'
-        is_local = "postgres@" in database_url and ("localhost" in database_url or "127.0.0.1" in database_url or "postgres:" in database_url)
+        is_local = "masteryai_admin@" in database_url and ("localhost" in database_url or "127.0.0.1" in database_url or "postgres:" in database_url)
         
         connect_args = {
             "prepare_threshold": None # Recommended for Supabase Transaction mode
         }
         
         # Only enforce SSL if we are NOT running locally
-        if not is_local:
-             connect_args["sslmode"] = "require"
+        # if not is_local:
+        #      connect_args["sslmode"] = "require"
 
         _engine = create_engine(
             database_url, 

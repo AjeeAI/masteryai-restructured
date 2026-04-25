@@ -3,16 +3,16 @@ services:
     image: postgres:16-alpine
     container_name: mastery-postgres-local
     restart: unless-stopped
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mastery_ai
+    # Pointing the DB to your backend folder to sync credentials
+    env_file:
+      - backend/.env
     ports:
       - "55432:5432"
     volumes:
       - postgres_local_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d mastery_ai"]
+      # Using variables for the healthcheck so it works if you change the username
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -35,8 +35,9 @@ services:
     image: neo4j:5.26-community
     container_name: mastery-neo4j
     restart: unless-stopped
-    environment:
-      NEO4J_AUTH: ${NEO4J_AUTH:-neo4j/olayiwola}
+    # Syncing Neo4j auth with the backend's secret file
+    env_file:
+      - backend/.env
     ports:
       - "7474:7474"
       - "7687:7687"
@@ -63,20 +64,16 @@ services:
     env_file:
       - backend/.env
     environment:
-      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/mastery_ai}
+      # Logic-based defaults (keeping these for flexibility)
       ENV: ${ENV:-dev}
       AI_CORE_BASE_URL: ${AI_CORE_BASE_URL:-http://ai-core:10001}
       AI_CORE_TIMEOUT_SECONDS: ${AI_CORE_TIMEOUT_SECONDS:-40}
       AI_CORE_ALLOW_FALLBACK: ${AI_CORE_ALLOW_FALLBACK:-true}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173,http://localhost:5174,http://127.0.0.1:5174,http://localhost:4173}
       REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
-      NEO4J_URI: ${NEO4J_URI:-bolt://neo4j:7687}
-      NEO4J_USER: ${NEO4J_USER:-neo4j}
-      NEO4J_PASSWORD: ${NEO4J_PASSWORD:-olayiwola}
       USE_NEO4J_GRAPH: ${USE_NEO4J_GRAPH:-true}
-      QDRANT_URL: ${QDRANT_URL:-http://qdrant:6333}
       QDRANT_COLLECTION: ${QDRANT_COLLECTION:-MasteryAI}
-      INTERNAL_GRAPH_BASE_URL: ${INTERNAL_GRAPH_BASE_URL:-http://backend:8001/api/v1/internal/graph}
+      # The rest (DATABASE_URL, NEO4J_URI, etc) are pulled automatically from backend/.env
     depends_on:
       postgres:
         condition: service_healthy
@@ -101,19 +98,13 @@ services:
     restart: unless-stopped
     env_file:
       - ai_core/.env
+      - backend/.env # Also pulling from backend/.env to sync DB passwords
     environment:
       PORT: ${AI_CORE_PORT:-10001}
-      POSTGRES_DSN: ${POSTGRES_DSN:-postgresql://postgres:postgres@postgres:5432/mastery_ai}
-      DATABASE_URL: ${DATABASE_URL:-}
-      QDRANT_URL: ${QDRANT_URL:-http://qdrant:6333}
-      QDRANT_COLLECTION: ${QDRANT_COLLECTION:-MasteryAI}
-      NEO4J_URI: ${NEO4J_URI:-bolt://neo4j:7687}
-      NEO4J_USER: ${NEO4J_USER:-neo4j}
-      NEO4J_PASSWORD: ${NEO4J_PASSWORD:-olayiwola}
+      # Logic defaults
       REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
-      BACKEND_INTERNAL_POSTGRES_URL: ${BACKEND_INTERNAL_POSTGRES_URL:-http://backend:8001/api/v1/internal/postgres}
-      BACKEND_INTERNAL_GRAPH_CONTEXT_URL: ${BACKEND_INTERNAL_GRAPH_CONTEXT_URL:-http://backend:8001/api/v1/internal/graph/context}
-      BACKEND_INTERNAL_RAG_URL: ${BACKEND_INTERNAL_RAG_URL:-http://backend:8001/api/v1/internal/rag/retrieve}
+      QDRANT_URL: ${QDRANT_URL:-http://qdrant:6333}
+      NEO4J_URI: ${NEO4J_URI:-bolt://neo4j:7687}
     depends_on:
       postgres:
         condition: service_healthy

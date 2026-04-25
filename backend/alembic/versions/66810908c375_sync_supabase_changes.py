@@ -33,18 +33,9 @@ def upgrade() -> None:
     op.create_index(op.f('ix_internal_quiz_attempts_sss_level'), 'internal_quiz_attempts', ['sss_level'], unique=False)
     op.create_index(op.f('ix_internal_quiz_attempts_subject'), 'internal_quiz_attempts', ['subject'], unique=False)
     op.create_index(op.f('ix_internal_quiz_attempts_term'), 'internal_quiz_attempts', ['term'], unique=False)
-    op.alter_column('learning_preferences', 'visual_learner',
-               existing_type=sa.BOOLEAN(),
-               nullable=False,
-               existing_server_default=sa.text('false'))
-    op.alter_column('learning_preferences', 'practice_heavy',
-               existing_type=sa.BOOLEAN(),
-               nullable=False,
-               existing_server_default=sa.text('false'))
-    op.alter_column('learning_preferences', 'auditory_narrations',
-               existing_type=sa.BOOLEAN(),
-               nullable=False,
-               existing_server_default=sa.text('false'))
+    op.add_column('learning_preferences', sa.Column('visual_learner', sa.Boolean(), nullable=False, server_default=sa.text('false')))
+    op.add_column('learning_preferences', sa.Column('practice_heavy', sa.Boolean(), nullable=False, server_default=sa.text('false')))
+    op.add_column('learning_preferences', sa.Column('auditory_narrations', sa.Boolean(), nullable=False, server_default=sa.text('false')))
     op.drop_index(op.f('ix_lesson_blocks_lesson'), table_name='lesson_blocks')
     op.drop_index(op.f('ix_lesson_blocks_order'), table_name='lesson_blocks')
     op.drop_index(op.f('ix_lesson_blocks_type'), table_name='lesson_blocks')

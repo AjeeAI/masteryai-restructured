@@ -233,16 +233,17 @@ def _clear_qdrant_collection() -> None:
 
 
 def _bulk_ingest_and_approve(source_root: str) -> tuple[int, int, list[str]]:
-    print("[4/7] Batch ingesting curriculum files for visibility...")
+    print("[4/7] Batch ingesting curriculum by folder for visibility...")
     from backend.core.database import SessionLocal
     from backend.schemas.admin_curriculum_schema import CurriculumBulkIngestRequest, CurriculumVersionActionRequest
     from backend.services.admin_curriculum_service import AdminCurriculumService
 
     source_path = Path(source_root).expanduser().resolve()
-    json_files = list(source_path.rglob("*.json"))
-    total_files = len(json_files)
+    # Find all unique directories that actually contain .json files
+    target_folders = sorted({f.parent for f in source_path.rglob("*.json")})
+    total_folders = len(target_folders)
     
-    print(f"  - Found {total_files} files to process.")
+    print(f"  - Found {total_folders} folders to process.")
 
     failed_messages: list[str] = []
     approved_count = 0
@@ -250,14 +251,14 @@ def _bulk_ingest_and_approve(source_root: str) -> tuple[int, int, list[str]]:
     
     try:
         service = AdminCurriculumService(db)
-        for index, file_path in enumerate(json_files, 1):
+        for index, folder_path in enumerate(target_folders, 1):
             try:
-                # Process one file at a time
+                # Hand the directory path to the service
                 bulk = service.ingest_all_from_source_root(
-                    payload=CurriculumBulkIngestRequest(source_root=str(file_path))
+                    payload=CurriculumBulkIngestRequest(source_root=str(folder_path))
                 )
                 
-                # Approve versions for this specific file immediately
+                # Approve versions for this folder immediately
                 for version_id in bulk.approve_ready_version_ids:
                     service.approve_version(
                         version_id=version_id,
@@ -265,21 +266,19 @@ def _bulk_ingest_and_approve(source_root: str) -> tuple[int, int, list[str]]:
                     )
                     approved_count += 1
                 
-                # Commit after every file so Postgres count moves
+                # Commit after every folder
                 db.commit()
-                
-                if index % 5 == 0 or index == total_files:
-                    print(f"  - Progress: {index}/{total_files} | Approved: {approved_count}")
+                print(f"  - [{index}/{total_folders}] Processed: {folder_path.name} | Total Approved: {approved_count}")
                     
             except Exception as e:
                 db.rollback()
-                error_note = f"Error in {file_path.name}: {str(e)}"
+                error_note = f"Error in folder {folder_path.name}: {str(e)}"
                 print(f"    [!] {error_note}")
                 failed_messages.append(error_note)
     finally:
         db.close()
 
-    return total_files, approved_count, failed_messages
+    return total_folders, approved_count, failed_messages
 
 def _cleanup_failed_versions(*, keep_failed_versions: bool) -> None:
     if keep_failed_versions:

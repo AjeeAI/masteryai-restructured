@@ -24,6 +24,12 @@ Notes:
 from __future__ import annotations
 
 import socket
+import argparse
+import os
+import sys
+from pathlib import Path
+
+from sqlalchemy import text
 
 def dns_monkeypatch():
     # Only activates if you set this in your server's .env
@@ -43,12 +49,6 @@ def dns_monkeypatch():
 
 dns_monkeypatch()
 
-import argparse
-import os
-import sys
-from pathlib import Path
-
-from sqlalchemy import text
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CANONICAL_CURRICULUM_ROOT = REPO_ROOT / "docs" / "Curriculum_in_json"

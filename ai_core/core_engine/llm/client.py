@@ -191,52 +191,30 @@ class LLMClient:
         
     from fastapi import WebSocket, WebSocketDisconnect
     
-@router.websocket("/live-voice/{session_id}")
-async def tutor_voice_stream(
-    websocket: WebSocket,
-    session_id: UUID,
-    subject: str,
-    model_tier: str = "flash", # 'pro' or 'flash'
-    db: Session = Depends(get_db),
-):
-    await websocket.accept()
-    
-    voice_config = get_subject_voice_config(subject)
-    client = _service().llm_client 
-    
-    # Custom instructions for Gemini 3's advanced reasoning
-    system_instruction = (
-        f"{voice_config['style']} "
-        "You are an expert SSS teacher. Use Socratic questioning. "
-        "If the student sounds confused, simplify your language. "
-        "Ground every response in the provided curriculum metadata."
-    )
+async def connect_live(self, model_tier: str = "pro", system_instruction: str = "", voice_name: str = "Puck"):
+        """
+        Connects to the Gemini Multimodal Live API (v1alpha).
+        """
+        from google import genai
+        from google.genai import types
 
-    try:
-        # We pass the 'model_tier' (pro/flash) directly to our new client method
-        async with await client.connect_live(
-            model_type=model_tier,
+        model_map = {
+            "pro": "gemini-3-pro",
+            "flash": "gemini-3-flash",
+        }
+        
+        target_model = model_map.get(model_tier, "gemini-3-flash")
+        api_key = self._resolve_api_key("gemini")
+        
+        client = genai.Client(api_key=api_key, http_options={'api_version': 'v1alpha'})
+
+        config = types.LiveConnectConfig(
+            model=target_model,
             system_instruction=system_instruction,
-            voice_name=voice_config["voice"]
-        ) as session:
-            
-            async def receive_from_student():
-                async for message in websocket.iter_bytes():
-                    # Sending raw audio bytes to Gemini 3
-                    await session.send(input=message, end_of_turn=True)
+            generation_config=types.GenerateContentConfig(temperature=0.7),
+            speech_config=types.SpeechConfig(
+                voice_config=types.VoiceConfig(voice_name=voice_name)
+            )
+        )
 
-            async def send_to_student():
-                async for response in session.receive():
-                    if response.audio:
-                        await websocket.send_bytes(response.audio)
-                    if response.text:
-                        # Real-time transcription for the UI
-                        await websocket.send_json({"text": response.text})
-
-            await asyncio.gather(receive_from_student(), send_to_student())
-
-    except WebSocketDisconnect:
-        logger.info(f"Session {session_id} ended.")
-    except Exception as e:
-        logger.error(f"Multimodal Live Error: {e}")
-        await websocket.close(code=1011)
+        return client.aio.live.connect(model=target_model, config=config)

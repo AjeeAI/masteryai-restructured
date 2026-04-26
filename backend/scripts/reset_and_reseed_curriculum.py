@@ -23,6 +23,26 @@ Notes:
 
 from __future__ import annotations
 
+import socket
+
+def dns_monkeypatch():
+    # Only activates if you set this in your server's .env
+    if os.getenv("USE_DNS_MONKEYPATCH") != "true":
+        return
+        
+    print("[preflight] Applying Ofada DNS monkeypatch for Gemini API...")
+    original_getaddrinfo = socket.getaddrinfo
+    
+    def patched_getaddrinfo(host, port, *args, **kwargs):
+        if host == 'generativelanguage.googleapis.com':
+            # Verified working Google Front-End IP
+            return [(socket.AF_INET, socket.SOCK_STREAM, 6, '', ('142.251.10.95', port))]
+        return original_getaddrinfo(host, port, *args, **kwargs)
+        
+    socket.getaddrinfo = patched_getaddrinfo
+
+dns_monkeypatch()
+
 import argparse
 import os
 import sys
@@ -213,49 +233,53 @@ def _clear_qdrant_collection() -> None:
 
 
 def _bulk_ingest_and_approve(source_root: str) -> tuple[int, int, list[str]]:
-    print("[4/7] Bulk ingesting curriculum scopes...")
+    print("[4/7] Batch ingesting curriculum files for visibility...")
     from backend.core.database import SessionLocal
     from backend.schemas.admin_curriculum_schema import CurriculumBulkIngestRequest, CurriculumVersionActionRequest
     from backend.services.admin_curriculum_service import AdminCurriculumService
 
-    db = SessionLocal()
+    source_path = Path(source_root).expanduser().resolve()
+    json_files = list(source_path.rglob("*.json"))
+    total_files = len(json_files)
+    
+    print(f"  - Found {total_files} files to process.")
+
     failed_messages: list[str] = []
     approved_count = 0
-    discovered_scopes = 0
+    db = SessionLocal()
+    
     try:
         service = AdminCurriculumService(db)
-        bulk = service.ingest_all_from_source_root(
-            payload=CurriculumBulkIngestRequest(source_root=source_root)
-        )
-        discovered_scopes = bulk.discovered_scopes
-        print(
-            f"  - scopes discovered={bulk.discovered_scopes}, "
-            f"success={bulk.succeeded_scopes}, failed={bulk.failed_scopes}"
-        )
-
-        seen_failures: set[str] = set()
-        for item in bulk.results:
-            if item.status == "failed":
-                message = (item.message or "").strip() or "Scope ingestion failed without a detailed error message."
-                record = f"{item.subject} {item.sss_level} term {item.term}: {message}"
-                if record in seen_failures:
-                    continue
-                seen_failures.add(record)
-                failed_messages.append(record)
-
-        print("[5/7] Approving ingested versions...")
-        for version_id in bulk.approve_ready_version_ids:
-            service.approve_version(
-                version_id=version_id,
-                payload=CurriculumVersionActionRequest(actor_user_id=None),
-            )
-            approved_count += 1
-        print(f"  - approved versions={approved_count}")
+        for index, file_path in enumerate(json_files, 1):
+            try:
+                # Process one file at a time
+                bulk = service.ingest_all_from_source_root(
+                    payload=CurriculumBulkIngestRequest(source_root=str(file_path))
+                )
+                
+                # Approve versions for this specific file immediately
+                for version_id in bulk.approve_ready_version_ids:
+                    service.approve_version(
+                        version_id=version_id,
+                        payload=CurriculumVersionActionRequest(actor_user_id=None),
+                    )
+                    approved_count += 1
+                
+                # Commit after every file so Postgres count moves
+                db.commit()
+                
+                if index % 5 == 0 or index == total_files:
+                    print(f"  - Progress: {index}/{total_files} | Approved: {approved_count}")
+                    
+            except Exception as e:
+                db.rollback()
+                error_note = f"Error in {file_path.name}: {str(e)}"
+                print(f"    [!] {error_note}")
+                failed_messages.append(error_note)
     finally:
         db.close()
 
-    return discovered_scopes, approved_count, failed_messages
-
+    return total_files, approved_count, failed_messages
 
 def _cleanup_failed_versions(*, keep_failed_versions: bool) -> None:
     if keep_failed_versions:

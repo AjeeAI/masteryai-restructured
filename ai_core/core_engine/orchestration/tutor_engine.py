@@ -1810,3 +1810,32 @@ async def run_tutor_explain_mistake(request: TutorExplainMistakeRequest) -> Tuto
         explanation=explanation,
         improvement_tip=improvement_tip,
     )
+    
+def get_subject_voice_config(subject: str) -> dict[str, str]:
+    """
+    Returns the specific voice and pedagogical style for each SSS subject.
+    """
+    configs = {
+        "Mathematics": {
+            "voice": "Algieba", 
+            "style": "Be analytical and encouraging. Speak [slowly] during complex calculations."
+        },
+        "Civic Education": {
+            "voice": "Aoede", 
+            "style": "Be a storyteller. Use emotive Nigerian examples and speak [expressively]."
+        },
+        "Cybersecurity": {
+            "voice": "Kore", 
+            "style": "Be technical and clear. Focus on 'Secure-by-design' thinking."
+        },
+        "Statistics": {
+            "voice": "Iapetus", 
+            "style": "Focus on the 'why' behind the numbers. Maintain a [steady] pace."
+        }
+    }
+    return configs.get(subject, {"voice": "Puck", "style": "Be a helpful SSS tutor."})
+
+# Inside your TutorOrchestrationService class (or similar wrapper), add this:
+# This allows the backend to get the persona without needing a direct import.
+def get_persona(self, subject: str) -> dict:
+    return get_subject_voice_config(subject)

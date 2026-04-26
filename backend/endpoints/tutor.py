@@ -442,3 +442,66 @@ async def tutor_explain_mistake(
         return response
     except TutorProviderUnavailableError as exc:
         raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail=str(exc))
+    
+    
+import asyncio
+from fastapi import WebSocket, WebSocketDisconnect
+
+@router.websocket("/live-voice/{session_id}")
+async def tutor_voice_stream(
+    websocket: WebSocket,
+    session_id: UUID,
+    subject: str,
+    model_tier: str = "flash", # 'pro' or 'flash'
+    db: Session = Depends(get_db),
+):
+    await websocket.accept()
+    
+    # Resolve services
+    service = _service()
+    client = service.llm_client 
+    
+    # 1. Fetch Persona across the service boundary
+    # This assumes your OrchestrationService has the 'get_persona' method added above
+    voice_config = service.get_persona(subject)
+    
+    # 2. Build the Adaptive System Instruction
+    system_instruction = (
+        f"{voice_config['style']} "
+        "You are an expert SSS teacher. Use Socratic questioning. "
+        "Ground every response in the provided curriculum metadata. "
+        "If the student sounds frustrated, respond with empathy."
+    )
+
+    try:
+        # 3. Open the Gemini Live Pipe
+        async with await client.connect_live(
+            model_tier=model_tier,
+            system_instruction=system_instruction,
+            voice_name=voice_config["voice"]
+        ) as session:
+            
+            # Sub-Task: Audio from Student -> Gemini
+            async def receive_from_student():
+                async for message in websocket.iter_bytes():
+                    # We send chunks of audio bytes directly
+                    await session.send(input=message, end_of_turn=True)
+
+            # Sub-Task: Audio/Text from Gemini -> Student
+            async def send_to_student():
+                async for response in session.receive():
+                    if response.audio:
+                        await websocket.send_bytes(response.audio)
+                    if response.text:
+                        # Provides real-time captions for the student
+                        await websocket.send_json({"text": response.text})
+
+            # Run both streams concurrently
+            await asyncio.gather(receive_from_student(), send_to_student())
+
+    except WebSocketDisconnect:
+        logger.info(f"Student disconnected from voice session {session_id}")
+    except Exception as e:
+        logger.error(f"Multimodal Live Error: {e}")
+        # 1011 = Internal Error
+        await websocket.close(code=1011)

@@ -188,3 +188,55 @@ class LLMClient:
             # exc_info=True dumps the full stack trace to the terminal
             logger.error(f"❌ [CLIENT TRACE] CRITICAL FAILURE during image generation: {e}", exc_info=True)
             return None
+        
+    from fastapi import WebSocket, WebSocketDisconnect
+    
+@router.websocket("/live-voice/{session_id}")
+async def tutor_voice_stream(
+    websocket: WebSocket,
+    session_id: UUID,
+    subject: str,
+    model_tier: str = "flash", # 'pro' or 'flash'
+    db: Session = Depends(get_db),
+):
+    await websocket.accept()
+    
+    voice_config = get_subject_voice_config(subject)
+    client = _service().llm_client 
+    
+    # Custom instructions for Gemini 3's advanced reasoning
+    system_instruction = (
+        f"{voice_config['style']} "
+        "You are an expert SSS teacher. Use Socratic questioning. "
+        "If the student sounds confused, simplify your language. "
+        "Ground every response in the provided curriculum metadata."
+    )
+
+    try:
+        # We pass the 'model_tier' (pro/flash) directly to our new client method
+        async with await client.connect_live(
+            model_type=model_tier,
+            system_instruction=system_instruction,
+            voice_name=voice_config["voice"]
+        ) as session:
+            
+            async def receive_from_student():
+                async for message in websocket.iter_bytes():
+                    # Sending raw audio bytes to Gemini 3
+                    await session.send(input=message, end_of_turn=True)
+
+            async def send_to_student():
+                async for response in session.receive():
+                    if response.audio:
+                        await websocket.send_bytes(response.audio)
+                    if response.text:
+                        # Real-time transcription for the UI
+                        await websocket.send_json({"text": response.text})
+
+            await asyncio.gather(receive_from_student(), send_to_student())
+
+    except WebSocketDisconnect:
+        logger.info(f"Session {session_id} ended.")
+    except Exception as e:
+        logger.error(f"Multimodal Live Error: {e}")
+        await websocket.close(code=1011)

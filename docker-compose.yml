@@ -38,6 +38,8 @@ services:
     # Syncing Neo4j auth with the backend's secret file
     env_file:
       - backend/.env
+    environment:
+      - NEO4J_server_config_strict__validation_enabled=false
     ports:
       - "7474:7474"
       - "7687:7687"

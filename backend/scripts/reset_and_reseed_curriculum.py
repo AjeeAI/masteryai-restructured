@@ -239,11 +239,12 @@ def _bulk_ingest_and_approve(source_root: str) -> tuple[int, int, list[str]]:
     from backend.services.admin_curriculum_service import AdminCurriculumService
 
     source_path = Path(source_root).expanduser().resolve()
-    # Find all unique directories that actually contain .json files
+    
+    # NEW LOGIC: Find all unique directories that actually contain .json files
     target_folders = sorted({f.parent for f in source_path.rglob("*.json")})
     total_folders = len(target_folders)
     
-    print(f"  - Found {total_folders} folders to process.")
+    print(f"  - Found {total_folders} subject/term folders to process.")
 
     failed_messages: list[str] = []
     approved_count = 0
@@ -253,7 +254,7 @@ def _bulk_ingest_and_approve(source_root: str) -> tuple[int, int, list[str]]:
         service = AdminCurriculumService(db)
         for index, folder_path in enumerate(target_folders, 1):
             try:
-                # Hand the directory path to the service
+                # Hand the directory path to the service, NOT the file path
                 bulk = service.ingest_all_from_source_root(
                     payload=CurriculumBulkIngestRequest(source_root=str(folder_path))
                 )
@@ -266,9 +267,9 @@ def _bulk_ingest_and_approve(source_root: str) -> tuple[int, int, list[str]]:
                     )
                     approved_count += 1
                 
-                # Commit after every folder
+                # Commit after every folder to keep progress saved
                 db.commit()
-                print(f"  - [{index}/{total_folders}] Processed: {folder_path.name} | Total Approved: {approved_count}")
+                print(f"  - [{index}/{total_folders}] Processed folder: {folder_path.name} | Total Approved: {approved_count}")
                     
             except Exception as e:
                 db.rollback()

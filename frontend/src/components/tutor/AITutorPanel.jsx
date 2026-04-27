@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Send, Target, Maximize2, Minimize2, Sparkles } from 'lucide-react';
+import { X, Send, Target, Maximize2, Minimize2, Sparkles, Mic, MicOff, Volume2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -8,6 +8,7 @@ import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 
 import { API_URL as RUNTIME_API_URL } from '../../config/runtime';
+import { useTutorLiveVoice } from '../../hooks/useTutorLiveVoice';
 
 const API_URL = RUNTIME_API_URL;
 const createMessageId = () => typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `msg-${Date.now()}`;
@@ -119,6 +120,11 @@ const AITutorPanel = ({
   const scrollRef = useRef(null);
   const streamingMessageRef = useRef(null);
 
+  // --- NEW: VOICE HOOK INTEGRATION ---
+  const { isVoiceActive, isTutorSpeaking, startVoiceSession, stopVoiceSession } = useTutorLiveVoice(
+    sessionId, token, currentSubject, 'pro' // Defaulting to Gemini 3 Pro as requested
+  );
+
   const formatContent = (text) => {
     if (!text) return "";
     return text.replace(/\|\s*\|/g, '|\n|').replace(/\\degree/g, '^\circ');
@@ -126,7 +132,7 @@ const AITutorPanel = ({
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-  }, [messages, isTyping, pendingAssessment]);
+  }, [messages, isTyping, pendingAssessment, isVoiceActive]);
 
   const startStreamingMessage = () => {
     const id = createMessageId();
@@ -180,10 +186,7 @@ const AITutorPanel = ({
           const data = JSON.parse(dataLine);
 
           if (event === 'delta') updateStreamingMessage(data.content || '');
-          if (event === 'message') {
-            console.log("🔥 RAW BACKEND PAYLOAD:", data);
-            finalizeStreamingMessage(data);
-          }
+          if (event === 'message') finalizeStreamingMessage(data);
         }
       }
     } catch (err) {
@@ -192,7 +195,6 @@ const AITutorPanel = ({
     }
   };
 
-  // NEW: Refactored to handle both manual typing and button clicks
   const triggerChatRequest = async (studentMsg) => {
     if (!studentMsg.trim() || !sessionId || isTyping) return;
     setMessages(prev => [...prev, { id: createMessageId(), role: 'student', content: studentMsg }]);
@@ -209,6 +211,18 @@ const AITutorPanel = ({
   const handleSendMessage = (e) => {
     if (e) e.preventDefault();
     triggerChatRequest(chatInput);
+  };
+
+  const toggleVoiceMode = () => {
+    if (isVoiceActive) {
+      stopVoiceSession();
+    } else {
+      // Begin voice-to-voice stream
+      startStreamingMessage(); 
+      startVoiceSession((transcription) => {
+        updateStreamingMessage(transcription);
+      });
+    }
   };
 
   const handleWidgetSubmit = async (selectedOption) => {
@@ -255,7 +269,14 @@ const AITutorPanel = ({
     <div className="flex flex-col h-full bg-white w-full">
         {/* HEADER */}
         <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-indigo-50/30">
-          <h3 className="text-sm font-bold text-slate-900">AI Tutor</h3>
+          <div className="flex items-center gap-2">
+            <h3 className="text-sm font-bold text-slate-900">AI Tutor</h3>
+            {isVoiceActive && (
+              <span className="flex items-center gap-1.5 text-[10px] bg-red-100 text-red-600 px-2 py-0.5 rounded-full font-black animate-pulse">
+                <div className="w-1.5 h-1.5 bg-red-600 rounded-full"></div> LIVE VOICE
+              </span>
+            )}
+          </div>
           <div className="flex items-center gap-1">
             <button onClick={onToggleMaximize} className="text-slate-400 hover:text-slate-600 p-2 transition-colors" title="Toggle Fullscreen">
               {isMaximized ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
@@ -280,7 +301,6 @@ const AITutorPanel = ({
                   ) : msg.content}
                 </div>
 
-                {/* INTERACTIVE WIDGET */}
                 {msg.role === 'assistant' && msg.interactive_widget && (
                   <InteractiveQuizWidget
                     widgetData={msg.interactive_widget}
@@ -290,7 +310,18 @@ const AITutorPanel = ({
                 )}
             </div>
           ))}
-          {isTyping && <div className="text-xs text-slate-400 animate-pulse ml-2">Tutor is thinking...</div>}
+
+          {/* VOICE FEEDBACK INDICATOR */}
+          {isVoiceActive && (
+             <div className="flex items-center gap-3 p-4 bg-indigo-50/50 border border-indigo-100 rounded-2xl mx-auto w-fit">
+                <Volume2 size={16} className={isTutorSpeaking ? "text-indigo-600 animate-bounce" : "text-slate-400"} />
+                <span className="text-xs font-bold text-indigo-700 uppercase tracking-widest">
+                  {isTutorSpeaking ? "Tutor is speaking..." : "Listening to you..."}
+                </span>
+             </div>
+          )}
+
+          {isTyping && !isVoiceActive && <div className="text-xs text-slate-400 animate-pulse ml-2">Tutor is thinking...</div>}
 
           {/* PENDING ASSESSMENT */}
           {pendingAssessment && (
@@ -305,7 +336,6 @@ const AITutorPanel = ({
 
         {/* INPUT AREA WITH QUICK ACTIONS */}
         <div className="border-t border-slate-100 bg-white">
-          {/* Scrolling Quick Actions */}
           <div className="px-4 py-3 bg-slate-50/50 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-2">
              <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest mr-2">
                 <Sparkles size={12} /> Actions
@@ -313,7 +343,7 @@ const AITutorPanel = ({
              {QUICK_ACTIONS.map((action, idx) => (
                 <button
                   key={idx}
-                  disabled={isTyping}
+                  disabled={isTyping || isVoiceActive}
                   onClick={() => triggerChatRequest(action.prompt)}
                   className="inline-block px-3 py-1.5 bg-white border border-slate-200 text-slate-600 text-xs font-medium rounded-full hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 transition-colors disabled:opacity-50 flex-shrink-0 shadow-sm"
                 >
@@ -322,10 +352,39 @@ const AITutorPanel = ({
              ))}
           </div>
 
-          <form onSubmit={handleSendMessage} className="p-4 relative max-w-4xl mx-auto pt-2">
-            <input type="text" value={chatInput} onChange={(e) => setChatInput(e.target.value)} disabled={isTyping || !sessionId} placeholder="Ask me anything..." className="w-full pl-4 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-600 outline-none" />
-            <button type="submit" disabled={!chatInput.trim() || isTyping} className="absolute right-6 top-1/2 -translate-y-1/2 w-8 h-8 bg-indigo-600 text-white rounded-lg flex items-center justify-center disabled:bg-slate-300 transition-colors hover:bg-indigo-700"><Send size={14} /></button>
-          </form>
+          <div className="p-4 flex gap-2 max-w-4xl mx-auto pt-2">
+            <form onSubmit={handleSendMessage} className="relative flex-1">
+              <input 
+                type="text" 
+                value={chatInput} 
+                onChange={(e) => setChatInput(e.target.value)} 
+                disabled={isTyping || !sessionId || isVoiceActive} 
+                placeholder={isVoiceActive ? "Voice session active..." : "Ask me anything..."} 
+                className="w-full pl-4 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-600 outline-none disabled:opacity-60" 
+              />
+              <button 
+                type="submit" 
+                disabled={!chatInput.trim() || isTyping || isVoiceActive} 
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-indigo-600 text-white rounded-lg flex items-center justify-center disabled:bg-slate-300 transition-colors hover:bg-indigo-700"
+              >
+                <Send size={14} />
+              </button>
+            </form>
+
+            {/* VOICE TOGGLE BUTTON */}
+            <button
+                type="button"
+                onClick={toggleVoiceMode}
+                disabled={!sessionId || isTyping && !isVoiceActive}
+                className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all shadow-sm ${
+                    isVoiceActive 
+                    ? 'bg-red-500 text-white shadow-red-200 ring-4 ring-red-50' 
+                    : 'bg-slate-100 text-slate-500 hover:bg-indigo-50 hover:text-indigo-600'
+                }`}
+            >
+                {isVoiceActive ? <MicOff size={20} /> : <Mic size={20} />}
+            </button>
+          </div>
         </div>
       </div>
   );

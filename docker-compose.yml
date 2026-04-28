@@ -102,6 +102,7 @@ services:
       - ai_core/.env
       - backend/.env # Also pulling from backend/.env to sync DB passwords
     environment:
+      PYTHONPATH: /app/ai_core:/app
       PORT: ${AI_CORE_PORT:-10001}
       # Logic defaults
       REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}

@@ -130,6 +130,37 @@ async def generate_lesson_content(data: dict):
     3. PERSONALIZATION: {style_instruction}
     4. VALID TYPES: text, image, video, example, exercise.
     5. Return ONLY the raw JSON object. No markdown wrapping.
+    """# --- C. The Master Prompt ---
+    prompt = f"""
+    You are an expert Nigerian Secondary School Tutor.
+    Topic: {data['topic_title']} ({data['subject']} - {data['sss_level']})
+    Mastery Gaps: {json.dumps(data.get('mastery_gaps', []))}
+    Curriculum context: {" ".join(data.get('curriculum_context', [])[:3])}
+
+    Task: Write a highly detailed, comprehensive, and personalized lesson. Break down complex concepts step-by-step.
+    
+    OUTPUT SCHEMA (RAW JSON ONLY):
+    {{
+      "title": "{data['topic_title']}",
+      "summary": "2-sentence overview.",
+      "estimated_duration_minutes": 25,
+      "content_blocks": [
+        {{ "type": "text", "content": "<Verbose, in-depth explanation of the core theory>" }},
+        {{ "type": "image", "content": "<WRITE YOUR HIGHLY DESCRIPTIVE IMAGE PROMPT HERE>" }},
+        {{ "type": "example", "content": "<Step-by-step worked example 1>" }},
+        {{ "type": "text", "content": "<Deeper dive into a sub-topic or common pitfall>" }},
+        {{ "type": "example", "content": "<Step-by-step worked example 2>" }},
+        {{ "type": "exercise", "content": "<Practice questions to test understanding>" }}
+      ]
+    }}
+
+    CRITICAL RULES:
+    1. VERBOSITY & DEPTH: Generate a rich, detailed lesson. Use between 5 and 8 content_blocks. Text blocks must be thorough and highly explanatory (approx 200-400 words each). Do NOT write brief summaries. 
+    2. EXAMPLES: You MUST include at least TWO detailed 'example' blocks walking the student through the application of the concept.
+    {formatting_instruction}
+    4. PERSONALIZATION: {style_instruction}
+    5. VALID TYPES: text, image, video, example, exercise.
+    6. Return ONLY the raw JSON object. No markdown wrapping.
     """
     
     try:

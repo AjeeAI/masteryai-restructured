@@ -169,3 +169,14 @@ export const submitDiagnosticSession = async (token, payload) =>
     body: payload,
     timeoutMs: 30000,
   });
+
+
+  export const fetchDashboardBootstrap = async (token, studentId, subject) => {
+  const queryParams = new URLSearchParams({ student_id: studentId });
+  if (subject) {
+    queryParams.set('subject', subject);
+  }
+  return apiFetchJson(`/learning/dashboard/bootstrap?${queryParams.toString()}`, {
+    token,
+  });
+};

@@ -8,7 +8,6 @@ import LearningTasks from '../components/LearningTasks';
 import Leaderboard from '../components/Leaderboard';
 import { useAuth } from '../context/AuthContext';
 import { useUser } from '../context/UserContext';
-import { API_URL } from '../config/runtime';
 import { resolveStudentId } from '../utils/sessionIdentity';
 import { apiFetchJson } from '../services/api';
 import {
@@ -18,6 +17,9 @@ import {
     readGraphIntervention,
     subscribeGraphIntervention,
 } from '../services/graphIntervention';
+
+// 1. Import the useQuery hook from TanStack
+import { useQuery } from '@tanstack/react-query';
 
 const prewarmTopics = async ({ apiUrl, token, studentId, subject, sssLevel, term, topicIds }) => {
     const normalizedIds = Array.from(new Set((topicIds || []).filter(Boolean)));
@@ -75,19 +77,47 @@ export default function Dashboard() {
     );
 
     const [activeSubject, setActiveSubject] = useState(() => localStorage.getItem('active_subject') || null);
-    const [dashboardBootstrap, setDashboardBootstrap] = useState({
-        warmed_subjects: [],
-        failed_subjects: [],
-        available_subjects: [],
-    });
-    const [mapData, setMapData] = useState(EMPTY_MAP_DATA);
-    const [isLoadingMap, setIsLoadingMap] = useState(false);
     const [graphIntervention, setGraphIntervention] = useState(null);
-    
-    // Safe global navigation lock
     const [isNavigating, setIsNavigating] = useState(false);
 
-    const apiUrl = API_URL;
+    // =========================================================
+    // 🔥 THE TANSTACK CACHE ENGINE: REPLACES SEVERAL OLD STATES
+    // =========================================================
+    const { data: dashboardData, isLoading: isLoadingMap } = useQuery({
+        // The queryKey behaves like a dependencies cache fingerprint
+        queryKey: ['dashboardBootstrap', activeId, activeSubject],
+        queryFn: async () => {
+            const queryParams = new URLSearchParams({ student_id: activeId });
+            if (activeSubject) {
+                queryParams.set('subject', activeSubject);
+            }
+            return apiFetchJson(`/learning/dashboard/bootstrap?${queryParams.toString()}`, {
+                token,
+            });
+        },
+        // Only trigger network flights once auth credentials cross down safely
+        enabled: !!activeId && !!token,
+        // The 'select' transformer automatically formats incoming payload frames cleanly 
+        select: (data) => ({
+            warmed_subjects: Array.isArray(data?.warmed_subjects) ? data.warmed_subjects : [],
+            failed_subjects: Array.isArray(data?.failed_subjects) ? data.failed_subjects : [],
+            available_subjects: Array.isArray(data?.available_subjects) ? data.available_subjects : [],
+            mapData: normalizeCourseBootstrap(data?.course_bootstrap || {}),
+            backendActiveSubject: data?.active_subject || null,
+        }),
+    });
+
+    // Reactive layout bindings extracted safely from TanStack's cache target
+    const bootstrapInfo = dashboardData || { warmed_subjects: [], failed_subjects: [], available_subjects: [] };
+    const resolvedMapData = dashboardData?.mapData || EMPTY_MAP_DATA;
+
+    // Synchronize current subject context state smoothly if backend requests a fallback shift
+    useEffect(() => {
+        if (dashboardData?.backendActiveSubject && dashboardData.backendActiveSubject !== activeSubject) {
+            setActiveSubject(dashboardData.backendActiveSubject);
+        }
+    }, [dashboardData?.backendActiveSubject, activeSubject]);
+
     const interventionScope = useMemo(
         () => buildGraphInterventionScope({
             studentId: activeId,
@@ -97,10 +127,12 @@ export default function Dashboard() {
         }),
         [activeId, activeSubject, currentLevel, currentTerm],
     );
+
     const effectiveMapData = useMemo(
-        () => applyGraphInterventionOverlay(mapData, graphIntervention),
-        [graphIntervention, mapData],
+        () => applyGraphInterventionOverlay(resolvedMapData, graphIntervention),
+        [graphIntervention, resolvedMapData],
     );
+
     const dashboardSignal = useMemo(() => {
         if (latestIntervention?.payload) {
             return latestIntervention;
@@ -124,7 +156,7 @@ export default function Dashboard() {
         };
     }, [activeSubject, currentLevel, currentTerm, effectiveMapData, latestIntervention]);
 
-   useEffect(() => {
+    useEffect(() => {
         if (!studentData) return;
 
         if (!studentData.sss_level || !studentData.current_term) {
@@ -164,43 +196,6 @@ export default function Dashboard() {
         return subscribeGraphIntervention(interventionScope, setGraphIntervention);
     }, [interventionScope]);
 
-    useEffect(() => {
-        if (!activeId || !token) {
-            return;
-        }
-
-        const fetchDashboardBootstrap = async () => {
-            setIsLoadingMap(true);
-            try {
-                const queryParams = new URLSearchParams({ student_id: activeId });
-                if (activeSubject) {
-                    queryParams.set('subject', activeSubject);
-                }
-
-                const data = await apiFetchJson(`/learning/dashboard/bootstrap?${queryParams.toString()}`, {
-                    token,
-                });
-                if (data?.active_subject && data.active_subject !== activeSubject) {
-                    setActiveSubject(data.active_subject);
-                }
-                setDashboardBootstrap({
-                    warmed_subjects: Array.isArray(data?.warmed_subjects) ? data.warmed_subjects : [],
-                    failed_subjects: Array.isArray(data?.failed_subjects) ? data.failed_subjects : [],
-                    available_subjects: Array.isArray(data?.available_subjects) ? data.available_subjects : [],
-                });
-                setMapData(normalizeCourseBootstrap(data?.course_bootstrap || {}));
-            } catch (err) {
-                console.error('Map fetch error:', err);
-                setDashboardBootstrap({ warmed_subjects: [], failed_subjects: [], available_subjects: [] });
-                setMapData(EMPTY_MAP_DATA);
-            } finally {
-                setIsLoadingMap(false);
-            }
-        };
-
-        fetchDashboardBootstrap();
-    }, [activeId, activeSubject, token, apiUrl]);
-
     const openTopicFromGraph = useCallback((topicId) => {
         if (!topicId || isNavigating) return;
         setIsNavigating(true);
@@ -208,7 +203,8 @@ export default function Dashboard() {
         setTimeout(async () => {
             try {
                 await prewarmTopics({
-                    apiUrl, token, studentId: activeId, subject: activeSubject,
+                    apiUrl: '', // Derived automatically in your env configuration
+                    token, studentId: activeId, subject: activeSubject,
                     sssLevel: currentLevel, term: currentTerm, topicIds: [topicId],
                 });
                 navigate(`/lesson/${topicId}`);
@@ -216,7 +212,7 @@ export default function Dashboard() {
                 setIsNavigating(false);
             }
         }, 200);
-    }, [activeId, activeSubject, apiUrl, currentLevel, currentTerm, navigate, token, isNavigating]);
+    }, [activeId, activeSubject, currentLevel, currentTerm, navigate, token, isNavigating]);
 
     const resumeLatestIntervention = useCallback(() => {
         if (isNavigating) return;
@@ -228,7 +224,8 @@ export default function Dashboard() {
         setTimeout(async () => {
             try {
                 await prewarmTopics({
-                    apiUrl, token, studentId: activeId,
+                    apiUrl: '',
+                    token, studentId: activeId,
                     subject: dashboardSignal?.subject || activeSubject,
                     sssLevel: dashboardSignal?.sssLevel || currentLevel,
                     term: Number(dashboardSignal?.term || currentTerm),
@@ -239,7 +236,7 @@ export default function Dashboard() {
                 setIsNavigating(false);
             }
         }, 200);
-    }, [activeId, activeSubject, apiUrl, currentLevel, currentTerm, dashboardSignal, navigate, token, isNavigating]);
+    }, [activeId, activeSubject, dashboardSignal, navigate, token, isNavigating]);
 
     const openGraphPath = useCallback(() => {
         if (isNavigating) return;
@@ -326,11 +323,11 @@ export default function Dashboard() {
             <main className="mx-auto max-w-[1440px] px-4 py-6 sm:px-6">
                 <div className="mb-6">
                     <HeroSection
-                        enrolledSubjects={dashboardBootstrap.available_subjects.length ? dashboardBootstrap.available_subjects : enrolledSubjects}
+                        enrolledSubjects={bootstrapInfo.available_subjects.length ? bootstrapInfo.available_subjects : enrolledSubjects}
                         activeSubject={activeSubject}
                         onSelectSubject={setActiveSubject}
                         hasStartedLearning={false}
-                        warmedSubjects={dashboardBootstrap.warmed_subjects}
+                        warmedSubjects={bootstrapInfo.warmed_subjects}
                         graphSignal={dashboardSignal}
                         signalSubject={dashboardSignal?.subject || activeSubject}
                         onResumeSignal={dashboardSignal?.payload?.next_step?.recommended_topic_id ? resumeLatestIntervention : null}

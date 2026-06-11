@@ -68,10 +68,9 @@ services:
     environment:
       # Logic-based defaults (keeping these for flexibility)
       ENV: ${ENV:-dev}
-      AI_CORE_BASE_URL: ${AI_CORE_BASE_URL:-http://ai-core:10001}
+      AI_CORE_BASE_URL: http://ai-core:10001
       AI_CORE_TIMEOUT_SECONDS: ${AI_CORE_TIMEOUT_SECONDS:-40}
       AI_CORE_ALLOW_FALLBACK: ${AI_CORE_ALLOW_FALLBACK:-true}
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173,http://localhost:5174,http://127.0.0.1:5174,http://localhost:4173}
       REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
       USE_NEO4J_GRAPH: ${USE_NEO4J_GRAPH:-true}
       QDRANT_COLLECTION: ${QDRANT_COLLECTION:-MasteryAI}
@@ -89,7 +88,7 @@ services:
       sh -c "python -m alembic -c backend/alembic.ini upgrade head &&
       python -m uvicorn backend.main:app --host 0.0.0.0 --port 8001"
     ports:
-      - "8001:8001"
+      - "9001:8001"
 
   ai-core:
     profiles: ["fullstack"]

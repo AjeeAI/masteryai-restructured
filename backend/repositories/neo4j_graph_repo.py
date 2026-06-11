@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
-
+import json
 
 class Neo4jGraphRepositoryError(RuntimeError):
     """Raised when Neo4j access fails."""
@@ -393,7 +393,7 @@ class Neo4jGraphRepository:
                 "sss_level": sss_level,
                 "term": term,
                 "source": source,
-                "concept_breakdown": concept_breakdown,
+                "concept_breakdown": json.dumps(concept_breakdown),
                 "created_at": datetime.now(timezone.utc).isoformat(),
             },
         )

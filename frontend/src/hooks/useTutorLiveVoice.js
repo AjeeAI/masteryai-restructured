@@ -24,10 +24,14 @@ export const useTutorLiveVoice = (sessionId, token, subject, modelTier = 'flash'
   const startVoiceSession = useCallback(async (onTextUpdate) => {
     initAudioContext();
     
-    // 1. Setup WebSocket URL (Bridging to your new FastAPI endpoint)
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const host = window.location.host; 
-    const wsUrl = `${protocol}//${host}/api/v1/tutor/live-voice/${sessionId}?subject=${subject}&model_tier=${modelTier}`;
+    // 1. Setup WebSocket URL (Bridging to your Backend API)
+    // Grab the base API URL (e.g., https://api.masteryaiedu.com/api/v1)
+    const baseUrl = import.meta.env.VITE_API_URL; 
+    
+    // Dynamically swap http->ws and https->wss
+    const wsBaseUrl = baseUrl.replace(/^http/, 'ws'); 
+    
+    const wsUrl = `${wsBaseUrl}/tutor/live-voice/${sessionId}?subject=${subject}&model_tier=${modelTier}`;
 
     socketRef.current = new WebSocket(wsUrl);
     socketRef.current.binaryType = 'arraybuffer';
@@ -59,7 +63,6 @@ export const useTutorLiveVoice = (sessionId, token, subject, modelTier = 'flash'
     mediaRecorderRef.current.start(100);
     setIsVoiceActive(true);
   }, [sessionId, subject, modelTier]);
-
   const playAudioChunk = async (arrayBuffer) => {
     setIsTutorSpeaking(true);
     const audioBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer);

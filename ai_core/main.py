@@ -219,6 +219,8 @@ async def tutor_voice_stream(
 
     try:
         # 3. Call your custom connect_live method!
+        
+        logger.info(f"DEBUG: LLMClient methods: {dir(llm)}")
         async with await llm.connect_live(
             model_tier=model_tier,
             system_instruction=system_instruction,

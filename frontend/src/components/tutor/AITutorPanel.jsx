@@ -130,6 +130,26 @@ const AITutorPanel = ({
     return text.replace(/\|\s*\|/g, '|\n|').replace(/\\degree/g, '^\circ');
   };
 
+
+  useEffect(() => {
+    // 1. Wipe old messages and seed the fresh topic greeting
+    setMessages([
+      { 
+        id: createMessageId(), 
+        role: 'assistant', 
+        content: initialGreeting || 'Your lesson is ready. Let me know if you need any help!' 
+      }
+    ]);
+
+    // 2. Sync the new topic's quick check assessment state
+    setPendingAssessment(initialPendingAssessment);
+
+    // 3. Clear out text fields from the last topic
+    setChatInput("");
+    setAssessmentAnswer("");
+  }, [topicId, initialGreeting, initialPendingAssessment]);
+
+  
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messages, isTyping, pendingAssessment, isVoiceActive]);

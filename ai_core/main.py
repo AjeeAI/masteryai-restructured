@@ -5,15 +5,18 @@ from __future__ import annotations
 import os
 import json
 import logging
+import asyncio
 from datetime import datetime, timezone
 from pathlib import Path
 from uuid import UUID
+from google.genai import types
 
-from fastapi import FastAPI, HTTPException, status, Depends, Header
+from fastapi import FastAPI, HTTPException, status, Depends, Header, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
 # --- SCHEMA / CONTRACT IMPORTS ---
+from ai_core.core_engine.llm.client import LLMClient
 from core_engine.api_contracts.lesson_schemas import LessonGenerateRequest, LessonGenerateResponse
 from core_engine.api_contracts.diagnostic_schemas import (
     DiagnosticGenerateRequest,
@@ -51,6 +54,7 @@ from core_engine.orchestration.quiz_engine import (
     QuizGenerationError,
 )
 from core_engine.orchestration.tutor_engine import (
+    get_subject_voice_config,
     run_tutor_drill,
     run_tutor_assessment_start,
     run_tutor_assessment_submit,
@@ -189,6 +193,65 @@ async def quiz_insights(quiz_id: UUID, attempt_id: UUID):
 async def tutor_chat(payload: TutorChatRequest):
     return await run_tutor_chat(payload)
 
+@app.websocket("/tutor/live-voice/{session_id}")
+async def tutor_voice_stream(
+    websocket: WebSocket,
+    session_id: str,
+    subject: str,
+    model_tier: str = "flash"
+):
+    """
+    Direct WebSocket connection using the internal LLMClient.
+    """
+    await websocket.accept()
+    
+    # 1. Fetch the exact persona config
+    voice_config = get_subject_voice_config(subject)
+    system_instruction = (
+        f"{voice_config['style']} "
+        "You are an expert Nigerian secondary school teacher. Use Socratic questioning. "
+        "Keep your verbal responses extremely concise. "
+        "If the student sounds frustrated, respond with empathy."
+    )
+
+    # 2. Instantiate your existing LLM Engine Client
+    llm = LLMClient(provider="gemini", model="gemini-2.5-flash")
+
+    try:
+        # 3. Call your custom connect_live method!
+        async with await llm.connect_live(
+            model_tier=model_tier,
+            system_instruction=system_instruction,
+            voice_name=voice_config["voice"]
+        ) as session:
+            
+            logger.info(f"🎤 Voice session active for {subject} via LLMClient.")
+
+            async def receive_from_student():
+                async for message in websocket.iter_bytes():
+                    # Wrap the raw audio bytes into a Gemini Part
+                    part = types.Part.from_bytes(data=message, mime_type="audio/webm")
+                    await session.send(input=part, end_of_turn=True)
+
+            async def send_to_student():
+                async for response in session.receive():
+                    server_content = response.server_content
+                    if server_content is not None and server_content.model_turn is not None:
+                        for part in server_content.model_turn.parts:
+                            if part.inline_data and part.inline_data.data:
+                                await websocket.send_bytes(part.inline_data.data)
+                            if part.text:
+                                await websocket.send_json({"text": part.text})
+
+            await asyncio.gather(receive_from_student(), send_to_student())
+
+    except WebSocketDisconnect:
+        logger.info(f"Student disconnected from voice session {session_id}")
+    except Exception as e:
+        logger.error(f"Multimodal Live Error: {e}", exc_info=True)
+        await websocket.close(code=1011)
+        
+        
 @app.post("/tutor/recap", response_model=TutorChatResponse, dependencies=[Depends(verify_internal_key)])
 async def tutor_recap(payload: TutorRecapRequest):
     return await run_tutor_recap(payload)

@@ -230,7 +230,7 @@ async def tutor_voice_stream(
 
     try:
         # Connect directly to the model
-        async with client.aio.live.connect(model="gemini-2.0-flash", config=config) as session:
+        async with client.aio.live.connect(model="gemini-2.0-flash-exp", config=config) as session:
             async def receive_from_student():
                 async for message in websocket.iter_bytes():
                     part = types.Part.from_bytes(data=message, mime_type="audio/webm")

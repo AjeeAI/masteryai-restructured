@@ -193,76 +193,64 @@ async def quiz_insights(quiz_id: UUID, attempt_id: UUID):
 async def tutor_chat(payload: TutorChatRequest):
     return await run_tutor_chat(payload)
 
+
 @app.websocket("/tutor/live-voice/{session_id}")
-async def tutor_voice_stream(websocket: WebSocket, session_id: str, subject: str, model_tier: str = "flash"):
+async def tutor_voice_stream(
+    websocket: WebSocket,
+    session_id: str,
+    subject: str,
+    model_tier: str = "flash"
+):
     await websocket.accept()
     
-    # 1. Discover models dynamically
+    # Bypass LLMClient entirely and use the SDK directly
     from google import genai
-    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"), http_options={'api_version': 'v1alpha'})
+    from google.genai import types
     
-    # Log what the API says is actually available
-    models = client.models.list()
-    for m in models:
-        # Check if the model supports the bidiGenerateContent method
-        if hasattr(m, 'supported_methods') and 'bidiGenerateContent' in m.supported_methods:
-            logger.info(f"✨ FOUND LIVE-COMPATIBLE MODEL: {m.name}")
-# @app.websocket("/tutor/live-voice/{session_id}")
-# async def tutor_voice_stream(
-#     websocket: WebSocket,
-#     session_id: str,
-#     subject: str,
-#     model_tier: str = "flash"
-# ):
-#     await websocket.accept()
-    
-#     # Bypass LLMClient entirely and use the SDK directly
-#     from google import genai
-#     from google.genai import types
-    
-#     api_key = os.getenv("GEMINI_API_KEY")
-#     if not api_key:
-#         await websocket.close(code=1011)
-#         return
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        await websocket.close(code=1011)
+        return
 
-#     voice_config = get_subject_voice_config(subject)
+    voice_config = get_subject_voice_config(subject)
     
-#     # Initialize the raw client
-#     client = genai.Client(api_key=api_key, http_options={'api_version': 'v1alpha'})
+    # Initialize the raw client
+    client = genai.Client(api_key=api_key, http_options={'api_version': 'v1alpha'})
     
-#     # 2. Updated configuration block
-#     config = types.LiveConnectConfig(
-#         # Use simple string list instead of LiveModality constant if the enum is missing
-#         response_modalities=["AUDIO"], 
-#         system_instruction=types.Content(parts=[types.Part.from_text(text=f"{voice_config['style']} You are a tutor.")]),
-#         speech_config=types.SpeechConfig(
-#             voice_config=types.VoiceConfig(
-#                 prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=voice_config["voice"])
-#             )
-#         )
-#     )
+    # 2. Updated configuration block
+    config = types.LiveConnectConfig(
+        # Use simple string list instead of LiveModality constant if the enum is missing
+        response_modalities=["AUDIO"], 
+        system_instruction=types.Content(parts=[types.Part.from_text(text=f"{voice_config['style']} You are a tutor.")]),
+        speech_config=types.SpeechConfig(
+            voice_config=types.VoiceConfig(
+                prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=voice_config["voice"])
+            )
+        )
+    )
 
-#     try:
-#         # Connect directly to the model
-#         async with client.aio.live.connect(model="gemini-2.0-flash-exp", config=config) as session:
-#             async def receive_from_student():
-#                 async for message in websocket.iter_bytes():
-#                     part = types.Part.from_bytes(data=message, mime_type="audio/webm")
-#                     await session.send(input=part, end_of_turn=True)
+    try:
+        # Connect directly to the model
+        async with client.aio.live.connect(model="gemini-live-2.5-flash-native-audio", config=config) as session:
+            logger.info(f"🎤 Voice session active using gemini-live-2.5-flash-native-audio")
+            async def receive_from_student():
+                async for message in websocket.iter_bytes():
+                    part = types.Part.from_bytes(data=message, mime_type="audio/webm")
+                    await session.send(input=part, end_of_turn=True)
 
-#             async def send_to_student():
-#                 async for response in session.receive():
-#                     if response.server_content and response.server_content.model_turn:
-#                         for part in response.server_content.model_turn.parts:
-#                             if part.inline_data:
-#                                 await websocket.send_bytes(part.inline_data.data)
-#                             if part.text:
-#                                 await websocket.send_json({"text": part.text})
+            async def send_to_student():
+                async for response in session.receive():
+                    if response.server_content and response.server_content.model_turn:
+                        for part in response.server_content.model_turn.parts:
+                            if part.inline_data:
+                                await websocket.send_bytes(part.inline_data.data)
+                            if part.text:
+                                await websocket.send_json({"text": part.text})
 
-#             await asyncio.gather(receive_from_student(), send_to_student())
-#     except Exception as e:
-#         logger.error(f"Live Error: {e}")
-#         await websocket.close(code=1011)
+            await asyncio.gather(receive_from_student(), send_to_student())
+    except Exception as e:
+        logger.error(f"Live Error: {e}")
+        await websocket.close(code=1011)
         
         
 @app.post("/tutor/recap", response_model=TutorChatResponse, dependencies=[Depends(verify_internal_key)])

@@ -216,8 +216,10 @@ async def tutor_voice_stream(
     # Initialize the raw client
     client = genai.Client(api_key=api_key, http_options={'api_version': 'v1alpha'})
     
+    # 2. Updated configuration block
     config = types.LiveConnectConfig(
-        response_modalities=[types.LiveModality.AUDIO],
+        # Use simple string list instead of LiveModality constant if the enum is missing
+        response_modalities=["AUDIO"], 
         system_instruction=types.Content(parts=[types.Part.from_text(text=f"{voice_config['style']} You are a tutor.")]),
         speech_config=types.SpeechConfig(
             voice_config=types.VoiceConfig(

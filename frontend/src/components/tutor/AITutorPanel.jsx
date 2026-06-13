@@ -8,7 +8,6 @@ import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 
 import { API_URL as RUNTIME_API_URL } from '../../config/runtime';
-import { useTutorLiveVoice } from '../../hooks/useTutorLiveVoice';
 
 const API_URL = RUNTIME_API_URL;
 const createMessageId = () => typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `msg-${Date.now()}`;
@@ -117,22 +116,21 @@ const AITutorPanel = ({
   const [pendingAssessment, setPendingAssessment] = useState(initialPendingAssessment);
   const [assessmentAnswer, setAssessmentAnswer] = useState('');
 
+  // --- NEW: AUDIO RECORDING & SPEECH STATES ---
+  const [isRecording, setIsRecording] = useState(false);
+  const [isTutorSpeaking, setIsTutorSpeaking] = useState(false);
+  
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
   const scrollRef = useRef(null);
   const streamingMessageRef = useRef(null);
-
-  // --- NEW: VOICE HOOK INTEGRATION ---
-  const { isVoiceActive, isTutorSpeaking, startVoiceSession, stopVoiceSession } = useTutorLiveVoice(
-    sessionId, token, currentSubject, 'pro' // Defaulting to Gemini 3 Pro as requested
-  );
 
   const formatContent = (text) => {
     if (!text) return "";
     return text.replace(/\|\s*\|/g, '|\n|').replace(/\\degree/g, '^\circ');
   };
 
-
   useEffect(() => {
-    // 1. Wipe old messages and seed the fresh topic greeting
     setMessages([
       { 
         id: createMessageId(), 
@@ -140,19 +138,18 @@ const AITutorPanel = ({
         content: initialGreeting || 'Your lesson is ready. Let me know if you need any help!' 
       }
     ]);
-
-    // 2. Sync the new topic's quick check assessment state
     setPendingAssessment(initialPendingAssessment);
-
-    // 3. Clear out text fields from the last topic
     setChatInput("");
     setAssessmentAnswer("");
+    
+    // Stop any ongoing speech when the topic changes
+    window.speechSynthesis.cancel();
+    setIsTutorSpeaking(false);
   }, [topicId, initialGreeting, initialPendingAssessment]);
 
-  
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-  }, [messages, isTyping, pendingAssessment, isVoiceActive]);
+  }, [messages, isTyping, pendingAssessment, isRecording, isTutorSpeaking]);
 
   const startStreamingMessage = () => {
     const id = createMessageId();
@@ -161,21 +158,10 @@ const AITutorPanel = ({
     return id;
   };
 
-  const updateStreamingMessage = (delta) => {
-    const id = streamingMessageRef.current;
-    if (!id || !delta) return;
-    setMessages(prev => prev.map(item => item.id === id ? { ...item, content: `${item.content || ''}${delta}` } : item));
-  };
-
-  const finalizeStreamingMessage = (payload) => {
+  const updateStreamingMessage = (text) => {
     const id = streamingMessageRef.current;
     if (!id) return;
-    setMessages(prev => prev.map(item => item.id === id ? {
-      ...item,
-      content: payload.assistant_message || payload.content || item.content,
-      interactive_widget: payload.interactive_widget || null,
-      streaming: false
-    } : item));
+    setMessages(prev => prev.map(item => item.id === id ? { ...item, content: text, streaming: false } : item));
     streamingMessageRef.current = null;
   };
 
@@ -205,8 +191,20 @@ const AITutorPanel = ({
           const event = lines.find(l => l.startsWith('event:'))?.replace('event:', '').trim();
           const data = JSON.parse(dataLine);
 
-          if (event === 'delta') updateStreamingMessage(data.content || '');
-          if (event === 'message') finalizeStreamingMessage(data);
+          if (event === 'delta') {
+            const id = streamingMessageRef.current;
+            setMessages(prev => prev.map(item => item.id === id ? { ...item, content: `${item.content || ''}${data.content || ''}` } : item));
+          }
+          if (event === 'message') {
+            const id = streamingMessageRef.current;
+            setMessages(prev => prev.map(item => item.id === id ? {
+              ...item,
+              content: data.assistant_message || data.content || item.content,
+              interactive_widget: data.interactive_widget || null,
+              streaming: false
+            } : item));
+            streamingMessageRef.current = null;
+          }
         }
       }
     } catch (err) {
@@ -217,6 +215,11 @@ const AITutorPanel = ({
 
   const triggerChatRequest = async (studentMsg) => {
     if (!studentMsg.trim() || !sessionId || isTyping) return;
+    
+    // Interrupt any active tutor speech context
+    window.speechSynthesis.cancel();
+    setIsTutorSpeaking(false);
+
     setMessages(prev => [...prev, { id: createMessageId(), role: 'student', content: studentMsg }]);
     setChatInput("");
     setIsTyping(true);
@@ -233,20 +236,106 @@ const AITutorPanel = ({
     triggerChatRequest(chatInput);
   };
 
-  const toggleVoiceMode = () => {
-    if (isVoiceActive) {
-      stopVoiceSession();
-    } else {
-      // Begin voice-to-voice stream
-      startStreamingMessage(); 
-      startVoiceSession((transcription) => {
-        updateStreamingMessage(transcription);
-      });
+  // --- NEW: TURN-BASED VOICE PROCESSING PIPELINE ---
+  const startAudioRecording = async () => {
+    try {
+      window.speechSynthesis.cancel();
+      setIsTutorSpeaking(false);
+      
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      audioChunksRef.current = [];
+      
+      const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) audioChunksRef.current.push(e.data);
+      };
+
+      recorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        await sendAudioTurnToBackend(audioBlob);
+        
+        // Clear audio track allocations
+        stream.getTracks().forEach(track => track.stop());
+      };
+
+      mediaRecorderRef.current = recorder;
+      recorder.start();
+      setIsRecording(true);
+    } catch (err) {
+      console.error("Microphone initialization error:", err);
     }
+  };
+
+  const stopAudioRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+    }
+  };
+
+  const toggleVoiceMode = () => {
+    if (isRecording) {
+      stopAudioRecording();
+    } else {
+      startAudioRecording();
+    }
+  };
+
+  const sendAudioTurnToBackend = async (audioBlob) => {
+    setIsTyping(true);
+    
+    // Add visual structural turn for the student audio payload
+    setMessages(prev => [...prev, { id: createMessageId(), role: 'student', content: "🎙️ *Sent a voice response*" }]);
+    
+    const formData = new FormData();
+    formData.append("audio_file", audioBlob, "turn.webm");
+    formData.append("subject", currentSubject);
+
+    startStreamingMessage();
+
+    try {
+      const response = await fetch(`${API_URL}/tutor/voice-turn`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: formData
+      });
+
+      const data = await response.json();
+      
+      if (data.text) {
+        updateStreamingMessage(data.text);
+        triggerNativeTTS(data.text);
+      } else if (data.error) {
+        updateStreamingMessage(`⚠️ Error processing voice turn: ${data.error}`);
+      }
+    } catch (err) {
+      console.error("Voice dispatch exception:", err);
+      updateStreamingMessage("❌ Failed to reach the voice engine endpoint.");
+    } finally {
+      setIsTyping(false);
+    }
+  };
+
+  const triggerNativeTTS = (textToSpeak) => {
+    if (!textToSpeak) return;
+    
+    // Clean markdown characters out of speech output strings
+    const cleanText = textToSpeak.replace(/[*#_`~\-]/g, '');
+    
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    
+    utterance.onstart = () => setIsTutorSpeaking(true);
+    utterance.onend = () => setIsTutorSpeaking(false);
+    utterance.onerror = () => setIsTutorSpeaking(false);
+    
+    window.speechSynthesis.speak(utterance);
   };
 
   const handleWidgetSubmit = async (selectedOption) => {
     if (isTyping) return;
+    window.speechSynthesis.cancel();
+    setIsTutorSpeaking(false);
+
     setMessages(prev => [...prev, { id: createMessageId(), role: 'student', content: `I select: ${selectedOption}` }]);
     setIsTyping(true);
     startStreamingMessage();
@@ -260,6 +349,8 @@ const AITutorPanel = ({
 
   const submitAssessment = async () => {
     if (!pendingAssessment || !assessmentAnswer.trim() || isTyping) return;
+    window.speechSynthesis.cancel();
+    setIsTutorSpeaking(false);
     setIsTyping(true);
     try {
       const response = await fetch(`${API_URL}/tutor/assessment/submit`, {
@@ -291,9 +382,14 @@ const AITutorPanel = ({
         <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-indigo-50/30">
           <div className="flex items-center gap-2">
             <h3 className="text-sm font-bold text-slate-900">AI Tutor</h3>
-            {isVoiceActive && (
+            {isRecording && (
               <span className="flex items-center gap-1.5 text-[10px] bg-red-100 text-red-600 px-2 py-0.5 rounded-full font-black animate-pulse">
-                <div className="w-1.5 h-1.5 bg-red-600 rounded-full"></div> LIVE VOICE
+                <div className="w-1.5 h-1.5 bg-red-600 rounded-full"></div> LISTENING
+              </span>
+            )}
+            {isTutorSpeaking && (
+              <span className="flex items-center gap-1.5 text-[10px] bg-emerald-100 text-emerald-600 px-2 py-0.5 rounded-full font-black">
+                <Volume2 size={10} className="animate-bounce" /> SPEAKING
               </span>
             )}
           </div>
@@ -331,17 +427,17 @@ const AITutorPanel = ({
             </div>
           ))}
 
-          {/* VOICE FEEDBACK INDICATOR */}
-          {isVoiceActive && (
+          {/* TURN-BASED AUDIO METRICS CONSOLE */}
+          {(isRecording || isTutorSpeaking) && (
              <div className="flex items-center gap-3 p-4 bg-indigo-50/50 border border-indigo-100 rounded-2xl mx-auto w-fit">
-                <Volume2 size={16} className={isTutorSpeaking ? "text-indigo-600 animate-bounce" : "text-slate-400"} />
+                <Volume2 size={16} className={isTutorSpeaking ? "text-indigo-600 animate-bounce" : "text-red-500 animate-pulse"} />
                 <span className="text-xs font-bold text-indigo-700 uppercase tracking-widest">
-                  {isTutorSpeaking ? "Tutor is speaking..." : "Listening to you..."}
+                  {isTutorSpeaking ? "Tutor is speaking..." : "Recording your voice... Click Mic again to send"}
                 </span>
              </div>
           )}
 
-          {isTyping && !isVoiceActive && <div className="text-xs text-slate-400 animate-pulse ml-2">Tutor is thinking...</div>}
+          {isTyping && !isRecording && <div className="text-xs text-slate-400 animate-pulse ml-2">Tutor is thinking...</div>}
 
           {/* PENDING ASSESSMENT */}
           {pendingAssessment && (
@@ -363,7 +459,7 @@ const AITutorPanel = ({
              {QUICK_ACTIONS.map((action, idx) => (
                 <button
                   key={idx}
-                  disabled={isTyping || isVoiceActive}
+                  disabled={isTyping || isRecording}
                   onClick={() => triggerChatRequest(action.prompt)}
                   className="inline-block px-3 py-1.5 bg-white border border-slate-200 text-slate-600 text-xs font-medium rounded-full hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 transition-colors disabled:opacity-50 flex-shrink-0 shadow-sm"
                 >
@@ -378,13 +474,13 @@ const AITutorPanel = ({
                 type="text" 
                 value={chatInput} 
                 onChange={(e) => setChatInput(e.target.value)} 
-                disabled={isTyping || !sessionId || isVoiceActive} 
-                placeholder={isVoiceActive ? "Voice session active..." : "Ask me anything..."} 
+                disabled={isTyping || !sessionId || isRecording} 
+                placeholder={isRecording ? "Recording session active..." : "Ask me anything..."} 
                 className="w-full pl-4 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-600 outline-none disabled:opacity-60" 
               />
               <button 
                 type="submit" 
-                disabled={!chatInput.trim() || isTyping || isVoiceActive} 
+                disabled={!chatInput.trim() || isTyping || isRecording} 
                 className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-indigo-600 text-white rounded-lg flex items-center justify-center disabled:bg-slate-300 transition-colors hover:bg-indigo-700"
               >
                 <Send size={14} />
@@ -395,14 +491,14 @@ const AITutorPanel = ({
             <button
                 type="button"
                 onClick={toggleVoiceMode}
-                disabled={!sessionId || isTyping && !isVoiceActive}
+                disabled={!sessionId || (isTyping && !isRecording)}
                 className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all shadow-sm ${
-                    isVoiceActive 
+                    isRecording 
                     ? 'bg-red-500 text-white shadow-red-200 ring-4 ring-red-50' 
                     : 'bg-slate-100 text-slate-500 hover:bg-indigo-50 hover:text-indigo-600'
                 }`}
             >
-                {isVoiceActive ? <MicOff size={20} /> : <Mic size={20} />}
+                {isRecording ? <MicOff size={20} /> : <Mic size={20} />}
             </button>
           </div>
         </div>

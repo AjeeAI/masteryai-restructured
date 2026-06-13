@@ -252,7 +252,53 @@ async def tutor_voice_stream(
         logger.error(f"Live Error: {e}")
         await websocket.close(code=1011)
         
+
+from fastapi import UploadFile, File, Form
+from google import genai
+from google.genai import types
+
+@app.post("/tutor/voice-turn")
+async def tutor_voice_turn(
+    audio_file: UploadFile = File(...),
+    subject: str = Form(...),
+):
+    """
+    Standard HTTP endpoint for voice turns.
+    Takes student audio, returns Tutor text.
+    """
+    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+    
+    # Read the audio bytes uploaded by the frontend
+    audio_bytes = await audio_file.read()
+    
+    # Get your tutor personality
+    voice_config = get_subject_voice_config(subject)
+    system_instruction = f"{voice_config['style']} You are a tutor. Respond concisely and clearly to the student's spoken audio."
+
+    # Combine the audio data and the prompt
+    contents = [
+        types.Part.from_bytes(data=audio_bytes, mime_type=audio_file.content_type or 'audio/webm'),
+        "Listen to the student and provide your tutoring response."
+    ]
+
+    try:
+        # We use the standard, rock-solid 2.5-flash or 3.5-flash model
+        response = client.models.generate_content(
+            model="gemini-2.5-flash", 
+            contents=contents,
+            config=types.GenerateContentConfig(
+                system_instruction=system_instruction
+            )
+        )
         
+        # Return the text for the frontend to display and speak
+        return {"text": response.text}
+        
+    except Exception as e:
+        logger.error(f"Voice Turn Error: {e}")
+        return {"error": str(e)}
+    
+           
 @app.post("/tutor/recap", response_model=TutorChatResponse, dependencies=[Depends(verify_internal_key)])
 async def tutor_recap(payload: TutorRecapRequest):
     return await run_tutor_recap(payload)

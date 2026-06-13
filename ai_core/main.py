@@ -200,57 +200,52 @@ async def tutor_voice_stream(
     subject: str,
     model_tier: str = "flash"
 ):
-    """
-    Direct WebSocket connection using the internal LLMClient.
-    """
     await websocket.accept()
     
-    # 1. Fetch the exact persona config
+    # Bypass LLMClient entirely and use the SDK directly
+    from google import genai
+    from google.genai import types
+    
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        await websocket.close(code=1011)
+        return
+
     voice_config = get_subject_voice_config(subject)
-    system_instruction = (
-        f"{voice_config['style']} "
-        "You are an expert Nigerian secondary school teacher. Use Socratic questioning. "
-        "Keep your verbal responses extremely concise. "
-        "If the student sounds frustrated, respond with empathy."
+    
+    # Initialize the raw client
+    client = genai.Client(api_key=api_key, http_options={'api_version': 'v1alpha'})
+    
+    config = types.LiveConnectConfig(
+        response_modalities=[types.LiveModality.AUDIO],
+        system_instruction=types.Content(parts=[types.Part.from_text(text=f"{voice_config['style']} You are a tutor.")]),
+        speech_config=types.SpeechConfig(
+            voice_config=types.VoiceConfig(
+                prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=voice_config["voice"])
+            )
+        )
     )
 
-    # 2. Instantiate your existing LLM Engine Client
-    llm = LLMClient(provider="gemini", model="gemini-2.5-flash")
-
     try:
-        # 3. Call your custom connect_live method!
-        
-        logger.info(f"DEBUG: LLMClient methods: {dir(llm)}")
-        async with await llm.connect_live(
-            model_tier=model_tier,
-            system_instruction=system_instruction,
-            voice_name=voice_config["voice"]
-        ) as session:
-            
-            logger.info(f"🎤 Voice session active for {subject} via LLMClient.")
-
+        # Connect directly to the model
+        async with client.aio.live.connect(model="gemini-2.0-flash", config=config) as session:
             async def receive_from_student():
                 async for message in websocket.iter_bytes():
-                    # Wrap the raw audio bytes into a Gemini Part
                     part = types.Part.from_bytes(data=message, mime_type="audio/webm")
                     await session.send(input=part, end_of_turn=True)
 
             async def send_to_student():
                 async for response in session.receive():
-                    server_content = response.server_content
-                    if server_content is not None and server_content.model_turn is not None:
-                        for part in server_content.model_turn.parts:
-                            if part.inline_data and part.inline_data.data:
+                    if response.server_content and response.server_content.model_turn:
+                        for part in response.server_content.model_turn.parts:
+                            if part.inline_data:
                                 await websocket.send_bytes(part.inline_data.data)
                             if part.text:
                                 await websocket.send_json({"text": part.text})
 
             await asyncio.gather(receive_from_student(), send_to_student())
-
-    except WebSocketDisconnect:
-        logger.info(f"Student disconnected from voice session {session_id}")
     except Exception as e:
-        logger.error(f"Multimodal Live Error: {e}", exc_info=True)
+        logger.error(f"Live Error: {e}")
         await websocket.close(code=1011)
         
         

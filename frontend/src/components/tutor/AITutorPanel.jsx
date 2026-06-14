@@ -286,11 +286,19 @@ const AITutorPanel = ({
     setIsTyping(true);
     
     // Add visual structural turn for the student audio payload
-    setMessages(prev => [...prev, { id: createMessageId(), role: 'student', content: "🎙️ *Sent a voice response*" }]);
+    const tempId = createMessageId();
+    setMessages(prev => [...prev, { id: tempId, role: 'student', content: "🎙️ *Transcribing voice...*" }]);
     
     const formData = new FormData();
     formData.append("audio_file", audioBlob, "turn.webm");
+    
+    // 🔥 ADD ALL MISSING CONTEXT VARIABLES HERE 🔥
+    formData.append("student_id", activeId);
+    formData.append("session_id", sessionId);
     formData.append("subject", currentSubject);
+    formData.append("sss_level", currentLevel);
+    formData.append("term", currentTerm);
+    formData.append("topic_id", topicId);
 
     startStreamingMessage();
 
@@ -304,6 +312,13 @@ const AITutorPanel = ({
       const data = await response.json();
       
       if (data.text) {
+        // Update the placeholder to show what the student actually said
+        if (data.transcription) {
+             setMessages(prev => prev.map(msg => 
+                 msg.id === tempId ? { ...msg, content: `🎙️ "${data.transcription}"` } : msg
+             ));
+        }
+
         updateStreamingMessage(data.text);
         triggerNativeTTS(data.text);
       } else if (data.error) {

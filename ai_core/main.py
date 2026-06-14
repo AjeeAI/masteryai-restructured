@@ -257,47 +257,61 @@ from fastapi import UploadFile, File, Form
 from google import genai
 from google.genai import types
 
+from core_engine.api_contracts.schemas import TutorChatRequest
+
 @app.post("/tutor/voice-turn")
 async def tutor_voice_turn(
     audio_file: UploadFile = File(...),
+    student_id: str = Form(...),
+    session_id: str = Form(...),
     subject: str = Form(...),
+    sss_level: str = Form(...),
+    term: str = Form(...),
+    topic_id: str = Form(...),
 ):
     """
-    Standard HTTP endpoint for voice turns.
-    Takes student audio, returns Tutor text.
+    Context-Aware Voice Endpoint.
+    Transcribes audio, then feeds it through the main Tutor Engine Knowledge Graph.
     """
     client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-    
-    # Read the audio bytes uploaded by the frontend
     audio_bytes = await audio_file.read()
-    
-    # Get your tutor personality
-    voice_config = get_subject_voice_config(subject)
-    system_instruction = f"{voice_config['style']} You are a tutor. Respond concisely and clearly to the student's spoken audio."
-
-    # Combine the audio data and the prompt
-    contents = [
-        types.Part.from_bytes(data=audio_bytes, mime_type=audio_file.content_type or 'audio/webm'),
-        "Listen to the student and provide your tutoring response."
-    ]
 
     try:
-        # We use the standard, rock-solid 2.5-flash or 3.5-flash model
-        response = client.models.generate_content(
+        # STEP 1: Fast Speech-to-Text Transcription using Gemini
+        transcription_response = client.models.generate_content(
             model="gemini-2.5-flash", 
-            contents=contents,
-            config=types.GenerateContentConfig(
-                system_instruction=system_instruction
-            )
+            contents=[
+                types.Part.from_bytes(data=audio_bytes, mime_type=audio_file.content_type or 'audio/webm'),
+                "Transcribe this audio exactly word for word. Do not answer it or respond to it, just output the transcribed text."
+            ]
+        )
+        student_text = transcription_response.text.strip()
+        logger.info(f"🎤 Voice Transcribed: {student_text}")
+
+        # STEP 2: Feed the transcription into your existing Knowledge Graph Brain
+        chat_request = TutorChatRequest(
+            student_id=student_id,
+            session_id=session_id,
+            subject=subject,
+            sss_level=sss_level,
+            term=term,
+            topic_id=topic_id,
+            message=student_text
         )
         
-        # Return the text for the frontend to display and speak
-        return {"text": response.text}
+        # This is where the magic happens (RAG + Context)
+        chat_response = await run_tutor_chat(chat_request)
+        
+        # STEP 3: Return the intelligent response to the frontend for TTS
+        # Assuming run_tutor_chat returns an object with an 'assistant_message' attribute
+        return {
+            "text": chat_response.assistant_message,
+            "transcription": student_text # Optional: send back what Gemini heard
+        }
         
     except Exception as e:
-        logger.error(f"Voice Turn Error: {e}")
-        return {"error": str(e)}
-    
+        logger.error(f"Contextual Voice Turn Error: {e}")
+        return {"error": str(e)}    
            
 @app.post("/tutor/recap", response_model=TutorChatResponse, dependencies=[Depends(verify_internal_key)])
 async def tutor_recap(payload: TutorRecapRequest):

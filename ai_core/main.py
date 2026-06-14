@@ -259,15 +259,17 @@ from google.genai import types
 
 from core_engine.api_contracts.schemas import TutorChatRequest
 
+import re
+
 @app.post("/tutor/voice-turn")
 async def tutor_voice_turn(
     audio_file: UploadFile = File(...),
-    student_id: str = Form(...),
-    session_id: str = Form(...),
-    subject: str = Form(...),
-    sss_level: int = Form(...), # CAST TO INT
-    term: int = Form(...),      # CAST TO INT
-    topic_id: str = Form(...),
+    student_id: str = Form(default=""),
+    session_id: str = Form(default=""),
+    subject: str = Form(default=""),
+    sss_level: str = Form(default="1"), # Accept string, default to "1"
+    term: str = Form(default="1"),      # Accept string, default to "1"
+    topic_id: str = Form(default=""),
 ):
     """
     Context-Aware Voice Endpoint.
@@ -277,6 +279,12 @@ async def tutor_voice_turn(
     audio_bytes = await audio_file.read()
 
     try:
+        # --- SAFE TYPE CASTING ---
+        # Strips out any text like "SS " or "Term " and leaves only the number. 
+        # If it's "undefined" or empty, it defaults to 1.
+        safe_level = int(re.sub(r'\D', '', sss_level) or 1)
+        safe_term = int(re.sub(r'\D', '', term) or 1)
+
         # STEP 1: Fast Speech-to-Text Transcription using Gemini
         transcription_response = client.models.generate_content(
             model="gemini-2.5-flash", 
@@ -293,8 +301,8 @@ async def tutor_voice_turn(
             student_id=student_id,
             session_id=session_id,
             subject=subject,
-            sss_level=sss_level,
-            term=term,
+            sss_level=safe_level,
+            term=safe_term,
             topic_id=topic_id,
             message=student_text
         )
@@ -310,7 +318,7 @@ async def tutor_voice_turn(
         
     except Exception as e:
         logger.error(f"Contextual Voice Turn Error: {e}")
-        return {"error": str(e)}   
+        return {"error": str(e)}
            
 @app.post("/tutor/recap", response_model=TutorChatResponse, dependencies=[Depends(verify_internal_key)])
 async def tutor_recap(payload: TutorRecapRequest):

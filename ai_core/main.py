@@ -260,6 +260,14 @@ from google.genai import types
 from core_engine.api_contracts.schemas import TutorChatRequest
 
 import re
+import os
+import logging
+from fastapi import UploadFile, File, Form
+from google import genai
+from google.genai import types
+from core_engine.api_contracts.schemas import TutorChatRequest
+
+logger = logging.getLogger(__name__)
 
 @app.post("/tutor/voice-turn")
 async def tutor_voice_turn(
@@ -267,8 +275,8 @@ async def tutor_voice_turn(
     student_id: str = Form(default=""),
     session_id: str = Form(default=""),
     subject: str = Form(default=""),
-    sss_level: str = Form(default="1"), # Accept string, default to "1"
-    term: str = Form(default="1"),      # Accept string, default to "1"
+    sss_level: str = Form(default="1"), 
+    term: str = Form(default="1"),      
     topic_id: str = Form(default=""),
 ):
     """
@@ -279,11 +287,13 @@ async def tutor_voice_turn(
     audio_bytes = await audio_file.read()
 
     try:
-        # --- SAFE TYPE CASTING ---
-        # Strips out any text like "SS " or "Term " and leaves only the number. 
-        # If it's "undefined" or empty, it defaults to 1.
-        safe_level = int(re.sub(r'\D', '', sss_level) or 1)
-        safe_term = int(re.sub(r'\D', '', term) or 1)
+        # --- STRICT SCHEMA FORMATTING ---
+        # 1. Clean the term to be strictly an integer (1, 2, or 3)
+        safe_term = int(re.sub(r'\D', '', str(term)) or 1)
+        
+        # 2. Extract the number for the level, then strictly format it as "SSS1", "SSS2", or "SSS3"
+        raw_level = int(re.sub(r'\D', '', str(sss_level)) or 1)
+        safe_level = f"SSS{raw_level}"
 
         # STEP 1: Fast Speech-to-Text Transcription using Gemini
         transcription_response = client.models.generate_content(
@@ -301,8 +311,8 @@ async def tutor_voice_turn(
             student_id=student_id,
             session_id=session_id,
             subject=subject,
-            sss_level=safe_level,
-            term=safe_term,
+            sss_level=safe_level, # Now perfectly formats to "SSS1"
+            term=safe_term,       # Now perfectly formats to 1
             topic_id=topic_id,
             message=student_text
         )

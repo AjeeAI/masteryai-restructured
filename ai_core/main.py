@@ -328,8 +328,7 @@ async def tutor_voice_turn(
         
     except Exception as e:
         logger.error(f"Contextual Voice Turn Error: {e}")
-        return {"error": str(e)}
-           
+        return {"error": str(e)}           
 @app.post("/tutor/recap", response_model=TutorChatResponse, dependencies=[Depends(verify_internal_key)])
 async def tutor_recap(payload: TutorRecapRequest):
     return await run_tutor_recap(payload)

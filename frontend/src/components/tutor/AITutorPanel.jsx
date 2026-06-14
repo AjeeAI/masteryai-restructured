@@ -7,9 +7,10 @@ import rehypeRaw from 'rehype-raw';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 
-import { API_URL as RUNTIME_API_URL } from '../../config/runtime';
+import { API_URL as RUNTIME_API_URL, AI_CORE_URL as RUNTIME_AI_CORE_URL } from '../../config/runtime';
 
 const API_URL = RUNTIME_API_URL;
+const AI_CORE_URL = RUNTIME_AI_CORE_URL;
 const createMessageId = () => typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `msg-${Date.now()}`;
 
 // --- QUICK ACTIONS DEFINITION ---
@@ -294,7 +295,7 @@ const AITutorPanel = ({
     startStreamingMessage();
 
     try {
-      const response = await fetch(`${API_URL}/tutor/voice-turn`, {
+      const response = await fetch(`${AI_CORE_URL}/tutor/voice-turn`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData

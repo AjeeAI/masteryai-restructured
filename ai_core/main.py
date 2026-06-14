@@ -265,8 +265,8 @@ async def tutor_voice_turn(
     student_id: str = Form(...),
     session_id: str = Form(...),
     subject: str = Form(...),
-    sss_level: str = Form(...),
-    term: str = Form(...),
+    sss_level: int = Form(...), # CAST TO INT
+    term: int = Form(...),      # CAST TO INT
     topic_id: str = Form(...),
 ):
     """
@@ -282,7 +282,7 @@ async def tutor_voice_turn(
             model="gemini-2.5-flash", 
             contents=[
                 types.Part.from_bytes(data=audio_bytes, mime_type=audio_file.content_type or 'audio/webm'),
-                "Transcribe this audio exactly word for word. Do not answer it or respond to it, just output the transcribed text."
+                "Transcribe this audio exactly word for word. Do not answer it or respond to it, just output the transcribed text. Do not add quotes or extra words."
             ]
         )
         student_text = transcription_response.text.strip()
@@ -303,15 +303,14 @@ async def tutor_voice_turn(
         chat_response = await run_tutor_chat(chat_request)
         
         # STEP 3: Return the intelligent response to the frontend for TTS
-        # Assuming run_tutor_chat returns an object with an 'assistant_message' attribute
         return {
             "text": chat_response.assistant_message,
-            "transcription": student_text # Optional: send back what Gemini heard
+            "transcription": student_text 
         }
         
     except Exception as e:
         logger.error(f"Contextual Voice Turn Error: {e}")
-        return {"error": str(e)}    
+        return {"error": str(e)}   
            
 @app.post("/tutor/recap", response_model=TutorChatResponse, dependencies=[Depends(verify_internal_key)])
 async def tutor_recap(payload: TutorRecapRequest):

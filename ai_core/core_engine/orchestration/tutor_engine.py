@@ -739,6 +739,12 @@ def _is_question_request(message: str) -> bool:
 
 def _infer_tutor_mode_from_message(message: str) -> str:
     text = (message or "").strip().lower()
+    
+    # --- NEW: Catch simple greetings and small talk ---
+    greeting_words = ("hi", "hello", "hey", "good morning", "good afternoon", "good evening", "how are you", "what's up")
+    if len(text) < 30 and any(text.startswith(g) for g in greeting_words):
+        return "greet"
+
     if (
         re.search(r"\bwaec\b", text)
         or re.search(r"\bexam(?:s|ination)?\b", text)
@@ -754,7 +760,6 @@ def _infer_tutor_mode_from_message(message: str) -> str:
     if any(phrase in text for phrase in ("ask me a question", "quiz me", "test me")):
         return "socratic"
     return "teach"
-
 
 def _weak_concept_labels(graph_context: dict | None, lesson_context: dict | None, *, limit: int = 3) -> list[str]:
     covered_ids = set(_lesson_covered_concept_ids(lesson_context))
@@ -932,13 +937,11 @@ def _tighten_tutor_message(
     lesson_context: dict | None,
     graph_context: dict | None,
 ) -> str:
-    anchored = " ".join(str(message or "").split()).strip()
-    if not anchored:
-        return anchored
-    anchor = _message_anchor_label(request, lesson_context, graph_context)
-    if anchor and anchor.casefold() not in anchored.casefold():
-        anchored = f"{anchor}: {anchored}"
-    return anchored
+    """
+    Cleans up whitespace without forcibly prepending internal 
+    graph labels to the LLM's natural response.
+    """
+    return " ".join(str(message or "").split()).strip()
 
 
 def _structured_tutor_prompt(
@@ -976,6 +979,8 @@ def _structured_tutor_prompt(
         "drill": "Generate one short drill prompt, then coach the learner with a compact lesson-grounded answer.",
         "recap": "Compress the topic into three sharp points, one memory hook, and one exam-useful reminder.",
         "exam-practice": "Coach the learner in WAEC style: exam-focused, precise, time-aware, and grounded in this lesson.",
+        # --- NEW: Tell it exactly how to handle greetings ---
+        "greet": "Acknowledge the greeting warmly in 1 or 2 short sentences. Do NOT explain the lesson. Just ask if they are ready to learn the current topic.",
     }.get(mode, "Explain clearly and stay grounded.")
     
     return (
@@ -1014,7 +1019,7 @@ def _structured_tutor_prompt(
         "*** CRITICAL INTERACTIVE WIDGET RULES ***\n"
         "1. If the mode is 'socratic', 'drill', or 'exam-practice', you MUST generate an interactive_widget.\n"
         "2. FATAL ERROR: Do NOT put the quiz question or the options inside the 'assistant_message'. The 'assistant_message' MUST ONLY contain a brief intro (e.g., 'Let us test your knowledge.').\n"
-        "3. If the mode is 'teach', 'recap', or 'diagnose', set 'interactive_widget' to null.\n\n"
+        "3. If the mode is 'teach', 'recap', 'diagnose', or 'greet', set 'interactive_widget' to null.\n\n"
         "*** AGENTIC MASTERY GRADING RULES ***\n"
         "1. You are an autonomous grader. If the user's message answers a previous quiz or demonstrates new knowledge, you MUST output an 'inline_mastery_update'.\n"
         "2. 'score_delta' must be a float: +0.1 (correct), +0.05 (partial), -0.05 (minor error), or -0.1 (completely wrong).\n"

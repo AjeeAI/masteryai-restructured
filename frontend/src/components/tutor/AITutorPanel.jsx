@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Send, Target, Maximize2, Minimize2, Sparkles, Mic, MicOff, Volume2 } from 'lucide-react';
+import { X, Send, Target, Maximize2, Minimize2, Sparkles, Mic, MicOff, Volume2, VolumeX, Square } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -95,18 +95,18 @@ const InteractiveQuizWidget = ({ widgetData, onAnswerSubmit, disabled }) => {
 
 // --- MAIN AI TUTOR PANEL COMPONENT ---
 const AITutorPanel = ({
-    activeId,
-    token,
-    sessionId,
-    currentSubject,
-    currentLevel,
-    currentTerm,
-    topicId,
-    initialGreeting,
-    initialPendingAssessment,
-    isMaximized,
-    onToggleMaximize,
-    onClose
+  activeId,
+  token,
+  sessionId,
+  currentSubject,
+  currentLevel,
+  currentTerm,
+  topicId,
+  initialGreeting,
+  initialPendingAssessment,
+  isMaximized,
+  onToggleMaximize,
+  onClose
 }) => {
 
   const [messages, setMessages] = useState([
@@ -117,9 +117,13 @@ const AITutorPanel = ({
   const [pendingAssessment, setPendingAssessment] = useState(initialPendingAssessment);
   const [assessmentAnswer, setAssessmentAnswer] = useState('');
 
-  // --- NEW: AUDIO RECORDING & SPEECH STATES ---
+  // --- AUDIO RECORDING & SPEECH STATES ---
   const [isRecording, setIsRecording] = useState(false);
   const [isTutorSpeaking, setIsTutorSpeaking] = useState(false);
+  
+  // --- NEW: CONTROLLED AUDIO STATES ---
+  const [isAutoPlayEnabled, setIsAutoPlayEnabled] = useState(false); // Default to silent mode
+  const [speakingMessageId, setSpeakingMessageId] = useState(null); // Tracks WHICH message is currently playing
   
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
@@ -144,13 +148,30 @@ const AITutorPanel = ({
     setAssessmentAnswer("");
     
     // Stop any ongoing speech when the topic changes
-    window.speechSynthesis.cancel();
-    setIsTutorSpeaking(false);
+    stopAllSpeech();
   }, [topicId, initialGreeting, initialPendingAssessment]);
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messages, isTyping, pendingAssessment, isRecording, isTutorSpeaking]);
+
+  // --- NEW: UNIVERSAL SPEECH STOPPER ---
+  const stopAllSpeech = () => {
+    window.speechSynthesis.cancel();
+    setIsTutorSpeaking(false);
+    setSpeakingMessageId(null);
+  };
+
+  // --- NEW: TOGGLE SPEECH FOR A SPECIFIC MESSAGE ---
+  const toggleMessageSpeech = (messageId, textToSpeak) => {
+    if (speakingMessageId === messageId) {
+      // If clicking the message that is currently playing, Stop it.
+      stopAllSpeech();
+    } else {
+      // If clicking a new message, force it to play (bypassing auto-play rules)
+      triggerNativeTTS(textToSpeak, messageId, true);
+    }
+  };
 
   const startStreamingMessage = () => {
     const id = createMessageId();
@@ -163,7 +184,6 @@ const AITutorPanel = ({
     const id = streamingMessageRef.current;
     if (!id) return;
     setMessages(prev => prev.map(item => item.id === id ? { ...item, content: text, streaming: false } : item));
-    streamingMessageRef.current = null;
   };
 
   const consumeStream = async (payload) => {
@@ -204,6 +224,10 @@ const AITutorPanel = ({
               interactive_widget: data.interactive_widget || null,
               streaming: false
             } : item));
+            
+            // If Auto-Play is ON, read out regular text chat responses too!
+            triggerNativeTTS(data.assistant_message || data.content, id);
+            
             streamingMessageRef.current = null;
           }
         }
@@ -217,9 +241,7 @@ const AITutorPanel = ({
   const triggerChatRequest = async (studentMsg) => {
     if (!studentMsg.trim() || !sessionId || isTyping) return;
     
-    // Interrupt any active tutor speech context
-    window.speechSynthesis.cancel();
-    setIsTutorSpeaking(false);
+    stopAllSpeech();
 
     setMessages(prev => [...prev, { id: createMessageId(), role: 'student', content: studentMsg }]);
     setChatInput("");
@@ -237,11 +259,9 @@ const AITutorPanel = ({
     triggerChatRequest(chatInput);
   };
 
-  // --- NEW: TURN-BASED VOICE PROCESSING PIPELINE ---
   const startAudioRecording = async () => {
     try {
-      window.speechSynthesis.cancel();
-      setIsTutorSpeaking(false);
+      stopAllSpeech();
       
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       audioChunksRef.current = [];
@@ -285,14 +305,11 @@ const AITutorPanel = ({
   const sendAudioTurnToBackend = async (audioBlob) => {
     setIsTyping(true);
     
-    // Add visual structural turn for the student audio payload
     const tempId = createMessageId();
     setMessages(prev => [...prev, { id: tempId, role: 'student', content: "🎙️ *Transcribing voice...*" }]);
     
     const formData = new FormData();
     formData.append("audio_file", audioBlob, "turn.webm");
-    
-    // 🔥 ADD ALL MISSING CONTEXT VARIABLES HERE 🔥
     formData.append("student_id", activeId);
     formData.append("session_id", sessionId);
     formData.append("subject", currentSubject);
@@ -300,7 +317,7 @@ const AITutorPanel = ({
     formData.append("term", currentTerm);
     formData.append("topic_id", topicId);
 
-    startStreamingMessage();
+    const messageId = startStreamingMessage();
 
     try {
       const response = await fetch(`${AI_CORE_URL}/tutor/voice-turn`, {
@@ -312,15 +329,16 @@ const AITutorPanel = ({
       const data = await response.json();
       
       if (data.text) {
-        // Update the placeholder to show what the student actually said
         if (data.transcription) {
              setMessages(prev => prev.map(msg => 
                  msg.id === tempId ? { ...msg, content: `🎙️ "${data.transcription}"` } : msg
              ));
         }
-
         updateStreamingMessage(data.text);
-        triggerNativeTTS(data.text);
+        
+        // Automatically trigger TTS for voice queries, unless Auto-Play is explicitly disabled
+        triggerNativeTTS(data.text, messageId);
+        
       } else if (data.error) {
         updateStreamingMessage(`⚠️ Error processing voice turn: ${data.error}`);
       }
@@ -329,28 +347,43 @@ const AITutorPanel = ({
       updateStreamingMessage("❌ Failed to reach the voice engine endpoint.");
     } finally {
       setIsTyping(false);
+      streamingMessageRef.current = null;
     }
   };
 
-  const triggerNativeTTS = (textToSpeak) => {
+  // --- UPDATED: NATIVE TTS WITH CONTROLS ---
+  const triggerNativeTTS = (textToSpeak, messageId, forcePlay = false) => {
     if (!textToSpeak) return;
     
-    // Clean markdown characters out of speech output strings
-    const cleanText = textToSpeak.replace(/[*#_`~\-]/g, '');
+    // Only play if it's forced by user click, or if Auto-Play is toggled ON
+    if (!forcePlay && !isAutoPlayEnabled) return;
     
+    stopAllSpeech();
+    
+    const cleanText = textToSpeak.replace(/[*#_`~\-]/g, '');
     const utterance = new SpeechSynthesisUtterance(cleanText);
     
-    utterance.onstart = () => setIsTutorSpeaking(true);
-    utterance.onend = () => setIsTutorSpeaking(false);
-    utterance.onerror = () => setIsTutorSpeaking(false);
+    utterance.onstart = () => {
+      setIsTutorSpeaking(true);
+      setSpeakingMessageId(messageId);
+    };
+    
+    utterance.onend = () => {
+      setIsTutorSpeaking(false);
+      setSpeakingMessageId(null);
+    };
+    
+    utterance.onerror = () => {
+      setIsTutorSpeaking(false);
+      setSpeakingMessageId(null);
+    };
     
     window.speechSynthesis.speak(utterance);
   };
 
   const handleWidgetSubmit = async (selectedOption) => {
     if (isTyping) return;
-    window.speechSynthesis.cancel();
-    setIsTutorSpeaking(false);
+    stopAllSpeech();
 
     setMessages(prev => [...prev, { id: createMessageId(), role: 'student', content: `I select: ${selectedOption}` }]);
     setIsTyping(true);
@@ -365,8 +398,7 @@ const AITutorPanel = ({
 
   const submitAssessment = async () => {
     if (!pendingAssessment || !assessmentAnswer.trim() || isTyping) return;
-    window.speechSynthesis.cancel();
-    setIsTutorSpeaking(false);
+    stopAllSpeech();
     setIsTyping(true);
     try {
       const response = await fetch(`${API_URL}/tutor/assessment/submit`, {
@@ -379,10 +411,12 @@ const AITutorPanel = ({
         }),
       });
       const out = await response.json();
-      setMessages(prev => [...prev, {
-        id: createMessageId(), role: 'assistant',
-        content: `**Checkpoint Result:** ${out.is_correct ? 'Great job!' : 'Not quite.'}\n\n${out.feedback}`
-      }]);
+      const msgId = createMessageId();
+      const feedbackText = `**Checkpoint Result:** ${out.is_correct ? 'Great job!' : 'Not quite.'}\n\n${out.feedback}`;
+      
+      setMessages(prev => [...prev, { id: msgId, role: 'assistant', content: feedbackText }]);
+      triggerNativeTTS(feedbackText, msgId); // Respects Auto-Play settings
+
       setPendingAssessment(null);
       setAssessmentAnswer('');
     } catch (err) {
@@ -410,6 +444,19 @@ const AITutorPanel = ({
             )}
           </div>
           <div className="flex items-center gap-1">
+            {/* NEW AUTO-PLAY TOGGLE */}
+            <button 
+              onClick={() => {
+                setIsAutoPlayEnabled(!isAutoPlayEnabled);
+                if (isAutoPlayEnabled) stopAllSpeech();
+              }}
+              className={`p-2 transition-colors rounded-lg hover:bg-slate-100 ${isAutoPlayEnabled ? 'text-indigo-600' : 'text-slate-400'}`} 
+              title={isAutoPlayEnabled ? "Auto-Play Responses (ON)" : "Auto-Play Responses (OFF)"}
+            >
+              {isAutoPlayEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+            </button>
+            <div className="w-px h-5 bg-slate-200 mx-1"></div>
+            
             <button onClick={onToggleMaximize} className="text-slate-400 hover:text-slate-600 p-2 transition-colors" title="Toggle Fullscreen">
               {isMaximized ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
             </button>
@@ -431,6 +478,24 @@ const AITutorPanel = ({
                       </ReactMarkdown>
                     </div>
                   ) : msg.content}
+                  
+                  {/* NEW ON-DEMAND PLAYBACK BUTTON */}
+                  {msg.role === 'assistant' && msg.content && !msg.streaming && (
+                     <button
+                        onClick={() => toggleMessageSpeech(msg.id, msg.content)}
+                        className={`mt-3 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider transition-colors ${
+                          speakingMessageId === msg.id 
+                          ? 'text-red-500 hover:text-red-700' 
+                          : 'text-indigo-400 hover:text-indigo-600'
+                        }`}
+                     >
+                        {speakingMessageId === msg.id ? (
+                           <><Square size={12} fill="currentColor" /> Stop Reading</>
+                        ) : (
+                           <><Volume2 size={12} /> Read Aloud</>
+                        )}
+                     </button>
+                  )}
                 </div>
 
                 {msg.role === 'assistant' && msg.interactive_widget && (

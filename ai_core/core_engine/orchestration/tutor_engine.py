@@ -1839,3 +1839,50 @@ def get_subject_voice_config(subject: str) -> dict[str, str]:
 # This allows the backend to get the persona without needing a direct import.
 def get_persona(self, subject: str) -> dict:
     return get_subject_voice_config(subject)
+
+# Extract this from run_tutor_chat so both Text and Voice can share it
+async def gather_tutor_voice_context(
+    student_id: str, session_id: str, topic_id: str, subject: str, sss_level: str, term: int
+) -> str:
+    """
+    Natively gathers and formats the exact same context used by the text engine,
+    optimized for the Live Voice API system instruction.
+    """
+    # 1. Create a dummy request to trigger your native context collector
+    request = TutorChatRequest(
+        student_id=UUID(student_id) if isinstance(student_id, str) else student_id,
+        session_id=UUID(session_id) if isinstance(session_id, str) else session_id,
+        subject=subject,
+        sss_level=sss_level,
+        term=term,
+        topic_id=UUID(topic_id) if (topic_id and isinstance(topic_id, str)) else topic_id,
+        message="Initializing voice stream" # Dummy message for the RAG retriever
+    )
+    
+    # 2. Call your existing ultra-fast concurrent collector
+    citations, profile_context, history_context, lesson_context, graph_context, _ = await _collect_tutor_context(request)
+    
+    # 3. Format everything using your exact existing native string builders
+    lesson_block = "\n".join(_lesson_context_block_lines(lesson_context)) or "- No persisted lesson body available."
+    profile_block = "\n".join(_profile_context_lines(profile_context)) or "- No profile preferences available."
+    history_block = "\n".join(_history_context_lines(history_context)) or "- No prior tutor history."
+    graph_block = "\n".join(_graph_context_lines(graph_context, lesson_context)) or "- No graph/mastery context available."
+    citations_block = _citations_block(citations)
+    
+    # 4. Return the massive, unified "brain" string
+    return f"""
+    Student Profile:
+    {profile_block}
+    
+    Recent Tutor History:
+    {history_block}
+    
+    Active Lesson Context:
+    {lesson_block}
+    
+    Knowledge Graph / Mastery State:
+    {graph_block}
+    
+    RAG Citations:
+    {citations_block}
+    """

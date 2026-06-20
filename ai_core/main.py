@@ -6,14 +6,17 @@ import os
 import json
 import logging
 import asyncio
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from uuid import UUID
-from google.genai import types
 
-from fastapi import FastAPI, HTTPException, status, Depends, Header, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, HTTPException, status, Depends, Header, WebSocket, WebSocketDisconnect, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
+
+from google import genai
+from google.genai import types
 
 # --- SCHEMA / CONTRACT IMPORTS ---
 from ai_core.core_engine.llm.client import LLMClient
@@ -55,6 +58,7 @@ from core_engine.orchestration.quiz_engine import (
 )
 from core_engine.orchestration.tutor_engine import (
     get_subject_voice_config,
+    gather_tutor_voice_context, # NATIVE CONTEXT IMPORTED HERE
     run_tutor_drill,
     run_tutor_assessment_start,
     run_tutor_assessment_submit,
@@ -121,7 +125,6 @@ def root():
 
 @app.get("/health")
 def health():
-    # Removed Groq. Now checking for Gemini primarily.
     llm_key_present = bool(os.getenv("GEMINI_API_KEY") or os.getenv("OPENAI_API_KEY"))
     postgres_dsn_present = bool(os.getenv("POSTGRES_DSN") or os.getenv("DATABASE_URL"))
     checks = {
@@ -186,88 +189,12 @@ async def quiz_insights(quiz_id: UUID, attempt_id: UUID):
     insights = await generate_quiz_insights(quiz_id=quiz_id, attempt_id=attempt_id)
     return QuizInsightsResponse(insights=insights)
 
-# --- TUTOR ROUTES (Now Secured & Async) ---
-# CRITICAL: We changed these to `async def` and added `await` to prevent blocking the Render thread.
+# --- TUTOR ROUTES ---
 
 @app.post("/tutor/chat", response_model=TutorChatResponse, dependencies=[Depends(verify_internal_key)])
 async def tutor_chat(payload: TutorChatRequest):
     return await run_tutor_chat(payload)
 
-
-@app.websocket("/tutor/live-voice/{session_id}")
-async def tutor_voice_stream(
-    websocket: WebSocket,
-    session_id: str,
-    subject: str,
-    model_tier: str = "flash"
-):
-    await websocket.accept()
-    
-    # Bypass LLMClient entirely and use the SDK directly
-    from google import genai
-    from google.genai import types
-    
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        await websocket.close(code=1011)
-        return
-
-    voice_config = get_subject_voice_config(subject)
-    
-    # Initialize the raw client
-    client = genai.Client(api_key=api_key, http_options={'api_version': 'v1alpha'})
-    
-    # 2. Updated configuration block
-    config = types.LiveConnectConfig(
-        # Use simple string list instead of LiveModality constant if the enum is missing
-        response_modalities=["AUDIO"], 
-        system_instruction=types.Content(parts=[types.Part.from_text(text=f"{voice_config['style']} You are a tutor.")]),
-        speech_config=types.SpeechConfig(
-            voice_config=types.VoiceConfig(
-                prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=voice_config["voice"])
-            )
-        )
-    )
-
-    try:
-        # Connect directly to the model
-        async with client.aio.live.connect(model="gemini-live-2.5-flash-native-audio", config=config) as session:
-            logger.info(f"🎤 Voice session active using gemini-live-2.5-flash-native-audio")
-            async def receive_from_student():
-                async for message in websocket.iter_bytes():
-                    part = types.Part.from_bytes(data=message, mime_type="audio/webm")
-                    await session.send(input=part, end_of_turn=True)
-
-            async def send_to_student():
-                async for response in session.receive():
-                    if response.server_content and response.server_content.model_turn:
-                        for part in response.server_content.model_turn.parts:
-                            if part.inline_data:
-                                await websocket.send_bytes(part.inline_data.data)
-                            if part.text:
-                                await websocket.send_json({"text": part.text})
-
-            await asyncio.gather(receive_from_student(), send_to_student())
-    except Exception as e:
-        logger.error(f"Live Error: {e}")
-        await websocket.close(code=1011)
-        
-
-from fastapi import UploadFile, File, Form
-from google import genai
-from google.genai import types
-
-from core_engine.api_contracts.schemas import TutorChatRequest
-
-import re
-import os
-import logging
-from fastapi import UploadFile, File, Form
-from google import genai
-from google.genai import types
-from core_engine.api_contracts.schemas import TutorChatRequest
-
-logger = logging.getLogger(__name__)
 
 @app.post("/tutor/voice-turn")
 async def tutor_voice_turn(
@@ -280,22 +207,16 @@ async def tutor_voice_turn(
     topic_id: str = Form(default=""),
 ):
     """
-    Context-Aware Voice Endpoint.
-    Transcribes audio, then feeds it through the main Tutor Engine Knowledge Graph.
+    REST Context-Aware Voice Endpoint (Walkie-Talkie Mode).
     """
     client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
     audio_bytes = await audio_file.read()
 
     try:
-        # --- STRICT SCHEMA FORMATTING ---
-        # 1. Clean the term to be strictly an integer (1, 2, or 3)
         safe_term = int(re.sub(r'\D', '', str(term)) or 1)
-        
-        # 2. Extract the number for the level, then strictly format it as "SSS1", "SSS2", or "SSS3"
         raw_level = int(re.sub(r'\D', '', str(sss_level)) or 1)
         safe_level = f"SSS{raw_level}"
 
-        # STEP 1: Fast Speech-to-Text Transcription using Gemini
         transcription_response = client.models.generate_content(
             model="gemini-2.5-flash", 
             contents=[
@@ -306,21 +227,18 @@ async def tutor_voice_turn(
         student_text = transcription_response.text.strip()
         logger.info(f"🎤 Voice Transcribed: {student_text}")
 
-        # STEP 2: Feed the transcription into your existing Knowledge Graph Brain
         chat_request = TutorChatRequest(
             student_id=student_id,
             session_id=session_id,
             subject=subject,
-            sss_level=safe_level, # Now perfectly formats to "SSS1"
-            term=safe_term,       # Now perfectly formats to 1
+            sss_level=safe_level,
+            term=safe_term,
             topic_id=topic_id,
             message=student_text
         )
         
-        # This is where the magic happens (RAG + Context)
         chat_response = await run_tutor_chat(chat_request)
         
-        # STEP 3: Return the intelligent response to the frontend for TTS
         return {
             "text": chat_response.assistant_message,
             "transcription": student_text 
@@ -329,6 +247,108 @@ async def tutor_voice_turn(
     except Exception as e:
         logger.error(f"Contextual Voice Turn Error: {e}")
         return {"error": str(e)}           
+
+# --- THE NATIVE WEBSOCKET EAVESDROPPER ---
+
+@app.websocket("/tutor/live-voice")
+async def tutor_voice_stream(
+    websocket: WebSocket,
+    student_id: str,
+    session_id: str,
+    subject: str,
+    sss_level: str,
+    term: int,
+    topic_id: str = ""
+):
+    """
+    Sub-Second Native Audio Stream. 
+    Shares the EXACT same context/brain as the text engine.
+    """
+    await websocket.accept()
+    
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        await websocket.close(code=1011)
+        return
+
+    # 1. PULL NATIVE CONTEXT (Postgres + Neo4j + RAG)
+    try:
+        full_context = await gather_tutor_voice_context(
+            student_id=student_id,
+            session_id=session_id,
+            topic_id=topic_id,
+            subject=subject,
+            sss_level=sss_level,
+            term=term
+        )
+    except Exception as e:
+        logger.error(f"Failed to gather native context for voice: {e}")
+        full_context = "Context unavailable. Proceed with general curriculum knowledge."
+
+    voice_config = get_subject_voice_config(subject)
+    
+    system_instruction = f"""
+    You are MasteryAI's Native Voice Tutor. 
+    Use the following unified system context to guide the student:
+    
+    {full_context}
+    
+    Pedagogical Style: {voice_config['style']}
+    CRITICAL: Keep responses brief, spoken naturally, and apply the Socratic method. Do NOT read out long lists or markdown formatting.
+    """
+
+    client = genai.Client(api_key=api_key, http_options={'api_version': 'v1alpha'})
+    
+    # We ask Gemini to return BOTH Audio (for the UI) and Text (so we can log it to the database!)
+    config = types.LiveConnectConfig(
+        response_modalities=["AUDIO"], 
+        system_instruction=types.Content(parts=[types.Part.from_text(text=system_instruction)]),
+        speech_config=types.SpeechConfig(
+            voice_config=types.VoiceConfig(
+                prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=voice_config["voice"])
+            )
+        )
+    )
+
+    try:
+        async with client.aio.live.connect(model="gemini-live-2.5-flash-native-audio", config=config) as session:
+            logger.info("🎤 NATIVE Voice session active with full MasterAI Brain Context.")
+            
+            async def receive_from_student():
+                async for message in websocket.iter_bytes():
+                    part = types.Part.from_bytes(data=message, mime_type="audio/webm")
+                    await session.send(input=part, end_of_turn=True)
+
+            async def send_to_student():
+                current_tutor_response = ""
+                
+                async for response in session.receive():
+                    if response.server_content and response.server_content.model_turn:
+                        for part in response.server_content.model_turn.parts:
+                            
+                            # I/O PIPELINE: Send raw audio bytes straight to the ears
+                            if part.inline_data:
+                                await websocket.send_bytes(part.inline_data.data)
+                            
+                            # EAVESDROPPER: Capture the text transcript silently
+                            if part.text:
+                                current_tutor_response += part.text
+
+                    # When Gemini finishes a complete thought, log the transcript
+                    if response.server_content and response.server_content.turn_complete:
+                        if current_tutor_response:
+                            logger.info(f"💾 Intercepted Voice Transcript for DB: {current_tutor_response}")
+                            # TODO: In future iterations, fire a background HTTP request to backend/internal/history 
+                            # to permanently save this `current_tutor_response` to the student's text history log.
+                            current_tutor_response = ""
+
+            await asyncio.gather(receive_from_student(), send_to_student())
+            
+    except Exception as e:
+        logger.error(f"Live Native Voice Error: {e}")
+        await websocket.close(code=1011)
+
+
 @app.post("/tutor/recap", response_model=TutorChatResponse, dependencies=[Depends(verify_internal_key)])
 async def tutor_recap(payload: TutorRecapRequest):
     return await run_tutor_recap(payload)

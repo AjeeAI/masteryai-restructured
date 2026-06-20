@@ -36,7 +36,7 @@ class TutorChatIn(BaseModel):
     topic_id: UUID | None = None
     focus_concept_id: str | None = None
     focus_concept_label: str | None = None
-    mode: Literal["teach", "socratic", "diagnose", "drill", "recap", "exam-practice"] | None = None
+    mode: Literal["teach", "socratic", "diagnose", "drill", "recap", "exam-practice", "greet"] | None = None
     message: str = Field(min_length=1, max_length=4000)
 
 class InlineMasteryUpdate(BaseModel):
@@ -49,7 +49,7 @@ class TutorChatOut(BaseModel):
     citations: list[TutorCitationOut] = Field(default_factory=list)
     actions: list[str] = Field(default_factory=list)
     recommendations: list[TutorRecommendationOut] = Field(default_factory=list)
-    mode: Literal["teach", "socratic", "diagnose", "drill", "recap", "exam-practice"] | None = None
+    mode: Literal["teach", "socratic", "diagnose", "drill", "recap", "exam-practice", "greet"] | None = None
     key_points: list[str] = Field(default_factory=list)
     concept_focus: list[str] = Field(default_factory=list)
     prerequisite_warning: str | None = None

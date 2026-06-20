@@ -44,7 +44,7 @@ class TutorChatRequest(BaseModel):
     topic_id: Optional[str] = None
     focus_concept_id: Optional[str] = None
     focus_concept_label: Optional[str] = None
-    mode: Optional[Literal["teach", "socratic", "diagnose", "drill", "recap", "exam-practice"]] = None
+    mode: Optional[Literal["teach", "socratic", "diagnose", "drill", "recap", "exam-practice", "greet"]] = None
     message: str
 
 
@@ -70,7 +70,7 @@ class TutorChatResponse(BaseModel):
     citations: List[Citation] = Field(default_factory=list)
     actions: List[str] = Field(default_factory=list)
     recommendations: List[TutorRecommendation] = Field(default_factory=list)
-    mode: Optional[Literal["teach", "socratic", "diagnose", "drill", "recap", "exam-practice"]] = None
+    mode: Optional[Literal["teach", "socratic", "diagnose", "drill", "recap", "exam-practice", "greet"]] = None
     key_points: List[str] = Field(default_factory=list)
     concept_focus: List[str] = Field(default_factory=list)
     prerequisite_warning: Optional[str] = None

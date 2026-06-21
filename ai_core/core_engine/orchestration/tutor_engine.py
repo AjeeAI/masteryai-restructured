@@ -1229,17 +1229,31 @@ async def _run_structured_tutor_mode(
 ) -> TutorChatResponse:
     started_at = now_ms()
     
-    # --- THE FAST PATH ---
-    # If the user is just saying hello, skip all the heavy database and RAG lookups!
+    # --- THE SMART FAST PATH ---
     if mode == "greet":
+        # 1. Skip the slow Neo4j and Qdrant Vector databases
         citations = []
-        profile_context = None
-        history_context = None
-        lesson_context = None
         graph_context = None
-        actions = ["FAST_GREET_PATH"]
+        actions = ["SMART_GREET_PATH"]
+        
+        # 2. Keep the lightning-fast Postgres lookups so it remembers the topic!
+        try:
+            profile_context = await _internal_profile_context(request)
+        except Exception:
+            profile_context = None
+            
+        try:
+            history_context = await _internal_history_context(request)
+        except Exception:
+            history_context = None
+            
+        try:
+            lesson_context = await _internal_lesson_context(request) if request.topic_id else None
+        except Exception:
+            lesson_context = None
+
     else:
-        # For actual learning modes, do the heavy lifting
+        # For actual learning modes, do the full heavy lifting
         citations, profile_context, history_context, lesson_context, graph_context, actions = await _collect_tutor_context(request)
     
     if request.focus_concept_label or request.focus_concept_id:
@@ -1331,10 +1345,7 @@ async def _run_structured_tutor_mode(
     
     # --- INTERCEPT AND FIRE DATABASE TRIGGER ---
     if getattr(response, "inline_mastery_update", None):
-        # Convert Pydantic model to dict for the helper
         update_data = response.inline_mastery_update.model_dump()
-        
-        # Fire and forget! This runs in the background so the chat UI doesn't lag.
         asyncio.create_task(
             _trigger_agentic_mastery_update(
                 student_id=request.student_id, 

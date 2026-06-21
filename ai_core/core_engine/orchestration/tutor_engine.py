@@ -1228,12 +1228,25 @@ async def _run_structured_tutor_mode(
     user_goal: str,
 ) -> TutorChatResponse:
     started_at = now_ms()
-    citations, profile_context, history_context, lesson_context, graph_context, actions = await _collect_tutor_context(request)
+    
+    # --- THE FAST PATH ---
+    # If the user is just saying hello, skip all the heavy database and RAG lookups!
+    if mode == "greet":
+        citations = []
+        profile_context = None
+        history_context = None
+        lesson_context = None
+        graph_context = None
+        actions = ["FAST_GREET_PATH"]
+    else:
+        # For actual learning modes, do the heavy lifting
+        citations, profile_context, history_context, lesson_context, graph_context, actions = await _collect_tutor_context(request)
     
     if request.focus_concept_label or request.focus_concept_id:
         actions.append("USED_GRAPH_SELECTED_FOCUS")
 
-    if not citations and not _lesson_context_available(lesson_context):
+    # Only abort for no context if we are actually trying to teach/quiz
+    if mode != "greet" and not citations and not _lesson_context_available(lesson_context):
         topic_part = f", topic_id={request.topic_id}" if request.topic_id else ""
         log_timed_event(
             logger,
@@ -1268,6 +1281,7 @@ async def _run_structured_tutor_mode(
         lesson_context=lesson_context,
         graph_context=graph_context,
     )
+    
     try:
         raw = await _llm_generate(prompt)
     except (LLMClientError, Exception) as exc:
@@ -1315,7 +1329,7 @@ async def _run_structured_tutor_mode(
             lesson_context=lesson_context,
         )
     
-    # --- NEW: INTERCEPT AND FIRE DATABASE TRIGGER ---
+    # --- INTERCEPT AND FIRE DATABASE TRIGGER ---
     if getattr(response, "inline_mastery_update", None):
         # Convert Pydantic model to dict for the helper
         update_data = response.inline_mastery_update.model_dump()

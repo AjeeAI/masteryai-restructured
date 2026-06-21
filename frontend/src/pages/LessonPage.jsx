@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useUser } from '../context/UserContext';
@@ -10,6 +10,7 @@ import AITutorPanel from '../components/tutor/AITutorPanel';
 
 import { API_URL as RUNTIME_API_URL } from '../config/runtime';
 import { resolveStudentId } from '../utils/sessionIdentity';
+import { useActivityTracker } from '../hooks/useActivityTracker';
 
 const API_URL = RUNTIME_API_URL;
 const safeArray = (value) => (Array.isArray(value) ? value : []);
@@ -36,38 +37,14 @@ const LessonPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const startTimeRef = useRef(Date.now());
-
-  useEffect(() => {
-    // This function triggers when the component unmounts (user navigates away)
-    return () => {
-      const endTime = Date.now();
-      const durationSeconds = Math.floor((endTime - startTimeRef.current) / 1000);
-
-      // Only log if the user spent at least 5 seconds (to ignore accidental clicks)
-      if (durationSeconds > 5 && activeId && token) {
-        fetch(`${API_URL}/learning/activity/log`, {
-          method: 'POST',
-          headers: { 
-            'Authorization': `Bearer ${token}`, 
-            'Content-Type': 'application/json' 
-          },
-          // IMPORTANT: keepalive: true ensures the request finishes 
-          // even if the user navigates away immediately.
-          keepalive: true, 
-          body: JSON.stringify({
-            student_id: activeId,
-            subject: currentSubject,
-            term: currentTerm,
-            event_type: 'tutor_session',
-            ref_id: topicId,
-            duration_seconds: durationSeconds
-          })
-        }).catch(err => console.error("Failed to log activity:", err));
-      }
-    };
-  }, []); // Empty dependency array ensures this runs on mount/unmount
-
+  useActivityTracker(
+  activeId, 
+  token, 
+  'tutor_session', 
+  topicId, 
+  currentSubject, 
+  currentTerm
+);
   // Initial Cockpit Load
   useEffect(() => {
     if (!activeId || !token || !topicId) return;

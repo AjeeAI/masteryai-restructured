@@ -30,8 +30,11 @@ const TaskItem = ({ task }) => {
 
   return (
     <div className="mb-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-      <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0">
+      {/* FIXED: Changed to flex-col on mobile, flex-row on sm screens */}
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+        
+        {/* Added flex-1 to ensure text container takes remaining space properly */}
+        <div className="min-w-0 flex-1">
           <div className={`inline-flex items-center gap-2 rounded-full border px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] ${tone.chip}`}>
             <Icon className="h-3.5 w-3.5" />
             {task.badge}
@@ -39,17 +42,20 @@ const TaskItem = ({ task }) => {
           <h4 className="mt-3 text-sm font-bold text-slate-900">{task.title}</h4>
           <p className="mt-2 text-xs leading-6 text-slate-600">{task.subtext}</p>
         </div>
+
         <button
           type="button"
           onClick={task.onClick}
           disabled={!task.onClick}
-          className={`inline-flex shrink-0 items-center gap-2 rounded-xl px-3 py-2 text-xs font-bold transition-colors ${
+         
+          className={`inline-flex shrink-0 items-center justify-center sm:justify-start w-full sm:w-auto gap-2 rounded-xl px-4 py-2.5 sm:px-3 sm:py-2 text-xs font-bold transition-colors ${
             task.onClick ? tone.button : 'cursor-not-allowed bg-slate-200 text-slate-500'
           }`}
         >
           {task.actionLabel}
           <ArrowRight className="h-3.5 w-3.5" />
         </button>
+
       </div>
     </div>
   );

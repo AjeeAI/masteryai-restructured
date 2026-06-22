@@ -491,19 +491,17 @@ const AITutorPanel = ({
                   {/* NEW ON-DEMAND PLAYBACK BUTTON */}
                   {msg.role === 'assistant' && msg.content && !msg.streaming && (
                      <button
-                        onClick={() => toggleMessageSpeech(msg.id, msg.content)}
-                        className={`mt-3 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider transition-colors ${
-                          speakingMessageId === msg.id 
-                          ? 'text-red-500 hover:text-red-700' 
-                          : 'text-indigo-400 hover:text-indigo-600'
-                        }`}
-                     >
-                        {speakingMessageId === msg.id ? (
-                           <><Square size={12} fill="currentColor" /> Stop Reading</>
-                        ) : (
-                           <><Volume2 size={12} /> Read Aloud</>
-                        )}
-                     </button>
+                      type="button"
+                      onClick={toggleVoiceMode}
+                      disabled={!sessionId || (isTyping && !isRecording)}
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all shadow-sm ${
+                          isRecording 
+                          ? 'bg-red-500 text-white shadow-red-200 ring-4 ring-red-50 animate-pulse' // Added animate-pulse here
+                          : 'bg-slate-100 text-slate-500 hover:bg-indigo-50 hover:text-indigo-600'
+                      }`}
+                  >
+                      {isRecording ? <MicOff size={20} /> : <Mic size={20} />}
+                  </button>
                   )}
                 </div>
 
@@ -517,15 +515,7 @@ const AITutorPanel = ({
             </div>
           ))}
 
-          {/* TURN-BASED AUDIO METRICS CONSOLE */}
-          {(isRecording || isTutorSpeaking) && (
-             <div className="flex items-center gap-3 p-4 bg-indigo-50/50 border border-indigo-100 rounded-2xl mx-auto w-fit">
-                <Volume2 size={16} className={isTutorSpeaking ? "text-indigo-600 animate-bounce" : "text-red-500 animate-pulse"} />
-                <span className="text-xs font-bold text-indigo-700 uppercase tracking-widest">
-                  {isTutorSpeaking ? "Tutor is speaking..." : "Recording your voice... Click Mic again to send"}
-                </span>
-             </div>
-          )}
+          
 
           {/* CLEANER THINKING/STATUS INDICATOR */}
           {isTyping && !isRecording && (

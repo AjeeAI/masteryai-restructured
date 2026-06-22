@@ -203,7 +203,7 @@ export default function Dashboard() {
         setTimeout(async () => {
             try {
                 await prewarmTopics({
-                    apiUrl: '', // Derived automatically in your env configuration
+                    apiUrl: API_URL, // Derived automatically in your env configuration
                     token, studentId: activeId, subject: activeSubject,
                     sssLevel: currentLevel, term: currentTerm, topicIds: [topicId],
                 });
@@ -224,7 +224,7 @@ export default function Dashboard() {
         setTimeout(async () => {
             try {
                 await prewarmTopics({
-                    apiUrl: '',
+                    apiUrl: API_URL,
                     token, studentId: activeId,
                     subject: dashboardSignal?.subject || activeSubject,
                     sssLevel: dashboardSignal?.sssLevel || currentLevel,

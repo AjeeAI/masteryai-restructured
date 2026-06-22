@@ -4,12 +4,10 @@ import { useAuth } from '../context/AuthContext';
 import { Flame, Star, CheckCircle2, Clock } from 'lucide-react';
 import StatCard from './StatCard';
 import { API_URL } from '../config/runtime';
-import { resolveStudentId } from '../utils/sessionIdentity';
 
 const DashboardStats = () => {
-  const { studentData, userData } = useUser();
+  const { studentData } = useUser();
   const { token } = useAuth();
-  const activeId = resolveStudentId(studentData, userData);
   
   // State to hold the fetched stats
   const [liveStats, setLiveStats] = useState({
@@ -22,28 +20,25 @@ const DashboardStats = () => {
 
   useEffect(() => {
     const fetchMyStats = async () => {
-      if (!activeId || !token) return;
+      if (!token) return;
+      
       try {
-        // Since we know the leaderboard endpoint works and returns total_mastery_points, 
-        // we can fetch it and extract your specific data!
-        const response = await fetch(`${API_URL}/students/leaderboard?limit=50`, {
+        // Hitting your dedicated, native stats endpoint
+        const response = await fetch(`${API_URL}/students/stats`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         
         if (response.ok) {
-          const data = await response.json();
-          // Find your specific row from the leaderboard data
-          const myData = data.find(item => item.student_id === activeId);
+          const myData = await response.json();
           
-          if (myData) {
-            setLiveStats({
-              streak: myData.current_streak || 0, // Assuming your leaderboard API returns this
-              masteryPoints: myData.total_mastery_points || 0,
-              conceptsMastered: studentData?.concepts_mastered || 0, // Fallback if not in API
-              totalConcepts: studentData?.total_concepts || 0,
-              studyTimeMinutes: myData.total_study_time_seconds ? Math.floor(myData.total_study_time_seconds / 60) : 0
-            });
-          }
+          setLiveStats({
+            // These keys exactly match your StudentStatsOut Pydantic model
+            streak: myData.streak || 0, 
+            masteryPoints: myData.mastery_points || 0,
+            conceptsMastered: studentData?.concepts_mastered || 0, // Fallback if not in API
+            totalConcepts: studentData?.total_concepts || 0,
+            studyTimeMinutes: myData.study_time_seconds ? Math.floor(myData.study_time_seconds / 60) : 0
+          });
         }
       } catch (err) {
         console.error("Failed to fetch live stats for dashboard", err);
@@ -51,7 +46,7 @@ const DashboardStats = () => {
     };
 
     fetchMyStats();
-  }, [activeId, token, studentData]);
+  }, [token, studentData]);
 
   const formatStudyTime = (totalMinutes) => {
     if (!totalMinutes) return "0h 0m";

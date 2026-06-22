@@ -990,6 +990,7 @@ def _structured_tutor_prompt(
         "Do not fabricate facts, sources, or topic progression.\n"
         "Never claim mastery updates happened in the visible text.\n"
         "Do not mention internal IDs in visible text.\n\n"
+        "Do NOT include source file names (like .json) or citation tags (like source_id#chunk_id) in your 'assistant_message'.\n\n"
         f"Mode: {mode}\n"
         f"Mode guidance: {mode_guidance}\n"
         f"Student goal: {user_goal}\n"

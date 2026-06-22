@@ -13,6 +13,21 @@ const API_URL = RUNTIME_API_URL;
 const AI_CORE_URL = RUNTIME_AI_CORE_URL;
 const createMessageId = () => typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `msg-${Date.now()}`;
 
+const VoiceVisualizer = ({ isActive, color = "indigo" }) => (
+  <div className="flex items-center gap-[2px] h-3">
+    {[...Array(4)].map((_, i) => (
+      <div
+        key={i}
+        className={`w-1 rounded-full animate-pulse`}
+        style={{
+          backgroundColor: isActive ? `var(--color-${color}-500)` : '#cbd5e1',
+          animationDelay: `${i * 150}ms`,
+          height: isActive ? `${20 + Math.random() * 80}%` : '20%'
+        }}
+      />
+    ))}
+  </div>
+);
 // --- QUICK ACTIONS DEFINITION ---
 const QUICK_ACTIONS = [
   { label: "Teach Me", prompt: "Teach me the core concepts of this lesson." },
@@ -428,43 +443,37 @@ const AITutorPanel = ({
 
   return (
     <div className="flex flex-col h-full bg-white w-full">
-        {/* HEADER */}
-        <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-indigo-50/30">
-          <div className="flex items-center gap-2">
-            <h3 className="text-sm font-bold text-slate-900">AI Tutor</h3>
-            {isRecording && (
-              <span className="flex items-center gap-1.5 text-[10px] bg-red-100 text-red-600 px-2 py-0.5 rounded-full font-black animate-pulse">
-                <div className="w-1.5 h-1.5 bg-red-600 rounded-full"></div> LISTENING
-              </span>
-            )}
-            {isTutorSpeaking && (
-              <span className="flex items-center gap-1.5 text-[10px] bg-emerald-100 text-emerald-600 px-2 py-0.5 rounded-full font-black">
-                <Volume2 size={10} className="animate-bounce" /> SPEAKING
-              </span>
-            )}
-          </div>
-          <div className="flex items-center gap-1">
-            {/* NEW AUTO-PLAY TOGGLE */}
-            <button 
-              onClick={() => {
-                setIsAutoPlayEnabled(!isAutoPlayEnabled);
-                if (isAutoPlayEnabled) stopAllSpeech();
-              }}
-              className={`p-2 transition-colors rounded-lg hover:bg-slate-100 ${isAutoPlayEnabled ? 'text-indigo-600' : 'text-slate-400'}`} 
-              title={isAutoPlayEnabled ? "Auto-Play Responses (ON)" : "Auto-Play Responses (OFF)"}
-            >
-              {isAutoPlayEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
-            </button>
-            <div className="w-px h-5 bg-slate-200 mx-1"></div>
-            
-            <button onClick={onToggleMaximize} className="text-slate-400 hover:text-slate-600 p-2 transition-colors" title="Toggle Fullscreen">
-              {isMaximized ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
-            </button>
-            <button onClick={onClose} className="text-slate-400 hover:text-slate-600 p-2 transition-colors" title="Close">
-              <X size={20} />
-            </button>
+      {/* HEADER */}
+      {/* UPDATED HEADER */}
+      <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-white sticky top-0 z-10">
+        <div className="flex items-center gap-3">
+          <div className="flex flex-col">
+            <h3 className="text-sm font-bold text-slate-900 leading-none">AI Tutor</h3>
+            {/* Dynamic Status Badges */}
+            <div className="flex items-center gap-2 mt-1">
+              {(isRecording || isTutorSpeaking) && (
+                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-slate-100 border border-slate-200">
+                  <VoiceVisualizer isActive={isRecording || isTutorSpeaking} color={isRecording ? "red" : "emerald"} />
+                  <span className="text-[9px] font-black uppercase text-slate-500 tracking-wider">
+                    {isRecording ? "Listening" : "Speaking"}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
+        
+        <div className="flex items-center gap-1">
+          <button 
+            onClick={() => { setIsAutoPlayEnabled(!isAutoPlayEnabled); if (isAutoPlayEnabled) stopAllSpeech(); }}
+            className={`p-2 transition-colors rounded-lg ${isAutoPlayEnabled ? 'text-indigo-600' : 'text-slate-300'}`}
+          >
+            {isAutoPlayEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
+          </button>
+          <button onClick={onToggleMaximize} className="text-slate-400 hover:text-indigo-600 p-2"><Maximize2 size={16} /></button>
+          <button onClick={onClose} className="text-slate-400 hover:text-red-500 p-2"><X size={18} /></button>
+        </div>
+      </div>
 
         {/* CHAT FEED */}
         <div ref={scrollRef} className="flex-1 p-4 overflow-y-auto space-y-4 bg-white pb-6">
@@ -518,7 +527,13 @@ const AITutorPanel = ({
              </div>
           )}
 
-          {isTyping && !isRecording && <div className="text-xs text-slate-400 animate-pulse ml-2">Tutor is thinking...</div>}
+          {/* CLEANER THINKING/STATUS INDICATOR */}
+          {isTyping && !isRecording && (
+            <div className="px-4 py-2 text-[10px] font-bold text-indigo-500 uppercase tracking-widest animate-pulse flex items-center gap-2">
+              <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+              Tutor is thinking...
+            </div>
+          )}
 
           {/* PENDING ASSESSMENT */}
           {pendingAssessment && (

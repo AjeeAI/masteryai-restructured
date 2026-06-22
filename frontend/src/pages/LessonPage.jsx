@@ -86,8 +86,20 @@ const LessonPage = () => {
   return (
     <div className="flex bg-slate-50 h-[calc(100vh-64px)] overflow-hidden relative">
       
+      {/* MOBILE SIDEBAR OVERLAY */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 lg:hidden animate-in fade-in duration-200"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* SIDEBAR */}
-      <div className={`bg-white border-r border-slate-200 transition-all duration-300 flex-shrink-0 z-50 fixed inset-y-0 left-0 lg:relative ${isSidebarOpen ? 'w-72 translate-x-0' : 'w-0 -translate-x-full lg:translate-x-0 overflow-hidden'}`}>
+      <div className={`bg-white border-r border-slate-200 transition-all duration-300 flex-shrink-0 fixed inset-y-0 left-0 z-50 lg:relative lg:z-auto ${
+        isSidebarOpen 
+          ? 'w-[280px] sm:w-72 translate-x-0 shadow-2xl lg:shadow-none' 
+          : 'w-0 -translate-x-full lg:translate-x-0 overflow-hidden'
+      }`}>
         <CourseSidebar activeStep={topicId} subject={currentSubject} level={currentLevel} topics={sidebarTopics} />
       </div>
 
@@ -158,6 +170,6 @@ const LessonPage = () => {
       </div>
     </div>
   );
-};
 
+}
 export default LessonPage;

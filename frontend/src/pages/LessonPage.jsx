@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useUser } from '../context/UserContext';
-import { useQuery } from '@tanstack/react-query';
 import CourseSidebar from '../components/CourseSidebar';
 import { Menu, MessageSquare } from 'lucide-react';
 
@@ -30,44 +29,59 @@ const LessonPage = () => {
   // --- UI STATE ---
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 1024);
   const [isChatOpen, setIsChatOpen] = useState(window.innerWidth > 1280); 
-  const [isChatMaximized, setIsChatMaximized] = useState(false);
+  const [isChatMaximized, setIsChatMaximized] = useState(false); // Tracks fullscreen chat
+
+  // --- CORE DATA STATES ---
+  const [bootstrap, setBootstrap] = useState(null);
+  const [sidebarTopics, setSidebarTopics] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useActivityTracker(
-    activeId, 
-    token, 
-    'tutor_session', 
-    topicId, 
-    currentSubject, 
-    currentTerm
-  );
+  activeId, 
+  token, 
+  'tutor_session', 
+  topicId, 
+  currentSubject, 
+  currentTerm
+);
+  // Initial Cockpit Load
+  useEffect(() => {
+    if (!activeId || !token || !topicId) return;
+    let cancelled = false;
 
-  // 🔥 Upgraded to TanStack Query
-  const { data: cockpitData, isLoading } = useQuery({
-    // The query key ensures unique caching per topic and student
-    queryKey: ['lessonCockpit', activeId, currentSubject, currentLevel, currentTerm, topicId],
-    queryFn: async () => {
-      const response = await fetch(`${API_URL}/learning/lesson/cockpit`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          student_id: activeId, subject: currentSubject,
-          sss_level: currentLevel, term: currentTerm,
-          topic_id: topicId, preferences: studentData?.preferences || {}
-        })
-      });
+    const initializeCockpit = async () => {
+      setIsLoading(true);
+      setError("");
+      try {
+        const response = await fetch(`${API_URL}/learning/lesson/cockpit`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            student_id: activeId, subject: currentSubject,
+            sss_level: currentLevel, term: currentTerm,
+            topic_id: topicId, preferences: studentData?.preferences || {}
+          })
+        });
 
-      if (!response.ok) throw new Error('Failed to load lesson cockpit.');
-      return response.json();
-    },
-    // Only run if we have the critical identifiers
-    enabled: !!(activeId && token && topicId),
-    // Cache the data for 5 minutes (adjust as needed)
-    staleTime: 1000 * 60 * 5 
-  });
+        if (!response.ok) throw new Error('Failed to load lesson cockpit.');
+        const cockpitJson = await response.json();
+        
+        if (cancelled) return;
 
-  // Extract data safely based on TanStack's response
-  const bootstrap = cockpitData?.tutor_bootstrap || null;
-  const sidebarTopics = safeArray(cockpitData?.topics);
+        setBootstrap(cockpitJson.tutor_bootstrap || {});
+        setSidebarTopics(safeArray(cockpitJson.topics));
+
+      } catch (err) {
+        if (!cancelled) setError(err.message || "Failed to load lesson.");
+      } finally {
+        if (!cancelled) setIsLoading(false);
+      }
+    };
+
+    initializeCockpit();
+    return () => { cancelled = true; };
+  }, [topicId, activeId, token, currentSubject, currentLevel, currentTerm]);
 
   return (
     <div className="flex bg-slate-50 h-[calc(100vh-64px)] overflow-hidden relative">

@@ -1,22 +1,29 @@
-# Mastery AI
+# 🧠 Mastery AI
 
-Mastery AI is a curriculum-governed personalized learning platform for senior secondary students.
-It combines a FastAPI backend, an AI-core orchestration service, a vector store, and a concept graph
-to deliver topic recommendations, tutoring, quizzes, and mastery tracking.
+Mastery AI is a curriculum-governed personalized learning platform for senior secondary students. It combines a FastAPI backend, an AI-core orchestration service, a vector store, and a concept graph to deliver topic recommendations, interactive tutoring, adaptive quizzes, and real-time mastery tracking. 
+
+Powered by Agentic RAG workflows and Gemini, it acts as a 24/7 personal tutor that dynamically adapts to a student's knowledge level.
 
 ## Team
 
-- Team Name: Team Mastery AI
-- Program: Gen AI Fellowship Capstone Project
+- **Team Name:** Team Mastery AI
+- **Program:** Gen AI Fellowship Capstone Project
+
+## ✨ Key Features
+
+* **🤖 Agentic AI Tutor:** A persistent, context-aware chat interface built with LangGraph that guides students through specific topics and identifies knowledge gaps.
+* **📊 Dynamic Student Dashboard:** A fully synchronized dashboard displaying live KPIs including Study Streaks, Mastery Points, Concepts Mastered, and Study Time.
+* **🏆 Class Leaderboard:** Built-in gamification that ranks students within their league based on earned Mastery Points to drive engagement.
+* **⚡ Highly Optimized Frontend:** Built with React and TanStack Query for aggressive caching, instant page loads, and seamless background data synchronization.
 
 ## Architecture
 
-- `frontend/`: React web application
+- `frontend/`: React web application (Vite, Tailwind, TanStack Query)
 - `backend/`: FastAPI API, auth, profile, curriculum governance, persistence
 - `ai_core/`: AI orchestration (tutor, quiz generation/insights, safety, retrieval helpers)
-- `PostgreSQL`: transactional data
-- `Qdrant`: curriculum chunk vectors
-- `Neo4j`: topic/concept prerequisite graph
+- `PostgreSQL`: Transactional data (`users`, `student_stats`, `activity_logs`)
+- `Qdrant`: Curriculum chunk vectors
+- `Neo4j`: Topic/concept prerequisite graph
 
 ## Repository Layout
 
@@ -52,8 +59,8 @@ Run from repository root unless stated otherwise.
 ### 1) Clone
 
 ```bash
-git clone https://github.com/Olajcodes/Personalized-AI-Tutor.git
-cd Personalized-AI-Tutor
+git clone [https://github.com/AjeeAI/masteryai-restructured.git](https://github.com/AjeeAI/masteryai-restructured.git)
+cd mastery_ai
 ```
 
 ### 2) Python environment and dependencies
@@ -117,7 +124,7 @@ Set required secrets/URLs, especially:
   - `CORS_ORIGINS` (include local frontend + production frontend domain)
   - `INTERNAL_SERVICE_KEY` (must match ai-core)
 - `ai_core/.env`
-  - `GROQ_API_KEY` or `LLM_API_KEY`
+  - `GEMINI_API_KEY` (or legacy `GROQ_API_KEY` / `LLM_API_KEY`)
   - `INTERNAL_SERVICE_KEY` (must match backend)
   - `POSTGRES_DSN`
   - `QDRANT_URL`, `QDRANT_API_KEY`, `QDRANT_COLLECTION`
@@ -125,7 +132,6 @@ Set required secrets/URLs, especially:
 - `frontend/.env`
   - `VITE_API_URL=http://127.0.0.1:8001/api/v1`
   - `VITE_AI_CORE_URL=http://127.0.0.1:10001`
-  - any auth-related frontend variables already used by your UI
 
 ### 5) Start local infrastructure with Docker
 
@@ -163,8 +169,7 @@ python -m alembic -c backend/alembic.ini upgrade head
 ### 7) One-time reset + ingest + auto-approve curriculum
 
 This is the recommended clean baseline command.
-It reseeds baseline curriculum entities, ingests all detected scopes from `docs/Curriculum_in_json` when available (otherwise `docs/SSS_NOTES_2026`),
-auto-approves versions, and (optionally) reseeds Neo4j.
+It reseeds baseline curriculum entities, ingests all detected scopes from `docs/Curriculum_in_json` when available (otherwise `docs/SSS_NOTES_2026`), auto-approves versions, and (optionally) reseeds Neo4j.
 
 ```powershell
 python -m backend.scripts.reset_and_reseed_curriculum `
@@ -173,9 +178,8 @@ python -m backend.scripts.reset_and_reseed_curriculum `
   --no-disable-neo4j-sync `
   --seed-neo4j `
   --qdrant-batch-size 24 `
-  --qdrant-timeout-seconds 240`
+  --qdrant-timeout-seconds 240 `
   --full-db-reset
-  
 ```
 
 Notes:
@@ -248,13 +252,13 @@ Student routes now include a collapsible runtime dock for presentation/debug use
 If ai-core runtime is not visible in the dock, set:
 
 ```env
-VITE_AI_CORE_URL=http://127.0.0.1:10001
+VITE_AI_CORE_URL=[http://127.0.0.1:10001](http://127.0.0.1:10001)
 ```
 
 You can also override it temporarily in the browser:
 
 ```js
-localStorage.setItem('mastery_ai_core_url', 'http://127.0.0.1:10001')
+localStorage.setItem('mastery_ai_core_url', '[http://127.0.0.1:10001](http://127.0.0.1:10001)')
 ```
 
 ## Production Notes
@@ -279,7 +283,7 @@ At minimum configure:
   - `CORS_ORIGINS`
   - `INTERNAL_SERVICE_KEY`
 - AI Core:
-  - `GROQ_API_KEY` or `LLM_API_KEY`
+  - `GEMINI_API_KEY` (or applicable LLM provider)
   - `INTERNAL_SERVICE_KEY`
   - datastore credentials (`POSTGRES_DSN`, `QDRANT_*`, `NEO4J_*`)
 

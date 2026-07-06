@@ -291,3 +291,13 @@ At minimum configure:
 
 - Backend operations and API details: [backend/README.md](./backend/README.md)
 - AI-core runtime and endpoints: [ai_core/README.md](./ai_core/README.md)
+
+## 👥 Team and Contributions
+
+### Adebimpe Atoyebi
+**Role:** Frontend Authentication Developer & Curriculum Data Contributor
+**Key Responsibilities:**
+*   Developed responsive Sign Up, Login, and Success pages with secure authentication workflows.
+*   Collaborated with backend developers to define authentication APIs, workflows, and data exchange.
+*   Converted curriculum content into structured JSON format to improve data quality, readability, and efficient backend ingestion for the Knowledge Graph and RAG pipeline.
+*   Participated in testing and debugging to ensure reliable frontend-backend integration and application performance.

@@ -25,12 +25,8 @@ export const useTutorLiveVoice = (sessionId, token, subject, modelTier = 'flash'
     initAudioContext();
     
     // 1. Setup WebSocket URL (Bridging to your Backend API)
-    // Grab the base API URL (e.g., https://api.masteryaiedu.com/api/v1)
-    const baseUrl = import.meta.env.VITE_AI_CORE_URL; 
-    
-    // Dynamically swap http->ws and https->wss
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8001/api/v1'; 
     const wsBaseUrl = baseUrl.replace(/^http/, 'ws'); 
-    
     const wsUrl = `${wsBaseUrl}/tutor/live-voice/${sessionId}?subject=${subject}&model_tier=${modelTier}`;
 
     socketRef.current = new WebSocket(wsUrl);

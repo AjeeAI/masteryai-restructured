@@ -444,64 +444,99 @@ async def tutor_explain_mistake(
         raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail=str(exc))
     
     
-import asyncio
-from fastapi import WebSocket, WebSocketDisconnect
+import httpx
+import websockets
+from fastapi import WebSocket, WebSocketDisconnect, UploadFile, File, Form
+from backend.core.config import settings
+
+@router.post("/voice-turn")
+async def proxy_voice_turn(
+    audio_file: UploadFile = File(...),
+    student_id: str = Form(default=""),
+    session_id: str = Form(default=""),
+    subject: str = Form(default=""),
+    sss_level: str = Form(default="SSS1"), 
+    term: str = Form(default="1"),      
+    topic_id: str = Form(default=""),
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
+    audio_bytes = await audio_file.read()
+    if len(audio_bytes) > 5 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="File too large")
+        
+    ai_core_url = settings.ai_core_base_url.rstrip("/")
+    headers = {"X-Internal-Service-Key": settings.internal_service_key}
+    files = {"audio_file": (audio_file.filename, audio_bytes, audio_file.content_type)}
+    data = {
+        "student_id": student_id,
+        "session_id": session_id,
+        "subject": subject,
+        "sss_level": sss_level,
+        "term": term,
+        "topic_id": topic_id
+    }
+    
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            f"{ai_core_url}/tutor/voice-turn",
+            files=files,
+            data=data,
+            headers=headers,
+            timeout=60.0
+        )
+    return response.json()
+
 
 @router.websocket("/live-voice/{session_id}")
-async def tutor_voice_stream(
+async def proxy_live_voice(
     websocket: WebSocket,
     session_id: UUID,
     subject: str,
-    model_tier: str = "flash", # 'pro' or 'flash'
-    db: Session = Depends(get_db),
+    term: int = 1,
+    sss_level: str = "SSS1",
+    model_tier: str = "flash",
 ):
+    # Authenticate the websocket using the cookie
+    token = websocket.cookies.get("access_token")
+    if not token:
+        await websocket.close(code=1008, reason="Missing cookie")
+        return
+        
+    from backend.core.security import decode_access_token
+    try:
+        decode_access_token(token)
+    except Exception:
+        await websocket.close(code=1008, reason="Invalid cookie")
+        return
+        
     await websocket.accept()
     
-    # Resolve services
-    service = _service()
-    client = service.llm_client 
+    ai_core_url = settings.ai_core_base_url.replace("http", "ws").rstrip("/")
+    uri = f"{ai_core_url}/tutor/live-voice?session_id={session_id}&subject={subject}&term={term}&sss_level={sss_level}&model_tier={model_tier}"
     
-    # 1. Fetch Persona across the service boundary
-    # This assumes your OrchestrationService has the 'get_persona' method added above
-    voice_config = service.get_persona(subject)
+    headers = {"X-Internal-Service-Key": settings.internal_service_key}
     
-    # 2. Build the Adaptive System Instruction
-    system_instruction = (
-        f"{voice_config['style']} "
-        "You are an expert SSS teacher. Use Socratic questioning. "
-        "Ground every response in the provided curriculum metadata. "
-        "If the student sounds frustrated, respond with empathy."
-    )
-
     try:
-        # 3. Open the Gemini Live Pipe
-        async with await client.connect_live(
-            model_tier=model_tier,
-            system_instruction=system_instruction,
-            voice_name=voice_config["voice"]
-        ) as session:
-            
-            # Sub-Task: Audio from Student -> Gemini
-            async def receive_from_student():
-                async for message in websocket.iter_bytes():
-                    # We send chunks of audio bytes directly
-                    await session.send(input=message, end_of_turn=True)
+        async with websockets.connect(uri, extra_headers=headers) as ai_ws:
+            async def forward_to_ai():
+                try:
+                    async for message in websocket.iter_bytes():
+                        await ai_ws.send(message)
+                except Exception:
+                    pass
 
-            # Sub-Task: Audio/Text from Gemini -> Student
-            async def send_to_student():
-                async for response in session.receive():
-                    if response.audio:
-                        await websocket.send_bytes(response.audio)
-                    if response.text:
-                        # Provides real-time captions for the student
-                        await websocket.send_json({"text": response.text})
+            async def forward_to_client():
+                try:
+                    async for message in ai_ws:
+                        if isinstance(message, bytes):
+                            await websocket.send_bytes(message)
+                        else:
+                            await websocket.send_text(message)
+                except Exception:
+                    pass
 
-            # Run both streams concurrently
-            await asyncio.gather(receive_from_student(), send_to_student())
-
-    except WebSocketDisconnect:
-        logger.info(f"Student disconnected from voice session {session_id}")
+            await asyncio.gather(forward_to_ai(), forward_to_client())
     except Exception as e:
-        logger.error(f"Multimodal Live Error: {e}")
-        # 1011 = Internal Error
+        logger.error(f"WebSocket Proxy Error: {e}")
         await websocket.close(code=1011)

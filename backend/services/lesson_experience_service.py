@@ -24,13 +24,24 @@ from backend.services.lesson_graph_service import LessonGraphValidationError, le
 from backend.services.lesson_service import fetch_topic_lesson
 from backend.services.tutor_assessment_service import TutorAssessmentService
 
-BOOTSTRAP_CACHE_TTL_SECONDS = 30.0
-_BOOTSTRAP_CACHE: dict[str, tuple[float, TutorSessionBootstrapOut]] = {}
-TOPIC_SNAPSHOT_CACHE_TTL_SECONDS = 180.0
-_TOPIC_SNAPSHOT_CACHE: dict[str, tuple[float, "_TopicSnapshot"]] = {}
+import redis
+from backend.core.config import settings
+
+BOOTSTRAP_CACHE_TTL_SECONDS = 30
+TOPIC_SNAPSHOT_CACHE_TTL_SECONDS = 180
 _PREVIEW_SESSION_ID = UUID("00000000-0000-0000-0000-000000000000")
 logger = logging.getLogger(__name__)
 
+_redis_client = None
+
+def get_redis_client():
+    global _redis_client
+    if _redis_client is None and settings.redis_url:
+        try:
+            _redis_client = redis.from_url(settings.redis_url, socket_connect_timeout=2, socket_timeout=2)
+        except Exception:
+            pass
+    return _redis_client
 
 @dataclass(frozen=True)
 class _TopicSnapshot:
@@ -118,34 +129,60 @@ class LessonExperienceService:
 
     @staticmethod
     def _read_cached_bootstrap(*, cache_key: str) -> TutorSessionBootstrapOut | None:
-        entry = _BOOTSTRAP_CACHE.get(cache_key)
-        if entry is None:
+        client = get_redis_client()
+        if not client:
             return None
-        created_at, payload = entry
-        if (time.time() - created_at) > BOOTSTRAP_CACHE_TTL_SECONDS:
-            _BOOTSTRAP_CACHE.pop(cache_key, None)
-            return None
-        return payload
+        try:
+            data = client.get(f"bootstrap_cache:{cache_key}")
+            if data:
+                return TutorSessionBootstrapOut.model_validate_json(data)
+        except Exception:
+            pass
+        return None
 
     @staticmethod
     def _write_cached_bootstrap(*, cache_key: str, payload: TutorSessionBootstrapOut) -> TutorSessionBootstrapOut:
-        _BOOTSTRAP_CACHE[cache_key] = (time.time(), payload)
+        client = get_redis_client()
+        if not client:
+            return payload
+        try:
+            client.setex(
+                f"bootstrap_cache:{cache_key}",
+                BOOTSTRAP_CACHE_TTL_SECONDS,
+                payload.model_dump_json()
+            )
+        except Exception:
+            pass
         return payload
 
     @staticmethod
     def _read_cached_topic_snapshot(*, cache_key: str) -> _TopicSnapshot | None:
-        entry = _TOPIC_SNAPSHOT_CACHE.get(cache_key)
-        if entry is None:
+        client = get_redis_client()
+        if not client:
             return None
-        created_at, payload = entry
-        if (time.time() - created_at) > TOPIC_SNAPSHOT_CACHE_TTL_SECONDS:
-            _TOPIC_SNAPSHOT_CACHE.pop(cache_key, None)
-            return None
-        return payload
+        try:
+            import pickle
+            data = client.get(f"topic_snapshot:{cache_key}")
+            if data:
+                return pickle.loads(data)
+        except Exception:
+            pass
+        return None
 
     @staticmethod
     def _write_cached_topic_snapshot(*, cache_key: str, payload: _TopicSnapshot) -> _TopicSnapshot:
-        _TOPIC_SNAPSHOT_CACHE[cache_key] = (time.time(), payload)
+        client = get_redis_client()
+        if not client:
+            return payload
+        try:
+            import pickle
+            client.setex(
+                f"topic_snapshot:{cache_key}",
+                TOPIC_SNAPSHOT_CACHE_TTL_SECONDS,
+                pickle.dumps(payload)
+            )
+        except Exception as e:
+            logger.error(f"Failed to cache topic snapshot: {e}")
         return payload
 
     @staticmethod

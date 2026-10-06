@@ -50,6 +50,28 @@ def _extract_json(text: str) -> dict:
         logger.error(f"DECODE ERROR: {e}\nSnippet: {json_str[max(0, e.pos-50):e.pos+50]}")
         raise
 
+def _sanitize_math_latex(text: str) -> str:
+    """
+    Cleans raw AI text outputs to ensure LaTeX renders cleanly on the frontend.
+    Fixes alternative delimiters like \(...\) or \[...\] and corrects backslash leakage.
+    """
+    if not text:
+        return ""
+
+    out = text
+
+    # Convert LaTeX inline delimiters \( ... \) -> $ ... $
+    out = re.sub(r"\\\((.*?)\\\)", r"$\1$", out)
+
+    # Convert LaTeX block delimiters \[ ... \] -> $$ ... $$
+    out = re.sub(r"\\\[(.*?)\\\]", r"$$\1$$", out, flags=re.DOTALL)
+
+    # Clean up double backslashes that were over-escaped during JSON parsing
+    # e.g., \\frac -> \frac
+    out = re.sub(r"\\\\([a-zA-Z]+)", r"\\\1", out)
+
+    return out
+
 # ---------------------------------------------------------
 # 3. CORE LESSON ENGINE
 # ---------------------------------------------------------
@@ -68,8 +90,12 @@ async def generate_lesson_content(data: dict):
 
     if is_math:
         formatting_instruction = """
-        2. MATH FORMATTING: Use LaTeX ($...$) for ALL math/science symbols. 
-        You MUST DOUBLE-ESCAPE all backslashes (e.g., write \\\\frac instead of \\frac).
+        2. MATH FORMATTING: 
+           - Use standard LaTeX for ALL math/science symbols and equations.
+           - For inline math, wrap with single dollar signs: $x^2 + y^2 = r^2$.
+           - For display math, wrap with double dollar signs: $$ \frac{a}{b} $$.
+           - DO NOT double-escape backslashes. Use standard single backslashes (e.g., \frac).
+           - Do NOT wrap LaTeX in markdown code blocks.
         """
     else:
         formatting_instruction = """
@@ -104,33 +130,6 @@ async def generate_lesson_content(data: dict):
     style_instruction = " ".join(style_segments) if style_segments else f"Focus on {depth} theoretical foundations."
 
     # --- C. The Master Prompt ---
-    prompt = f"""
-    You are an expert Nigerian Secondary School Tutor.
-    Topic: {data['topic_title']} ({data['subject']} - {data['sss_level']})
-    Mastery Gaps: {json.dumps(data.get('mastery_gaps', []))}
-    Curriculum context: {" ".join(data.get('curriculum_context', [])[:3])}
-
-    Task: Write a high-quality personalized lesson.
-    
-    OUTPUT SCHEMA (RAW JSON ONLY):
-    {{
-      "title": "{data['topic_title']}",
-      "summary": "2-sentence overview.",
-      "estimated_duration_minutes": 15,
-      "content_blocks": [
-        {{ "type": "text", "content": "..." }},
-        {{ "type": "image", "content": "<WRITE YOUR HIGHLY DESCRIPTIVE IMAGE PROMPT HERE>" }},
-        {{ "type": "exercise", "content": "..." }}
-      ]
-    }}
-
-    CRITICAL RULES:
-    1. STRICT LENGTH: Return EXACTLY 3 content_blocks. Keep text blocks under 100 words.
-    {formatting_instruction}
-    3. PERSONALIZATION: {style_instruction}
-    4. VALID TYPES: text, image, video, example, exercise.
-    5. Return ONLY the raw JSON object. No markdown wrapping.
-    """# --- C. The Master Prompt ---
     prompt = f"""
     You are an expert Nigerian Secondary School Tutor.
     Topic: {data['topic_title']} ({data['subject']} - {data['sss_level']})
@@ -230,7 +229,9 @@ async def generate_lesson_content(data: dict):
                     # The loop moves on, and the image vanishes like it never existed.
                     continue 
             else:
-                 # If it's a text or exercise block, it's always valid
+                 # If it's a text, example, or exercise block, sanitize LaTeX before appending
+                 if "content" in block and isinstance(block["content"], str):
+                     block["content"] = _sanitize_math_latex(block["content"])
                  valid_blocks.append(block)
 
         # STEP 3: Return final sanitized payload using ONLY the valid blocks

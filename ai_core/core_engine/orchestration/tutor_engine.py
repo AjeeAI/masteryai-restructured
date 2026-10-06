@@ -62,6 +62,15 @@ def _sanitize_and_moderate(text: str, *, max_chars: int = 6000) -> str:
     basic_moderate(cleaned)
     return cleaned
 
+def _sanitize_math_latex(text: str) -> str:
+    """Cleans raw AI text outputs to ensure LaTeX renders cleanly on the frontend."""
+    if not text:
+        return ""
+    out = text
+    out = re.sub(r"\\\((.*?)\\\)", r"$\1$", out)
+    out = re.sub(r"\\\[(.*?)\\\]", r"$$\1$$", out, flags=re.DOTALL)
+    out = re.sub(r"\\\\([a-zA-Z]+)", r"\\\1", out)
+    return out
 
 def _normalize_rag_query(raw: str) -> str | None:
     normalized = " ".join((raw or "").split())
@@ -1006,6 +1015,11 @@ def _structured_tutor_prompt(
         f"Recent tutor history:\n{history_block}\n\n"
         f"Graph / mastery context:\n{graph_block}\n\n"
         f"Retrieved citations:\n{citations_block}\n\n"
+        "*** FORMATTING RULES ***\n"
+        "1. Use standard LaTeX for ALL math/science symbols and equations.\n"
+        "2. For inline math, wrap with single dollar signs: $x^2 + y^2 = r^2$.\n"
+        "3. For display math, wrap with double dollar signs: $$ \\frac{a}{b} $$.\n"
+        "4. DO NOT double-escape backslashes. Use standard single backslashes (e.g., \\frac).\n\n"
         "Return EXACT JSON shape:\n"
         "{\n"
         '  "assistant_message": "string",\n'
@@ -1042,6 +1056,7 @@ def _structured_tutor_prompt(
         '  }\n'
         "}\n"
     )
+
 def _validate_structured_tutor_payload(
     parsed: dict | None,
     *,

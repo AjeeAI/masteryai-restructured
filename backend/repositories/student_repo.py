@@ -16,10 +16,10 @@ class StudentRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def _get_subject_id_by_slug(self, slug: str) -> Optional[UUID]:
-        """Helper to get subject UUID from its slug."""
-        subject = self.db.query(Subject).filter(Subject.slug == slug).first()
-        return subject.id if subject else None
+    def _get_subject_ids_by_slugs(self, slugs: List[str]) -> List[UUID]:
+        """Helper to get subject UUIDs from their slugs in a single query."""
+        subjects = self.db.query(Subject.id).filter(Subject.slug.in_(slugs)).all()
+        return [sub_id for (sub_id,) in subjects]
 
     def validate_subjects_exist(self, subject_slugs: List[str]) -> bool:
         """
@@ -43,10 +43,9 @@ class StudentRepository:
         self.db.add(student)
         self.db.flush()
 
-        # Add subjects - lookup UUID from slug (already validated, so all should exist)
-        for subject_enum in request.subjects:
-            subject_id = self._get_subject_id_by_slug(subject_enum.value)
-            # subject_id must exist because we validated
+        slugs = [s.value for s in request.subjects]
+        subject_ids = self._get_subject_ids_by_slugs(slugs)
+        for subject_id in subject_ids:
             student_subject = StudentSubject(
                 student_profile_id=student.id,
                 subject_id=subject_id,
@@ -94,9 +93,9 @@ class StudentRepository:
                 StudentSubject.student_profile_id == student.id
             ).delete()
 
-            # Add new ones (already validated)
-            for subject_enum in updates.subjects:
-                subject_id = self._get_subject_id_by_slug(subject_enum.value)
+            slugs = [s.value for s in updates.subjects]
+            subject_ids = self._get_subject_ids_by_slugs(slugs)
+            for subject_id in subject_ids:
                 new_subject = StudentSubject(
                     student_profile_id=student.id,
                     subject_id=subject_id,

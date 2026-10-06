@@ -321,10 +321,11 @@ const AITutorPanel = ({
     const messageId = startStreamingMessage();
 
     try {
-      const response = await fetch(`${AI_CORE_URL}/tutor/voice-turn`, {
+      const response = await fetch(`${API_URL}/tutor/voice-turn`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
+        body: formData,
+        credentials: 'include'
       });
 
       const data = await response.json();

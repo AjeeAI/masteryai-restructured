@@ -62,6 +62,7 @@ export const apiFetchJson = async (
         headers: buildHeaders(token, headers),
         body: body === undefined ? undefined : JSON.stringify(body),
         signal: signal || timeout?.controller.signal,
+        credentials: 'include',
       });
 
       if (timeout) {

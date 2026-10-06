@@ -196,7 +196,7 @@ async def tutor_chat(payload: TutorChatRequest):
     return await run_tutor_chat(payload)
 
 
-@app.post("/tutor/voice-turn")
+@app.post("/tutor/voice-turn", dependencies=[Depends(verify_internal_key)])
 async def tutor_voice_turn(
     audio_file: UploadFile = File(...),
     student_id: str = Form(default=""),
@@ -211,6 +211,8 @@ async def tutor_voice_turn(
     """
     client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
     audio_bytes = await audio_file.read()
+    if len(audio_bytes) > 5 * 1024 * 1024:
+        return {"error": "File too large"}
 
     try:
         safe_term = int(re.sub(r'\D', '', str(term)) or 1)
@@ -253,11 +255,11 @@ async def tutor_voice_turn(
 @app.websocket("/tutor/live-voice")
 async def tutor_voice_stream(
     websocket: WebSocket,
-    student_id: str,
-    session_id: str,
-    subject: str,
-    sss_level: str,
-    term: int,
+    student_id: str = "",
+    session_id: str = "",
+    subject: str = "",
+    sss_level: str = "",
+    term: int = 1,
     topic_id: str = ""
 ):
     """
@@ -265,6 +267,12 @@ async def tutor_voice_stream(
     Shares the EXACT same context/brain as the text engine.
     """
     await websocket.accept()
+    
+    internal_key = os.getenv("INTERNAL_SERVICE_KEY")
+    x_key = websocket.headers.get("x-internal-service-key")
+    if not x_key or x_key != internal_key:
+        await websocket.close(code=1008)
+        return
     
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:

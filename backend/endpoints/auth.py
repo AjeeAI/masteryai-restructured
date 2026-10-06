@@ -9,7 +9,7 @@ import os
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Response
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
@@ -40,12 +40,13 @@ def _service(db: Session) -> AuthService:
 
 
 @router.post("/register", response_model=RegisterOut, status_code=status.HTTP_201_CREATED)
-def register(payload: RegisterIn, db: Session = Depends(get_db)):
+def register(payload: RegisterIn, response: Response, db: Session = Depends(get_db)):
     """Create a new platform user account.
 
     This endpoint is used by students/teachers/admins during sign-up.
     It enforces unique email and minimum password quality via the auth service.
     """
+    payload.role = "student"
     try:
         return _service(db).register(payload)
     except AuthConflictError as exc:
@@ -60,13 +61,15 @@ def register(payload: RegisterIn, db: Session = Depends(get_db)):
 
 
 @router.post("/login", response_model=AuthOut, status_code=status.HTTP_200_OK)
-def login(payload: LoginIn, db: Session = Depends(get_db)):
+def login(payload: LoginIn, response: Response, db: Session = Depends(get_db)):
     """Authenticate a user and issue a JWT access token.
 
     The response includes role and user identity fields required by frontend state.
     """
     try:
-        return _service(db).login(payload)
+        auth_out = _service(db).login(payload)
+        response.set_cookie(key="access_token", value=auth_out.access_token, httponly=True, samesite="lax", secure=True)
+        return auth_out
     except AuthUnauthorizedError as exc:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(exc))
     except SQLAlchemyError:
@@ -103,7 +106,7 @@ def change_password(
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 
 @router.post("/google", response_model=AuthOut, status_code=status.HTTP_200_OK)
-def google_login(payload: GoogleLoginIn, db: Session = Depends(get_db)):
+def google_login(payload: GoogleLoginIn, response: Response, db: Session = Depends(get_db)):
     """Authenticate a user via Google OAuth and issue a JWT access token.
     
     Performs just-in-time registration if the Google email is not found.
@@ -126,12 +129,14 @@ def google_login(payload: GoogleLoginIn, db: Session = Depends(get_db)):
         # 3. Pass extracted data to the auth service
         # The service will handle checking the DB, creating the user if needed, 
         # and generating your platform's JWT access token.
-        return _service(db).google_login(
+        auth_out = _service(db).google_login(
             email=email,
             first_name=first_name,
             last_name=last_name,
             display_name=display_name
         )
+        response.set_cookie(key="access_token", value=auth_out.access_token, httponly=True, samesite="lax", secure=True)
+        return auth_out
 
     except ValueError:
         # If the token is fake, expired, or tampered with

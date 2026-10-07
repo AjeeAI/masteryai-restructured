@@ -36,7 +36,7 @@ services:
       - key: AI_CORE_ALLOW_FALLBACK
         value: "false"
       - key: CORS_ORIGINS
-        sync: false
+        value: "https://masteryaiedu.com,https://www.masteryaiedu.com,http://localhost:5173,http://localhost:4173"
 
   - type: web
     name: mastery-ai-core

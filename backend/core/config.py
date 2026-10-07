@@ -18,21 +18,40 @@ load_dotenv(dotenv_path=_ENV_PATH)
 
 def _parse_cors_origins(raw_value: str) -> list[str]:
     value = (raw_value or "").strip()
+    
+    base_origins = [
+        "https://masteryaiedu.com",
+        "https://www.masteryaiedu.com"
+    ]
+
     if not value:
-        return ["http://localhost:3000", "http://localhost:5173", "http://localhost:4173"]
+        return [
+            "http://localhost:3000", 
+            "http://localhost:5173", 
+            "http://localhost:4173"
+        ] + base_origins
 
     if value == "*":
         return ["*"]
 
+    parsed_origins = []
     if value.startswith("["):
         try:
             parsed = json.loads(value)
             if isinstance(parsed, list):
-                return [str(item).strip() for item in parsed if str(item).strip()]
+                parsed_origins = [str(item).strip() for item in parsed if str(item).strip()]
         except json.JSONDecodeError:
             pass
+    
+    if not parsed_origins:
+        parsed_origins = [item.strip() for item in value.split(",") if item.strip()]
 
-    return [item.strip() for item in value.split(",") if item.strip()]
+    # Always ensure production domains are included
+    for origin in base_origins:
+        if origin not in parsed_origins:
+            parsed_origins.append(origin)
+            
+    return parsed_origins
 
 
 def _parse_bool(raw_value: str | None, default: bool) -> bool:

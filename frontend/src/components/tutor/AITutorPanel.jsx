@@ -193,6 +193,7 @@ const AITutorPanel = ({
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
+        credentials: 'include'
       });
       if (!response.ok) throw new Error('Stream failed');
 
@@ -411,6 +412,7 @@ const AITutorPanel = ({
           subject: currentSubject, sss_level: currentLevel, term: currentTerm,
           topic_id: topicId, answer: assessmentAnswer.trim(),
         }),
+        credentials: 'include'
       });
       const out = await response.json();
       const msgId = createMessageId();

@@ -39,6 +39,8 @@ def _service(db: Session) -> AuthService:
     return AuthService(AuthRepository(db))
 
 
+from backend.core.config import settings
+
 @router.post("/register", response_model=RegisterOut, status_code=status.HTTP_201_CREATED)
 def register(payload: RegisterIn, response: Response, db: Session = Depends(get_db)):
     """Create a new platform user account.
@@ -48,7 +50,9 @@ def register(payload: RegisterIn, response: Response, db: Session = Depends(get_
     """
     payload.role = "student"
     try:
-        return _service(db).register(payload)
+        auth_out = _service(db).register(payload)
+        response.set_cookie(key="access_token", value=auth_out.access_token, httponly=True, samesite="lax", secure=(settings.env == "prod"))
+        return auth_out
     except AuthConflictError as exc:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(exc))
     except AuthValidationError as exc:
@@ -68,7 +72,7 @@ def login(payload: LoginIn, response: Response, db: Session = Depends(get_db)):
     """
     try:
         auth_out = _service(db).login(payload)
-        response.set_cookie(key="access_token", value=auth_out.access_token, httponly=True, samesite="lax", secure=True)
+        response.set_cookie(key="access_token", value=auth_out.access_token, httponly=True, samesite="lax", secure=(settings.env == "prod"))
         return auth_out
     except AuthUnauthorizedError as exc:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(exc))
@@ -135,7 +139,7 @@ def google_login(payload: GoogleLoginIn, response: Response, db: Session = Depen
             last_name=last_name,
             display_name=display_name
         )
-        response.set_cookie(key="access_token", value=auth_out.access_token, httponly=True, samesite="lax", secure=True)
+        response.set_cookie(key="access_token", value=auth_out.access_token, httponly=True, samesite="lax", secure=(settings.env == "prod"))
         return auth_out
 
     except ValueError:

@@ -5,15 +5,32 @@ import remarkMath from 'remark-math';
 import rehypeRaw from 'rehype-raw';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
+import { repairMarkdownContent } from '../../utils/markdownUtils';
+
+const markdownTableComponents = {
+  table: ({ node, ...props }) => (
+    <div className="my-6 overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm ring-1 ring-slate-900/5">
+      <table className="w-full text-left text-sm border-collapse" {...props} />
+    </div>
+  ),
+  thead: ({ node, ...props }) => (
+    <thead className="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider text-xs border-b border-slate-200" {...props} />
+  ),
+  tbody: ({ node, ...props }) => (
+    <tbody className="divide-y divide-slate-100" {...props} />
+  ),
+  tr: ({ node, ...props }) => (
+    <tr className="hover:bg-slate-50/60 transition-colors" {...props} />
+  ),
+  th: ({ node, ...props }) => (
+    <th className="px-4 py-3.5 font-semibold text-slate-800 border-r border-slate-200/60 last:border-r-0" {...props} />
+  ),
+  td: ({ node, ...props }) => (
+    <td className="px-4 py-3 text-slate-600 border-r border-slate-100 last:border-r-0 whitespace-nowrap md:whitespace-normal" {...props} />
+  ),
+};
 
 const LessonContent = ({ lessonData }) => {
-  // Fix for Markdown Tables & Common Math spacing issues
-  const formatContent = (text) => {
-    if (!text) return "";
-    return text
-      .replace(/\|\s*\|/g, '|\n|') 
-      .replace(/\\degree/g, '^\circ'); 
-  };
 
   const renderContentBlock = (block, index) => {
     const type = block.type?.toLowerCase() || 'text';
@@ -61,16 +78,16 @@ const LessonContent = ({ lessonData }) => {
                <span className="px-2 py-1 bg-indigo-600 text-[10px] font-black text-white uppercase tracking-tighter rounded">Example</span>
             </div>
             <div className={`${baseProse} prose-indigo prose-sm md:prose-base ${dynamicProse}`}>
-              <ReactMarkdown remarkPlugins={markdownPlugins} rehypePlugins={htmlPlugins}>
-                {formatContent(mainContent)}
+              <ReactMarkdown remarkPlugins={markdownPlugins} rehypePlugins={htmlPlugins} components={markdownTableComponents}>
+                {repairMarkdownContent(mainContent)}
               </ReactMarkdown>
             </div>
             {solution && (
               <div className="mt-6 p-5 bg-white rounded-2xl border border-indigo-100 shadow-sm">
                 <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest block mb-2">Detailed Solution</span>
                 <div className={`${baseProse} prose-indigo prose-sm ${dynamicProse}`}>
-                  <ReactMarkdown remarkPlugins={markdownPlugins} rehypePlugins={htmlPlugins}>
-                    {formatContent(solution)}
+                  <ReactMarkdown remarkPlugins={markdownPlugins} rehypePlugins={htmlPlugins} components={markdownTableComponents}>
+                    {repairMarkdownContent(solution)}
                   </ReactMarkdown>
                 </div>
               </div>
@@ -85,8 +102,8 @@ const LessonContent = ({ lessonData }) => {
                <span className="px-2 py-1 bg-emerald-600 text-[10px] font-black text-white uppercase tracking-tighter rounded">Practice</span>
             </div>
             <div className={`${baseProse} prose-emerald prose-sm md:prose-base ${dynamicProse}`}>
-              <ReactMarkdown remarkPlugins={markdownPlugins} rehypePlugins={htmlPlugins}>
-                {formatContent(mainContent)}
+              <ReactMarkdown remarkPlugins={markdownPlugins} rehypePlugins={htmlPlugins} components={markdownTableComponents}>
+                {repairMarkdownContent(mainContent)}
               </ReactMarkdown>
             </div>
           </div>
@@ -96,8 +113,8 @@ const LessonContent = ({ lessonData }) => {
         const textBody = mainContent || block.note || "";
         return (
           <div key={index} className={`${baseProse} lg:prose-lg mb-12 dark:prose-invert ${dynamicProse}`}>
-            <ReactMarkdown remarkPlugins={markdownPlugins} rehypePlugins={htmlPlugins}>
-              {formatContent(textBody)}
+            <ReactMarkdown remarkPlugins={markdownPlugins} rehypePlugins={htmlPlugins} components={markdownTableComponents}>
+              {repairMarkdownContent(textBody)}
             </ReactMarkdown>
           </div>
         );

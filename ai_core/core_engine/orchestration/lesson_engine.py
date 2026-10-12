@@ -51,7 +51,7 @@ def _extract_json(text: str) -> dict:
         raise
 
 def _sanitize_math_latex(text: str) -> str:
-    """
+    r"""
     Cleans raw AI text outputs to ensure LaTeX renders cleanly on the frontend.
     Fixes alternative delimiters like \(...\) or \[...\] and corrects backslash leakage.
     """
@@ -71,6 +71,82 @@ def _sanitize_math_latex(text: str) -> str:
     out = re.sub(r"\\\\([a-zA-Z]+)", r"\\\1", out)
 
     return out
+
+def _sanitize_markdown_tables(text: str) -> str:
+    """
+    Normalizes markdown tables in AI generated text:
+    - Separates inline row concatenations (|| or | | -> |\n|)
+    - Inserts blank lines before table headers and after table endings
+    - Ensures CommonMark compliance for markdown parsers
+    """
+    if not text:
+        return ""
+
+    text = text.replace("\r\n", "\n")
+    text = re.sub(r"\|\s*\|", "|\n|", text)
+
+    lines = text.split("\n")
+    processed = []
+
+    for raw_line in lines:
+        trimmed = raw_line.strip()
+        if not trimmed:
+            processed.append("")
+            continue
+
+        first_pipe = trimmed.find("|")
+        last_pipe = trimmed.rfind("|")
+
+        # Narrative text before a table row on the same line
+        if first_pipe > 0 and last_pipe == len(trimmed) - 1:
+            narrative_before = trimmed[:first_pipe].strip()
+            table_row = trimmed[first_pipe:].strip()
+            if narrative_before:
+                processed.append(narrative_before)
+                processed.append("")
+            processed.append(table_row)
+            continue
+
+        # Table row followed by narrative text after the last pipe
+        if first_pipe == 0 and 0 < last_pipe < len(trimmed) - 1:
+            table_row = trimmed[: last_pipe + 1].strip()
+            narrative_after = trimmed[last_pipe + 1 :].strip()
+            processed.append(table_row)
+            processed.append("")
+            if narrative_after:
+                processed.append(narrative_after)
+            continue
+
+        # Narrative before AND narrative after on the same line
+        if first_pipe > 0 and first_pipe < last_pipe < len(trimmed) - 1:
+            narrative_before = trimmed[:first_pipe].strip()
+            table_row = trimmed[first_pipe : last_pipe + 1].strip()
+            narrative_after = trimmed[last_pipe + 1 :].strip()
+            if narrative_before:
+                processed.append(narrative_before)
+                processed.append("")
+            processed.append(table_row)
+            processed.append("")
+            if narrative_after:
+                processed.append(narrative_after)
+            continue
+
+        processed.append(trimmed)
+
+    final_lines = []
+    for curr in processed:
+        prev = final_lines[-1] if final_lines else None
+        prev_is_row = prev is not None and prev.startswith("|") and prev.endswith("|")
+        curr_is_row = curr.startswith("|") and curr.endswith("|")
+
+        if prev is not None and prev != "" and not prev_is_row and curr_is_row:
+            final_lines.append("")
+        if prev is not None and prev != "" and prev_is_row and not curr_is_row and curr != "":
+            final_lines.append("")
+
+        final_lines.append(curr)
+
+    return "\n".join(final_lines)
 
 # ---------------------------------------------------------
 # 3. CORE LESSON ENGINE
@@ -130,6 +206,19 @@ async def generate_lesson_content(data: dict):
     style_instruction = " ".join(style_segments) if style_segments else f"Focus on {depth} theoretical foundations."
 
     # --- C. The Master Prompt ---
+    table_formatting_instruction = """
+    3. TABLE FORMATTING: 
+       - When presenting tabular data, statistics, frequency distributions, or schedules, ALWAYS use standard GitHub-Flavored Markdown tables.
+       - Tables MUST be separated from preceding and following prose by blank lines.
+       - Each table row MUST be on its own line with header and delimiter rows:
+         | Column 1 | Column 2 |
+         |---|---|
+         | Value 1 | Value 2 |
+       - NEVER compress rows onto a single line and NEVER use double pipes (||).
+    4. EXERCISE FORMATTING:
+       - In 'exercise' blocks, present practice questions as distinct numbered items (e.g., '1. ', '2. ') with clear blank lines between them.
+    """
+
     prompt = f"""
     You are an expert Nigerian Secondary School Tutor.
     Topic: {data['topic_title']} ({data['subject']} - {data['sss_level']})
@@ -157,9 +246,10 @@ async def generate_lesson_content(data: dict):
     1. VERBOSITY & DEPTH: Generate a rich, detailed lesson. Use between 5 and 8 content_blocks. Text blocks must be thorough and highly explanatory (approx 200-400 words each). Do NOT write brief summaries. 
     2. EXAMPLES: You MUST include at least TWO detailed 'example' blocks walking the student through the application of the concept.
     {formatting_instruction}
-    4. PERSONALIZATION: {style_instruction}
-    5. VALID TYPES: text, image, video, example, exercise.
-    6. Return ONLY the raw JSON object. No markdown wrapping.
+    {table_formatting_instruction}
+    5. PERSONALIZATION: {style_instruction}
+    6. VALID TYPES: text, image, video, example, exercise.
+    7. Return ONLY the raw JSON object. No markdown wrapping.
     """
     
     try:
@@ -229,9 +319,9 @@ async def generate_lesson_content(data: dict):
                     # The loop moves on, and the image vanishes like it never existed.
                     continue 
             else:
-                 # If it's a text, example, or exercise block, sanitize LaTeX before appending
+                 # If it's a text, example, or exercise block, sanitize LaTeX and markdown tables before appending
                  if "content" in block and isinstance(block["content"], str):
-                     block["content"] = _sanitize_math_latex(block["content"])
+                     block["content"] = _sanitize_markdown_tables(_sanitize_math_latex(block["content"]))
                  valid_blocks.append(block)
 
         # STEP 3: Return final sanitized payload using ONLY the valid blocks

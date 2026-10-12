@@ -86,10 +86,10 @@ class TutorAssessmentService:
     @staticmethod
     def _assessment_weight(score: float) -> tuple[bool, float]:
         if score >= 0.8:
-            return True, 0.12
+            return True, 0.25
         if score >= 0.55:
-            return True, 0.05
-        return False, 0.04
+            return True, 0.15
+        return False, 0.05
 
     @staticmethod
     def _readable_concept_label(concept_id: str, *, fallback_topic_title: str | None = None) -> str:

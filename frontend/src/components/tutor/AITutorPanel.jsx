@@ -6,6 +6,30 @@ import remarkMath from 'remark-math';
 import rehypeRaw from 'rehype-raw';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
+import { repairMarkdownContent } from '../../utils/markdownUtils';
+
+const markdownTableComponents = {
+  table: ({ node, ...props }) => (
+    <div className="my-3 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm ring-1 ring-slate-900/5">
+      <table className="w-full text-left text-xs border-collapse" {...props} />
+    </div>
+  ),
+  thead: ({ node, ...props }) => (
+    <thead className="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider text-[11px] border-b border-slate-200" {...props} />
+  ),
+  tbody: ({ node, ...props }) => (
+    <tbody className="divide-y divide-slate-100" {...props} />
+  ),
+  tr: ({ node, ...props }) => (
+    <tr className="hover:bg-slate-50/60 transition-colors" {...props} />
+  ),
+  th: ({ node, ...props }) => (
+    <th className="px-3 py-2 font-semibold text-slate-800 border-r border-slate-200/60 last:border-r-0" {...props} />
+  ),
+  td: ({ node, ...props }) => (
+    <td className="px-3 py-2 text-slate-600 border-r border-slate-100 last:border-r-0 whitespace-nowrap" {...props} />
+  ),
+};
 
 import { API_URL as RUNTIME_API_URL, AI_CORE_URL as RUNTIME_AI_CORE_URL } from '../../config/runtime';
 
@@ -17,7 +41,7 @@ const createMessageId = () => typeof crypto !== 'undefined' && crypto.randomUUID
 // --- QUICK ACTIONS DEFINITION ---
 const QUICK_ACTIONS = [
   { label: "Teach Me", prompt: "Teach me the core concepts of this lesson." },
-  { label: "Quiz Me", prompt: "Quiz me on this lesson." },
+  { label: "Quiz Me", prompt: "Quiz me on this lesson. Enter a sequential quiz mode where you ask me 3 multiple-choice questions, one after the other. Wait for my answer before asking the next one." },
   { label: "Quick Recap", prompt: "Give me a quick recap of this topic." },
   { label: "Exam Practice", prompt: "Give me a WAEC-style practice question." },
   { label: "Why does this matter?", prompt: "Explain why learning this topic is important." }
@@ -131,10 +155,7 @@ const AITutorPanel = ({
   const scrollRef = useRef(null);
   const streamingMessageRef = useRef(null);
 
-  const formatContent = (text) => {
-    if (!text) return "";
-    return text.replace(/\|\s*\|/g, '|\n|').replace(/\\degree/g, '^\circ');
-  };
+  const formatContent = (text) => repairMarkdownContent(text);
 
   useEffect(() => {
     setMessages([
@@ -394,7 +415,7 @@ const AITutorPanel = ({
     await consumeStream({
       student_id: activeId, session_id: sessionId, subject: currentSubject,
       sss_level: currentLevel, term: currentTerm, topic_id: topicId,
-      message: `I select: ${selectedOption}. Was I correct? Explain why.`
+      message: `I select: ${selectedOption}. Was I correct? Explain why, and if we are in a quiz sequence, automatically ask the next question.`
     });
     setIsTyping(false);
   };
@@ -416,7 +437,10 @@ const AITutorPanel = ({
       });
       const out = await response.json();
       const msgId = createMessageId();
-      const feedbackText = `**Checkpoint Result:** ${out.is_correct ? 'Great job!' : 'Not quite.'}\n\n${out.feedback}`;
+      let feedbackText = `**Checkpoint Result:** ${out.is_correct ? 'Great job!' : 'Not quite.'}\n\n${out.feedback}`;
+      if (out.mastery_updated) {
+        feedbackText += `\n\n🧠 **Knowledge Graph Updated!** Your mastery score was updated to ${Math.round(out.new_mastery * 100)}%.`;
+      }
       
       setMessages(prev => [...prev, { id: msgId, role: 'assistant', content: feedbackText }]);
       triggerNativeTTS(feedbackText, msgId); // Respects Auto-Play settings
@@ -474,10 +498,10 @@ const AITutorPanel = ({
         <div ref={scrollRef} className="flex-1 p-4 overflow-y-auto space-y-4 bg-white pb-6">
           {messages.map((msg, i) => (
             <div key={msg.id || i} className={`flex flex-col max-w-[90%] ${msg.role === 'student' ? 'ml-auto' : 'mr-auto'}`}>
-                <div className={`p-4 rounded-2xl text-sm ${msg.role === 'student' ? 'bg-indigo-600 text-white rounded-tr-sm' : 'bg-slate-50 border border-slate-100 text-slate-700 rounded-tl-sm shadow-sm'}`}>
+                <div className={`p-4 rounded-2xl text-sm ${msg.role === 'student' ? 'bg-indigo-600 text-white' : 'bg-slate-50 border border-slate-100 text-slate-700 shadow-sm'}`}>
                   {msg.role === 'assistant' ? (
                     <div className="prose prose-sm prose-slate max-w-none">
-                      <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeRaw, rehypeKatex]}>
+                      <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeRaw, rehypeKatex]} components={markdownTableComponents}>
                         {formatContent(msg.content)}
                       </ReactMarkdown>
                     </div>

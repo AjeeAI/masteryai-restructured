@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useUser } from '../context/UserContext';
@@ -532,6 +532,13 @@ const QuizPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
                 {/* Left Column - Main Results */}
                 <div className="lg:col-span-2 flex flex-col">
+                    <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-xl flex items-center gap-3 mb-6 shadow-sm">
+                      <div className="bg-emerald-100 p-2 rounded-lg text-emerald-600"><Brain size={20} /></div>
+                      <div>
+                        <div className="font-bold text-sm">Knowledge Graph Updated</div>
+                        <div className="text-xs text-emerald-700/80">Your quiz performance has been synced to your mastery profile.</div>
+                      </div>
+                    </div>
                     <ScoreSummary data={formattedResults.summary} />
 
                     <div className="mb-4 flex items-center gap-2 mt-8">
